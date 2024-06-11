@@ -42,7 +42,7 @@ const GoogleLoginComponent = () => {
 
     return (
         <button className="google-login-button" onClick={handleLogin}>
-            <img src="../../public/googleLogo.png" />
+            <img src="/googleLogo.png" />
             Google로 로그인
         </button>
     );

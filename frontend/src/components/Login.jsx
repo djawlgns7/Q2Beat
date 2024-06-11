@@ -46,7 +46,7 @@ const Login = () => {
             <h2>Login</h2>
             <GoogleLogin
                 clientId="975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com"
-                buttonText="Google로 로그인하기"
+                buttonText="Google로 로그인"
                 onSuccess={handleGoogleSuccess}
                 onFailure={(error) => console.error(error)}
             />
