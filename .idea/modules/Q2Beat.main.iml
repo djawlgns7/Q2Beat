@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$/../../src/main" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/webapp" type="java-resource" />
+    </content>
+  </component>
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration />
     </facet>
-  </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
-    <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
