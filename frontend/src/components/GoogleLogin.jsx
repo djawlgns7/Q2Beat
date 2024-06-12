@@ -1,50 +1,36 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 const GoogleLoginComponent = () => {
-    useEffect(() => {
-        const start = () => {
-            gapi.client.init({
-                clientId: '975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com',
-                scope: 'email',
+    const navigate = useNavigate();
+
+    const handleSuccess = async (credentialResponse) => {
+        try {
+            const res = await axios.post('/api/members/social-login', {
+                memberEmail: 'test@gmail.com', // 테스트를 위해 하드코딩된 이메일
+                memberName: 'Google Test', // 테스트를 위해 하드코딩된 이름
+                memberPlatform: 'GOOGLE'
             });
-        };
-
-        gapi.load('client:auth2', start);
-    }, []);
-
-    const onSuccess = (googleUser) => {
-        const profile = googleUser.getBasicProfile();
-        const idToken = googleUser.getAuthResponse().id_token;
-        console.log('Login Success:', profile);
-
-        // Send token to the backend
-        fetch('http://localhost:8080/api/google-login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ tokenId: idToken }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('Login success response:', data);
-            });
+            console.log(res.data);
+            navigate('/main'); // 로그인 후 메인 페이지로 이동
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const onFailure = (error) => {
+    const handleError = (error) => {
         console.log('Login Failed:', error);
     };
 
-    const handleLogin = () => {
-        const auth2 = gapi.auth2.getAuthInstance();
-        auth2.signIn().then(onSuccess, onFailure);
-    };
-
     return (
-        <button className="google-login-button" onClick={handleLogin}>
-            <img src="/googleLogo.png" />
-            Google로 로그인
-        </button>
+        <GoogleOAuthProvider clientId="975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com">
+            <GoogleLogin
+                onSuccess={handleSuccess}
+                onError={handleError}
+            />
+        </GoogleOAuthProvider>
     );
 };
 
