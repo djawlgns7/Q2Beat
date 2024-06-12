@@ -18,7 +18,7 @@ public class MyBatisConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/q2beat");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/Q2Beat");
         dataSource.setUsername("root");
         dataSource.setPassword("1234");
         return dataSource;
