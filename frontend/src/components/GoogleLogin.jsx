@@ -1,62 +1,49 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './GoogleLogin.css'; // CSS 파일 불러오기
+import '../css/Login.css';
 
-const GoogleLoginComponent = () => {
+const GoogleLoginButton = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const initializeGapi = () => {
-            window.gapi.load('auth2', () => {
-                window.gapi.auth2.init({
-                    client_id: '975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com'
-                });
-            });
-        };
-
-        const loadScript = (src, onload) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = onload;
-            document.body.appendChild(script);
-        };
-
-        loadScript('https://apis.google.com/js/platform.js', initializeGapi);
-    }, []);
-
-    const handleGoogleLogin = async () => {
-        const auth2 = window.gapi.auth2.getAuthInstance();
+    const handleLoginSuccess = async (response) => {
         try {
-            const googleUser = await auth2.signIn();
-            const profile = googleUser.getBasicProfile();
-            const id_token = googleUser.getAuthResponse().id_token;
+            const { data } = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${response.credential}`);
+            const { sub: socialId, name, email } = data;
 
-            const res = await axios.post('/api/members/social-login', {
-                socialId: id_token,
-                platform: 'GOOGLE',
-                name: profile.getName(),
+            const result = await axios.post('/members/social-login', {
+                socialId,
+                platform: 'google',
+                name,
+                email,
             });
 
-            if (res.data === 'nickname') {
+            const member = result.data;
+            sessionStorage.setItem('member', JSON.stringify(member));
+            if (!member.memberUsername) {
                 navigate('/set-nickname');
             } else {
                 navigate('/main');
             }
         } catch (error) {
-            console.error('Error during Google login:', error);
+            console.error('Google login error:', error);
         }
     };
 
     return (
-        <button onClick={handleGoogleLogin} className="google-login-btn">
-            <img
-                src="../../public/googleLogo.png"
-                alt="Google Logo"
+        <GoogleOAuthProvider clientId="975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com">
+            <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onError={() => console.error('Google login error')}
+                render={(renderProps) => (
+                    <button className="custom-login-button" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        Login with Google
+                    </button>
+                )}
             />
-            Google로 로그인
-        </button>
+        </GoogleOAuthProvider>
     );
 };
 
-export default GoogleLoginComponent;
+export default GoogleLoginButton;

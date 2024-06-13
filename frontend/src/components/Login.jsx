@@ -1,7 +1,7 @@
 import React from 'react';
-import GoogleLoginComponent from './GoogleLogin';
-import NaverLoginComponent from './NaverLogin';
-import KakaoLoginComponent from './KakaoLogin';
+import GoogleLoginButton from './GoogleLogin';
+import NaverLoginButton from './NaverLogin';
+import KakaoLoginButton from './KakaoLogin';
 import '../App.css';
 import '../css/Login.css';
 import Q2B from '../image/Q2BEAT_2.png';
@@ -15,9 +15,9 @@ const Login = () => {
                     <h1 className="title">Q2BEAT</h1>
                 </div>
                 <div className="login-btns">
-                    <GoogleLoginComponent />
-                    <NaverLoginComponent />
-                    <KakaoLoginComponent />
+                    <GoogleLoginButton />
+                    <NaverLoginButton />
+                    <KakaoLoginButton />
                 </div>
                 <div className="footer">
                     <span>서비스 약관 | </span>
