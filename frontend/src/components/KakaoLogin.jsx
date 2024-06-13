@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../css/KakaoLogin.css';
 
 const KakaoLoginComponent = () => {
     const navigate = useNavigate();
@@ -28,10 +29,13 @@ const KakaoLoginComponent = () => {
                 console.log('Login Failed:', err);
             }
         });
+
     }, [navigate]);
 
     return (
-        <div id="kakao-login-btn"></div>
+        <div className="kakao-login-container">
+            <button id="kakao-login-btn" className="kakao-login-btn"></button>
+        </div>
     );
 };
 
