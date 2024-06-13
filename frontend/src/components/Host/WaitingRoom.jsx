@@ -50,6 +50,7 @@ const WaitingRoom = () => {
                 </div>
                 <div>
                     <h3>참여자 목록</h3>
+                    <h4>플레이어: {participants.length}</h4>
                     {participants.map((participant, index) => (
                         <div key={index}>{participant}</div>
                     ))}
