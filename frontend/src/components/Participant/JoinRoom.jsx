@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSocket} from '../socket/SocketContext.jsx';
 import {useNavigate} from "react-router-dom";
+import '../../css/JoinRoom.css'
 
 const JoinRoom = () => {
     const {sendMessage, roomId, isConnected} = useSocket();
@@ -41,7 +42,7 @@ const JoinRoom = () => {
 
     return (
         <div>
-            <h1>Join Room</h1>
+            <h1 className="joinRoom-title">Join Room</h1>
             <div>
                 <div>
                     <input

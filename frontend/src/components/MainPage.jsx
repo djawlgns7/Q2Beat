@@ -10,6 +10,7 @@ const MainPage = () => {
     const handleLogout = async () => {
         try {
             await axios.post('/api/members/logout');
+            sessionStorage.clear();
             navigate('/login');
         } catch (error) {
             console.error(error);

@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useSocket} from "../socket/SocketContext.jsx";
 import { useNavigate } from 'react-router-dom';
+import '../../css/CreateRoom.css'
 
 const CreateRoom = () => {
     const {sendMessage, roomId} = useSocket();
@@ -24,7 +25,7 @@ const CreateRoom = () => {
 
     return (
         <div>
-            <h1>Create Room</h1>
+            <h1 className="createRoom-title">Create Room</h1>
             <div>
                 <input
                     type="text"
