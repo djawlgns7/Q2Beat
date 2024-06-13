@@ -1,41 +1,36 @@
 import React, {useState, useEffect} from 'react';
 import {useSocket} from '../socket/SocketContext.jsx';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 const JoinRoom = () => {
-    const {sendMessage, roomId, isConnected} = useSocket();
-    const [input, setInput] = useState('');
-    const [name, setName] = useState(sessionStorage.getItem('participantName') || '');
+    const {sendMessage, roomId} = useSocket();
+    const [name, setName] = useState('');
     const navigate = useNavigate();
     const [roomInput, setRoomInput] = useState('');
+    const [params, setParams] = useSearchParams();
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('participantName');
-        if(roomId && storedName) {
+        const roomNumber = params.get("roomNumber");
+        if (roomId && storedName) {
             navigate("/waiting-participant");
+        } else if(roomNumber) {
+            setRoomInput(roomNumber);
         }
     }, []);
 
     useEffect(() => {
-        const storedName = sessionStorage.getItem('participantName');
-        if(roomId && storedName) {
+        sessionStorage.setItem('participantName', name);
+        if (roomId && name) {
             navigate("/waiting-participant");
         }
     }, [roomId]);
 
     const joinRoom = () => {
         if (roomInput.trim()) {
-            sendMessage("JOIN:" + roomInput + ":" + name);
             sessionStorage.setItem('participantName', name);
-        }
-    };
-
-    const sendAnswer = () => {
-        if (isConnected && input.trim() && roomId) {
-            const message = "(Participant)" + name + ": " + input;
-            sendMessage("MESSAGE:" + roomId + ":" + message);
-            setInput(''); // Clear the input field
+            sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
         }
     };
 

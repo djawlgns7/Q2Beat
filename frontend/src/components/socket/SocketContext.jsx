@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 
 const SocketContext = createContext();
 
@@ -6,7 +6,7 @@ export const useSocket = () => {
     return useContext(SocketContext);
 };
 
-export const SocketProvider = ({ children }) => {
+export const SocketProvider = ({children}) => {
     const socketRef = useRef();
     const [messages, setMessages] = useState([]);
     const [roomId, setRoomId] = useState(sessionStorage.getItem('roomId') || null);
@@ -24,7 +24,14 @@ export const SocketProvider = ({ children }) => {
 
             const savedRoomId = sessionStorage.getItem('roomId');
             if (savedRoomId) {
-                socket.send(`JOIN:${savedRoomId}`);
+                const hostName = sessionStorage.getItem('hostName');
+                const participantName = sessionStorage.getItem('participantName');
+
+                if (hostName) {
+                    socket.send(`JOIN:HOST:${savedRoomId}:${hostName}`);
+                } else if (participantName) {
+                    socket.send(`JOIN:PLAYER:${savedRoomId}:${participantName}`);
+                }
             }
         };
 
@@ -43,9 +50,8 @@ export const SocketProvider = ({ children }) => {
             } else if (msgData.startsWith("NEWMEMBER:")) {
                 setClientMessage(msgData);
             } else if (msgData.startsWith("USERLEFT:")) {
-                alert("사람나감 메시지임");
                 setClientMessage(msgData);
-            } else if(msgData.startsWith("START:")) {
+            } else if (msgData.startsWith("START:")) {
                 setHostMessage(msgData.split(":")[1]);
             } else if (msgData.startsWith("(Host)")) {
                 getQuiz(msgData.split(":")[1]);
@@ -59,7 +65,6 @@ export const SocketProvider = ({ children }) => {
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server');
             isConnected.current = false;
-            sessionStorage.clear();
         };
 
         socketRef.current = socket;
@@ -94,8 +99,10 @@ export const SocketProvider = ({ children }) => {
     };
 
     return (
-        <SocketContext.Provider value={{ sendMessage, messages, roomId, quiz, hostMessage, clientMessage,
-            setRoomId, setMessages, setQuiz, setHostMessage, setClientMessage, isConnected }}>
+        <SocketContext.Provider value={{
+            sendMessage, messages, roomId, quiz, hostMessage, clientMessage,
+            setRoomId, setMessages, setQuiz, setHostMessage, setClientMessage, isConnected
+        }}>
             {children}
         </SocketContext.Provider>
     );

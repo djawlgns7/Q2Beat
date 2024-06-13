@@ -11,6 +11,8 @@ const WaitingRoom = () => {
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
+        alert("이름: " + storedName);
+
         if (roomId && storedName) {
             setName(storedName);
         } else {
@@ -26,7 +28,6 @@ const WaitingRoom = () => {
             setParticipants([...participants, content]);
             setClientMessage("");
         }else if(command === "USERLEFT") {
-            alert("사람나감");
             setParticipants([...participants.filter((participant) => participant !== content)]);
             setClientMessage("");
         }
@@ -44,6 +45,7 @@ const WaitingRoom = () => {
             <h1>Waiting Room</h1>
             <div>
                 <h2>Room ID: {roomId}</h2>
+                <h4>링크: http://localhost:5173/join-room?roomNumber={roomId}</h4>
                 <div>
                     방장 이름: {name}
                 </div>
