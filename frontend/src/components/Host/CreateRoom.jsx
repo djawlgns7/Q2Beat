@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useSocket} from "../socket/SocketContext.jsx";
 import {useNavigate} from 'react-router-dom';
-import '../../css/CreateRoom.css'
 
 const CreateRoom = () => {
     const {sendMessage, roomId} = useSocket();
