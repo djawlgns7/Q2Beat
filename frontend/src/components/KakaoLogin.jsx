@@ -1,43 +1,58 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
 
-const KakaoLoginComponent = () => {
+const KakaoLoginButton = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
         window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
+    }, []);
 
-        window.Kakao.Auth.createLoginButton({
-            container: '#kakao-login-btn',
-            success: function(authObj) {
-                console.log('Login Success:', authObj);
-
-                axios.post('/api/members/social-login', {
-                    socialId: authObj.access_token,
-                    platform: 'KAKAO',
-                    name: 'Kakao User'
-                })
-                    .then(res => {
-                        if (res.data === 'nickname') {
-                            navigate('/set-nickname');
-                        } else {
-                            navigate('/main');
-                        }
-                    })
-                    .catch(err => console.error('Error during Kakao login:', err));
+    const handleLogin = () => {
+        window.Kakao.Auth.login({
+            success: async (authObj) => {
+                try {
+                    const userInfo = await window.Kakao.API.request({
+                        url: '/v2/user/me',
+                    });
+                    const { id: socialId, kakao_account: { profile: { nickname: name }, email } } = userInfo;
+                    handleLoginSuccess({ socialId, name, email }, 'kakao');
+                } catch (error) {
+                    console.error('Kakao API request error:', error);
+                }
             },
-            fail: function(err) {
-                console.log('Login Failed:', err);
-            }
+            fail: (error) => {
+                console.error('Kakao login error:', error);
+            },
         });
-    }, [navigate]);
+    };
+
+    const handleLoginSuccess = async (userInfo, platform) => {
+        const { socialId, name, email } = userInfo;
+
+        try {
+            const result = await axios.post('/members/social-login', {
+                socialId,
+                platform,
+                name,
+                email,
+            });
+            const member = result.data;
+            sessionStorage.setItem('member', JSON.stringify(member));
+            if (!member.memberUsername) {
+                navigate('/set-nickname');
+            } else {
+                navigate('/main');
+            }
+        } catch (error) {
+            console.error('Social login error:', error);
+        }
+    };
 
     return (
-        <div>
-            <div id="kakao-login-btn"></div>
-        </div>
+        <button className="custom-login-button" onClick={handleLogin}>Login with Kakao</button>
     );
 };
 
-export default KakaoLoginComponent;
+export default KakaoLoginButton;

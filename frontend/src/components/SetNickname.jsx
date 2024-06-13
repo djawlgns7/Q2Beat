@@ -1,39 +1,28 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
 
 const SetNickname = () => {
     const [nickname, setNickname] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         try {
-            const response = await axios.post('/api/members/set-nickname', { nickname }, { withCredentials: true });
-            if (response.data === 'nickname set') {
-                navigate('/main');
-            } else {
-                alert('Failed to set nickname');
-            }
+            const response = await axios.post('/members/set-nickname', { nickname });
+            const member = JSON.parse(sessionStorage.getItem('member'));
+            member.memberUsername = nickname;
+            sessionStorage.setItem('member', JSON.stringify(member));
+            navigate('/main');
         } catch (error) {
-            console.error(error);
-            alert('An error occurred while setting the nickname');
+            console.error('Error setting nickname:', error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Nickname:
-                <input
-                    type="text"
-                    value={nickname}
-                    onChange={(e) => setNickname(e.target.value)}
-                    required
-                />
-            </label>
-            <button type="submit">Set Nickname</button>
-        </form>
+        <div>
+            <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="Set your nickname" />
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
     );
 };
 

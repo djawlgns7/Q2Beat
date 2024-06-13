@@ -2,12 +2,14 @@ package org.bit.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bit.model.Member;
+import org.bit.model.MemberPlatform;
 import org.bit.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.Map;
 
 @Controller
@@ -24,25 +26,29 @@ public class MemberController {
         String socialId = payload.get("socialId");
         String platform = payload.get("platform");
         String name = payload.get("name");
+        String email = payload.get("email");
 
-        Member existingMember = memberService.findBySocialIdAndPlatform(socialId, platform);
+        Member existingMember = memberService.findByEmail(email);
 
-        if (existingMember == null) {
-            // 새로운 회원인 경우
-            Member newMember = new Member();
-            newMember.setMemberName(name);
-            newMember.setMemberPlatform(platform);
-            newMember.setMemberUsername(socialId);
-            memberService.registerMember(newMember);
-
-            // 새로 생성된 회원 객체를 다시 조회하여 ID 값을 설정
-            Member savedMember = memberService.findBySocialIdAndPlatform(socialId, platform);
-            session.setAttribute("member", savedMember);
-            return ResponseEntity.ok("nickname");
-        } else {
+        if (existingMember != null) {
+            if (!existingMember.getMemberPlatform().toString().equalsIgnoreCase(platform)) {
+                return ResponseEntity.status(400).body("User already exists with different platform");
+            }
             session.setAttribute("member", existingMember);
             return ResponseEntity.ok(existingMember.getMemberUsername() == null || existingMember.getMemberUsername().isEmpty() ? "nickname" : "logged in");
         }
+
+        Member newMember = Member.builder()
+                .memberName(name)
+                .memberPlatform(MemberPlatform.valueOf(platform.toUpperCase()))
+                .memberUsername(null) // username을 null로 설정
+                .memberEmail(email)
+                .build();
+        memberService.registerMember(newMember);
+
+        Member savedMember = memberService.findByEmail(email);
+        session.setAttribute("member", savedMember);
+        return ResponseEntity.ok("nickname");
     }
 
     @PostMapping("/set-nickname")
@@ -55,12 +61,14 @@ public class MemberController {
 
         String nickname = payload.get("nickname");
         member.setMemberUsername(nickname);
-        memberService.save(member);
 
-        // 세션에 업데이트된 사용자 객체를 저장
-        session.setAttribute("member", member);
-
-        return ResponseEntity.ok("nickname set");
+        try {
+            memberService.updateMemberUsername(member.getMemberId(), nickname);
+            session.setAttribute("member", member);
+            return ResponseEntity.ok("nickname set");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to update nickname");
+        }
     }
 
     @PostMapping("/logout")
