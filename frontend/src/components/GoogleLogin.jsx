@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../css/GoogleLogin.css';
-import googlelogo from "../image/google_logo.png"; // CSS 파일 불러오기
+import './GoogleLogin.css'; // CSS 파일 불러오기
 
 const GoogleLoginComponent = () => {
     const navigate = useNavigate();
@@ -50,12 +49,13 @@ const GoogleLoginComponent = () => {
     };
 
     return (
-        <div className="google-container">
-            <button onClick={handleGoogleLogin} className="google-login-btn">
-                <img src={googlelogo} alt="googlelogo" className="logoImage"/>
-                Google로 로그인
-            </button>
-        </div>
+        <button onClick={handleGoogleLogin} className="google-login-btn">
+            <img
+                src="../../public/googleLogo.png"
+                alt="Google Logo"
+            />
+            Google로 로그인
+        </button>
     );
 };
 
