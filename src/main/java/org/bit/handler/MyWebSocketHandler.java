@@ -37,15 +37,18 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             sessionNameMap.put(session, content);
             session.sendMessage(new TextMessage("ROOMID:" + roomId));
         } else if ("JOIN".equals(command)) {
-            String[] msgParts = content.split(":", 2);
-            String roomId = msgParts[0];
-            String playerName = msgParts[1];
+            String[] msgParts = content.split(":", 3);
+            String personType = msgParts[0];
+            String roomId = msgParts[1];
+            String playerName = msgParts[2];
             if (rooms.containsKey(roomId)) {
                 rooms.get(roomId).add(session);
                 sessionRoomMap.put(session, roomId);
                 sessionNameMap.put(session, playerName);
                 session.sendMessage(new TextMessage("JOINED:" + roomId));
-                broadcast(roomId, "NEWMEMBER:" + playerName);
+                if (personType.equals("PLAYER")) {
+                    broadcast(roomId, "NEWMEMBER:" + playerName);
+                }
             } else {
                 session.sendMessage(new TextMessage("ERROR:Room not found"));
             }
@@ -65,21 +68,15 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//        rooms.forEach((roomId, sessions) -> sessions.remove(session));
-        System.out.println("Connection closed: " + session.getId() + ", Status: " + status);
-
         String roomId = sessionRoomMap.get(session);
         String playerName = sessionNameMap.get(session);
 
-        System.out.println("session: " + session);
-        System.out.println("roomId: " + roomId);
         if (roomId != null) {
             Set<WebSocketSession> sessions = rooms.get(roomId);
             if (sessions != null) {
                 // 세션이 닫히기 전에 알림을 보냄
                 try {
                     broadcast(roomId, "USERLEFT:" + playerName);
-                    System.out.println("Broadcasted USERLEFT message");
                 } catch (Exception e) {
                     System.err.println("Failed to broadcast USERLEFT message: " + e.getMessage());
                 }
@@ -87,7 +84,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                 sessions.remove(session);
                 sessionRoomMap.remove(session);
                 sessionNameMap.remove(session);
-                System.out.println("Session removed from room and maps");
+                System.out.println("Session removed from room and maps: " + playerName);
             }
         }
     }

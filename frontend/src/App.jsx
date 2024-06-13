@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {Link, Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import ChatRoom from "./components/ChatRoom.jsx";
 import AudioComparison from "./components/AudioComparison.jsx";
 import HostRoom from "./components/Host/HostRoom.jsx";
@@ -12,6 +12,7 @@ import CreateRoom from "./components/Host/CreateRoom.jsx";
 import WaitingRoom from "./components/Host/WaitingRoom.jsx";
 import JoinRoom from "./components/Participant/JoinRoom.jsx";
 import WaitingParticipant from "./components/Participant/WaitingParticipant.jsx";
+import Reset from "./components/Reset.jsx";
 import Login from "./components/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
 import NaverCallback from "./components/NaverCallback.jsx";
@@ -24,12 +25,11 @@ function App() {
                 <Route path="/login" element={<Login />}/>
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/naver/callback" element={<NaverCallback />} /> {/* 네이버 콜백 경로 추가 */}
-
+                <Route path="/reset" element={<Reset/>}/>
                 <Route path="/chat-room" element={<ChatRoom/>}/>
                 <Route path="/audio" element={<AudioComparison/>}/>
                 <Route path="/host" element={<HostRoom/>}/>
                 <Route path="/participant" element={<ParticipantRoom/>}/>
-                <Route path="/" element={<AudioComparison/>}/>
                 <Route path="/participant2" element={
                     <SocketProvider>
                         <ParticipantRoom2/>
