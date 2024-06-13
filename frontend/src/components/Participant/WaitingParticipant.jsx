@@ -13,7 +13,7 @@ const WaitingParticipant = () => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('participantName');
         alert("이름: " + storedName);
-        if (roomId && storedName) {
+        if (roomId && storedName !== null) {
             setName(storedName);
         } else {
             navigate("/join-room");
