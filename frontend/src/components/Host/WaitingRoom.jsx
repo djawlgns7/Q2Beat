@@ -23,10 +23,10 @@ const WaitingRoom = () => {
         const command = clientMessage.split(":")[0];
         const content = clientMessage.split(":")[1];
 
-        if(command === "NEWMEMBER") {
+        if (command === "NEWMEMBER") {
             setParticipants([...participants, content]);
             setClientMessage("");
-        }else if(command === "USERLEFT") {
+        } else if (command === "USERLEFT") {
             setParticipants([...participants.filter((participant) => participant !== content)]);
             setClientMessage("");
         }
@@ -36,6 +36,14 @@ const WaitingRoom = () => {
         if (isConnected.current && roomId) {
             const message = "NORMAL";
             sendMessage("START:" + roomId + ":" + message);
+        }
+    }
+
+    const exitRoom = () => {
+        const reply = confirm("방을 나가시겠습니까?");
+        if (reply) {
+            sessionStorage.clear();
+            navigate("/");
         }
     }
 
@@ -56,6 +64,7 @@ const WaitingRoom = () => {
                     ))}
                 </div>
                 <button onClick={startQuiz}>퀴즈 시작하기</button>
+                <button onClick={exitRoom}>방 나가기</button>
             </div>
         </div>
     );

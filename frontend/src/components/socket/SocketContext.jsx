@@ -100,7 +100,7 @@ export const SocketProvider = ({children}) => {
 
     return (
         <SocketContext.Provider value={{
-            sendMessage, messages, roomId, quiz, hostMessage, clientMessage,
+            sendMessage, messages, roomId, quiz, hostMessage, clientMessage, socketRef,
             setRoomId, setMessages, setQuiz, setHostMessage, setClientMessage, isConnected
         }}>
             {children}
