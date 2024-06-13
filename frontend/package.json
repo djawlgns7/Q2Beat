@@ -17,7 +17,8 @@
     "react-dom": "^18.2.0",
     "react-kakao-login": "^2.1.1",
     "react-naver-login": "^0.1.4",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
