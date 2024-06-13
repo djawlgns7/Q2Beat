@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../css/KakaoLogin.css';
 
 const KakaoLoginComponent = () => {
     const navigate = useNavigate();
@@ -15,26 +14,28 @@ const KakaoLoginComponent = () => {
                 console.log('Login Success:', authObj);
 
                 axios.post('/api/members/social-login', {
-                    memberEmail: 'test@example.com', // 테스트를 위해 하드코딩된 이메일
-                    memberName: 'Test User', // 테스트를 위해 하드코딩된 이름
-                    memberPlatform: 'KAKAO'
+                    socialId: authObj.access_token,
+                    platform: 'KAKAO',
+                    name: 'Kakao User'
                 })
-                    .then((res) => {
-                        console.log('Login success response:', res.data);
-                        navigate('/main'); // 로그인 후 메인 페이지로 이동
+                    .then(res => {
+                        if (res.data === 'nickname') {
+                            navigate('/set-nickname');
+                        } else {
+                            navigate('/main');
+                        }
                     })
-                    .catch((err) => console.error(err));
+                    .catch(err => console.error('Error during Kakao login:', err));
             },
             fail: function(err) {
                 console.log('Login Failed:', err);
             }
         });
-
     }, [navigate]);
 
     return (
-        <div className="kakao-login-container">
-            <button id="kakao-login-btn" className="kakao-login-btn"></button>
+        <div>
+            <div id="kakao-login-btn"></div>
         </div>
     );
 };

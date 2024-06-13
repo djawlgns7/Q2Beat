@@ -21,9 +21,11 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Login />} /> {/* 기본 경로에 대한 라우트 추가 */}
-                <Route path="/login" element={<Login />}/>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/main" element={<MainPage />} />
+                <Route path="/set-nickname" element={<SetNickname />} />
+                <Route path="/naver/callback" element={<NaverCallback />} />
                 <Route path="/naver/callback" element={<NaverCallback />} /> {/* 네이버 콜백 경로 추가 */}
                 <Route path="/reset" element={<Reset/>}/>
                 <Route path="/chat-room" element={<ChatRoom/>}/>

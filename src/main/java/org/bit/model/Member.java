@@ -2,18 +2,15 @@ package org.bit.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class Member {
+
     private int memberId;
-    private String memberEmail;
+    private String memberUsername;
     private String memberName;
     private String memberPlatform;
+    private Date memberEnrollment;
 
-    public Member() {}
-
-    public Member(String memberEmail, String memberName, String memberPlatform) {
-        this.memberEmail = memberEmail;
-        this.memberName = memberName;
-        this.memberPlatform = memberPlatform;
-    }
 }

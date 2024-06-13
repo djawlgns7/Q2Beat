@@ -21,7 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
         return new RestTemplate();
     }
 
-
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
