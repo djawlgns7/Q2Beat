@@ -4,16 +4,15 @@ import {useNavigate} from "react-router-dom";
 
 const WaitingRoom = () => {
     const {sendMessage, roomId, isConnected, clientMessage, setClientMessage} = useSocket();
-    const [name, setName] = useState('');
+    const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
-        alert("이름: " + storedName);
 
-        if (roomId && storedName) {
+        if (roomId && storedName !== null) {
             setName(storedName);
         } else {
             navigate("/create-room")
