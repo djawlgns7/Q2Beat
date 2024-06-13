@@ -1,3 +1,4 @@
+// src/components/NaverCallback.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
@@ -19,7 +20,6 @@ const NaverCallback = () => {
     const getUserInfo = async (accessToken) => {
         try {
             const response = await axios.get(`/api/naver/user-info?accessToken=${accessToken}`);
-
             if (response.data) {
                 const { id: socialId, name, email } = response.data.response;
                 handleLoginSuccess({ socialId, name, email }, 'naver');
@@ -43,6 +43,7 @@ const NaverCallback = () => {
             });
             const member = result.data;
             sessionStorage.setItem('member', JSON.stringify(member));
+            sessionStorage.setItem('token', result.headers.authorization);
             if (!member.memberUsername) {
                 navigate('/set-nickname');
             } else {

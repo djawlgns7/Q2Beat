@@ -4,29 +4,36 @@ import { useNavigate } from 'react-router-dom';
 
 const NaverLoginButton = () => {
     const navigate = useNavigate();
-    const naverRef = useRef();
+    const naverRef = useRef(null);
 
     useEffect(() => {
-        const naverLogin = new window.naver.LoginWithNaverId({
-            clientId: 'vAltMUfRJyDI_bd1mcHY',
-            callbackUrl: 'http://localhost:5173/callback',
-            isPopup: false,
-            loginButton: { color: 'green', type: 3, height: 60 },
-        });
+        if (naverRef.current) {
+            const naverLogin = new window.naver.LoginWithNaverId({
+                clientId: 'vAltMUfRJyDI_bd1mcHY',
+                callbackUrl: 'http://localhost:5173/callback',
+                isPopup: false,
+                loginButton: { color: 'green', type: 3, height: 60 },
+            });
+            naverLogin.init();
 
-        naverLogin.init();
+            naverRef.current.addEventListener('click', () => naverLogin.authorize());
 
-        // loginButton id를 설정하여 Naver SDK가 올바른 위치에 버튼을 렌더링하도록 합니다.
-        document.getElementById('naverIdLogin').innerHTML = '';
-        naverLogin.init();
-
-    }, []);
+            window.addEventListener('load', () => {
+                naverLogin.getLoginStatus((status) => {
+                    if (status) {
+                        const { id: socialId, name, email } = naverLogin.user;
+                        handleLoginSuccess({ socialId, name, email }, 'naver');
+                    }
+                });
+            });
+        }
+    }, [naverRef]);
 
     const handleLoginSuccess = async (userInfo, platform) => {
         const { socialId, name, email } = userInfo;
 
         try {
-            const result = await axios.post('/members/social-login', {
+            const result = await axios.post('/api/members/social-login', {
                 socialId,
                 platform,
                 name,
@@ -34,6 +41,7 @@ const NaverLoginButton = () => {
             });
             const member = result.data;
             sessionStorage.setItem('member', JSON.stringify(member));
+            sessionStorage.setItem('token', result.headers.authorization);
             if (!member.memberUsername) {
                 navigate('/set-nickname');
             } else {
