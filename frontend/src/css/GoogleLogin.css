@@ -1,0 +1,27 @@
+.google-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.google-login-btn {
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.google-login-btn img {
+    translate: -30px;
+    width: 35px;
+    height: 35px;
+}
