@@ -41,7 +41,7 @@ public class MemberController {
         Member newMember = Member.builder()
                 .memberName(name)
                 .memberPlatform(MemberPlatform.valueOf(platform.toUpperCase()))
-                .memberUsername(null) // username을 null로 설정
+                .memberUsername(null)
                 .memberEmail(email)
                 .build();
         memberService.registerMember(newMember);
