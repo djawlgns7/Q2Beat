@@ -31,7 +31,7 @@ const WaitingParticipant = () => {
         if (reply) {
             sessionStorage.clear();
             socketRef.current.close();
-            navigate("/join-room");
+            window.location.reload();
         }
     }
 
