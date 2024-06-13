@@ -12,6 +12,7 @@ import CreateRoom from "./components/Host/CreateRoom.jsx";
 import WaitingRoom from "./components/Host/WaitingRoom.jsx";
 import JoinRoom from "./components/Participant/JoinRoom.jsx";
 import WaitingParticipant from "./components/Participant/WaitingParticipant.jsx";
+import Reset from "./components/Reset.jsx";
 
 function App() {
     return (
@@ -22,8 +23,10 @@ function App() {
                 <Link className={"link"} to="/host2">Host2</Link>
                 <Link className={"link"} to="/create-room">create room</Link>
                 <Link className={"link"} to="/join-room">join room</Link>
+                <Link className={"link"} to="/reset">reset</Link>
             </nav>
             <Routes>
+                <Route path="/reset" element={<Reset/>}/>
                 <Route path="/chat-room" element={<ChatRoom/>}/>
                 <Route path="/audio" element={<AudioComparison/>}/>
                 <Route path="/host" element={<HostRoom/>}/>
