@@ -1,17 +1,17 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useSocket} from "../socket/SocketContext.jsx";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const CreateRoom = () => {
     const {sendMessage, roomId} = useSocket();
-    const [name, setName] = useState('');
+    const [name, setName] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
 
-        if(roomId && storedName){
+        if (roomId && storedName !== null) {
             navigate('/waiting-room');
         }
     }, []);
@@ -19,7 +19,9 @@ const CreateRoom = () => {
     const createRoom = () => {
         sendMessage("CREATE:" + name);
         sessionStorage.setItem('hostName', name);
-        navigate('/waiting-room');
+        setTimeout(() => {
+            navigate('/waiting-room');
+        }, 100);
     };
 
     return (
