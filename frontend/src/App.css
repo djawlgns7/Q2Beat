@@ -113,3 +113,7 @@
   pointer-events: none; /* 이미지 클릭 불가 */
   background-color: transparent;
 }
+
+.link {
+  margin-right: 10px;
+}
