@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Link, Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import ChatRoom from "./components/ChatRoom.jsx";
 import AudioComparison from "./components/AudioComparison.jsx";
 import HostRoom from "./components/Host/HostRoom.jsx";
@@ -12,18 +12,19 @@ import CreateRoom from "./components/Host/CreateRoom.jsx";
 import WaitingRoom from "./components/Host/WaitingRoom.jsx";
 import JoinRoom from "./components/Participant/JoinRoom.jsx";
 import WaitingParticipant from "./components/Participant/WaitingParticipant.jsx";
+import Login from "./components/Login.jsx";
+import MainPage from "./components/MainPage.jsx";
+import NaverCallback from "./components/NaverCallback.jsx";
 
 function App() {
     return (
         <Router>
-            <nav>
-                <Link className={"link"} to="/audio">AudioComparison</Link>
-                <Link className={"link"} to="/participant2">Participant2</Link>
-                <Link className={"link"} to="/host2">Host2</Link>
-                <Link className={"link"} to="/create-room">create room</Link>
-                <Link className={"link"} to="/join-room">join room</Link>
-            </nav>
             <Routes>
+                <Route path="/" element={<Login />} /> {/* 기본 경로에 대한 라우트 추가 */}
+                <Route path="/login" element={<Login />}/>
+                <Route path="/main" element={<MainPage />} />
+                <Route path="/naver/callback" element={<NaverCallback />} /> {/* 네이버 콜백 경로 추가 */}
+
                 <Route path="/chat-room" element={<ChatRoom/>}/>
                 <Route path="/audio" element={<AudioComparison/>}/>
                 <Route path="/host" element={<HostRoom/>}/>
