@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
-import '../../css/WaitingRoom.css'
+import '../../css/Host/WaitingRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const WaitingRoom = () => {
