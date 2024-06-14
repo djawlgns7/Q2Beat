@@ -1,6 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {useSocket} from "../socket/SocketContext.jsx";
+import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from 'react-router-dom';
+import '../../css/PC.css';
+import '../../css/Host/CreateRoom.css'
+import Q2B from "../../image/Q2BEAT_2.png";
 
 const CreateRoom = () => {
     const {sendMessage, roomId} = useSocket();
@@ -25,15 +28,22 @@ const CreateRoom = () => {
     };
 
     return (
-        <div>
-            <h1 className="createRoom-title">Create Room</h1>
-            <div>
-                <input
-                    type="text"
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your name"
-                />
-                <button onClick={createRoom}>Create Room</button>
+        <div className="container-p">
+            <div className="loginBox-p">
+                <div className="loginTitle-p">
+                    <img src={Q2B} alt="Q2B" className="logoImage-p"/>
+                    <h1 className="title-p">Q2BEAT</h1>
+                </div>
+                <h1 className="createRoom-title">방 이름 : </h1>
+                <div>
+                    <input
+                        type="text"
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Enter your name"
+                    />
+                </div>
+                <br/>
+                <button onClick={createRoom} className="createRoom">생성</button>
             </div>
         </div>
     );

@@ -1,0 +1,18 @@
+.nickname-input {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    translate: 0px -20px;
+}
+
+.nickname-text {
+    font-size: 25px;
+}
+
+.nickname-btn {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    width: 100px;
+    border-radius: 8px;
+    cursor: pointer;
+}

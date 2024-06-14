@@ -1,0 +1,20 @@
+.waitingPart-main-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.name-header {
+    font-size: 20px;
+    margin-top: 10px;
+    translate: -10px;
+}
+.exitBtn {
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+}
+
