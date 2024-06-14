@@ -1,3 +1,4 @@
+// MemberController.java
 package org.bit.controller;
 
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.bit.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -18,6 +20,15 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
+    private final RestTemplate restTemplate;
+
+    @GetMapping("/google/userinfo")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getGoogleUserInfo(@RequestParam String access_token) {
+        String url = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + access_token;
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/social-login")
     @ResponseBody

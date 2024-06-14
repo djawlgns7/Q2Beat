@@ -1,15 +1,17 @@
 import React from 'react';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
-import '../css/Login.css';
+import googleLogo from '../image/google_logo.png';
+import '../css/GoogleLogin.css';
 
 const GoogleLoginButton = () => {
     const navigate = useNavigate();
 
-    const handleLoginSuccess = async (response) => {
+    const handleLoginSuccess = async (tokenResponse) => {
         try {
-            const { data } = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${response.credential}`);
+            const { access_token } = tokenResponse;
+            const { data } = await axios.get(`/members/google/userinfo?access_token=${access_token}`);
             const { sub: socialId, name, email } = data;
 
             const result = await axios.post('/members/social-login', {
@@ -31,19 +33,27 @@ const GoogleLoginButton = () => {
         }
     };
 
+    const login = useGoogleLogin({
+        onSuccess: handleLoginSuccess,
+        onError: (error) => console.error('Google login error:', error),
+    });
+
     return (
-        <GoogleOAuthProvider clientId="975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com">
-            <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={() => console.error('Google login error')}
-                render={(renderProps) => (
-                    <button className="custom-login-button" onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        Login with Google
-                    </button>
-                )}
-            />
+        <div className="google-login-button" onClick={login}>
+            <img src={googleLogo} alt="Google로 로그인"/>
+            <span>Google로 로그인</span>
+        </div>
+    );
+};
+
+const GoogleLoginPage = () => {
+    const clientId = "975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com";
+
+    return (
+        <GoogleOAuthProvider clientId={clientId}>
+            <GoogleLoginButton />
         </GoogleOAuthProvider>
     );
 };
 
-export default GoogleLoginButton;
+export default GoogleLoginPage;

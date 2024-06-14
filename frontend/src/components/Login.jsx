@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleLoginButton from './GoogleLogin';
+import GoogleLoginPage from './GoogleLogin';
 import NaverLoginButton from './NaverLogin';
 import KakaoLoginButton from './KakaoLogin';
 import '../App.css';
@@ -15,7 +15,7 @@ const Login = () => {
                     <h1 className="title">Q2BEAT</h1>
                 </div>
                 <div className="login-btns">
-                    <GoogleLoginButton />
+                    <GoogleLoginPage />
                     <NaverLoginButton />
                     <KakaoLoginButton />
                 </div>
