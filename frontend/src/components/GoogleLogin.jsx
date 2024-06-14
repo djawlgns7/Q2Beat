@@ -1,62 +1,59 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import googleLogo from '../image/google_logo.png';
 import '../css/GoogleLogin.css';
-import googlelogo from "../image/google_logo.png"; // CSS 파일 불러오기
 
-const GoogleLoginComponent = () => {
+const GoogleLoginButton = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const initializeGapi = () => {
-            window.gapi.load('auth2', () => {
-                window.gapi.auth2.init({
-                    client_id: '975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com'
-                });
-            });
-        };
-
-        const loadScript = (src, onload) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = onload;
-            document.body.appendChild(script);
-        };
-
-        loadScript('https://apis.google.com/js/platform.js', initializeGapi);
-    }, []);
-
-    const handleGoogleLogin = async () => {
-        const auth2 = window.gapi.auth2.getAuthInstance();
+    const handleLoginSuccess = async (tokenResponse) => {
         try {
-            const googleUser = await auth2.signIn();
-            const profile = googleUser.getBasicProfile();
-            const id_token = googleUser.getAuthResponse().id_token;
+            const { access_token } = tokenResponse;
+            const { data } = await axios.get(`/members/google/userinfo?access_token=${access_token}`);
+            const { sub: socialId, name, email } = data;
 
-            const res = await axios.post('/api/members/social-login', {
-                socialId: id_token,
-                platform: 'GOOGLE',
-                name: profile.getName(),
+            const result = await axios.post('/members/social-login', {
+                socialId,
+                platform: 'google',
+                name,
+                email,
             });
 
-            if (res.data === 'nickname') {
+            const member = result.data;
+            sessionStorage.setItem('member', JSON.stringify(member));
+            if (!member.memberUsername) {
                 navigate('/set-nickname');
             } else {
                 navigate('/main');
             }
         } catch (error) {
-            console.error('Error during Google login:', error);
+            console.error('Google login error:', error);
         }
     };
 
+    const login = useGoogleLogin({
+        onSuccess: handleLoginSuccess,
+        onError: (error) => console.error('Google login error:', error),
+    });
+
     return (
-        <div className="google-container">
-            <button onClick={handleGoogleLogin} className="google-login-btn">
-                <img src={googlelogo} alt="googlelogo" className="logoImage"/>
-                Google로 로그인
-            </button>
+        <div className="google-login-btn" onClick={login}>
+            <img src={googleLogo} alt="Google로 로그인"/>
+            <span>Google로 로그인</span>
         </div>
     );
 };
 
-export default GoogleLoginComponent;
+const GoogleLoginPage = () => {
+    const clientId = "975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com";
+
+    return (
+        <GoogleOAuthProvider clientId={clientId}>
+            <GoogleLoginButton />
+        </GoogleOAuthProvider>
+    );
+};
+
+export default GoogleLoginPage;

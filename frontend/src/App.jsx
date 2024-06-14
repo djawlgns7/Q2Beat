@@ -16,6 +16,7 @@ import Reset from "./components/Reset.jsx";
 import Login from "./components/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
 import NaverCallback from "./components/NaverCallback.jsx";
+import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/Host/QuizGame.jsx";
 import QuizCount from "./components/Host/QuizCount.jsx";
 import QuizResult from "./components/Host/QuizResult.jsx";
@@ -27,10 +28,11 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Login />} /> {/* 기본 경로에 대한 라우트 추가 */}
-                <Route path="/login" element={<Login />}/>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/set-nickname" element={<SetNickname />} />
                 <Route path="/main" element={<MainPage />} />
-                <Route path="/naver/callback" element={<NaverCallback />} /> {/* 네이버 콜백 경로 추가 */}
+                <Route path="/callback" element={<NaverCallback />} />
                 <Route path="/reset" element={<Reset/>}/>
                 <Route path="/chat-room" element={<ChatRoom/>}/>
                 <Route path="/audio" element={<AudioComparison/>}/>
