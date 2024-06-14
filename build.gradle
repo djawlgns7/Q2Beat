@@ -72,7 +72,3 @@ sourceSets {
         }
     }
 }
-
-processResources {
-    dependsOn "copyReactBuildFiles"
-}
