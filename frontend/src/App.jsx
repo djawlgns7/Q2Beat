@@ -5,7 +5,7 @@ import ChatRoom from "./components/ChatRoom.jsx";
 import AudioComparison from "./components/AudioComparison.jsx";
 import HostRoom from "./components/Host/HostRoom.jsx";
 import ParticipantRoom from "./components/Participant/ParticipantRoom.jsx";
-import {SocketProvider} from "./components/socket/SocketContext.jsx";
+import {SocketProvider} from "./components/context/SocketContext.jsx";
 import ParticipantRoom2 from "./components/Participant/ParticipantRoom2.jsx";
 import HostRoom2 from "./components/Host/HostRoom2.jsx";
 import CreateRoom from "./components/Host/CreateRoom.jsx";
@@ -16,6 +16,7 @@ import Reset from "./components/Reset.jsx";
 import Login from "./components/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
 import NaverCallback from "./components/NaverCallback.jsx";
+import QuizGame from "./components/Host/QuizGame.jsx";
 
 function App() {
     return (
@@ -31,6 +32,8 @@ function App() {
                 <Route path="/audio" element={<AudioComparison/>}/>
                 <Route path="/host" element={<HostRoom/>}/>
                 <Route path="/participant" element={<ParticipantRoom/>}/>
+
+                {/* 소켓 통신 부분 */}
                 <Route path="/participant2" element={
                     <SocketProvider>
                         <ParticipantRoom2/>
@@ -59,6 +62,11 @@ function App() {
                 <Route path="/waiting-participant" element={
                     <SocketProvider>
                         <WaitingParticipant/>
+                    </SocketProvider>
+                }/>
+                <Route path="/quiz-game" element={
+                    <SocketProvider>
+                        <QuizGame/>
                     </SocketProvider>
                 }/>
             </Routes>
