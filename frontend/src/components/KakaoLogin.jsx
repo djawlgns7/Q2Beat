@@ -1,42 +1,62 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import kakaoLogin from "../image/kakao_login.png";
 import '../css/KakaoLogin.css';
 
-const KakaoLoginComponent = () => {
+const KakaoLoginButton = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
         window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
+    }, []);
 
-        window.Kakao.Auth.createLoginButton({
-            container: '#kakao-login-btn',
-            success: function(authObj) {
-                console.log('Login Success:', authObj);
-
-                axios.post('/api/members/social-login', {
-                    memberEmail: 'test@example.com', // 테스트를 위해 하드코딩된 이메일
-                    memberName: 'Test User', // 테스트를 위해 하드코딩된 이름
-                    memberPlatform: 'KAKAO'
-                })
-                    .then((res) => {
-                        console.log('Login success response:', res.data);
-                        navigate('/main'); // 로그인 후 메인 페이지로 이동
-                    })
-                    .catch((err) => console.error(err));
+    const handleLogin = () => {
+        window.Kakao.Auth.login({
+            success: async (authObj) => {
+                try {
+                    const userInfo = await window.Kakao.API.request({
+                        url: '/v2/user/me',
+                    });
+                    const { id: socialId, kakao_account: { profile: { nickname: name }, email } } = userInfo;
+                    handleLoginSuccess({ socialId, name, email }, 'kakao');
+                } catch (error) {
+                    console.error('Kakao API request error:', error);
+                }
             },
-            fail: function(err) {
-                console.log('Login Failed:', err);
-            }
+            fail: (error) => {
+                console.error('Kakao login error:', error);
+            },
         });
+    };
 
-    }, [navigate]);
+    const handleLoginSuccess = async (userInfo, platform) => {
+        const { socialId, name, email } = userInfo;
+
+        try {
+            const result = await axios.post('/members/social-login', {
+                socialId,
+                platform,
+                name,
+                email,
+            });
+            const member = result.data;
+            sessionStorage.setItem('member', JSON.stringify(member));
+            if (!member.memberUsername) {
+                navigate('/set-nickname');
+            } else {
+                navigate('/main');
+            }
+        } catch (error) {
+            console.error('Social login error:', error);
+        }
+    };
 
     return (
-        <div className="kakao-login-container">
-            <button id="kakao-login-btn" className="kakao-login-btn"></button>
-        </div>
+        <button className="kakao-login-btn" onClick={handleLogin}>
+            <img src={kakaoLogin} alt="kakaoLogin" className="kakao-login-image"/>
+        </button>
     );
 };
 
-export default KakaoLoginComponent;
+export default KakaoLoginButton;

@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import {useNavigate, useSearchParams} from "react-router-dom";
-import '../../css/JoinRoom.css'
+import '../../css/Participant/JoinRoom.css'
+import '../../css/Moblie.css'
+import Q2B from "../../image/Q2BEAT_2.png";
 
 const JoinRoom = () => {
     const {sendMessage, roomId} = useSocket();
@@ -36,27 +38,30 @@ const JoinRoom = () => {
     };
 
     return (
-        <div>
-            <h1 className="joinRoom-title">Join Room</h1>
-            <div>
-                <div>
-                    <input
-                        type="text"
-                        value={roomInput}
-                        onChange={(e) => setRoomInput(e.target.value)}
-                        placeholder="Enter room ID"
-                    />
+        <div className="container-m">
+            <div className="loginBox-m">
+                <img src={Q2B} alt="Q2B" className="logoImage-m"/>
+                <h1 className="title-m">Q2BEAT</h1>
+                <div className="inputForm">
+                    <div className="roomNum-section">
+                        <div className="roomNum">방 번호 :</div>
+                        <input
+                            type="text"
+                            value={roomInput}
+                            onChange={(e) => setRoomInput(e.target.value)}
+                        />
+                    </div>
+                    <div className="name-section">
+                        <div className="name">이름 :</div>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter your name"
-                    />
-                </div>
-                <div>
-                    <button onClick={joinRoom}>Join Room</button>
+                <div className="footer-mobile">
+                    <button onClick={joinRoom} className="startBtn">입장</button>
                 </div>
             </div>
         </div>
