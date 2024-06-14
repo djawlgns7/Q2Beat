@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useSocket} from '../socket/SocketContext.jsx';
+import {useSocket} from '../context/SocketContext.jsx';
 import {useNavigate, useSearchParams} from "react-router-dom";
 import '../../css/JoinRoom.css'
 

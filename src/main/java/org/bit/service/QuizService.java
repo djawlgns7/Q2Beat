@@ -1,11 +1,13 @@
 package org.bit.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 import org.bit.mapper.QuizMapper;
-import org.bit.model.QuizNormal;
+import org.bit.model.quiz.QuizNormal;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
+import java.util.List;
+
+@Data
 @Service
 public class QuizService {
     private final QuizMapper quizMapper;
@@ -14,5 +16,12 @@ public class QuizService {
         return quizMapper.getQuizNormal(normal_id);
     }
 
+    public List<String> getNormalCategoryNameList() {
+        return quizMapper.getNormalCategoryNameList();
+    }
+
+    public List<Integer> getNormalQuizNumberList(String category) {
+        return quizMapper.getNormalQuizNumberList(category);
+    }
 
 }

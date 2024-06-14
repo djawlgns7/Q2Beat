@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {useSocket} from "../socket/SocketContext.jsx";
+import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from 'react-router-dom';
 
 const CreateRoom = () => {
