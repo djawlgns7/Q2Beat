@@ -4,7 +4,6 @@
     padding: 15px;
     margin: 10px 0;
     border: none;
-    cursor: pointer;
     translate: 0px -40px;
 }
 
@@ -13,5 +12,3 @@
     font-weight: lighter;
     margin-left: 20px;
 }
-
-/* 로그인 후 메인 페이지 */

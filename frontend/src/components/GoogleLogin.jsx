@@ -3,6 +3,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import '../css/Login.css';
+import '../css/GoogleLogin.css'
 
 const GoogleLoginButton = () => {
     const navigate = useNavigate();
@@ -37,8 +38,7 @@ const GoogleLoginButton = () => {
                 onSuccess={handleLoginSuccess}
                 onError={() => console.error('Google login error')}
                 render={(renderProps) => (
-                    <button className="custom-login-button" onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        Login with Google
+                    <button className="google-login-btn" onClick={renderProps.onClick} disabled={renderProps.disabled}>
                     </button>
                 )}
             />

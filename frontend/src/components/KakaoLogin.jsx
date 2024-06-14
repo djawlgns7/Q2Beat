@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import kakaoLogin from "../image/kakao_login.png";
+import '../css/KakaoLogin.css';
 
 const KakaoLoginButton = () => {
     const navigate = useNavigate();
@@ -51,7 +53,9 @@ const KakaoLoginButton = () => {
     };
 
     return (
-        <button className="custom-login-button" onClick={handleLogin}>Login with Kakao</button>
+        <button className="kakao-login-btn" onClick={handleLogin}>
+            <img src={kakaoLogin} alt="kakaoLogin" className="kakao-login-image"/>
+        </button>
     );
 };
 

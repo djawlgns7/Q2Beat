@@ -16,6 +16,7 @@ import Reset from "./components/Reset.jsx";
 import Login from "./components/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
 import NaverCallback from "./components/NaverCallback.jsx";
+import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/Host/QuizGame.jsx";
 
 function App() {
