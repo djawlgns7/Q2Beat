@@ -1,4 +1,3 @@
-// src/components/SetNickname.jsx
 import React, { useState } from 'react';
 import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +9,15 @@ const SetNickname = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post('/members/set-nickname', { nickname });
-            const member = JSON.parse(sessionStorage.getItem('member'));
+            let member = sessionStorage.getItem('member');
+
+            if (member && typeof member === 'string' && member.startsWith('{')) {
+                member = JSON.parse(member);
+            } else {
+                console.error('Invalid member data in session storage:', member);
+                return;
+            }
+
             member.memberUsername = nickname;
             sessionStorage.setItem('member', JSON.stringify(member));
             navigate('/main');
@@ -21,7 +28,11 @@ const SetNickname = () => {
 
     return (
         <div>
-            <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="Set your nickname" />
+            <input
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="Set your nickname"
+            />
             <button onClick={handleSubmit}>Submit</button>
         </div>
     );

@@ -32,7 +32,7 @@ public class MemberController {
 
     @PostMapping("/social-login")
     @ResponseBody
-    public ResponseEntity<String> socialLogin(@RequestBody Map<String, String> payload, HttpSession session) {
+    public ResponseEntity<Member> socialLogin(@RequestBody Map<String, String> payload, HttpSession session) {
         String socialId = payload.get("socialId");
         String platform = payload.get("platform");
         String name = payload.get("name");
@@ -42,10 +42,10 @@ public class MemberController {
 
         if (existingMember != null) {
             if (!existingMember.getMemberPlatform().toString().equalsIgnoreCase(platform)) {
-                return ResponseEntity.status(400).body("User already exists with different platform");
+                return ResponseEntity.status(400).body(null);
             }
             session.setAttribute("member", existingMember);
-            return ResponseEntity.ok(existingMember.getMemberUsername() == null || existingMember.getMemberUsername().isEmpty() ? "nickname" : "logged in");
+            return ResponseEntity.ok(existingMember);
         }
 
         Member newMember = Member.builder()
@@ -58,15 +58,15 @@ public class MemberController {
 
         Member savedMember = memberService.findByEmail(email);
         session.setAttribute("member", savedMember);
-        return ResponseEntity.ok("nickname");
+        return ResponseEntity.ok(savedMember);
     }
 
     @PostMapping("/set-nickname")
     @ResponseBody
-    public ResponseEntity<String> setNickname(@RequestBody Map<String, String> payload, HttpSession session) {
+    public ResponseEntity<Member> setNickname(@RequestBody Map<String, String> payload, HttpSession session) {
         Member member = (Member) session.getAttribute("member");
         if (member == null) {
-            return ResponseEntity.status(401).body("Session expired");
+            return ResponseEntity.status(401).body(null);
         }
 
         String nickname = payload.get("nickname");
@@ -75,11 +75,13 @@ public class MemberController {
         try {
             memberService.updateMemberUsername(member.getMemberId(), nickname);
             session.setAttribute("member", member);
-            return ResponseEntity.ok("nickname set");
+            return ResponseEntity.ok(member);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update nickname");
+            return ResponseEntity.status(500).body(null);
         }
     }
+
+
 
     @PostMapping("/logout")
     @ResponseBody
