@@ -2,13 +2,13 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: '', // Vite proxy 사용
+    baseURL: '/api',
 });
 
 instance.interceptors.request.use((config) => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    const member = JSON.parse(sessionStorage.getItem('member'));
+    if (member && member.token) {  // Assuming 'token' is stored in 'member'
+        config.headers.Authorization = `Bearer ${member.token}`;
     }
     return config;
 });

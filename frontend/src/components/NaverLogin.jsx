@@ -7,33 +7,35 @@ const NaverLoginButton = () => {
     const naverRef = useRef(null);
 
     useEffect(() => {
-        if (naverRef.current) {
-            const naverLogin = new window.naver.LoginWithNaverId({
-                clientId: 'vAltMUfRJyDI_bd1mcHY',
-                callbackUrl: 'http://localhost:5173/callback',
-                isPopup: false,
-                loginButton: { color: 'green', type: 3, height: 60 },
-            });
-            naverLogin.init();
+        const naverLogin = new window.naver.LoginWithNaverId({
+            clientId: 'vAltMUfRJyDI_bd1mcHY',
+            callbackUrl: 'http://localhost:5173/callback',
+            isPopup: false,
+            loginButton: { color: 'green', type: 3, height: 60 },
+        });
+        naverLogin.init();
 
-            naverRef.current.addEventListener('click', () => naverLogin.authorize());
-
-            window.addEventListener('load', () => {
-                naverLogin.getLoginStatus((status) => {
-                    if (status) {
-                        const { id: socialId, name, email } = naverLogin.user;
-                        handleLoginSuccess({ socialId, name, email }, 'naver');
-                    }
-                });
-            });
+        const naverLoginButton = document.getElementById('naverIdLogin');
+        if (naverLoginButton) {
+            naverLoginButton.innerHTML = ''; // Clear the div content
+            naverLoginButton.appendChild(naverLogin.button); // Append the button
         }
-    }, [naverRef]);
+
+        window.addEventListener('load', () => {
+            naverLogin.getLoginStatus((status) => {
+                if (status) {
+                    const { id: socialId, name, email } = naverLogin.user;
+                    handleLoginSuccess({ socialId, name, email }, 'naver');
+                }
+            });
+        });
+    }, []);
 
     const handleLoginSuccess = async (userInfo, platform) => {
         const { socialId, name, email } = userInfo;
 
         try {
-            const result = await axios.post('/api/members/social-login', {
+            const result = await axios.post('/members/social-login', {
                 socialId,
                 platform,
                 name,
@@ -52,7 +54,7 @@ const NaverLoginButton = () => {
         }
     };
 
-    return <div ref={naverRef} id="naverIdLogin" className="custom-login-button">Login with Naver</div>;
+    return <div id="naverIdLogin" ref={naverRef} />;
 };
 
 export default NaverLoginButton;

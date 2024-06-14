@@ -1,4 +1,3 @@
-// src/components/NaverCallback.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
@@ -19,7 +18,7 @@ const NaverCallback = () => {
 
     const getUserInfo = async (accessToken) => {
         try {
-            const response = await axios.get(`/api/naver/user-info?accessToken=${accessToken}`);
+            const response = await axios.get(`/naver/user-info?accessToken=${accessToken}`);
             if (response.data) {
                 const { id: socialId, name, email } = response.data.response;
                 handleLoginSuccess({ socialId, name, email }, 'naver');
@@ -35,7 +34,7 @@ const NaverCallback = () => {
         const { socialId, name, email } = userInfo;
 
         try {
-            const result = await axios.post('/api/members/social-login', {
+            const result = await axios.post('/members/social-login', {
                 socialId,
                 platform,
                 name,

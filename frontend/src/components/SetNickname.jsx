@@ -9,7 +9,7 @@ const SetNickname = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('/api/members/set-nickname', { nickname });
+            const response = await axios.post('/members/set-nickname', { nickname });
             const member = JSON.parse(sessionStorage.getItem('member'));
             member.memberUsername = nickname;
             sessionStorage.setItem('member', JSON.stringify(member));
