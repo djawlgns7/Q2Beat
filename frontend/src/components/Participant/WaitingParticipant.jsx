@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import {useNavigate} from "react-router-dom";
 import '../../css/Participant/WaitingParticipant.css'
+import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const WaitingParticipant = () => {
@@ -41,8 +42,8 @@ const WaitingParticipant = () => {
     }
 
     return (
-        <div className="container-mobile">
-            <div className="waitingPart-box-mobile">
+        <div className="container-m">
+            <div className="loginBox-m">
                 <div className="waitingPart-main-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage"/>
                     <span className="name-header">{name} 님</span>
