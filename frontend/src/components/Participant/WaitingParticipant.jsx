@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {useSocket} from '../socket/SocketContext.jsx';
+import {useSocket} from '../context/SocketContext.jsx';
 import {useNavigate} from "react-router-dom";
 
 const WaitingParticipant = () => {
-    const {socketRef, roomId, hostMessage, setHostMessage} = useSocket();
+    const {socketRef, roomId, setRoomId, hostMessage, setHostMessage} = useSocket();
     const [name, setName] = useState(sessionStorage.getItem('participantName') || '');
     const navigate = useNavigate();
 
@@ -29,8 +29,11 @@ const WaitingParticipant = () => {
     const exitRoom = () => {
         const reply = confirm("방을 나가시겠습니까?");
         if (reply) {
-            sessionStorage.clear();
+            sessionStorage.removeItem('participantName');
+            sessionStorage.removeItem('roomId');
+            setRoomId(null);
             socketRef.current.close();
+
             window.location.reload();
         }
     }

@@ -1,4 +1,4 @@
-package org.bit.model;
+package org.bit.model.quiz;
 
 import lombok.Data;
 

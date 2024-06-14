@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {useSocket} from "../socket/SocketContext.jsx";
+import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 const WaitingRoom = () => {
-    const {sendMessage, roomId, isConnected, clientMessage, setClientMessage} = useSocket();
+    const {sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage} = useSocket();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
@@ -34,15 +34,30 @@ const WaitingRoom = () => {
 
     const startQuiz = () => {
         if (isConnected.current && roomId) {
-            const message = "NORMAL";
-            sendMessage("START:" + roomId + ":" + message);
+            const gameMode = "NORMAL";
+            sendMessage("START:" + roomId + ":" + gameMode);
+
+            // 객체를 JSON 문자열로 변환하여 저장
+            const setting = {
+                gameMode: "NORMAL",
+                round: 1,
+                maxRound: 10,
+                timeLimit: 10,
+                category: "COMMON"
+            };
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+
+            navigate("/quiz-game");
         }
     }
 
     const exitRoom = () => {
         const reply = confirm("방을 나가시겠습니까?");
         if (reply) {
-            sessionStorage.clear();
+            sessionStorage.removeItem('hostName');
+            sessionStorage.removeItem('roomId');
+            setRoomId(null);
+
             navigate("/");
         }
     }
@@ -53,9 +68,6 @@ const WaitingRoom = () => {
             <div>
                 <h2>Room ID: {roomId}</h2>
                 <h4>링크: http://localhost:5173/join-room?roomNumber={roomId}</h4>
-                <div>
-                    방장 이름: {name}
-                </div>
                 <div>
                     <h3>참여자 목록</h3>
                     <h4>플레이어: {participants.length}</h4>
