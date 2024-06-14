@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useSocket} from '../socket/SocketContext.jsx';
 import {useNavigate, useSearchParams} from "react-router-dom";
 import '../../css/Participant/JoinRoom.css'
+import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const JoinRoom = () => {
@@ -37,10 +38,10 @@ const JoinRoom = () => {
     };
 
     return (
-        <div className="container-mobile">
-            <div className="login-box-mobile">
-                <img src={Q2B} alt="Q2B" className="logoImage-mobile"/>
-                <h1 className="title-mobile">Q2BEAT</h1>
+        <div className="container-m">
+            <div className="loginBox-m">
+                <img src={Q2B} alt="Q2B" className="logoImage-m"/>
+                <h1 className="title-m">Q2BEAT</h1>
                 <div className="inputForm">
                     <div className="roomNum-section">
                         <div className="roomNum">방 번호 :</div>
