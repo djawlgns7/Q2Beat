@@ -6,8 +6,13 @@ const NaverCallback = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.hash.substring(1));
-        const accessToken = urlParams.get('access_token');
+        let urlParams = new URLSearchParams(window.location.hash.substring(1));
+        let accessToken = urlParams.get('access_token');
+
+        if (!accessToken) {
+            urlParams = new URLSearchParams(window.location.search);
+            accessToken = urlParams.get('access_token');
+        }
 
         if (accessToken) {
             getUserInfo(accessToken);

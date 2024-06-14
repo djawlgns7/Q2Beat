@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/naver")
+@RequestMapping("/api/naver")
 public class NaverProxyController {
 
     @GetMapping("/user-info")
