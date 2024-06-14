@@ -14,7 +14,7 @@ const JoinRoom = () => {
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
-        const storedName = sessionStorage.getItem('participantName');
+        const storedName = sessionStorage.getItem('playerName');
         const roomNumber = params.get("roomNumber");
         if (roomId && storedName !== null) {
             navigate("/waiting-participant");
@@ -24,7 +24,7 @@ const JoinRoom = () => {
     }, []);
 
     useEffect(() => {
-        sessionStorage.setItem('participantName', name);
+        sessionStorage.setItem('playerName', name);
         if (roomId && name) {
             navigate("/waiting-participant");
         }
@@ -32,7 +32,7 @@ const JoinRoom = () => {
 
     const joinRoom = () => {
         if (roomInput.trim()) {
-            sessionStorage.setItem('participantName', name);
+            sessionStorage.setItem('playerName', name);
             sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
         }
     };

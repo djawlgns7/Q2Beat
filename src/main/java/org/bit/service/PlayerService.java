@@ -30,6 +30,10 @@ public class PlayerService {
         return playerMapper.updatePlayerScore(player);
     }
 
+    public boolean updatePlayerRecentAnswer(Player player) {
+        return playerMapper.updatePlayerRecentAnswer(player);
+    }
+
     public int deletePlayer(Player player) {
         return playerMapper.deletePlayer(player);
     }
