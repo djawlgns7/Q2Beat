@@ -19,6 +19,10 @@ import NaverCallback from "./components/NaverCallback.jsx";
 import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/Host/QuizGame.jsx";
 
+import BoardList from './components/Board/BoardList.jsx';
+import BoardDetails from './components/Board/BoardDetails.jsx';
+import SetNickname from "./components/SetNickname.jsx";
+
 function App() {
     return (
         <Router>
@@ -33,6 +37,10 @@ function App() {
                 <Route path="/audio" element={<AudioComparison/>}/>
                 <Route path="/host" element={<HostRoom/>}/>
                 <Route path="/participant" element={<ParticipantRoom/>}/>
+
+                <Route path="/board" element={<BoardList/>} />
+                <Route path="/board/:qbod_id" element={<BoardDetails/>} />
+
 
                 {/* 소켓 통신 부분 */}
                 <Route path="/participant2" element={
