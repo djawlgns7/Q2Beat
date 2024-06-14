@@ -1,4 +1,4 @@
-const Options = (options) => {
+const NormalOptions = (options) => {
     const box = {
         display: "inline-block",
         justifyContent: "center",
@@ -23,4 +23,4 @@ const Options = (options) => {
     )
 }
 
-export default Options;
+export default NormalOptions;

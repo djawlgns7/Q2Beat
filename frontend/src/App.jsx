@@ -17,6 +17,11 @@ import Login from "./components/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
 import NaverCallback from "./components/NaverCallback.jsx";
 import QuizGame from "./components/Host/QuizGame.jsx";
+import QuizCount from "./components/Host/QuizCount.jsx";
+import QuizResult from "./components/Host/QuizResult.jsx";
+import PlayerCount from "./components/Participant/PlayerCount.jsx";
+import PlayerQuizPage from "./components/Participant/PlayerQuizPage.jsx";
+import PlayerResult from "./components/Participant/PlayerResult.jsx";
 
 function App() {
     return (
@@ -66,6 +71,31 @@ function App() {
                 <Route path="/quiz-game" element={
                     <SocketProvider>
                         <QuizGame/>
+                    </SocketProvider>
+                }/>
+                <Route path="/quiz-count" element={
+                    <SocketProvider>
+                        <QuizCount/>
+                    </SocketProvider>
+                }/>
+                <Route path="/quiz-result" element={
+                    <SocketProvider>
+                        <QuizResult/>
+                    </SocketProvider>
+                }/>
+                <Route path="/player-count" element={
+                    <SocketProvider>
+                        <PlayerCount/>
+                    </SocketProvider>
+                }/>
+                <Route path="/player-quiz-page" element={
+                    <SocketProvider>
+                        <PlayerQuizPage/>
+                    </SocketProvider>
+                }/>
+                <Route path="/player-result" element={
+                    <SocketProvider>
+                        <PlayerResult/>
                     </SocketProvider>
                 }/>
             </Routes>

@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import Options from "../quiz/Options.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";
+import {useNavigate} from "react-router-dom";
 
 const QuizGame = () => {
     const {sendMessage, roomId, isConnected} = useSocket();
@@ -10,6 +11,8 @@ const QuizGame = () => {
     const [currentTime, setCurrentTime] = useState(-1);
     const [isReady, setIsReady] = useState(false);
     const intervalRef = useRef(null);
+    const navigate = useNavigate();
+    const isSettingChanged = useRef(false);
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -19,19 +22,33 @@ const QuizGame = () => {
     }, []);
 
     useEffect(() => {
+        if (!isSettingChanged.current) {
+            isSettingChanged.current = true;
+            return;
+        }
+
         // 객체에서 값을 추출하여 사용
         setCurrentTime(setting.timeLimit);
 
         getQuiz(setting.category);
-        if (currentTime !== -1) {
-            startTimer(currentTime);
-        }
+        startTimer(currentTime);
     }, [setting]);
 
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
-            alert("다음 문제로 이동");
+
+            if (setting.round >= setting.maxRound) {
+                sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
+
+                navigate("/quiz-result");
+            } else {
+                setting.round = Number.parseInt(setting.round) + 1;
+                sessionStorage.setItem('setting', JSON.stringify(setting));
+                sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
+
+                navigate("/quiz-count");
+            }
         }
     }, [currentTime])
 
@@ -51,6 +68,7 @@ const QuizGame = () => {
 
         const data = await response.json();
         setQuiz(data);
+        sendMessage(`MESSAGE:${roomId}:QUIZID:${data.normal_id}`);
         setIsReady(true);
     };
 
@@ -82,9 +100,9 @@ const QuizGame = () => {
                         <h1>문제 {setting.round}</h1>
                         <h3>{quiz.normal_quiz}</h3>
                         <Timer time={currentTime}/>
-                        <Options first={quiz.normal_first_choice} second={quiz.normal_second_choice}
-                                 third={quiz.normal_third_choice}
-                                 fourth={quiz.normal_fourth_choice}/>
+                        <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
+                                       third={quiz.normal_third_choice}
+                                       fourth={quiz.normal_fourth_choice}/>
                     </>
                 ) : setting.gameMode === "SINGING" ? (
                     // 노래부르기
@@ -99,7 +117,8 @@ const QuizGame = () => {
                     <h1>오류 발생</h1>
                 )
             ) : (
-                <h1>로딩안됨</h1>
+                <>
+                </>
             )}
         </>
     );

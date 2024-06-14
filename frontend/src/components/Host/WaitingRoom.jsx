@@ -41,13 +41,13 @@ const WaitingRoom = () => {
             const setting = {
                 gameMode: "NORMAL",
                 round: 1,
-                maxRound: 10,
+                maxRound: 2,
                 timeLimit: 10,
                 category: "COMMON"
             };
             sessionStorage.setItem('setting', JSON.stringify(setting));
 
-            navigate("/quiz-game");
+            navigate("/quiz-count");
         }
     }
 

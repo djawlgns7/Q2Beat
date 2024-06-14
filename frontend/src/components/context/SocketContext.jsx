@@ -10,7 +10,7 @@ export const SocketProvider = ({children}) => {
     const socketRef = useRef();
     const [messages, setMessages] = useState([]);
     const [roomId, setRoomId] = useState(sessionStorage.getItem('roomId') || null);
-    const [quiz, setQuiz] = useState('');
+    const [quizId, setQuizId] = useState('');
     const [hostMessage, setHostMessage] = useState('');
     const [clientMessage, setClientMessage] = useState('');
     const isConnected = useRef(false);
@@ -25,12 +25,12 @@ export const SocketProvider = ({children}) => {
             const savedRoomId = sessionStorage.getItem('roomId');
             if (savedRoomId) {
                 const hostName = sessionStorage.getItem('hostName');
-                const participantName = sessionStorage.getItem('participantName');
+                const playerName = sessionStorage.getItem('playerName');
 
                 if (hostName) {
                     socket.send(`JOIN:HOST:${savedRoomId}:${hostName}`);
-                } else if (participantName) {
-                    socket.send(`JOIN:PLAYER:${savedRoomId}:${participantName}`);
+                } else if (playerName) {
+                    socket.send(`JOIN:PLAYER:${savedRoomId}:${playerName}`);
                 }
             }
         };
@@ -53,8 +53,10 @@ export const SocketProvider = ({children}) => {
                 setClientMessage(msgData);
             } else if (msgData.startsWith("START:")) {
                 setHostMessage(msgData.split(":")[1]);
-            } else if (msgData.startsWith("(Host)")) {
-                getQuiz(msgData.split(":")[1]);
+            } else if (msgData.startsWith("QUIZID:")) {
+                setQuizId(msgData.split(":")[1]);
+            } else if (msgData.startsWith("HOST:")) {
+                setHostMessage(msgData.split(":")[1]);
             } else if (msgData.startsWith("(Participant)")) {
                 setClientMessage(msgData);
             } else {
@@ -80,28 +82,28 @@ export const SocketProvider = ({children}) => {
         }
     };
 
-    const getQuiz = async (quizId) => {
-        const response = await fetch(`/quiz/information?quizId=${quizId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            // 오류 처리
-            console.error('Failed to fetch quiz information');
-            return;
-        }
-
-        const data = await response.json();
-        setQuiz(data);
-    };
+    // const getQuiz = async (quizId) => {
+    //     const response = await fetch(`/quiz/information?quizId=${quizId}`, {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //     });
+    //
+    //     if (!response.ok) {
+    //         // 오류 처리
+    //         console.error('Failed to fetch quiz information');
+    //         return;
+    //     }
+    //
+    //     const data = await response.json();
+    //     setQuiz(data);
+    // };
 
     return (
         <SocketContext.Provider value={{
-            sendMessage, messages, roomId, quiz, hostMessage, clientMessage, socketRef,
-            setRoomId, setMessages, setQuiz, setHostMessage, setClientMessage, isConnected
+            sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef,
+            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected
         }}>
             {children}
         </SocketContext.Provider>
