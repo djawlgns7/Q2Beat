@@ -2,6 +2,10 @@ package org.bit.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.bit.model.Player;
+import org.springframework.security.core.parameters.P;
+
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PlayerMapper {
@@ -10,6 +14,9 @@ public interface PlayerMapper {
 
     @Select("select * from player where room_id = #{room_id} and player_name = #{player_name}")
     Player getPlayerInformation(Player player);
+
+    @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%'")
+    List<Player> getPlayerList(@Param("room_id")String room_id);
 
     @Select("select count(player_name) from player where room_id = #{room_id}")
     int getPlayerNumber(String room_id);
@@ -23,9 +30,18 @@ public interface PlayerMapper {
     @Update("update player set player_recent_answer = #{player_recent_answer} where room_id = #{room_id} and player_name = #{player_name}")
     boolean updatePlayerRecentAnswer(Player player);
 
+    @Update("update player set player_team_id = null, player_recent_answer = null, player_score = 0 where room_id = #{room_id}")
+    void resetPlayerInformation(@Param("room_id") String room_id);
+
     @Delete("delete from player where room_id = #{room_id} and player_name = #{player_name}")
     int deletePlayer(Player player);
 
     @Delete("delete from player where room_id = #{room_id}")
     int clearPlayer(String room_id);
+
+    @Select("select count(*) as number from player where room_id = #{room_id} and player_recent_answer = #{answer}")
+    int getAnswerNumber(@Param("room_id")String room_id, @Param("answer")int answer);
+
+    @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%' order by player_score desc")
+    List<Player> getPlayerRank(@Param("room_id")String room_id);
 }

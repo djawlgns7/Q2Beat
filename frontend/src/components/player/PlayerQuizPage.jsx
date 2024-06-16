@@ -26,17 +26,14 @@ const PlayerQuizPage = () => {
             console.log(hostMessage);
             setHostMessage("");
             sendAnswer(gameMode.current);
-            navigate("/player-count");
-        } else if (hostMessage === "GAMEEND") {
-            console.log(hostMessage);
-            setHostMessage("");
-            sendAnswer(gameMode.current);
-            navigate("/player-result");
+
+            setTimeout(() => {
+                navigate("/player/game/round/result");
+            }, 100);
         }
     }, [hostMessage]);
 
     const prepareAnswer = (buttonAnswer) => {
-        alert(buttonAnswer);
         answer.current = buttonAnswer;
     }
 
@@ -50,11 +47,11 @@ const PlayerQuizPage = () => {
         } else if (gameMode === "POSE") {
             gameMode = "pose";
         } else {
-            console.log("이상한 게임모드");
+            console.log("이상한 게임모드: " + gameMode);
             return;
         }
 
-        const response = await fetch(`/quiz/send/${gameMode}?quizId=${quizId}&player_recent_answer=${answer.current}&room_id=R${roomId}&player_name=${playerName.current}`, {
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&player_recent_answer=${answer.current}&room_id=R${roomId}&player_name=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -67,15 +64,15 @@ const PlayerQuizPage = () => {
             return;
         }
 
-        const data = await response.text();
+        const data = await response.json();
 
-        if (data === "true") {
-            sessionStorage.setItem("isCorrect", data);
-            console.log("정답입니다");
+        if (data.isCorrect === "true") {
+            sessionStorage.setItem("isCorrect", data.correct);
         } else {
-            sessionStorage.setItem("isCorrect", data);
-            console.log("오답입니다");
+            sessionStorage.setItem("isCorrect", data.correct);
         }
+
+        sessionStorage.setItem("playerScore", data.player_score);
     };
 
     return (
@@ -101,7 +98,6 @@ const PlayerQuizPage = () => {
                 )
             ) : (
                 <>
-                    <h1>로딩중</h1>
                 </>
             )}
         </>

@@ -4,8 +4,8 @@ import {useNavigate} from "react-router-dom";
 import '../../css/Host/WaitingRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
-const WaitingRoom = () => {
-    const {sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage} = useSocket();
+const Lobby = () => {
+    const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
@@ -13,26 +13,35 @@ const WaitingRoom = () => {
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
+        clearPlayInformation();
 
         if (roomId && storedName !== null) {
             setName(storedName);
         } else {
-            navigate("/create-room")
+            navigate("/host/game/create")
         }
     }, []);
 
     useEffect(() => {
-        const command = clientMessage.split(":")[0];
-        const content = clientMessage.split(":")[1];
+        setClientMessage("");
 
-        if (command === "NEWMEMBER") {
-            setParticipants([...participants, content]);
-            setClientMessage("");
-        } else if (command === "USERLEFT") {
-            setParticipants([...participants.filter((participant) => participant !== content)]);
-            setClientMessage("");
+        if (roomId !== null && roomId !== undefined) {
+            getPlayersList();
         }
     }, [clientMessage]);
+
+    const getPlayersList = async () => {
+        try {
+            const response = await fetch(`/quiz/player/list?roomId=${roomId}`)
+            if (!response.ok) {
+                throw new Error('Failed to get player list');
+            }
+            const data = await response.json();
+            setParticipants(data);
+        } catch (error) {
+            console.error('Error fetching player list:', error);
+        }
+    }
 
     const startQuiz = () => {
         if (isConnected.current && roomId) {
@@ -49,7 +58,7 @@ const WaitingRoom = () => {
             };
             sessionStorage.setItem('setting', JSON.stringify(setting));
 
-            navigate("/quiz-count");
+            navigate("/host/game/count");
         }
     }
 
@@ -59,8 +68,9 @@ const WaitingRoom = () => {
             sessionStorage.removeItem('hostName');
             sessionStorage.removeItem('roomId');
             setRoomId(null);
+            socketRef.current.close();
 
-            navigate("/");
+            window.location.reload();
         }
     }
 
@@ -78,7 +88,7 @@ const WaitingRoom = () => {
                         <div className="player-box">
                             <div>
                                 {participants.map((participant, index) => (
-                                    <div key={index} className="player">{participant}</div>
+                                    <div key={index} className="player">{participant.player_name}</div>
                                 ))}
                             </div>
                         </div>
@@ -109,4 +119,4 @@ const WaitingRoom = () => {
     );
 };
 
-export default WaitingRoom;
+export default Lobby;

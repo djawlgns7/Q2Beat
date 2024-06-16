@@ -6,19 +6,23 @@ import '../../css/Participant/WaitingParticipant.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
-const WaitingParticipant = () => {
-    const {socketRef, roomId, setRoomId, hostMessage, setHostMessage} = useSocket();
+const PlayerWaiting = () => {
+    const {socketRef, roomId, setRoomId, hostMessage, setHostMessage, sendMessage, clearPlayInformation} = useSocket();
     const [name, setName] = useState(sessionStorage.getItem('playerName') || '');
     const navigate = useNavigate();
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
+        clearPlayInformation();
         const storedName = sessionStorage.getItem('playerName');
+
         if (roomId && storedName !== null) {
             setName(storedName);
         } else {
-            navigate("/join-room");
+            navigate("/player/game/join");
         }
+
+        sendMessage(`MESSAGE:${roomId}:PLAYER:${storedName}`);
     }, []);
 
     useEffect(() => {
@@ -27,7 +31,7 @@ const WaitingParticipant = () => {
             sessionStorage.setItem('gameMode', hostMessage);
             sessionStorage.setItem('playerName', name);
 
-            navigate("/player-count");
+            navigate("/player/game/count");
             setHostMessage("");
         }
     }, [hostMessage]);
@@ -60,4 +64,4 @@ const WaitingParticipant = () => {
     );
 };
 
-export default WaitingParticipant;
+export default PlayerWaiting;

@@ -5,6 +5,9 @@ import org.bit.mapper.PlayerMapper;
 import org.bit.model.Player;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 @Service
 public class PlayerService {
@@ -16,6 +19,10 @@ public class PlayerService {
 
     public Player getPlayer(Player player) {
         return playerMapper.getPlayerInformation(player);
+    }
+
+    public List<Player> getPlayerList(String roomId) {
+        return playerMapper.getPlayerList(roomId);
     }
 
     public int getPlayerNumber(String roomId) {
@@ -30,6 +37,10 @@ public class PlayerService {
         return playerMapper.updatePlayerScore(player);
     }
 
+    public void resetPlayerInformation(String roomId) {
+        playerMapper.resetPlayerInformation(roomId);
+    }
+
     public boolean updatePlayerRecentAnswer(Player player) {
         return playerMapper.updatePlayerRecentAnswer(player);
     }
@@ -40,5 +51,13 @@ public class PlayerService {
 
     public int clearPlayer(String roomId) {
         return playerMapper.clearPlayer(roomId);
+    }
+
+    public int getAnswerNumbers(String roomId, int answer) {
+        return playerMapper.getAnswerNumber(roomId, answer);
+    }
+
+    public List<Player> getPlayerRank(String roomId) {
+        return playerMapper.getPlayerRank(roomId);
     }
 }

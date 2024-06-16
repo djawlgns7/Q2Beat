@@ -9,6 +9,7 @@ public class Player {
     private int player_team_id;
     private int player_recent_answer;
     private int player_score;
+    private boolean isCorrect;
 
     public Player() {
 

@@ -17,7 +17,7 @@ const PlayerCount = () => {
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
-            navigate("/player-quiz-page");
+            navigate("/player/game/question");
         }
     }, [currentTime])
 
