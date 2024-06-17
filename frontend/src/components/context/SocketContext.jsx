@@ -57,8 +57,8 @@ export const SocketProvider = ({children}) => {
                 setQuizId(msgData.split(":")[1]);
             } else if (msgData.startsWith("HOST:")) {
                 setHostMessage(msgData.split(":")[1]);
-            } else if (msgData.startsWith("(Participant)")) {
-                setClientMessage(msgData);
+            } else if (msgData.startsWith("PLAYER:")) {
+                setClientMessage(msgData.split(":")[1]);
             } else {
                 setMessages((prevMessages) => [...prevMessages, msgData]);
             }
@@ -66,6 +66,10 @@ export const SocketProvider = ({children}) => {
 
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server');
+            clearPlayInformation();
+            sessionStorage.removeItem('roomId');
+            sessionStorage.removeItem('hostName');
+            sessionStorage.removeItem('playerName');
             isConnected.current = false;
         };
 
@@ -76,34 +80,37 @@ export const SocketProvider = ({children}) => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = '';  // Chrome requires returnValue to be set.
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     const sendMessage = (message) => {
         if (socketRef.current) {
             socketRef.current.send(message);
         }
     };
 
-    // const getQuiz = async (quizId) => {
-    //     const response = await fetch(`/quiz/information?quizId=${quizId}`, {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //     });
-    //
-    //     if (!response.ok) {
-    //         // 오류 처리
-    //         console.error('Failed to fetch quiz information');
-    //         return;
-    //     }
-    //
-    //     const data = await response.json();
-    //     setQuiz(data);
-    // };
+    const clearPlayInformation = () => {
+        sessionStorage.removeItem('setting');
+        sessionStorage.removeItem('answer');
+        sessionStorage.removeItem('gameMode');
+        sessionStorage.removeItem('isCorrect');
+        sessionStorage.removeItem('playerScore');
+    }
 
     return (
         <SocketContext.Provider value={{
             sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef,
-            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected
+            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected, clearPlayInformation
         }}>
             {children}
         </SocketContext.Provider>

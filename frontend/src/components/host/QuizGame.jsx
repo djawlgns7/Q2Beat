@@ -5,14 +5,13 @@ import NormalOptions from "../quiz/NormalOptions.jsx";
 import {useNavigate} from "react-router-dom";
 
 const QuizGame = () => {
-    const {sendMessage, roomId, isConnected} = useSocket();
+    const {sendMessage, roomId} = useSocket();
     const [setting, setSetting] = useState('');
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
     const [isReady, setIsReady] = useState(false);
     const intervalRef = useRef(null);
     const navigate = useNavigate();
-    const isSettingChanged = useRef(false);
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -22,15 +21,16 @@ const QuizGame = () => {
     }, []);
 
     useEffect(() => {
-        if (!isSettingChanged.current) {
-            isSettingChanged.current = true;
+        if (setting === "") {
             return;
         }
 
         // 객체에서 값을 추출하여 사용
         setCurrentTime(setting.timeLimit);
 
-        getQuiz(setting.category);
+        if (setting.gameMode === "NORMAL") {
+            getQuizNormal(setting.category);
+        }
         startTimer(currentTime);
     }, [setting]);
 
@@ -38,22 +38,16 @@ const QuizGame = () => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
 
-            if (setting.round >= setting.maxRound) {
-                sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
+            setting.round = Number.parseInt(setting.round) + 1;
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+            sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-                navigate("/quiz-result");
-            } else {
-                setting.round = Number.parseInt(setting.round) + 1;
-                sessionStorage.setItem('setting', JSON.stringify(setting));
-                sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
-
-                navigate("/quiz-count");
-            }
+            navigate("/host/game/round/result");
         }
     }, [currentTime])
 
-    const getQuiz = async (category) => {
-        const response = await fetch(`/quiz/getQuizNormal?category=${category}&roomId=${roomId}`, {
+    const getQuizNormal = async (category) => {
+        const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -68,6 +62,7 @@ const QuizGame = () => {
 
         const data = await response.json();
         setQuiz(data);
+        sessionStorage.setItem("answer", data.normal_answer);
         sendMessage(`MESSAGE:${roomId}:QUIZID:${data.normal_id}`);
         setIsReady(true);
     };
@@ -83,13 +78,6 @@ const QuizGame = () => {
             });
         }, 1000);
     }
-
-    const sendAnswer = (m) => {
-        if (isConnected && m.trim() && roomId) {
-            const message = "(Host):" + m;
-            sendMessage("MESSAGE:" + roomId + ":" + message);
-        }
-    };
 
     return (
         <>
