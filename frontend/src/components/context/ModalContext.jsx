@@ -22,7 +22,7 @@ export const ModalProvider = ({ children }) => {
 
     return (
         <ModalContext.Provider value={{ showModal, hideModal, setModalType, setModalTitle, setModalBody }}>
-            <Q2Modal state={state} modalType={modalType} modalTitle={modalTitle} modalBody={modalBody} />
+            <Q2Modal state = {state} modalType = {modalType} modalTitle = {modalTitle} modalBody = {modalBody}/>
             {children}
         </ModalContext.Provider>
     );
