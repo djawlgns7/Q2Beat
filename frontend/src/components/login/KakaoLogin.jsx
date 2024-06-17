@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../utils/axios';
 import kakaoLogin from "../../image/kakao_login.png";
 import { useNavigate } from 'react-router-dom';
-import CustomModal from '../Modal/Q2Modal.jsx';
+import CustomModal from '../modal/Q2Modal.jsx';
 import '../../css/KakaoLogin.css';
 
 const KakaoLoginButton = () => {

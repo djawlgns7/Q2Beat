@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -32,7 +33,7 @@ public class MemberController {
 
     @PostMapping("/social-login")
     @ResponseBody
-    public ResponseEntity<Member> socialLogin(@RequestBody Map<String, String> payload, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> socialLogin(@RequestBody Map<String, String> payload, HttpSession session) {
         String socialId = payload.get("socialId");
         String platform = payload.get("platform");
         String name = payload.get("name");
@@ -40,12 +41,17 @@ public class MemberController {
 
         Member existingMember = memberService.findByEmail(email);
 
+        Map<String, Object> response = new HashMap<>();
         if (existingMember != null) {
             if (!existingMember.getMemberPlatform().toString().equalsIgnoreCase(platform)) {
-                return ResponseEntity.status(400).body(null);
+                response.put("status", "error");
+                response.put("message", "다른 소셜 로그인으로 등록한 이메일 정보가 존재합니다");
+                return ResponseEntity.status(400).body(response);
             }
             session.setAttribute("member", existingMember);
-            return ResponseEntity.ok(existingMember);
+            response.put("status", "success");
+            response.put("member", existingMember);
+            return ResponseEntity.ok(response);
         }
 
         Member newMember = Member.builder()
@@ -58,8 +64,11 @@ public class MemberController {
 
         Member savedMember = memberService.findByEmail(email);
         session.setAttribute("member", savedMember);
-        return ResponseEntity.ok(savedMember);
+        response.put("status", "success");
+        response.put("member", savedMember);
+        return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/set-nickname")
     @ResponseBody

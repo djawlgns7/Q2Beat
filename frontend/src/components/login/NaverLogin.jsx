@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from '../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
-import Q2Modal from '../Modal/Q2Modal';
+import Q2Modal from '../modal/Q2Modal';
 
 const NaverLoginButton = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);

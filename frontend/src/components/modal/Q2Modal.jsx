@@ -71,4 +71,4 @@ const Q2Modal = (props) => {
     );
 };
 
-export default Q2Modal;
+export default {Q2Modal};
