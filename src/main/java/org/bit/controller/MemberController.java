@@ -1,4 +1,3 @@
-// MemberController.java
 package org.bit.controller;
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;  // Add this import
 
 @Controller
 @RequiredArgsConstructor
@@ -62,13 +62,19 @@ public class MemberController {
                 .build();
         memberService.registerMember(newMember);
 
-        Member savedMember = memberService.findByEmail(email);
-        session.setAttribute("member", savedMember);
+        // Using Optional to avoid potential NullPointerException
+        Optional<Member> savedMember = Optional.ofNullable(memberService.findByEmail(email));
+        if (!savedMember.isPresent()) {
+            response.put("status", "error");
+            response.put("message", "회원 등록에 실패했습니다.");
+            return ResponseEntity.status(500).body(response);
+        }
+
+        session.setAttribute("member", savedMember.get());
         response.put("status", "success");
-        response.put("member", savedMember);
+        response.put("member", savedMember.get());
         return ResponseEntity.ok(response);
     }
-
 
     @PostMapping("/set-nickname")
     @ResponseBody
@@ -89,8 +95,6 @@ public class MemberController {
             return ResponseEntity.status(500).body(null);
         }
     }
-
-
 
     @PostMapping("/logout")
     @ResponseBody

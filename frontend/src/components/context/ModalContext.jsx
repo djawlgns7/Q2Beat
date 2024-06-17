@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import Q2Modal from "../modal/Q2Modal.jsx";
 
 // Context 생성
@@ -26,6 +27,11 @@ export const ModalProvider = ({ children }) => {
             {children}
         </ModalContext.Provider>
     );
+};
+
+// PropTypes validation
+ModalProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };
 
 // Custom hook
