@@ -10,7 +10,6 @@ const Lobby = () => {
     const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
-    const [state, setState] = useState("hide");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const Lobby = () => {
     const startQuiz = () => {
         if (isConnected.current && roomId) {
             const gameMode = "NORMAL";
-            sendMessage(`START:${roomId}:gameMode`);
+            sendMessage(`START:${roomId}:${gameMode}`);
 
             // 객체를 JSON 문자열로 변환하여 저장
             const setting = {
@@ -82,7 +81,7 @@ const Lobby = () => {
             setRoomId(null);
             socketRef.current.close();
 
-            window.location.reload();
+            navigate("/host/game/create");
         }
     }
 
