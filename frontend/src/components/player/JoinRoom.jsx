@@ -6,7 +6,7 @@ import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const JoinRoom = () => {
-    const {sendMessage, roomId, clearPlayInformation} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation, reconnectWebSocket} = useSocket();
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const [roomInput, setRoomInput] = useState('');
@@ -23,6 +23,8 @@ const JoinRoom = () => {
         } else if(roomNumber) {
             setRoomInput(roomNumber);
         }
+
+        setTimeout(() => reconnectWebSocket(), 100);
     }, []);
 
     useEffect(() => {

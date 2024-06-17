@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const SocketContext = createContext();
 
@@ -6,7 +6,7 @@ export const useSocket = () => {
     return useContext(SocketContext);
 };
 
-export const SocketProvider = ({children}) => {
+export const SocketProvider = ({ children }) => {
     const socketRef = useRef();
     const [messages, setMessages] = useState([]);
     const [roomId, setRoomId] = useState(sessionStorage.getItem('roomId') || null);
@@ -15,7 +15,7 @@ export const SocketProvider = ({children}) => {
     const [clientMessage, setClientMessage] = useState('');
     const isConnected = useRef(false);
 
-    useEffect(() => {
+    const connectWebSocket = () => {
         const socket = new WebSocket('ws://localhost:8080/ws');
 
         socket.onopen = () => {
@@ -74,9 +74,13 @@ export const SocketProvider = ({children}) => {
         };
 
         socketRef.current = socket;
+    };
+
+    useEffect(() => {
+        connectWebSocket();
 
         return () => {
-            socket.close();
+            socketRef.current.close();
         };
     }, []);
 
@@ -107,10 +111,17 @@ export const SocketProvider = ({children}) => {
         sessionStorage.removeItem('playerScore');
     }
 
+    const reconnectWebSocket = () => {
+        if (socketRef.current) {
+            socketRef.current.close();
+        }
+        connectWebSocket();
+    }
+
     return (
         <SocketContext.Provider value={{
             sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef,
-            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected, clearPlayInformation
+            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected, clearPlayInformation, reconnectWebSocket
         }}>
             {children}
         </SocketContext.Provider>

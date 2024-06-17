@@ -44,7 +44,7 @@ const PlayerWaiting = () => {
             setRoomId(null);
             socketRef.current.close();
 
-            window.location.reload();
+            navigate("/player/game/join");
     }
 
     const exitRoom = () => {

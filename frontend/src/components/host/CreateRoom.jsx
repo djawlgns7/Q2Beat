@@ -6,7 +6,7 @@ import '../../css/Host/CreateRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const CreateRoom = () => {
-    const {sendMessage, roomId, clearPlayInformation} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation, reconnectWebSocket} = useSocket();
     const [name, setName] = useState(null);
     const navigate = useNavigate();
 
@@ -19,6 +19,8 @@ const CreateRoom = () => {
         if (roomId && storedName !== null) {
             navigate('/host/game/lobby');
         }
+
+        setTimeout(() => reconnectWebSocket(), 100);
     }, []);
 
     const createRoom = () => {
