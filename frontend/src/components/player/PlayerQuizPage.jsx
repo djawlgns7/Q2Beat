@@ -89,7 +89,10 @@ const PlayerQuizPage = () => {
                     <h1>노래부르기</h1>
                 ) : gameMode.current === "LYRIC" ? (
                     // 가사 맞추기
-                    <h1>가사 맞추기</h1>
+                    <>
+                        <h1>가사 맞추기</h1>
+                        <LyricButton prepareAnswer={prepareAnswer}/>
+                    </>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

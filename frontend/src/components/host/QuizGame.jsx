@@ -3,6 +3,7 @@ import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
 import NormalOptions from "../quiz/NormalOptions.jsx";
 import {useNavigate} from "react-router-dom";
+import LyricOptions from "../quiz/LyricOptions.jsx";
 
 const QuizGame = () => {
     const {sendMessage, roomId} = useSocket();
@@ -97,7 +98,12 @@ const QuizGame = () => {
                     <h1>노래부르기</h1>
                 ) : setting.gameMode === "LYRIC" ? (
                     // 가사 맞추기
-                    <h1>가사 맞추기</h1>
+                    <>
+                        <h1>가사맞추기</h1>
+                        <h3>{quiz.lyric_quiz}</h3>
+                        <Timer time={currentTime}/>
+                        <LyricOptions first={ quiz.lyric_text_answer} />
+                    </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>
