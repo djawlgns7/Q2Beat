@@ -1,10 +1,10 @@
 import React from 'react';
-import GoogleLoginPage from './GoogleLogin';
-import NaverLoginButton from './NaverLogin';
-import KakaoLoginButton from './KakaoLogin';
-import '../App.css';
-import '../css/Login.css';
-import Q2B from '../image/Q2BEAT_2.png';
+import GoogleLoginPage from './GoogleLogin.jsx';
+import NaverLoginButton from './NaverLogin.jsx';
+import KakaoLoginButton from './KakaoLogin.jsx';
+import '../../App.css';
+import '../../css/Login.css';
+import Q2B from '../../image/Q2BEAT_2.png';
 
 const Login = () => {
     return (

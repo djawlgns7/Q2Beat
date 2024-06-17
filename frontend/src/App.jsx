@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SetNickname from './components/SetNickname';
 import MainPage from './components/MainPage';
-import Login from "./components/Login";
-import NaverCallback from './components/NaverCallback';
+import Login from "./components/Login/Login.jsx";
+import NaverCallback from './components/Login/NaverCallback.jsx';
 
 const App = () => (
     <Router>
