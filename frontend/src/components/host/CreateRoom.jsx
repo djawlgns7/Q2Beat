@@ -40,6 +40,7 @@ const CreateRoom = () => {
                 <div>
                     <input
                         type="text"
+                        maxLength="14"
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter your name"
                     />

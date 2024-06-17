@@ -25,89 +25,92 @@ import PlayerQuizPage from "./components/player/PlayerQuizPage.jsx";
 import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
+import {ModalProvider} from "./components/context/ModalContext.jsx";
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/set-nickname" element={<SetNickname />} />
-                <Route path="/main" element={<MainPage />} />
-                <Route path="/callback" element={<NaverCallback />} />
-                <Route path="/reset" element={<Reset/>}/>
-                <Route path="/chat-room" element={<ChatRoom/>}/>
-                <Route path="/audio" element={<AudioComparison/>}/>
-                <Route path="/host" element={<HostRoom/>}/>
-                <Route path="/participant" element={<ParticipantRoom/>}/>
+        <ModalProvider>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Login/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/set-nickname" element={<SetNickname/>}/>
+                    <Route path="/main" element={<MainPage/>}/>
+                    <Route path="/callback" element={<NaverCallback/>}/>
+                    <Route path="/reset" element={<Reset/>}/>
+                    <Route path="/chat-room" element={<ChatRoom/>}/>
+                    <Route path="/audio" element={<AudioComparison/>}/>
+                    <Route path="/host" element={<HostRoom/>}/>
+                    <Route path="/participant" element={<ParticipantRoom/>}/>
 
-                {/* 소켓 통신 부분 */}
+                    {/* 소켓 통신 부분 */}
 
-                {/* 호스트 */}
-                <Route path="/host/game/create" element={
-                    <SocketProvider>
-                        <CreateRoom/>
-                    </SocketProvider>
-                }/>
-                <Route path="/host/game/lobby" element={
-                    <SocketProvider>
-                        <Lobby/>
-                    </SocketProvider>
-                }/>
-                <Route path="/host/game/question" element={
-                    <SocketProvider>
-                        <QuizGame/>
-                    </SocketProvider>
-                }/>
-                <Route path="/host/game/count" element={
-                    <SocketProvider>
-                        <QuizCount/>
-                    </SocketProvider>
-                }/>
-                <Route path="/host/game/result" element={
-                    <SocketProvider>
-                        <QuizResult/>
-                    </SocketProvider>
-                }/>
-                <Route path="/host/game/round/result" element={
-                    <SocketProvider>
-                        <RoundResult/>
-                    </SocketProvider>
-                }/>
+                    {/* 호스트 */}
+                    <Route path="/host/game/create" element={
+                        <SocketProvider>
+                            <CreateRoom/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/lobby" element={
+                        <SocketProvider>
+                            <Lobby/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/question" element={
+                        <SocketProvider>
+                            <QuizGame/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/count" element={
+                        <SocketProvider>
+                            <QuizCount/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/result" element={
+                        <SocketProvider>
+                            <QuizResult/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/round/result" element={
+                        <SocketProvider>
+                            <RoundResult/>
+                        </SocketProvider>
+                    }/>
 
-                {/* 플레이어 */}
-                <Route path="/player/game/join" element={
-                    <SocketProvider>
-                        <JoinRoom/>
-                    </SocketProvider>
-                }/>
-                <Route path="/player/game/waiting" element={
-                    <SocketProvider>
-                        <PlayerWaiting/>
-                    </SocketProvider>
-                }/>
-                <Route path="/player/game/count" element={
-                    <SocketProvider>
-                        <PlayerCount/>
-                    </SocketProvider>
-                }/>
-                <Route path="/player/game/question" element={
-                    <SocketProvider>
-                        <PlayerQuizPage/>
-                    </SocketProvider>
-                }/>
-                <Route path="/player/game/round/result" element={
-                    <SocketProvider>
-                        <PlayerRoundResult/>
-                    </SocketProvider>
-                }/>
-                <Route path="/player/game/result" element={
-                    <SocketProvider>
-                        <PlayerResult/>
-                    </SocketProvider>
-                }/>
-            </Routes>
-        </Router>
+                    {/* 플레이어 */}
+                    <Route path="/player/game/join" element={
+                        <SocketProvider>
+                            <JoinRoom/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/waiting" element={
+                        <SocketProvider>
+                            <PlayerWaiting/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/count" element={
+                        <SocketProvider>
+                            <PlayerCount/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/question" element={
+                        <SocketProvider>
+                            <PlayerQuizPage/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/round/result" element={
+                        <SocketProvider>
+                            <PlayerRoundResult/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/result" element={
+                        <SocketProvider>
+                            <PlayerResult/>
+                        </SocketProvider>
+                    }/>
+                </Routes>
+            </Router>
+        </ModalProvider>
     );
 }
 

@@ -80,6 +80,19 @@ export const SocketProvider = ({children}) => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = '';  // Chrome requires returnValue to be set.
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     const sendMessage = (message) => {
         if (socketRef.current) {
             socketRef.current.send(message);

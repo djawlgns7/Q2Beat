@@ -3,11 +3,14 @@ import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
 import '../../css/Host/WaitingRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
+import {useModal} from "../context/ModalContext.jsx";
 
 const Lobby = () => {
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
+    const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
+    const [state, setState] = useState("hide");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,7 +49,7 @@ const Lobby = () => {
     const startQuiz = () => {
         if (isConnected.current && roomId) {
             const gameMode = "NORMAL";
-            sendMessage("START:" + roomId + ":" + gameMode);
+            sendMessage(`START:${roomId}:gameMode`);
 
             // 객체를 JSON 문자열로 변환하여 저장
             const setting = {
@@ -62,9 +65,18 @@ const Lobby = () => {
         }
     }
 
+    const showQR = () => {
+        setModalType("QR");
+        setModalTitle("QR코드 표시");
+        setModalBody(`http://localhost:5173/player/game/join?roomNumber=${roomId}`)
+        showModal();
+    }
+
     const exitRoom = () => {
         const reply = confirm("방을 나가시겠습니까?");
         if (reply) {
+            sendMessage(`MESSAGE:${roomId}:HOST:DISMISS`);
+
             sessionStorage.removeItem('hostName');
             sessionStorage.removeItem('roomId');
             setRoomId(null);
@@ -106,7 +118,7 @@ const Lobby = () => {
                             </div>
                             <div className="actions">
                                 <button onClick={startQuiz} className="action-btn">시작하기</button>
-                                <button className="action-btn">QR코드</button>
+                                <button className="action-btn" onClick={showQR}>QR코드</button>
                                 {/*<div className="room-link">링크:*/}
                                 {/*    http://localhost:5173/join-room?roomNumber={roomId}</div>*/}
                             </div>

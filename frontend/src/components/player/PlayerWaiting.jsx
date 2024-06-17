@@ -33,18 +33,24 @@ const PlayerWaiting = () => {
 
             navigate("/player/game/count");
             setHostMessage("");
+        } else if (hostMessage === "DISMISS") {
+            exit();
         }
     }, [hostMessage]);
 
-    const exitRoom = () => {
-        const reply = confirm("방을 나가시겠습니까?");
-        if (reply) {
-            sessionStorage.removeItem('playerName');
+    const exit = () => {
+        sessionStorage.removeItem('playerName');
             sessionStorage.removeItem('roomId');
             setRoomId(null);
             socketRef.current.close();
 
             window.location.reload();
+    }
+
+    const exitRoom = () => {
+        const reply = confirm("방을 나가시겠습니까?");
+        if (reply) {
+            exit();
         }
     }
 

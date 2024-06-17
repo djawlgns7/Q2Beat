@@ -48,7 +48,8 @@ const JoinRoom = () => {
                     <div className="roomNum-section">
                         <div className="roomNum">방 번호 :</div>
                         <input
-                            type="text"
+                            type="number"
+                            maxLength="5"
                             value={roomInput}
                             onChange={(e) => setRoomInput(e.target.value)}
                         />
@@ -57,6 +58,7 @@ const JoinRoom = () => {
                         <div className="name">이름 :</div>
                         <input
                             type="text"
+                            maxLength="20"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
