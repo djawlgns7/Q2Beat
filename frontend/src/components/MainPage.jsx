@@ -24,9 +24,9 @@ const MainPage = () => {
                 <img src={Q2B} alt="Q2B" className="logoImage-p"/>
                 <h1 className="title-p">Q2BEAT</h1>
                 <div className="main-btns">
-                    <button onClick={() => navigate('/host/game/create')}>방 생성</button>
-                    <button onClick={() => navigate('/player/game/join')}>방에 참여</button>
-                    <button onClick={handleLogout}>로그아웃</button>
+                    <button className="main-button" onClick={() => navigate('/create-room')}>방 생성</button>
+                    <button className="main-button" onClick={() => navigate('/join-room')}>방에 참여</button>
+                    <button className="main-button" onClick={handleLogout}>로그아웃</button>
                 </div>
             </div>
         </div>
