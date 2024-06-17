@@ -42,7 +42,7 @@ const QuizGame = () => {
             sessionStorage.setItem('setting', JSON.stringify(setting));
             sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-            navigate("/host/game/round/result");
+            setTimeout(() => navigate("/host/game/round/result"), 500);
         }
     }, [currentTime])
 

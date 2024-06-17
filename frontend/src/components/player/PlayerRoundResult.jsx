@@ -13,12 +13,14 @@ const PlayerRoundResult = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        playerName.current = sessionStorage.getItem("playerName");
-        gameMode.current = sessionStorage.getItem("gameMode");
-        setRoundResult(sessionStorage.getItem("isCorrect"));
-        setPlayerScore(sessionStorage.getItem("playerScore"));
+        setTimeout(() => {
+            playerName.current = sessionStorage.getItem("playerName");
+            gameMode.current = sessionStorage.getItem("gameMode");
+            setRoundResult(sessionStorage.getItem("isCorrect"));
+            setPlayerScore(sessionStorage.getItem("playerScore"));
 
-        setIsReady(true);
+            setIsReady(true);
+        }, 100);
     }, []);
 
     useEffect(() => {

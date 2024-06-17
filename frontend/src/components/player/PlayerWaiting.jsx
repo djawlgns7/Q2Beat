@@ -15,19 +15,14 @@ const PlayerWaiting = () => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         clearPlayInformation();
         const storedName = sessionStorage.getItem('playerName');
-
-        if (roomId && storedName !== null) {
-            setName(storedName);
-        } else {
-            navigate("/player/game/join");
-        }
+        setName(storedName);
 
         sendMessage(`MESSAGE:${roomId}:PLAYER:${storedName}`);
     }, []);
 
     useEffect(() => {
         // 방장이 시작 신호를 보내면
-        if(hostMessage === "NORMAL" || hostMessage === "SINGING" || hostMessage === "LYRIC" || hostMessage === "POSE") {
+        if (hostMessage === "NORMAL" || hostMessage === "SINGING" || hostMessage === "LYRIC" || hostMessage === "POSE") {
             sessionStorage.setItem('gameMode', hostMessage);
             sessionStorage.setItem('playerName', name);
 
@@ -40,11 +35,11 @@ const PlayerWaiting = () => {
 
     const exit = () => {
         sessionStorage.removeItem('playerName');
-            sessionStorage.removeItem('roomId');
-            setRoomId(null);
-            socketRef.current.close();
+        sessionStorage.removeItem('roomId');
+        setRoomId(null);
+        socketRef.current.close();
 
-            navigate("/player/game/join");
+        navigate("/player/game/join");
     }
 
     const exitRoom = () => {
