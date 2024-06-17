@@ -13,7 +13,7 @@ const QuizCount = () => {
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
-            navigate("/quiz-game");
+            navigate("/host/game/question");
         }
     }, [currentTime])
 
