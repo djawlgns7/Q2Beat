@@ -62,7 +62,6 @@ public class MemberController {
                 .build();
         memberService.registerMember(newMember);
 
-        // Using Optional to avoid potential NullPointerException
         Optional<Member> savedMember = Optional.ofNullable(memberService.findByEmail(email));
         if (!savedMember.isPresent()) {
             response.put("status", "error");
@@ -76,24 +75,45 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/check-nickname")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> checkNickname(@RequestBody Map<String, String> payload) {
+        String nickname = payload.get("nickname");
+        boolean exists = memberService.nicknameExist(nickname);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("exists", exists);
+        if (!exists) {
+            response.put("message", "사용 가능한 닉네임입니다.");
+        } else {
+            response.put("message", "이미 사용 중인 닉네임입니다.");
+        }
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/set-nickname")
     @ResponseBody
-    public ResponseEntity<Member> setNickname(@RequestBody Map<String, String> payload, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> setNickname(@RequestBody Map<String, String> payload, HttpSession session) {
         Member member = (Member) session.getAttribute("member");
         if (member == null) {
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body(Map.of("message", "세션이 만료되었습니다."));
         }
 
         String nickname = payload.get("nickname");
-        member.setMemberUsername(nickname);
 
-        try {
-            memberService.updateMemberUsername(member.getMemberId(), nickname);
-            session.setAttribute("member", member);
-            return ResponseEntity.ok(member);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
+        if (!nickname.matches("^[가-힣a-zA-Z0-9]+$") || nickname.length() > 8) {
+            return ResponseEntity.status(400).body(Map.of("message", "닉네임은 한글, 영문 또는 숫자로만 구성되고, 최대 8자이어야 합니다."));
         }
+
+        if (memberService.nicknameExist(nickname)) {
+            return ResponseEntity.status(400).body(Map.of("message", "이미 사용 중인 닉네임입니다."));
+        }
+
+        member.setMemberUsername(nickname);
+        memberService.updateMemberUsername(member.getMemberId(), nickname);
+        session.setAttribute("member", member);
+
+        return ResponseEntity.ok(Map.of("message", "닉네임이 성공적으로 설정되었습니다."));
     }
 
     @PostMapping("/logout")
