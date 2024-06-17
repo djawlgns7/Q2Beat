@@ -29,7 +29,7 @@ const PlayerQuizPage = () => {
 
             setTimeout(() => {
                 navigate("/player/game/round/result");
-            }, 100);
+            }, 500);
         }
     }, [hostMessage]);
 

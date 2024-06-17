@@ -8,7 +8,6 @@ import {useModal} from "../context/ModalContext.jsx";
 const Lobby = () => {
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
     const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
-    const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
 
@@ -17,11 +16,6 @@ const Lobby = () => {
         const storedName = sessionStorage.getItem('hostName');
         clearPlayInformation();
 
-        if (roomId && storedName !== null) {
-            setName(storedName);
-        } else {
-            navigate("/host/game/create")
-        }
     }, []);
 
     useEffect(() => {
