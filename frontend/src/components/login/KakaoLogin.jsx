@@ -1,63 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from '../../utils/axios';
-import kakaoLogin from "../../image/kakao_login.png";
 import { useNavigate } from 'react-router-dom';
-import CustomModal from '../modal/Q2Modal.jsx';
-import '../../css/KakaoLogin.css';
+import googleLogo from '../../image/google_logo.png';
+import '../../css/GoogleLogin.css';
 
-const KakaoLoginButton = () => {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState('');
+const GoogleLoginButton = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!window.Kakao.isInitialized()) {
-            window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
-        }
-    }, []);
-
-    const handleLogin = () => {
-        window.Kakao.Auth.login({
-            success: async (authObj) => {
-                try {
-                    const userInfo = await window.Kakao.API.request({
-                        url: '/v2/user/me',
-                    });
-                    const { id: socialId, kakao_account: { profile: { nickname: name }, email } } = userInfo;
-                    handleLoginSuccess({ socialId, name, email }, 'kakao');
-                } catch (error) {
-                    console.error('Kakao API request error:', error);
-                    setModalMessage('카카오 API 요청 중 오류가 발생했습니다.');
-                    setModalIsOpen(true);
-                }
-            },
-            fail: (error) => {
-                console.error('Kakao login error:', error);
-                setModalMessage('카카오 로그인에 실패했습니다. 다시 시도해 주세요.');
-                setModalIsOpen(true);
-            },
-        });
-    };
-
-    const handleLoginSuccess = async (userInfo, platform) => {
-        const { socialId, name, email } = userInfo;
-
+    const handleLoginSuccess = async (tokenResponse) => {
         try {
+            const { access_token } = tokenResponse;
+            const { data } = await axios.get(`/members/google/userinfo?access_token=${access_token}`);
+            const { sub: socialId, name, email } = data;
+
             const result = await axios.post('/members/social-login', {
                 socialId,
-                platform,
+                platform: 'google',
                 name,
                 email,
             });
 
-            const { status, member, message } = result.data;
-
-            if (status === 'error') {
-                setModalMessage(message);
-                setModalIsOpen(true);
-                return;
-            }
-
+            const member = result.data;
             sessionStorage.setItem('member', JSON.stringify(member));
             if (!member.memberUsername) {
                 navigate('/set-nickname');
@@ -65,25 +29,31 @@ const KakaoLoginButton = () => {
                 navigate('/main');
             }
         } catch (error) {
-            console.error('Social login error:', error);
-            setModalMessage('소셜 로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            setModalIsOpen(true);
+            console.error('Google login error:', error);
         }
     };
 
+    const login = useGoogleLogin({
+        onSuccess: handleLoginSuccess,
+        onError: (error) => console.error('Google login error:', error),
+    });
+
     return (
-        <>
-            <button className="kakao-login-btn" onClick={handleLogin}>
-                <img src={kakaoLogin} alt="kakaoLogin" className="kakao-login-image"/>
-            </button>
-            <CustomModal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)}
-                title="로그인 오류"
-                message={modalMessage}
-            />
-        </>
+        <div className="google-login-btn" onClick={login}>
+            <img src={googleLogo} alt="Google로 로그인"/>
+            <span>Google로 로그인</span>
+        </div>
     );
 };
 
-export default KakaoLoginButton;
+const GoogleLoginPage = () => {
+    const clientId = "975411602786-m61p0e7053pnrpi7j4gl92ftmdpjkj8u.apps.googleusercontent.com";
+
+    return (
+        <GoogleOAuthProvider clientId={clientId}>
+            <GoogleLoginButton />
+        </GoogleOAuthProvider>
+    );
+};
+
+export default GoogleLoginPage;
