@@ -55,19 +55,13 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
 
-    //commons-fileupload
+    // commons-fileupload
     implementation 'commons-fileupload:commons-fileupload:1.4'
 }
 
 tasks.test {
     useJUnitPlatform()
 }
-
-war {
-    enabled = true
-}
-
-def frontendDir = "$projectDir/frontend"
 
 sourceSets {
     main {
@@ -76,5 +70,3 @@ sourceSets {
         }
     }
 }
-
-//2024-06-14 23:54 깃커밋용 수정

@@ -16,7 +16,7 @@ export const SocketProvider = ({ children }) => {
     const isConnected = useRef(false);
 
     const connectWebSocket = () => {
-        const socket = new WebSocket('ws://localhost:8080/ws');
+        const socket = new WebSocket('ws://3.36.56.34:8080/Q2Beat-1.0-SNAPSHOT/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
@@ -38,6 +38,7 @@ export const SocketProvider = ({ children }) => {
         socket.onmessage = (message) => {
             const msgData = message.data;
             if (msgData.startsWith("ROOMID:")) {
+                alert("adf");
                 const newRoomId = msgData.split(":")[1];
                 setRoomId(newRoomId);
                 sessionStorage.setItem('roomId', newRoomId);

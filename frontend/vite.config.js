@@ -6,17 +6,17 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://3.36.56.34:8080/Q2Beat-1.0-SNAPSHOT/',
         changeOrigin: true,
         secure: false,
       },
       '/quiz': {
-        target: 'http://localhost:8080',
+        target: 'http://3.36.56.34:8080/Q2Beat-1.0-SNAPSHOT/',
         changeOrigin: true,
         secure: false,
       },
       '/naver': {
-        target: 'http://localhost:8080',
+        target: 'http://3.36.56.34:8080/Q2Beat-1.0-SNAPSHOT/',
         changeOrigin: true,
         secure: false,
       }
