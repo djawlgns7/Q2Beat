@@ -63,6 +63,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+war {
+    archiveFileName = 'q2beat.war'
+}
+
 sourceSets {
     main {
         resources {

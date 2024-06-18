@@ -16,7 +16,7 @@ export const SocketProvider = ({ children }) => {
     const isConnected = useRef(false);
 
     const connectWebSocket = () => {
-        const socket = new WebSocket('ws://3.36.56.34:8080/Q2Beat-1.0-SNAPSHOT/ws');
+        const socket = new WebSocket('ws://3.36.56.34:8080/q2beat/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
