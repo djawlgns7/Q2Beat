@@ -1,6 +1,5 @@
 package org.bit.handler;
 
-import lombok.RequiredArgsConstructor;
 import org.bit.model.Player;
 import org.bit.service.PlayerService;
 import org.bit.service.RoomService;
@@ -56,6 +55,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             String personType = msgParts[0];
             String roomId = msgParts[1];
             String playerName = msgParts[2];
+
             if (rooms.containsKey(roomId)) {
                 rooms.get(roomId).add(session);
                 sessionRoomMap.put(session, roomId);

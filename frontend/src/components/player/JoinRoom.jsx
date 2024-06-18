@@ -6,7 +6,7 @@ import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const JoinRoom = () => {
-    const {sendMessage, roomId} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation, reconnectWebSocket} = useSocket();
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const [roomInput, setRoomInput] = useState('');
@@ -14,26 +14,30 @@ const JoinRoom = () => {
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
-        const storedName = sessionStorage.getItem('participantName');
+        clearPlayInformation();
+        const storedName = sessionStorage.getItem('playerName');
         const roomNumber = params.get("roomNumber");
+
         if (roomId && storedName !== null) {
-            navigate("/waiting-participant");
+            navigate("/player/game/waiting");
         } else if(roomNumber) {
             setRoomInput(roomNumber);
         }
+
+        setTimeout(() => reconnectWebSocket(), 100);
     }, []);
 
     useEffect(() => {
-        sessionStorage.setItem('participantName', name);
+        sessionStorage.setItem('playerName', name);
         if (roomId && name) {
-            navigate("/waiting-participant");
+            navigate("/player/game/waiting");
         }
     }, [roomId]);
 
     const joinRoom = () => {
         if (roomInput.trim()) {
-            sessionStorage.setItem('participantName', name);
             sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
+            sessionStorage.setItem('playerName', name);
         }
     };
 
@@ -46,7 +50,8 @@ const JoinRoom = () => {
                     <div className="roomNum-section">
                         <div className="roomNum">방 번호 :</div>
                         <input
-                            type="text"
+                            type="number"
+                            maxLength="5"
                             value={roomInput}
                             onChange={(e) => setRoomInput(e.target.value)}
                         />
@@ -55,6 +60,7 @@ const JoinRoom = () => {
                         <div className="name">이름 :</div>
                         <input
                             type="text"
+                            maxLength="20"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />

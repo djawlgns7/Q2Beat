@@ -1,15 +1,17 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import Options from "../quiz/Options.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";
+import {useNavigate} from "react-router-dom";
 
 const QuizGame = () => {
-    const {sendMessage, roomId, isConnected} = useSocket();
+    const {sendMessage, roomId} = useSocket();
     const [setting, setSetting] = useState('');
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
     const [isReady, setIsReady] = useState(false);
     const intervalRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -19,24 +21,33 @@ const QuizGame = () => {
     }, []);
 
     useEffect(() => {
+        if (setting === "") {
+            return;
+        }
+
         // 객체에서 값을 추출하여 사용
         setCurrentTime(setting.timeLimit);
 
-        getQuiz(setting.category);
-        if (currentTime !== -1) {
-            startTimer(currentTime);
+        if (setting.gameMode === "NORMAL") {
+            getQuizNormal(setting.category);
         }
+        startTimer(currentTime);
     }, [setting]);
 
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
-            alert("다음 문제로 이동");
+
+            setting.round = Number.parseInt(setting.round) + 1;
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+            sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
+
+            setTimeout(() => navigate("/host/game/round/result"), 500);
         }
     }, [currentTime])
 
-    const getQuiz = async (category) => {
-        const response = await fetch(`/quiz/getQuizNormal?category=${category}&roomId=${roomId}`, {
+    const getQuizNormal = async (category) => {
+        const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -51,6 +62,8 @@ const QuizGame = () => {
 
         const data = await response.json();
         setQuiz(data);
+        sessionStorage.setItem("answer", data.normal_answer);
+        sendMessage(`MESSAGE:${roomId}:QUIZID:${data.normal_id}`);
         setIsReady(true);
     };
 
@@ -66,13 +79,6 @@ const QuizGame = () => {
         }, 1000);
     }
 
-    const sendAnswer = (m) => {
-        if (isConnected && m.trim() && roomId) {
-            const message = "(Host):" + m;
-            sendMessage("MESSAGE:" + roomId + ":" + message);
-        }
-    };
-
     return (
         <>
             {isReady ? (
@@ -82,9 +88,9 @@ const QuizGame = () => {
                         <h1>문제 {setting.round}</h1>
                         <h3>{quiz.normal_quiz}</h3>
                         <Timer time={currentTime}/>
-                        <Options first={quiz.normal_first_choice} second={quiz.normal_second_choice}
-                                 third={quiz.normal_third_choice}
-                                 fourth={quiz.normal_fourth_choice}/>
+                        <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
+                                       third={quiz.normal_third_choice}
+                                       fourth={quiz.normal_fourth_choice}/>
                     </>
                 ) : setting.gameMode === "SINGING" ? (
                     // 노래부르기
@@ -99,7 +105,8 @@ const QuizGame = () => {
                     <h1>오류 발생</h1>
                 )
             ) : (
-                <h1>로딩안됨</h1>
+                <>
+                </>
             )}
         </>
     );

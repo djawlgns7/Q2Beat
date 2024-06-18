@@ -7,7 +7,9 @@ public class Player {
     private String room_id;
     private String player_name;
     private int player_team_id;
+    private int player_recent_answer;
     private int player_score;
+    private boolean isCorrect;
 
     public Player() {
 

@@ -3,64 +3,79 @@ import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
 import '../../css/Host/WaitingRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
+import {useModal} from "../context/ModalContext.jsx";
 
-const WaitingRoom = () => {
-    const {sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage} = useSocket();
-    const [name, setName] = useState(null);
+const Lobby = () => {
+    const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
+    const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
+        clearPlayInformation();
 
-        if (roomId && storedName !== null) {
-            setName(storedName);
-        } else {
-            navigate("/create-room")
-        }
     }, []);
 
     useEffect(() => {
-        const command = clientMessage.split(":")[0];
-        const content = clientMessage.split(":")[1];
+        setClientMessage("");
 
-        if (command === "NEWMEMBER") {
-            setParticipants([...participants, content]);
-            setClientMessage("");
-        } else if (command === "USERLEFT") {
-            setParticipants([...participants.filter((participant) => participant !== content)]);
-            setClientMessage("");
+        if (roomId !== null && roomId !== undefined) {
+            getPlayersList();
         }
     }, [clientMessage]);
+
+    const getPlayersList = async () => {
+        try {
+            const response = await fetch(`/quiz/player/list?roomId=${roomId}`)
+            if (!response.ok) {
+                throw new Error('Failed to get player list');
+            }
+            const data = await response.json();
+            setParticipants(data);
+        } catch (error) {
+            console.error('Error fetching player list:', error);
+        }
+    }
 
     const startQuiz = () => {
         if (isConnected.current && roomId) {
             const gameMode = "NORMAL";
-            sendMessage("START:" + roomId + ":" + gameMode);
+            sendMessage(`START:${roomId}:${gameMode}`);
 
             // 객체를 JSON 문자열로 변환하여 저장
             const setting = {
                 gameMode: "NORMAL",
                 round: 1,
-                maxRound: 10,
+                maxRound: 2,
                 timeLimit: 10,
                 category: "COMMON"
             };
             sessionStorage.setItem('setting', JSON.stringify(setting));
 
-            navigate("/quiz-game");
+            navigate("/host/game/count");
         }
+    }
+
+    const showQR = () => {
+        setModalType("QR");
+        setModalTitle("QR코드 표시");
+        setModalBody(`http://localhost:5173/player/game/join?roomNumber=${roomId}`)
+        showModal();
     }
 
     const exitRoom = () => {
         const reply = confirm("방을 나가시겠습니까?");
         if (reply) {
+            sendMessage(`MESSAGE:${roomId}:HOST:DISMISS`);
+
             sessionStorage.removeItem('hostName');
             sessionStorage.removeItem('roomId');
             setRoomId(null);
+            socketRef.current.close();
 
-            navigate("/");
+            navigate("/host/game/create");
         }
     }
 
@@ -78,7 +93,7 @@ const WaitingRoom = () => {
                         <div className="player-box">
                             <div>
                                 {participants.map((participant, index) => (
-                                    <div key={index} className="player">{participant}</div>
+                                    <div key={index} className="player">{participant.player_name}</div>
                                 ))}
                             </div>
                         </div>
@@ -96,7 +111,7 @@ const WaitingRoom = () => {
                             </div>
                             <div className="actions">
                                 <button onClick={startQuiz} className="action-btn">시작하기</button>
-                                <button className="action-btn">QR코드</button>
+                                <button className="action-btn" onClick={showQR}>QR코드</button>
                                 {/*<div className="room-link">링크:*/}
                                 {/*    http://localhost:5173/join-room?roomNumber={roomId}</div>*/}
                             </div>
@@ -109,4 +124,4 @@ const WaitingRoom = () => {
     );
 };
 
-export default WaitingRoom;
+export default Lobby;

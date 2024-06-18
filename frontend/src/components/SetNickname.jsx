@@ -13,7 +13,15 @@ const SetNickname = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post('/members/set-nickname', { nickname });
-            const member = JSON.parse(sessionStorage.getItem('member'));
+            let member = sessionStorage.getItem('member');
+
+            if (member && typeof member === 'string' && member.startsWith('{')) {
+                member = JSON.parse(member);
+            } else {
+                console.error('Invalid member data in session storage:', member);
+                return;
+            }
+
             member.memberUsername = nickname;
             sessionStorage.setItem('member', JSON.stringify(member));
             navigate('/main');

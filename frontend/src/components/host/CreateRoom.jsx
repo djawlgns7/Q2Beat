@@ -6,7 +6,7 @@ import '../../css/Host/CreateRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 
 const CreateRoom = () => {
-    const {sendMessage, roomId} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation, reconnectWebSocket} = useSocket();
     const [name, setName] = useState(null);
     const navigate = useNavigate();
 
@@ -14,17 +14,19 @@ const CreateRoom = () => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
 
+        clearPlayInformation();
+
         if (roomId && storedName !== null) {
-            navigate('/waiting-room');
+            navigate('/host/game/lobby');
         }
+
+        setTimeout(() => reconnectWebSocket(), 100);
     }, []);
 
     const createRoom = () => {
         sendMessage("CREATE:" + name);
         sessionStorage.setItem('hostName', name);
-        setTimeout(() => {
-            navigate('/waiting-room');
-        }, 100);
+            navigate('/host/game/lobby');
     };
 
     return (
@@ -38,6 +40,7 @@ const CreateRoom = () => {
                 <div>
                     <input
                         type="text"
+                        maxLength="14"
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter your name"
                     />

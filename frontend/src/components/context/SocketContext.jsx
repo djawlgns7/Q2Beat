@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const SocketContext = createContext();
 
@@ -6,16 +6,16 @@ export const useSocket = () => {
     return useContext(SocketContext);
 };
 
-export const SocketProvider = ({children}) => {
+export const SocketProvider = ({ children }) => {
     const socketRef = useRef();
     const [messages, setMessages] = useState([]);
     const [roomId, setRoomId] = useState(sessionStorage.getItem('roomId') || null);
-    const [quiz, setQuiz] = useState('');
+    const [quizId, setQuizId] = useState('');
     const [hostMessage, setHostMessage] = useState('');
     const [clientMessage, setClientMessage] = useState('');
     const isConnected = useRef(false);
 
-    useEffect(() => {
+    const connectWebSocket = () => {
         const socket = new WebSocket('ws://localhost:8080/ws');
 
         socket.onopen = () => {
@@ -25,12 +25,12 @@ export const SocketProvider = ({children}) => {
             const savedRoomId = sessionStorage.getItem('roomId');
             if (savedRoomId) {
                 const hostName = sessionStorage.getItem('hostName');
-                const participantName = sessionStorage.getItem('participantName');
+                const playerName = sessionStorage.getItem('playerName');
 
                 if (hostName) {
                     socket.send(`JOIN:HOST:${savedRoomId}:${hostName}`);
-                } else if (participantName) {
-                    socket.send(`JOIN:PLAYER:${savedRoomId}:${participantName}`);
+                } else if (playerName) {
+                    socket.send(`JOIN:PLAYER:${savedRoomId}:${playerName}`);
                 }
             }
         };
@@ -53,10 +53,12 @@ export const SocketProvider = ({children}) => {
                 setClientMessage(msgData);
             } else if (msgData.startsWith("START:")) {
                 setHostMessage(msgData.split(":")[1]);
-            } else if (msgData.startsWith("(Host)")) {
-                getQuiz(msgData.split(":")[1]);
-            } else if (msgData.startsWith("(Participant)")) {
-                setClientMessage(msgData);
+            } else if (msgData.startsWith("QUIZID:")) {
+                setQuizId(msgData.split(":")[1]);
+            } else if (msgData.startsWith("HOST:")) {
+                setHostMessage(msgData.split(":")[1]);
+            } else if (msgData.startsWith("PLAYER:")) {
+                setClientMessage(msgData.split(":")[1]);
             } else {
                 setMessages((prevMessages) => [...prevMessages, msgData]);
             }
@@ -64,13 +66,34 @@ export const SocketProvider = ({children}) => {
 
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server');
+            clearPlayInformation();
+            sessionStorage.removeItem('roomId');
+            sessionStorage.removeItem('hostName');
+            sessionStorage.removeItem('playerName');
             isConnected.current = false;
         };
 
         socketRef.current = socket;
+    };
+
+    useEffect(() => {
+        connectWebSocket();
 
         return () => {
-            socket.close();
+            socketRef.current.close();
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = '';  // Chrome requires returnValue to be set.
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, []);
 
@@ -80,28 +103,25 @@ export const SocketProvider = ({children}) => {
         }
     };
 
-    const getQuiz = async (quizId) => {
-        const response = await fetch(`/quiz/information?quizId=${quizId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+    const clearPlayInformation = () => {
+        sessionStorage.removeItem('setting');
+        sessionStorage.removeItem('answer');
+        sessionStorage.removeItem('gameMode');
+        sessionStorage.removeItem('isCorrect');
+        sessionStorage.removeItem('playerScore');
+    }
 
-        if (!response.ok) {
-            // 오류 처리
-            console.error('Failed to fetch quiz information');
-            return;
+    const reconnectWebSocket = () => {
+        if (socketRef.current) {
+            socketRef.current.close();
         }
-
-        const data = await response.json();
-        setQuiz(data);
-    };
+        connectWebSocket();
+    }
 
     return (
         <SocketContext.Provider value={{
-            sendMessage, messages, roomId, quiz, hostMessage, clientMessage, socketRef,
-            setRoomId, setMessages, setQuiz, setHostMessage, setClientMessage, isConnected
+            sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef,
+            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected, clearPlayInformation, reconnectWebSocket
         }}>
             {children}
         </SocketContext.Provider>
