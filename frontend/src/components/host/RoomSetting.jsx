@@ -15,12 +15,12 @@ const RoomSetting=()=>{
         //console.log(e.target.value+"\tSetting.jsx from jun")
         const [key,value]=e.target.value.split(' ');
         console.log("key:"+key+",value:"+value+"\tLobby.jsx from jun");
-        console.log(setting);
+        console.log(setting+"\tLobby.jsx from jun");
         setting={
             ...setting,
             [key]:value,
         }
-        console.log(setting);
+        console.log(setting+"\tLobby.jsx from jun");
     }
     const clickOnButton=()=>{
         // 객체를 JSON 문자열로 변환하여 저장
