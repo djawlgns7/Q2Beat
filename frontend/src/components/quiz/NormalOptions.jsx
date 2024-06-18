@@ -8,7 +8,7 @@ const NormalOptions = (options) => {
         width: "300px",
         height: "90px",
         margin: "15px 15px",
-        borderRadius: "8px",
+        borderRadius: "40px",
         color: "white",
         translate: "0 20px",
     }
