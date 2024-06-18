@@ -25,7 +25,7 @@ const Login = () => {
                     <span>개인정보 처리방침 | </span>
                     <span>이용약관 | </span>
                     <span>공지사항 | </span>
-                    <span>고객센터</span>
+                    <span>고객센터 | </span>
                     <span>테스트용</span>
                 </div>
             </div>
