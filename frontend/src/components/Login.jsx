@@ -6,6 +6,7 @@ import '../App.css';
 import '../css/PC.css';
 import '../css/Login.css';
 import Q2B from '../image/Q2BEAT_2.png';
+import Q2B_back from '../image/Q2Beat_background.png';
 
 const Login = () => {
     return (
@@ -16,9 +17,9 @@ const Login = () => {
                     <h1 className="title-p">Q2BEAT</h1>
                 </div>
                 <div className="login-btns">
-                    <GoogleLoginPage />
-                    <NaverLoginButton />
-                    <KakaoLoginButton />
+                    <GoogleLoginPage/>
+                    <NaverLoginButton/>
+                    <KakaoLoginButton/>
                 </div>
                 <div className="footer">
                     <span>서비스 약관 | </span>
@@ -27,6 +28,7 @@ const Login = () => {
                     <span>고객센터</span>
                 </div>
             </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };

@@ -1,18 +1,26 @@
 .main-btns {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 20px;
-    translate: 0px -20px;
-    margin: 20px;
+    gap: 30px;
+    margin: 50px;
 }
 
 .main-button {
     width: 300px;
-    height: 50px;
-    margin-bottom: 10px;
-    font-size: 20px;
+    height: 70px;
+    font-size: 25px;
     font-weight: bold;
-    border-radius: 10px;
     cursor: pointer;
+    translate: 15px;
+    background-color: #1A1F44;
+    color: white;
+    border: 3px solid #5169A2;
+    border-radius: 30px;
+}
+
+.main-button:hover {
+    cursor: pointer;
+    background-color: #5169A2;
+    border-color: #ffd800;
+    color: white;
 }

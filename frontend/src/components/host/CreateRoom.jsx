@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import '../../css/PC.css';
 import '../../css/Host/CreateRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 const CreateRoom = () => {
     const {sendMessage, roomId, clearPlayInformation} = useSocket();
@@ -36,8 +37,8 @@ const CreateRoom = () => {
                     <img src={Q2B} alt="Q2B" className="logoImage-p"/>
                     <h1 className="title-p">Q2BEAT</h1>
                 </div>
-                <h1 className="createRoom-title">방 이름 : </h1>
                 <div>
+                    <h2 className="createRoom-title">방 이름 : </h2>
                     <input
                         type="text"
                         maxLength="14"
@@ -48,6 +49,7 @@ const CreateRoom = () => {
                 <br/>
                 <button onClick={createRoom} className="createRoom">생성</button>
             </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };
