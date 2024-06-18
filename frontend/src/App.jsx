@@ -26,6 +26,9 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
+import AudioRecorder from "./components/test/AudioRecorder.jsx";
+import AudioRecorder2 from "./components/test/AudioRecorder2.jsx";
+import AudioRecorder3 from "./components/test/AudioRecorder3.jsx";
 
 function App() {
     return (
@@ -42,6 +45,11 @@ function App() {
                     <Route path="/audio" element={<AudioComparison/>}/>
                     <Route path="/host" element={<HostRoom/>}/>
                     <Route path="/participant" element={<ParticipantRoom/>}/>
+
+                    {/* 테스트 */}
+                    <Route path="/test/record" element={<AudioRecorder/>}/>
+                    <Route path="/test/record2" element={<AudioRecorder2/>}/>
+                    <Route path="/test/record3" element={<AudioRecorder3/>}/>
 
                     {/* 소켓 통신 부분 */}
 
