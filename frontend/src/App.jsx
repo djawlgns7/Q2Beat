@@ -26,6 +26,7 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
+import TimerTest from "./components/test/TimerTest.jsx";
 
 function App() {
     return (
@@ -42,6 +43,9 @@ function App() {
                     <Route path="/audio" element={<AudioComparison/>}/>
                     <Route path="/host" element={<HostRoom/>}/>
                     <Route path="/participant" element={<ParticipantRoom/>}/>
+
+                    {/* 테스트 */}
+                    <Route path="/timer/test" element={<TimerTest/>}/>
 
                     {/* 소켓 통신 부분 */}
 
