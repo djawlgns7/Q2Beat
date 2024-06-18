@@ -13,7 +13,7 @@ const QuizGame = () => {
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
     const [isReady, setIsReady] = useState(false);
-    const [timeout, setTimeout] = useState(false);
+    const [isTimeout, setIsTimeout] = useState(false);
     const intervalRef = useRef(null);
     const navigate = useNavigate();
 
@@ -38,16 +38,18 @@ const QuizGame = () => {
     }, [setting]);
 
     useEffect(() => {
-        if (timeout === true) {
-            clearInterval(intervalRef.current);
+        setTimeout(() => {
+            if (isTimeout === true) {
+                clearInterval(intervalRef.current);
 
-            setting.round = Number.parseInt(setting.round) + 1;
-            sessionStorage.setItem('setting', JSON.stringify(setting));
-            sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
+                setting.round = Number.parseInt(setting.round) + 1;
+                sessionStorage.setItem('setting', JSON.stringify(setting));
+                sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-            navigate("/host/game/round/result");
-        }
-    }, [timeout])
+                navigate("/host/game/round/result");
+            }
+        }, 1500)
+    }, [isTimeout])
 
     const getQuizNormal = async (category) => {
         const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
@@ -70,17 +72,9 @@ const QuizGame = () => {
         setIsReady(true);
     };
 
-    // const startTimer = (prevTime) => {
-    //     intervalRef.current = setInterval(() => {
-    //         setCurrentTime((prevTime) => {
-    //             if (prevTime <= 1) {
-    //                 clearInterval(intervalRef.current);
-    //                 return 0;
-    //             }
-    //             return prevTime - 1;
-    //         });
-    //     }, 10000);
-    // }
+    const handleTimeout = () => {
+        setIsTimeout(true);
+    }
 
     return (
         <>
@@ -95,14 +89,14 @@ const QuizGame = () => {
                                         <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
                                     ))}
                                 </div>
-                                <h1 className="quiz-title">문제 {setting.round}</h1>
+                                <h2 className="quiz-title">문제 {setting.round}</h2>
                                 <h3 className="quiz-text">{quiz.normal_quiz}</h3>
-                                <Timer time={currentTime} setTimeout2 = {setTimeout}/>
+                                <Timer time={currentTime - 1} onTimeout={handleTimeout}/>
                             </div>
                             <div className="answer-section">
                                 <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
                                                third={quiz.normal_third_choice}
-                                                   fourth={quiz.normal_fourth_choice}/>
+                                               fourth={quiz.normal_fourth_choice}/>
                             </div>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
