@@ -6,6 +6,7 @@ import '../../css/Host/CreateRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
 
+console.log("CreateRoom.jsx from jun");
 const CreateRoom = () => {
     const {sendMessage, roomId, clearPlayInformation} = useSocket();
     const [name, setName] = useState(null);

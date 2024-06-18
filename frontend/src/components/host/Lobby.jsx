@@ -7,7 +7,9 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import {useModal} from "../context/ModalContext.jsx";
 import Q2B_back from "../../image/Q2Beat_background.png";
 
+console.log("\tLobby.jsx from jun");
 const Lobby = () => {
+
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
     const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [name, setName] = useState(null);
@@ -21,9 +23,9 @@ const Lobby = () => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
         clearPlayInformation();
-
-        if (roomId && storedName !== null) {
-            setName(storedName);
+        //session에 방 이름 있으면 게임 진행. 없으면 /host/game/creat로.
+        if (roomId && storedName !== null) { console.log("방이름:"+storedName+"\tfrom Lobby.jsx jun")
+            setName(storedName)
         } else {
             navigate("/host/game/create")
         }
@@ -50,22 +52,13 @@ const Lobby = () => {
         }
     }
 
-    const startQuiz = () => {
+    const startQuiz = (gameType) => {
+        console.log("gameType:"+gameType+"start Quiz \tfrom Lobby.jsx jun")
         if (isConnected.current && roomId) {
             const gameMode = "NORMAL";
             sendMessage(`START:${roomId}:gameMode`);
-
-            // 객체를 JSON 문자열로 변환하여 저장
-            const setting = {
-                gameMode: "NORMAL",
-                round: 1,
-                maxRound: 2,
-                timeLimit: 10,
-                category: "COMMON"
-            };
-            sessionStorage.setItem('setting', JSON.stringify(setting));
-
-            navigate("/host/game/count");
+            //navigate("/host/game/count");
+            navigate("/host/game/setting/"+gameType);
         }
     }
 
@@ -120,19 +113,19 @@ const Lobby = () => {
                         <div className="game-options">
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">퀴즈</button>
-                                <button className="hover-button" onClick={startQuiz}>시작하기</button>
+                                <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">가사 맞추기</button>
-                                <button className="hover-button" onClick={startQuiz}>시작하기</button>
+                                <button className="hover-button" onClick={()=>{startQuiz(1)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
                                 <button className="option-btn-1">노래 부르기</button>
-                                <button className="hover-button" onClick={startQuiz}>시작하기</button>
+                                <button className="hover-button" onClick={()=>{startQuiz(2)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
                                 <button className="option-btn-1">포즈 따라하기</button>
-                                <button className="hover-button" onClick={startQuiz}>시작하기</button>
+                                <button className="hover-button" onClick={()=>{startQuiz(3)}}>시작하기</button>
                             </div>
                             {/*<div className="actions">*/}
                             {/*    <button onClick={startQuiz} className="action-btn">시작하기</button>*/}

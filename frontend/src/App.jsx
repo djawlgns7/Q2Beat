@@ -27,6 +27,7 @@ import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
+import RoomSetting from "./components/host/RoomSetting.jsx";
 
 function App() {
     return (
@@ -80,7 +81,11 @@ function App() {
                             <RoundResult/>
                         </SocketProvider>
                     }/>
-
+                    <Route path="/host/game/setting/:id" element={
+                        <SocketProvider>
+                            <RoomSetting/>
+                        </SocketProvider>
+                    }/>
                     {/* 플레이어 */}
                     <Route path="/player/game/join" element={
                         <SocketProvider>
