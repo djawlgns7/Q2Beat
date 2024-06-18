@@ -14,8 +14,13 @@ public class NoticeService {
     @Autowired
     private NoticeMapper noticeMapper;
 
-    public List<Notice> getNotice(){
-        return noticeMapper.getNotice();
+    public List<Notice> getNotice(int page, int pageSize){
+        int offset = (page - 1) * pageSize;
+        return noticeMapper.getNotice(pageSize, offset);
+    }
+
+    public int getNoticeCount(){
+        return noticeMapper.getNoticeCount();
     }
 
     public List<Qna> getQna(){

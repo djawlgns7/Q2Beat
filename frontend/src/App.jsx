@@ -6,8 +6,6 @@ import AudioComparison from "./components/AudioComparison.jsx";
 import HostRoom from "./components/host/HostRoom.jsx";
 import ParticipantRoom from "./components/player/ParticipantRoom.jsx";
 import {SocketProvider} from "./components/context/SocketContext.jsx";
-import ParticipantRoom2 from "./components/player/ParticipantRoom2.jsx";
-import HostRoom2 from "./components/host/HostRoom2.jsx";
 import CreateRoom from "./components/host/CreateRoom.jsx";
 import Lobby from "./components/host/Lobby.jsx";
 import JoinRoom from "./components/player/JoinRoom.jsx";
@@ -26,14 +24,13 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
-
-import QuizGame from "./components/Host/QuizGame.jsx";
 import Notice from "./components/Notice/Notice.jsx";
 import Qna from "./components/Notice/Qna.jsx";
 import NoticeBoard from "./components/Notice/NoticeBoard.jsx";
 
 function App() {
     return (
+        <ModalProvider>
         <Router>
             <Routes>
                 <Route path="/" element={<Login/>}/>
