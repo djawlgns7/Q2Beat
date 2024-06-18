@@ -26,6 +26,7 @@ const Login = () => {
                     <span>이용약관 | </span>
                     <span>공지사항 | </span>
                     <span>고객센터</span>
+                    <span>테스트용</span>
                 </div>
             </div>
         </div>
