@@ -18,29 +18,27 @@ import MainPage from "./components/MainPage.jsx";
 import NaverCallback from "./components/NaverCallback.jsx";
 import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/Host/QuizGame.jsx";
-
-import BoardList from './components/Board/BoardList.jsx';
-import BoardDetails from './components/Board/BoardDetails.jsx';
-import SetNickname from "./components/SetNickname.jsx";
+import Notice from "./components/Notice/Notice.jsx";
+import Qna from "./components/Notice/Qna.jsx";
+import NoticeBoard from "./components/Notice/NoticeBoard.jsx";
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/set-nickname" element={<SetNickname />} />
-                <Route path="/main" element={<MainPage />} />
-                <Route path="/callback" element={<NaverCallback />} />
+                <Route path="/" element={<Login/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/set-nickname" element={<SetNickname/>}/>
+                <Route path="/main" element={<MainPage/>}/>
+                <Route path="/callback" element={<NaverCallback/>}/>
                 <Route path="/reset" element={<Reset/>}/>
                 <Route path="/chat-room" element={<ChatRoom/>}/>
                 <Route path="/audio" element={<AudioComparison/>}/>
                 <Route path="/host" element={<HostRoom/>}/>
                 <Route path="/participant" element={<ParticipantRoom/>}/>
-
-                <Route path="/board" element={<BoardList/>} />
-                <Route path="/board/:qbod_id" element={<BoardDetails/>} />
-
+                <Route path="/notices" element={<Notice/>}/>
+                <Route path="/qna" element={<Qna/>}/>
+                <Route path="/notices-board" element={<NoticeBoard/>}/> {/* NoticeBoard 경로 추가 */}
 
                 {/* 소켓 통신 부분 */}
                 <Route path="/participant2" element={
