@@ -9,7 +9,6 @@ import Q2B_back from "../../image/Q2Beat_background.png";
 
 console.log("\tLobby.jsx from jun");
 const Lobby = () => {
-
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
     const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [name, setName] = useState(null);
@@ -23,7 +22,7 @@ const Lobby = () => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
         clearPlayInformation();
-        //session에 방 이름 있으면 게임 진행. 없으면 /host/game/creat로.
+        //session에 방 이름 있으면 게임 진행. 없으면 /host/game/create로.
         if (roomId && storedName !== null) { console.log("방이름:"+storedName+"\tfrom Lobby.jsx jun")
             setName(storedName)
         } else {
@@ -116,7 +115,7 @@ const Lobby = () => {
                                 <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">가사 맞추기</button>
+                                <button className="option-btn-1">노래 맞추기</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(1)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">

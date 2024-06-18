@@ -2,11 +2,15 @@ const NormalOptions = (options) => {
     const box = {
         display: "inline-block",
         justifyContent: "center",
-        backgroundColor: "gray",
-        padding: "5px 10px",
-        width: "200px",
-        height: "100px",
-        margin: "5px 10px",
+        backgroundColor: "#1A1F44",
+        border: "5px solid #5169A2",
+        padding: "20px 10px",
+        width: "300px",
+        height: "90px",
+        margin: "15px 15px",
+        borderRadius: "8px",
+        color: "white",
+        translate: "0 20px",
     }
 
     return (

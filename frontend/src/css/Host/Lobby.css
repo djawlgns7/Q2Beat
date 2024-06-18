@@ -42,7 +42,7 @@
 
 .room-number {
     font-size: 30px;
-    translate: -10px 15px;
+    translate: -35px 15px;
 }
 
 .qrCode-btn {
@@ -50,8 +50,8 @@
     font-size: 25px;
     border-radius: 8px;
     width: 50px;
-    height: 45px;
-    translate: -50px 10px;
+    height: 42px;
+    translate: -75px 10px;
 }
 
 .qrCode-btn:hover {
@@ -65,7 +65,7 @@
     font-size: 25px;
     font-weight: bold;
     border-radius: 8px;
-    translate: -20px 7px;
+    translate: -70px 10px;
 }
 
 
