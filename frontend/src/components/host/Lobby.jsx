@@ -123,7 +123,7 @@ const Lobby = () => {
                                 <button className="hover-button" onClick={startQuiz}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">가사 맞추기</button>
+                                <button className="option-btn-1">노래 맞추기</button>
                                 <button className="hover-button" onClick={startQuiz}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
