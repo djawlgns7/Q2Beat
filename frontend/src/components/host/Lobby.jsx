@@ -22,7 +22,7 @@ const Lobby = () => {
         } else {
             navigate("/host/game/create")
         }
-    }, []);
+    }, [roomId, navigate, clearPlayInformation]);
 
     useEffect(() => {
         setClientMessage("");
@@ -62,6 +62,26 @@ const Lobby = () => {
 
             navigate("/host/game/count");
         }
+    }
+
+    const startListening = () => {
+        if (isConnected.current && roomId) {
+            const gameMode = "LISTENING";
+            sendMessage(`START:${roomId}:${gameMode}`);
+
+            // 객체를 JSON 문자열로 변환하여 저장
+            const setting = {
+                gameMode: "LISTENING",
+                round: 1,
+                maxRound: 2,
+                timeLimit: 10,
+                category: "COMMON"
+            };
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+
+            navigate("/host/game/count");
+        }
+
     }
 
     const showQR = () => {
@@ -109,7 +129,7 @@ const Lobby = () => {
                         <div className="game-options">
                             <div className="option-1">
                                 <button className="option-btn-1">퀴즈</button>
-                                <button className="option-btn-1">가사 맞추기</button>
+                                <button className="option-btn-1" onClick={startListening}>노래 맞추기</button>
                             </div>
                             <div className="option-2">
                                 <button className="option-btn-1">노래 부르기</button>

@@ -16,7 +16,7 @@ public interface PlayerMapper {
     Player getPlayerInformation(Player player);
 
     @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%'")
-    List<Player> getPlayerList(@Param("room_id")String room_id);
+    List<Player> getPlayerList(@Param("room_id") String room_id);
 
     @Select("select count(player_name) from player where room_id = #{room_id}")
     int getPlayerNumber(String room_id);

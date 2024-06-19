@@ -1,4 +1,6 @@
-const LyricRoundResult = (props) => {
+import React from 'react';
+
+const ListeningRoundResult = (props) => {
     const box = {
         display: "inline-block",
         justifyContent: "center",
@@ -7,16 +9,16 @@ const LyricRoundResult = (props) => {
         width: "200px",
         height: "100px",
         margin: "5px 10px",
-    }
+    };
 
     return (
         <>
-            <h3>정답은: {props.answer}입니다</h3>
+            <h3>정답은: {props.correctAnswer}</h3>
             <div>
-                <span style={box}>{props.answerNumber.answerOne}</span>
+                <span style={box}>정답자 수: {props.correctCount}</span>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default LyricRoundResult;
+export default ListeningRoundResult;

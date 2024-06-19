@@ -3,7 +3,7 @@ import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
 import NormalOptions from "../quiz/NormalOptions.jsx";
 import {useNavigate} from "react-router-dom";
-import LyricOptions from "../quiz/LyricOptions.jsx";
+import ListeningQuiz from "../quiz/ListeningQuiz.jsx";
 
 const QuizGame = () => {
     const {sendMessage, roomId} = useSocket();
@@ -31,6 +31,8 @@ const QuizGame = () => {
 
         if (setting.gameMode === "NORMAL") {
             getQuizNormal(setting.category);
+        } else if (setting.gameMode === "LISTENING") {
+            getQuizListening();
         }
         startTimer(currentTime);
     }, [setting]);
@@ -43,7 +45,7 @@ const QuizGame = () => {
             sessionStorage.setItem('setting', JSON.stringify(setting));
             sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-            navigate("/host/game/round/result");
+            setTimeout(() => navigate("/host/game/round/result"), 500);
         }
     }, [currentTime])
 
@@ -66,6 +68,29 @@ const QuizGame = () => {
         sessionStorage.setItem("answer", data.normal_answer);
         sendMessage(`MESSAGE:${roomId}:QUIZID:${data.normal_id}`);
         setIsReady(true);
+    };
+
+    const getQuizListening = async () => {
+        try {
+            const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch quiz information');
+            }
+
+            const data = await response.json();
+            setQuiz(data);
+            sessionStorage.setItem("answer", data.listening_answer);
+            sendMessage(`MESSAGE:${roomId}:QUIZID:${data.listening_id}`);
+            setIsReady(true);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     const startTimer = (prevTime) => {
@@ -96,13 +121,12 @@ const QuizGame = () => {
                 ) : setting.gameMode === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : setting.gameMode === "LYRIC" ? (
-                    // 가사 맞추기
+                ) : setting.gameMode === "LISTENING" ? (
+                    // 노래 맞추기
                     <>
-                        <h1>가사맞추기</h1>
-                        <h3>{quiz.lyric_quiz}</h3>
+                        <h1>문제 {setting.round}</h1>
                         <Timer time={currentTime}/>
-                        <LyricOptions first={ quiz.lyric_text_answer} />
+                        <ListeningQuiz quiz={quiz} />
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기

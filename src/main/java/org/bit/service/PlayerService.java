@@ -60,4 +60,5 @@ public class PlayerService {
     public List<Player> getPlayerRank(String roomId) {
         return playerMapper.getPlayerRank(roomId);
     }
+
 }

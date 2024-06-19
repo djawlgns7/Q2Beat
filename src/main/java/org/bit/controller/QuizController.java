@@ -4,16 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.bit.model.Player;
 import org.bit.model.QuizHistory;
 import org.bit.model.quiz.PlayerAnswerNumbers;
+import org.bit.model.quiz.QuizListening;
 import org.bit.model.quiz.QuizNormal;
-import org.bit.model.RoomInformation;
 import org.bit.service.PlayerService;
 import org.bit.service.QuizService;
 import org.bit.service.RoomService;
-import org.springframework.security.core.parameters.P;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/quiz")
@@ -123,4 +124,68 @@ public class QuizController {
 
         return playerService.getPlayerList(roomIdString);
     }
+
+    @GetMapping("/get/listening")
+    public ResponseEntity<QuizListening> getQuizListening(@RequestParam("roomId") String roomId) {
+        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
+
+        List<Integer> quizIds = quizService.getAllQuizListeningIds();
+        Set<Integer> usedQuizIds = new HashSet<>(quizService.getUsedQuizIds(roomId));
+        QuizHistory quizHistory = new QuizHistory();
+        quizHistory.setRoom_id(roomId);
+
+        System.out.println("Quiz IDs: " + quizIds);
+        System.out.println("Used Quiz IDs: " + usedQuizIds);
+        System.out.println("Quiz History: " + quizHistory);
+
+        int quizNumber = quizIds.size();
+        if (usedQuizIds.size() >= quizNumber) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No unused quiz available");
+        }
+
+        int quizId;
+        do {
+            int randomIndex = (int) (Math.random() * quizNumber);
+            quizId = quizIds.get(randomIndex);
+            System.out.println("Selected Quiz ID: " + quizId);  // 선택된 Quiz ID 로그 출력
+        } while (usedQuizIds.contains(quizId));
+
+        quizHistory.setQuiz_id(quizId);
+        if (!roomService.insertQuizHistory(quizHistory)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to insert quiz history");
+        }
+
+        System.out.println("Inserted Quiz History: " + quizHistory);  // 삽입된 Quiz History 로그 출력
+
+        QuizListening quizListening = quizService.getQuizListening(quizId);
+        System.out.println("Quiz Listening: " + quizListening);  // Quiz Listening 로그 출력
+
+        return ResponseEntity.ok(quizListening);
+    }
+
+
+    @PostMapping("/send/answer/listening")
+    public Player checkListeningAnswer(@RequestParam("quizId") int quizId,
+                                       @RequestParam("roomId") String roomId,
+                                       @RequestParam("playerName") String playerName,
+                                       @RequestParam("answer") String answer) {
+        int result = quizService.gradingListening(quizId, answer);
+
+        Player player = playerService.getPlayer(new Player(roomId, playerName));
+        player.setCorrect(false);
+
+        if (result == 1) {
+            player.setPlayer_score(player.getPlayer_score() + 1);
+            player.setCorrect(true);
+            playerService.updatePlayerScore(player);
+        }
+
+        return player;
+    }
+
+    @GetMapping("/get/round/result/listening")
+    public List<Player> getRoundResultListening(@RequestParam("roomId") String roomId) {
+        return playerService.getPlayerList(roomId);
+    }
+
 }

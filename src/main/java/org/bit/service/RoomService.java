@@ -42,4 +42,9 @@ public class RoomService {
         playerMapper.clearPlayer(id);
         roomMapper.deleteRoom(id);
     }
+
+    public int getLastQuizIdByRoomId(String roomId) {
+        return roomMapper.getLastQuizIdByRoomId(roomId);
+    }
+
 }

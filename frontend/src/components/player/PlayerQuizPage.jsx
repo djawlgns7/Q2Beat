@@ -5,13 +5,14 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
+import ListeningText from "../quiz/ListeningText.jsx";
 
 const PlayerQuizPage = () => {
     const {sendMessage, roomId, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
-    const answer = useRef(0);
+    const answer = useRef("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,12 +30,12 @@ const PlayerQuizPage = () => {
 
             setTimeout(() => {
                 navigate("/player/game/round/result");
-            }, 100);
+            }, 500);
         }
     }, [hostMessage]);
 
-    const prepareAnswer = (buttonAnswer) => {
-        answer.current = buttonAnswer;
+    const prepareAnswer = (inputAnswer) => {
+        answer.current = inputAnswer;
     }
 
     const sendAnswer = async (gameMode) => {
@@ -42,8 +43,8 @@ const PlayerQuizPage = () => {
             gameMode = "normal";
         } else if (gameMode === "SINGING") {
             gameMode = "singing";
-        } else if (gameMode === "LYRIC") {
-            gameMode = "lyric";
+        } else if (gameMode === "LISTENING") {
+            gameMode = "listening";
         } else if (gameMode === "POSE") {
             gameMode = "pose";
         } else {
@@ -51,27 +52,21 @@ const PlayerQuizPage = () => {
             return;
         }
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&player_recent_answer=${answer.current}&room_id=R${roomId}&player_name=${playerName.current}`, {
-            method: "GET",
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=${roomId}&playerName=${playerName.current}`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
         });
 
         if (!response.ok) {
-            // 오류 처리
             console.error('Failed to send answer');
             return;
         }
 
         const data = await response.json();
 
-        if (data.isCorrect === "true") {
-            sessionStorage.setItem("isCorrect", data.correct);
-        } else {
-            sessionStorage.setItem("isCorrect", data.correct);
-        }
-
+        sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
     };
 
@@ -87,12 +82,9 @@ const PlayerQuizPage = () => {
                 ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : gameMode.current === "LYRIC" ? (
-                    // 가사 맞추기
-                    <>
-                        <h1>가사 맞추기</h1>
-                        <LyricButton prepareAnswer={prepareAnswer}/>
-                    </>
+                ) : gameMode.current === "LISTENING" ? (
+                    // 노래 맞추기
+                    <ListeningText prepareAnswer={prepareAnswer}/>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>
