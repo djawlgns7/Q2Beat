@@ -23,10 +23,11 @@ const Lobby = () => {
         const storedName = sessionStorage.getItem('hostName');
         clearPlayInformation();
         //session에 방 이름 있으면 게임 진행. 없으면 /host/game/create로.
-        if (roomId && storedName !== null) { console.log("방이름:"+storedName+"\tfrom Lobby.jsx jun")
-            setName(storedName)
+        if (roomId && storedName !== null) {
+            console.log("방이름:"+storedName+"\tfrom Lobby.jsx jun");
+            setName(storedName);
         } else {
-            navigate("/host/game/create")
+            navigate("/host/game/create");
         }
     }, []);
 
