@@ -1,5 +1,5 @@
 import {useParams,useNavigate } from "react-router-dom";
-
+import '../../css/PC.css'
 
 const RoomSetting=()=>{
     const gameType=String(useParams().id);
