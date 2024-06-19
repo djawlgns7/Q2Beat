@@ -38,7 +38,6 @@ export const SocketProvider = ({ children }) => {
         socket.onmessage = (message) => {
             const msgData = message.data;
             if (msgData.startsWith("ROOMID:")) {
-                alert("adf");
                 const newRoomId = msgData.split(":")[1];
                 setRoomId(newRoomId);
                 sessionStorage.setItem('roomId', newRoomId);

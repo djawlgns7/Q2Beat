@@ -20,6 +20,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(myWebSocketHandler, "/ws").setAllowedOrigins("http://localhost:5173", "https://q2beat.vercel.app/");
+        registry.addHandler(myWebSocketHandler, "/ws").setAllowedOrigins("http://localhost:5173", "https://q2beat.vercel.app");
     }
 }

@@ -6,17 +6,17 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://bit-two.com/q2beat/',
+        target: 'https://bit-two.com/q2beat',
         changeOrigin: true,
         secure: false,
       },
       '/quiz': {
-        target: 'https://bit-two.com/q2beat/',
+        target: 'https://bit-two.com/q2beat',
         changeOrigin: true,
         secure: false,
       },
       '/naver': {
-        target: 'https://bit-two.com/q2beat/',
+        target: 'https://bit-two.com/q2beat',
         changeOrigin: true,
         secure: false,
       }

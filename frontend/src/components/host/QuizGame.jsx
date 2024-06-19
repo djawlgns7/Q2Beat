@@ -29,7 +29,7 @@ const QuizGame = () => {
         setCurrentTime(setting.timeLimit);
 
         if (setting.gameMode === "NORMAL") {
-            getQuizNormal(setting.category);
+            setTimeout(() => getQuizNormal(setting.category), 1000);
         }
         startTimer(currentTime);
     }, [setting]);
@@ -47,6 +47,7 @@ const QuizGame = () => {
     }, [currentTime])
 
     const getQuizNormal = async (category) => {
+        console.log(`/quiz/get/normal?category=${category}&roomId=${roomId}`);
         const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {

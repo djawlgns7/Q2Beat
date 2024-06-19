@@ -63,6 +63,19 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperty 'file.encoding', 'UTF-8'
+}
+
+tasks.withType(JavaExec) {
+    environment 'JAVA_TOOL_OPTIONS', '-Dfile.encoding=UTF-8'
+}
+
+
 war {
     archiveFileName = 'q2beat.war'
 }
