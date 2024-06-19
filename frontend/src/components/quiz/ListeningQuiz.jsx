@@ -27,7 +27,7 @@ const ListeningQuiz = ({ quiz }) => {
             <h3>노래 맞추기 문제</h3>
             {quiz && quiz.listening_url && (
                 <div style={{ textAlign: 'center', margin: '1rem 0' }}>
-                    <YouTube videoId={extractVideoId(quiz.listening_url)} onReady={onReady} />
+                    <YouTube videoId={extractVideoId(quiz.listening_url)} onReady={onReady} ref={playerRef} />
                 </div>
             )}
         </div>

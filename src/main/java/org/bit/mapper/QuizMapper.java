@@ -25,15 +25,15 @@ public interface QuizMapper {
     @Select("SELECT lyric_id FROM quiz_listening")
     List<Integer> getAllQuizListeningIds();
 
-    @Select("SELECT * FROM quiz_listening WHERE lyric_id = #{listening_id}")
-    QuizListening getQuizListening(@Param("listening_id") int listening_id);
-
-    @Select("SELECT COUNT(*) FROM quiz_listening WHERE lyric_id = #{listening_id} AND lyric_answer = #{listening_answer}")
+    @Select("SELECT COUNT(*) FROM quiz_listening WHERE listening_id = #{listening_id} AND lyric_answer = #{listening_answer}")
     int gradingListening(@Param("listening_id") int listening_id, @Param("listening_answer") String listening_answer);
 
     @Select("SELECT quiz_id FROM quiz_history WHERE room_id = #{roomId}")
     List<Integer> getUsedQuizIds(@Param("roomId") String roomId);
 
-    @Select("SELECT lyric_id FROM quiz_listening")
+    @Select("SELECT * FROM quiz_listening WHERE listening_id = #{listening_id}")
+    QuizListening getQuizListening(@Param("listening_id") int listeningId);
+
+    @Select("SELECT listening_id FROM quiz_listening")
     List<Integer> getListeningQuizNumberList();
 }

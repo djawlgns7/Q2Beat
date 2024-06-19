@@ -21,16 +21,17 @@ const ListeningText = ({ prepareAnswer }) => {
                 }
 
                 const quizData = await response.json();
+                console.log("Listening Quiz Data:", quizData); // 로그 추가
                 setQuiz(quizData);
-                sessionStorage.setItem('quizId', quizData.lyric_id);
+                sessionStorage.setItem('quizId', quizData.listening_id);
             } catch (error) {
                 console.error('Error fetching quiz:', error);
             }
         };
 
-
         fetchQuiz();
     }, [roomId]);
+
 
     const handleAnswerChange = (e) => {
         setAnswer(e.target.value);

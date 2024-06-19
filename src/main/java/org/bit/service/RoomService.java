@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Data
@@ -48,4 +49,7 @@ public class RoomService {
         roomMapper.deleteRoom(id);
     }
 
+    public Set<Integer> getUsedQuizIds(String roomId) {
+        return roomMapper.getUsedQuizIds(roomId);
+    }
 }
