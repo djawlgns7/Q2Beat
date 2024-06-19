@@ -1,6 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {useSocket} from "../context/SocketContext.jsx";
+import '../../css/PC.css'
+import '../../css/Host/QuizResult.css'
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 const QuizResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -53,22 +56,27 @@ const QuizResult = () => {
 
     return (
         <>
-            <h1>결과</h1>
-
             {isReady ? (
                 setting.gameMode === "NORMAL" ? (
                     // 일반 게임
                     <>
-                        <div>
-                            <ul>
-                                {players.map((player, index) => (
-                                    <li key={index}>
-                                        <span>{index + 1}등 &nbsp;</span>
-                                        <span>{player.player_name} &nbsp;</span>
-                                        <span>{player.player_score}점</span>
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="result-container">
+                            <div className="result-box">
+                                <h1>결과</h1>
+                                <ul className="result-list">
+                                    {players.map((player, index) => (
+                                        <li key={index}>
+                                            <span className="index-player">{index + 1}등 &nbsp;</span>
+                                            <span className="index-player">{player.player_name} &nbsp;</span>
+                                            <span className="index-player">{player.player_score}점</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="result-btn">
+                                <button onClick={returnLobby} className="endGame-button">나가기</button>
+                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p-result"/>
                         </div>
                     </>
                 ) : setting.gameMode === "SINGING" ? (
@@ -99,8 +107,6 @@ const QuizResult = () => {
                 <>
                 </>
             )}
-
-            <button onClick={returnLobby}>대기실로 돌아가기</button>
         </>
     );
 }

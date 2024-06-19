@@ -1,14 +1,15 @@
 .login-btns {
-    display: block;
+    display: flex;
     width: 100%;
     padding: 15px;
     margin: 10px 0;
     border: none;
-    translate: 0px -40px;
+    translate: -35px -0px;
 }
 
 .footer {
     color: white;
-    font-weight: lighter;
-    margin-left: 20px;
+    margin-top: 20px;
+    translate: 0px 50px;
 }
+

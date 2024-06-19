@@ -4,6 +4,9 @@ import Timer from "../quiz/Timer.jsx";
 import NormalOptions from "../quiz/NormalOptions.jsx";
 import {useNavigate} from "react-router-dom";
 import ListeningQuiz from "../quiz/ListeningQuiz.jsx";
+import '../../css/PC.css'
+import '../../css/Host/QuizGame.css'
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 const QuizGame = () => {
     const {sendMessage, roomId} = useSocket();
@@ -11,8 +14,11 @@ const QuizGame = () => {
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
     const [isReady, setIsReady] = useState(false);
+    const [isTimeout, setIsTimeout] = useState(false);
     const intervalRef = useRef(null);
     const navigate = useNavigate();
+
+    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -26,24 +32,22 @@ const QuizGame = () => {
             return;
         }
 
-        // 객체에서 값을 추출하여 사용
-        setCurrentTime(setting.timeLimit);
-
         if (setting.gameMode === "NORMAL") {
             getQuizNormal(setting.category);
         } else if (setting.gameMode === "LISTENING") {
             getQuizListening();
         }
-        startTimer(currentTime);
+        setCurrentTime(setting.timeLimit);
     }, [setting]);
 
     useEffect(() => {
-        if (currentTime === 0) {
-            clearInterval(intervalRef.current);
+        setTimeout(() => {
+            if (isTimeout === true) {
+                clearInterval(intervalRef.current);
 
-            setting.round = Number.parseInt(setting.round) + 1;
-            sessionStorage.setItem('setting', JSON.stringify(setting));
-            sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
+                setting.round = Number.parseInt(setting.round) + 1;
+                sessionStorage.setItem('setting', JSON.stringify(setting));
+                sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
             setTimeout(() => navigate("/host/game/round/result"), 500);
         }
@@ -103,6 +107,8 @@ const QuizGame = () => {
                 return prevTime - 1;
             });
         }, 1000);
+    const handleTimeout = () => {
+        setIsTimeout(true);
     }
 
     return (
@@ -111,12 +117,24 @@ const QuizGame = () => {
                 setting.gameMode === "NORMAL" ? (
                     // 일반 게임
                     <>
-                        <h1>문제 {setting.round}</h1>
-                        <h3>{quiz.normal_quiz}</h3>
-                        <Timer time={currentTime}/>
-                        <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
-                                       third={quiz.normal_third_choice}
-                                       fourth={quiz.normal_fourth_choice}/>
+                        <div className="game-container">
+                            <div className="quiz-section">
+                                <div className="circle-header-game">
+                                    {colors.map((color, index) => (
+                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
+                                    ))}
+                                </div>
+                                <h2 className="quiz-title">문제 {setting.round}</h2>
+                                <h3 className="quiz-text">{quiz.normal_quiz}</h3>
+                                <Timer time={currentTime - 1} onTimeout={handleTimeout}/>
+                            </div>
+                            <div className="answer-section">
+                                <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
+                                               third={quiz.normal_third_choice}
+                                               fourth={quiz.normal_fourth_choice}/>
+                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                        </div>
                     </>
                 ) : setting.gameMode === "SINGING" ? (
                     // 노래부르기

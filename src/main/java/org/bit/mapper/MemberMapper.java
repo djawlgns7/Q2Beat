@@ -8,6 +8,7 @@ import org.bit.model.MemberPlatform;
 public interface MemberMapper {
 
     @Insert("INSERT INTO member (member_username, member_name, member_platform, member_enrollment, member_email) VALUES (#{memberUsername}, #{memberName}, #{memberPlatform}, CURRENT_TIMESTAMP, #{memberEmail})")
+    @Options(useGeneratedKeys = true, keyProperty = "memberid") //추가 됨 재완
     void insertMember(Member member);
 
     @Select("SELECT * FROM member WHERE member_username = #{memberUsername} AND member_platform = #{memberPlatform}")
