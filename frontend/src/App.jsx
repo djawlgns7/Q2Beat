@@ -22,7 +22,11 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
-import TimerTest from "./components/Test/TimerTest.jsx";
+import Notice from "./components/Notice/Notice.jsx";
+import Qna from "./components/Notice/Qna.jsx";
+import NoticeBoard from "./components/Notice/NoticeBoard.jsx";
+import TimerTest from "./components/test/TimerTest.jsx";
+import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/Test/AudioRecorder.jsx";
 
 function App() {
@@ -42,6 +46,14 @@ function App() {
                     <Route path="/test/timer" element={<TimerTest/>}/>
                     <Route path="/test/record" element={<AudioRecorder/>}/>
                     <Route path="/audio" element={<AudioComparison/>}/>
+                    <Route path="/host" element={<HostRoom/>}/>
+                    <Route path="/participant" element={<ParticipantRoom/>}/>
+                    <Route path="/notices" element={<Notice/>}/>
+                    <Route path="/qna" element={<Qna/>}/>
+                    <Route path="/notices-board" element={<NoticeBoard/>}/> {/* NoticeBoard 경로 추가 */}
+
+                    {/* 테스트 */}
+                    <Route path="/timer/test" element={<TimerTest/>}/>
 
                     {/* 소켓 통신 부분 */}
 
@@ -76,7 +88,11 @@ function App() {
                             <RoundResult/>
                         </SocketProvider>
                     }/>
-
+                    <Route path="/host/game/setting/:id" element={
+                        <SocketProvider>
+                            <RoomSetting/>
+                        </SocketProvider>
+                    }/>
                     {/* 플레이어 */}
                     <Route path="/player/game/join" element={
                         <SocketProvider>

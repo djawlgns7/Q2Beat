@@ -23,6 +23,8 @@
     "react-naver-login": "^0.1.4",
     "react-router-dom": "^6.23.1",
     "react-transition-group": "^4.4.5",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.11"
   },
   "devDependencies": {
