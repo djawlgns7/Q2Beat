@@ -61,4 +61,8 @@ public class PlayerService {
         return playerMapper.getPlayerRank(roomId);
     }
 
+    public String getAnswerListenings(String roomId, String answer) {
+        return playerMapper.getAnswerListenings(roomId, answer);
+    }
+
 }

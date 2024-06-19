@@ -63,6 +63,7 @@ const Lobby = () => {
     }
 
     const startListening = () => {
+        const category = 'COMMON'; // 사용할 category 설정
         if (isConnected.current && roomId) {
             const gameMode = "LISTENING";
             sendMessage(`START:${roomId}:${gameMode}`);
@@ -73,14 +74,15 @@ const Lobby = () => {
                 round: 1,
                 maxRound: 2,
                 timeLimit: 10,
-                category: "COMMON"
+                category: category
             };
             sessionStorage.setItem('setting', JSON.stringify(setting));
+            sessionStorage.setItem('category', category); // category 값을 세션에 저장
 
             navigate("/host/game/count");
         }
+    };
 
-    }
 
     const showQR = () => {
         setModalType("QR");
@@ -134,11 +136,10 @@ const Lobby = () => {
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">퀴즈</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
-                                <button className="option-btn-1" onClick={startListening}>노래 맞추기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">노래 맞추기</button>
-                                <button className="hover-button" onClick={()=>{startQuiz(1)}}>시작하기</button>
+                                <button className="hover-button" onClick={startListening}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
                                 <button className="option-btn-1">노래 부르기</button>

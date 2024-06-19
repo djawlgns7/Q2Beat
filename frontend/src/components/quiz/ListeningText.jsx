@@ -4,25 +4,33 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const ListeningText = ({ prepareAnswer }) => {
     const [quiz, setQuiz] = useState(null);
     const [answer, setAnswer] = useState('');
+    const roomId = sessionStorage.getItem('roomId');
 
     useEffect(() => {
         const fetchQuiz = async () => {
             try {
-                const response = await fetch(`/quiz/get/listening?roomId=1`);
+                const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
                 if (!response.ok) {
-                    console.error('Failed to fetch quiz');
-                    return;
+                    throw new Error('Failed to fetch quiz information');
                 }
+
                 const quizData = await response.json();
                 setQuiz(quizData);
-                sessionStorage.setItem('quizId', quizData.listening_id);
+                sessionStorage.setItem('quizId', quizData.lyric_id);
             } catch (error) {
                 console.error('Error fetching quiz:', error);
             }
         };
 
+
         fetchQuiz();
-    }, []);
+    }, [roomId]);
 
     const handleAnswerChange = (e) => {
         setAnswer(e.target.value);

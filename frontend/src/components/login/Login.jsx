@@ -5,7 +5,7 @@ import KakaoLoginButton from './KakaoLogin';
 import '../../App.css';
 import '../../css/PC.css';
 import '../../css/Login.css';
-import Q2B from '../image/Q2BEAT_2.png';
+import Q2B from '../../image/Q2BEAT_2.png';
 import Q2B_back from '../../image/Q2Beat_background.png';
 
 const Login = () => {

@@ -24,7 +24,7 @@ public interface RoomMapper {
     @Delete("delete from quiz_history where room_id = #{room_id}")
     int clearQuizHistory(String room_id);
 
-    @Select("SELECT quiz_id FROM quiz_history WHERE room_id = #{roomId} ORDER BY id DESC LIMIT 1")
-    int getLastQuizIdByRoomId(@Param("roomId") String roomId);
+    @Select("SELECT COUNT(*) FROM quiz_history WHERE room_id = #{roomId} AND quiz_id = #{quizId}")
+    int getQuizHistoryCount(@Param("roomId") String roomId, @Param("quizId") int quizId);
 
 }

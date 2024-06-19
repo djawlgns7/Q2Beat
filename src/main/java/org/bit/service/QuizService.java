@@ -45,4 +45,8 @@ public class QuizService {
     public List<Integer> getUsedQuizIds(String roomId) {
         return quizMapper.getUsedQuizIds(roomId);
     }
+
+    public List<Integer> getListeningQuizNumberList() {
+        return quizMapper.getListeningQuizNumberList();
+    }
 }

@@ -49,10 +49,10 @@ const QuizGame = () => {
                 sessionStorage.setItem('setting', JSON.stringify(setting));
                 sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-            setTimeout(() => navigate("/host/game/round/result"), 500);
-        }
-    }, [currentTime])
-
+                setTimeout(() => navigate("/host/game/round/result"), 500);
+            }
+        }, [currentTime])
+    })
     const getQuizNormal = async (category) => {
         const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
@@ -90,12 +90,14 @@ const QuizGame = () => {
             const data = await response.json();
             setQuiz(data);
             sessionStorage.setItem("answer", data.listening_answer);
-            sendMessage(`MESSAGE:${roomId}:QUIZID:${data.listening_id}`);
+            sendMessage(`MESSAGE:${roomId}:QUIZID:${data.lyric_id}`);
             setIsReady(true);
         } catch (error) {
             console.error('Error:', error);
         }
     };
+
+
 
     const startTimer = (prevTime) => {
         intervalRef.current = setInterval(() => {
@@ -106,58 +108,60 @@ const QuizGame = () => {
                 }
                 return prevTime - 1;
             });
-        }, 1000);
-    const handleTimeout = () => {
-        setIsTimeout(true);
-    }
+            }, 1000);
+        const handleTimeout = () => {
+            setIsTimeout(true);
+        }
 
-    return (
-        <>
-            {isReady ? (
-                setting.gameMode === "NORMAL" ? (
-                    // 일반 게임
-                    <>
-                        <div className="game-container">
-                            <div className="quiz-section">
-                                <div className="circle-header-game">
-                                    {colors.map((color, index) => (
-                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                    ))}
+        return (
+            <>
+                {isReady ? (
+                    setting.gameMode === "NORMAL" ? (
+                        // 일반 게임
+                        <>
+                            <div className="game-container">
+                                <div className="quiz-section">
+                                    <div className="circle-header-game">
+                                        {colors.map((color, index) => (
+                                            <div key={index} className="circle-game"
+                                                 style={{backgroundColor: color}}></div>
+                                        ))}
+                                    </div>
+                                    <h2 className="quiz-title">문제 {setting.round}</h2>
+                                    <h3 className="quiz-text">{quiz.normal_quiz}</h3>
+                                    <Timer time={currentTime - 1} onTimeout={handleTimeout}/>
                                 </div>
-                                <h2 className="quiz-title">문제 {setting.round}</h2>
-                                <h3 className="quiz-text">{quiz.normal_quiz}</h3>
-                                <Timer time={currentTime - 1} onTimeout={handleTimeout}/>
+                                <div className="answer-section">
+                                    <NormalOptions first={quiz.normal_first_choice}
+                                                   second={quiz.normal_second_choice}
+                                                   third={quiz.normal_third_choice}
+                                                   fourth={quiz.normal_fourth_choice}/>
+                                </div>
+                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
-                            <div className="answer-section">
-                                <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
-                                               third={quiz.normal_third_choice}
-                                               fourth={quiz.normal_fourth_choice}/>
-                            </div>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
-                        </div>
-                    </>
-                ) : setting.gameMode === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
-                ) : setting.gameMode === "LISTENING" ? (
-                    // 노래 맞추기
-                    <>
-                        <h1>문제 {setting.round}</h1>
-                        <Timer time={currentTime}/>
-                        <ListeningQuiz quiz={quiz} />
-                    </>
-                ) : setting.gameMode === "POSE" ? (
-                    // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                        </>
+                    ) : setting.gameMode === "SINGING" ? (
+                        // 노래부르기
+                        <h1>노래부르기</h1>
+                    ) : setting.gameMode === "LISTENING" ? (
+                        // 노래 맞추기
+                        <>
+                            <h1>문제 {setting.round}</h1>
+                            <Timer time={currentTime}/>
+                            <ListeningQuiz quiz={quiz}/>
+                        </>
+                    ) : setting.gameMode === "POSE" ? (
+                        // 포즈 따라하기
+                        <h1>포즈 따라하기</h1>
+                    ) : (
+                        <h1>오류 발생</h1>
+                    )
                 ) : (
-                    <h1>오류 발생</h1>
-                )
-            ) : (
-                <>
-                </>
-            )}
-        </>
-    );
+                    <>
+                    </>
+                )}
+            </>
+        );
+    };
 };
-
-export default QuizGame;
+export default QuizGame

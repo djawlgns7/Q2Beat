@@ -33,4 +33,7 @@ public interface QuizMapper {
 
     @Select("SELECT quiz_id FROM quiz_history WHERE room_id = #{roomId}")
     List<Integer> getUsedQuizIds(@Param("roomId") String roomId);
+
+    @Select("SELECT lyric_id FROM quiz_listening")
+    List<Integer> getListeningQuizNumberList();
 }
