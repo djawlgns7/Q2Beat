@@ -30,7 +30,7 @@ const CreateRoom = () => {
         sessionStorage.setItem('hostName', name);
         setTimeout(() => {
             navigate('/host/game/lobby');
-        }, 100);
+        }, 300);
     };
 
     return (
