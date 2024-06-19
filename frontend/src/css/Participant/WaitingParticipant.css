@@ -1,20 +1,43 @@
-.waitingPart-main-header {
+.waitingPart-header {
     display: flex;
+    justify-content: space-around;
     align-items: flex-start;
-    justify-content: flex-start;
+
+}
+
+.smallLogoImage {
+    width: 15%;
+    height: 15%;
+    translate: -30px -20px;
 }
 
 .name-header {
+    color: white;
     font-size: 20px;
-    margin-top: 10px;
-    translate: -10px;
 }
+
+.waitingPart-main {
+    color: white;
+    padding: 20px;
+}
+
+.waiting-message {
+    padding: 40px;
+}
+
 .exitBtn {
     width: 100px;
-    height: 40px;
+    color: white;
     font-size: 20px;
     font-weight: bold;
-    border: none;
-    border-radius: 8px;
+    padding: 5px;
+    margin: 20px;
+    border: 3px solid #5169A2;
+    border-radius: 10px;
+    background-color: #1A1F44;
+}
+
+.exitBtn:hover {
+    border-color: rgb(255, 216, 0);
 }
 
