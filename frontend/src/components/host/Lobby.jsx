@@ -55,8 +55,6 @@ const Lobby = () => {
     const startQuiz = (gameType) => {
         console.log("gameType:"+gameType+"start Quiz \tfrom Lobby.jsx jun")
         if (isConnected.current && roomId) {
-            const gameMode = "NORMAL";
-            sendMessage(`START:${roomId}:gameMode`);
             //navigate("/host/game/count");
             navigate("/host/game/setting/"+gameType);
         }
