@@ -9,7 +9,7 @@ const ChatRoom = () => {
     const roomInput = useRef(null);
 
     useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8080/ws');
+        const socket = new WebSocket('wss://bit-two.com/q2beat/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
