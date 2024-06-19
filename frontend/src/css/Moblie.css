@@ -1,40 +1,42 @@
-body, html {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
     font-family: 'Jura', sans-serif;
     background-color: black;
-    height: 100%;
+    max-width: 100%;
+    line-height: 1.6;
 }
 
 .container-m {
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    max-height: 840px;
+    max-width: 390px;
 }
 
 .loginBox-m {
-    height: 730px;
-    width: 550px;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 25px;
+    width: 450px;
+    height: 800px;
+    padding: 50px 0 0 10px;
+    margin-top: 20px;
 }
 
 .title-m {
     color: white;
-    font-size: 3em;
-    margin-bottom: 10px;
-    translate: 0px -80px;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    translate: 0 -30px;
 }
 
-.logoImage-m {
-    width: 50%;
-    height: 37%;
-}
-
-.smallLogoImage {
-    width: 15%;
-    height: 15%;
-    translate: -30px -20px;
+.backImage-m {
+    width: 135%;
+    height: 200px;
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
