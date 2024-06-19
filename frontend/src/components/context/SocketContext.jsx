@@ -66,6 +66,7 @@ export const SocketProvider = ({ children }) => {
 
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server');
+            alert("서버와의 연결이 끊어졌습니다");
             clearPlayInformation();
             sessionStorage.removeItem('roomId');
             sessionStorage.removeItem('hostName');
