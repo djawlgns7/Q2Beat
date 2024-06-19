@@ -6,7 +6,7 @@ import '../App.css';
 import '../css/PC.css';
 import '../css/Login.css';
 import Q2B from '../image/Q2BEAT_2.png';
-import {Link} from "react-router-dom";
+import Q2B_back from '../image/Q2Beat_background.png';
 
 const Login = () => {
     return (
@@ -29,6 +29,7 @@ const Login = () => {
                     <span><a href={"/notices-board"}>고객센터</a></span>
                 </div>
             </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };
