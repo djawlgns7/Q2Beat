@@ -25,6 +25,7 @@ const RoomSetting=()=>{
     const clickOnButton=()=>{
         // 객체를 JSON 문자열로 변환하여 저장
         sessionStorage.setItem('setting', JSON.stringify(setting));
+        sendMessage(`START:${roomId}:${gameMode}`);
         navigate("/host/game/count");
     }
     return(
@@ -36,7 +37,7 @@ const RoomSetting=()=>{
                           return (<div>
                               <div>카테고리
                                   <select onChange={selectChange}>
-                                      <option value="category commonSense ">상식</option>
+                                      <option value="category COMMON">상식</option>
                                       <option value="category contry">나라</option>
                                   </select>
                               </div>

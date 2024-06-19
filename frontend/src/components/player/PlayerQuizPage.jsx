@@ -51,7 +51,7 @@ const PlayerQuizPage = () => {
             return;
         }
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&player_recent_answer=${answer.current}&room_id=R${roomId}&player_name=${playerName.current}`, {
+        const response = await fetch(`https://bit-two.com/q2beat/quiz/send/answer/${gameMode}?quizId=${quizId}&player_recent_answer=${answer.current}&room_id=R${roomId}&player_name=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

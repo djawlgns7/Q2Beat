@@ -42,7 +42,7 @@ const RoundResult = () => {
     }, [setting]);
 
     const getAnswerNumber = async (gameMode) => {
-        const response = await fetch(`/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}`, {
+        const response = await fetch(`https://bit-two.com/q2beat/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

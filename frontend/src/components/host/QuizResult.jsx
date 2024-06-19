@@ -24,7 +24,7 @@ const QuizResult = () => {
 
     const fetchPlayersRank = async () => {
         try {
-            const response = await fetch(`/quiz/get/players/rank/list?roomId=${roomId}`);
+            const response = await fetch(`https://bit-two.com/q2beat/quiz/get/players/rank/list?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -37,7 +37,7 @@ const QuizResult = () => {
 
     const clearHistory = async () => {
         try {
-            const response = await fetch(`/quiz/reset/room?roomId=${roomId}`);
+            const response = await fetch(`https://bit-two.com/q2beat/quiz/reset/room?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to clear room history');
             }

@@ -31,7 +31,7 @@ const PlayerResult = () => {
 
     const fetchPlayerRank = async () => {
         try {
-            const response = await fetch(`/quiz/get/player/rank?roomId=${roomId}&playerName=${playerName.current}`);
+            const response = await fetch(`https://bit-two.com/q2beat/quiz/get/player/rank?roomId=${roomId}&playerName=${playerName.current}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }

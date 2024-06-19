@@ -32,7 +32,7 @@ const QuizGame = () => {
         }
 
         if (setting.gameMode === "NORMAL") {
-            setTimeout(() => getQuizNormal(setting.category), 1000);
+            getQuizNormal(setting.category);
         }
         setCurrentTime(setting.timeLimit);
     }, [setting]);
@@ -52,8 +52,7 @@ const QuizGame = () => {
     }, [isTimeout])
 
     const getQuizNormal = async (category) => {
-        console.log(`/quiz/get/normal?category=${category}&roomId=${roomId}`);
-        const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
+        const response = await fetch(`https://bit-two.com/q2beat/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
