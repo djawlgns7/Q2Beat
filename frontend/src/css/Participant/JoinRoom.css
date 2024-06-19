@@ -1,73 +1,43 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Jura', sans-serif;
-    background-color: #00134D;
-    height: 100%;
+.logo-header {
+    margin-right: 5px;
 }
 
-input {
-    width: 220px;
-    height: 45px;
-    border-radius: 8px;
-    margin: 30px;
-    font-size: 20px;
-    font-weight: bold;
+.logoImage-m {
+    width: 40%;
+    height: 25%;
 }
 
-span {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.container-mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-box-mobile {
-    height: 730px;
-    width: 550px;
-    /*background-color: #213676;*/
-    background-color: #00134D;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: inset 0px 2px 20px 0px rgba(255, 255, 255, .15), 0px 3px 30px 0px rgba(255, 255, 255, .15);
-    margin-top: 25px;
-}
-
-.title-mobile {
+.roomNum, .name {
     color: white;
-    font-size: 3em;
-    margin-bottom: 10px;
-    translate: 0px -80px;
-}
-
-.logoImage-mobile {
-    width: 50%;
-    height: 37%;
-}
-
-.name {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.roomNum {
     font-size: 25px;
     font-weight: bold;
 }
 
 .startBtn {
-    width: 150px;
-    font-size: 25px;
+    width: 100px;
+    color: white;
+    font-size: 20px;
     font-weight: bold;
-    padding: 10px;
+    padding: 5px;
+    border: 3px solid #5169A2;
     border-radius: 10px;
+    background-color: #1A1F44;
+}
+
+.startBtn:hover {
+    border-color: rgb(255, 216, 0);
 }
 
 .inputForm {
-    translate: 0px -25px;
+    translate: 0px -20px;
+}
+
+
+.roomNum-input, .name-input {
+    margin: 20px;
+    padding: 5px;
+    height: 40px;
+    border-radius: 10px;
+    border: 5px solid #83B4FF;
+    translate: 0 -5px;
 }

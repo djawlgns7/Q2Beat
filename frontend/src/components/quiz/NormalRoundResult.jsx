@@ -1,24 +1,37 @@
 const NormalRoundResult = (props) => {
-    const box = {
+    const boxStyle= (isCorrect) => ({
         display: "inline-block",
         justifyContent: "center",
-        backgroundColor: "gray",
-        padding: "5px 10px",
-        width: "200px",
-        height: "100px",
-        margin: "5px 10px",
-    }
+        backgroundColor: "#1A1F44",
+        border: isCorrect ? "5px solid #00B20D" : "5px solid #5169A2",
+        padding: "20px 10px",
+        width: "300px",
+        height: "90px",
+        margin: "15px 15px",
+        borderRadius: "40px",
+        color: "white",
+        translate: "0 20px",
+    });
+
+    const answerStyle = {
+        color: "white",
+        fontSize: "40px",
+        fontWeight: "bold",
+        translate: "0 -100px",
+    };
+
+    const { answerNumber, answer } = props;
 
     return (
         <>
-            <h3>정답은: {props.answer}</h3>
+            <h2 style={answerStyle}>정답 : {answer}번</h2>
             <div>
-                <span style={box}>{props.answerNumber.answerOne}</span>
-                <span style={box}>{props.answerNumber.answerTwo}</span>
+                <span style={boxStyle(answer === "1")}>{answerNumber.answerOne}</span>
+                <span style={boxStyle(answer === "2")}>{answerNumber.answerTwo}</span>
             </div>
             <div>
-                <span style={box}>{props.answerNumber.answerThree}</span>
-                <span style={box}>{props.answerNumber.answerFour}</span>
+                <span style={boxStyle(answer === "3")}>{answerNumber.answerThree}</span>
+                <span style={boxStyle(answer === "4")}>{answerNumber.answerFour}</span>
             </div>
         </>
     )

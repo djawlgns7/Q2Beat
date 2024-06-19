@@ -4,6 +4,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import '../../css/Participant/JoinRoom.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 const JoinRoom = () => {
     const {sendMessage, roomId, clearPlayInformation, reconnectWebSocket} = useSocket();
@@ -44,12 +45,15 @@ const JoinRoom = () => {
     return (
         <div className="container-m">
             <div className="loginBox-m">
-                <img src={Q2B} alt="Q2B" className="logoImage-m"/>
-                <h1 className="title-m">Q2BEAT</h1>
+                <div className="logo-header">
+                    <img src={Q2B} alt="Q2B" className="logoImage-m"/>
+                    <h1 className="title-m">Q2BEAT</h1>
+                </div>
                 <div className="inputForm">
                     <div className="roomNum-section">
-                        <div className="roomNum">방 번호 :</div>
+                        <h2 className="roomNum">방 번호</h2>
                         <input
+                            className="roomNum-input"
                             type="number"
                             maxLength="5"
                             value={roomInput}
@@ -57,8 +61,9 @@ const JoinRoom = () => {
                         />
                     </div>
                     <div className="name-section">
-                        <div className="name">이름 :</div>
+                        <h2 className="name">이름</h2>
                         <input
+                            className="name-input"
                             type="text"
                             maxLength="20"
                             value={name}
@@ -66,10 +71,11 @@ const JoinRoom = () => {
                         />
                     </div>
                 </div>
-                <div className="footer-mobile">
+                <div className="logo-footer-btn">
                     <button onClick={joinRoom} className="startBtn">입장</button>
                 </div>
             </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
         </div>
     );
 };

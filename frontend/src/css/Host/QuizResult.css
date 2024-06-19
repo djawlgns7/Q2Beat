@@ -1,0 +1,54 @@
+.result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.result-box {
+    width: 800px;
+    height: 300px;
+    background-color: #1A1F44;
+    border: 3px solid #5169A2;
+    padding: 40px 30px;
+    margin: 20px 10px;
+    border-radius: 100px;
+    text-align: center;
+    color: white;
+    translate: 0 20px;
+}
+
+.result-list {
+    list-style: none;
+    padding: 20px;
+}
+
+.index-player {
+    font-size: 30px;
+}
+
+.endGame-button {
+    width: 150px;
+    height: 60px;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 15px;
+    margin: 20px;
+    translate: 0 20px;
+    background-color: #1A1F44;
+    border: 5px solid #5169A2;
+    color: white;
+}
+
+.endGame-button:hover {
+    border-color: #FFD800;
+}
+.backImage-p-result {
+    width: 138%;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
+    translate: 0px 50px;
+}
