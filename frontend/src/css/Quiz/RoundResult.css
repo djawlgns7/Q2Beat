@@ -1,0 +1,46 @@
+.round-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.round-box {
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
+    height: 500px;
+    background-color: #1A1F44;
+    border: 3px solid #5169A2;
+    padding: 40px 30px;
+    margin: 20px 10px;
+    border-radius: 100px;
+    color: white;
+    translate: 0 20px;
+}
+
+.circle-header-game {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    translate: 80px -20px;
+}
+
+.circle-game {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    translate: -60px 25px;
+}
+
+.round-answer {
+    translate: -30px;
+}
+
+.round-timer {
+    width: 100px;
+    translate: -30px -5px;
+    font-size: 50px;
+    color: red;
+}
