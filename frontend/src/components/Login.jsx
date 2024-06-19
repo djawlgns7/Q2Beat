@@ -6,6 +6,7 @@ import '../App.css';
 import '../css/PC.css';
 import '../css/Login.css';
 import Q2B from '../image/Q2BEAT_2.png';
+import {Link} from "react-router-dom";
 
 const Login = () => {
     return (
@@ -25,7 +26,7 @@ const Login = () => {
                     <span>개인정보 처리방침 | </span>
                     <span>이용약관 | </span>
                     <span>공지사항 | </span>
-                    <span>고객센터</span>
+                    <span><a href={"/notices"}>고객센터</a></span>
                 </div>
             </div>
         </div>
