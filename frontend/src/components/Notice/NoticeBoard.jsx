@@ -1,7 +1,9 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import '../../css/PC.css'
 import '../../css/Board/NoticeBoard.css';
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 const NoticeBoard = () => {
     const navigate = useNavigate();
@@ -72,55 +74,57 @@ const NoticeBoard = () => {
     }, []);
 
     return (
-        <div>
-            <h1>공지사항</h1>
-            <ul>
-                {noticeList.map((notice) => (
-                    <li key={notice.note_id}>
-                        <Link to={`/notices/${notice.note_id}`}>{notice.title}</Link>
-                    </li>
-                ))}
-            </ul>
-            <div>
-                <button onClick={onClick} value={1}>
-                    &lt;&lt;
-                </button>
-                <button onClick={onClick} value={prevPage}>
-                    &lt;
-                </button>
-                {pageList.length > 0 ? (
-                    noticeList.map((page, index) => (
+        <div className="board-container">
+            <div className="board-box">
+                <h2>공지사항</h2>
+                <ul>
+                    {noticeList.map((notice) => (
+                        <li key={notice.note_id}>
+                            <Link to={`/notices/${notice.note_id}`}>{notice.title}</Link>
+                        </li>
+                    ))}
+                </ul>
+                <div>
+                    <button onClick={onClick} value={1}>
+                        &lt;&lt;
+                    </button>
+                    <button onClick={onClick} value={prevPage}>
+                        &lt;
+                    </button>
+                    {pageList.length > 0 ? (
+                        noticeList.map((page, index) => (
+                            <button key={index} onClick={onClick} value={page}>
+                                {page}
+                            </button>
+                        ))
+                    ) : (
+                        <li>공지사항이 없습니다</li>
+                    )}
+                </div>
+                <div>
+                    <button onClick={onClick} value={1}>
+                        &lt;&lt;
+                    </button>
+                    <button onClick={onClick} value={prevPage}>
+                        &lt;
+                    </button>
+                    {pageList.map((page, index) => (
                         <button key={index} onClick={onClick} value={page}>
                             {page}
                         </button>
-                    ))
-                ) : (
-                    <li>공지사항이 없습니다</li>
-                )}
-            </div>
-            <div>
-                <button onClick={onClick} value={1}>
-                &lt;&lt;
-                </button>
-                <button onClick={onClick} value={prevPage}>
-                    &lt;
-                </button>
-                {pageList.map((page, index) => (
-                    <button key={index} onClick={onClick} value={page}>
-                        {page}
+                    ))}
+                    <button onClick={onClick} value={nextPage}>
+                        &gt;
                     </button>
-                ))}
-                <button onClick={onClick} value={nextPage}>
-                    &gt;
-                </button>
-                <button onClick={onClick} value={lastPage}>
-                    &gt;&gt;
-                </button>
+                    <button onClick={onClick} value={lastPage}>
+                        &gt;&gt;
+                    </button>
+                </div>
             </div>
-            <br/>
             <div>
                 <button onClick={moveToWrite}>글쓰기</button>
             </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };
