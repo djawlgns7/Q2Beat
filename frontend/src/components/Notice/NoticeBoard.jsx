@@ -59,7 +59,7 @@ const NoticeBoard = () => {
     };
 
     const moveToWrite = () => {
-        navigate('/'); //글쓰기 페이지 이동
+        navigate('/write'); //글쓰기 페이지 이동
     };
 
     const onClick = (event) => {
@@ -81,20 +81,26 @@ const NoticeBoard = () => {
                     </li>
                 ))}
             </ul>
-            <ul>
-                { noticeList.length > 0 ? (
-                    noticeList.map((notice) => (
-                        <li key = {notice.note_id}>
-                            <Link to={`/notices/${notice.note_id}`}>{notice.title}</Link>
-                        </li>
-                    ))
-                    ) : (
-                        <li>공지사항이 없습니다</li>
-                )}
-            </ul>
             <div>
                 <button onClick={onClick} value={1}>
                     &lt;&lt;
+                </button>
+                <button onClick={onClick} value={prevPage}>
+                    &lt;
+                </button>
+                {pageList.length > 0 ? (
+                    noticeList.map((page, index) => (
+                        <button key={index} onClick={onClick} value={page}>
+                            {page}
+                        </button>
+                    ))
+                ) : (
+                    <li>공지사항이 없습니다</li>
+                )}
+            </div>
+            <div>
+                <button onClick={onClick} value={1}>
+                &lt;&lt;
                 </button>
                 <button onClick={onClick} value={prevPage}>
                     &lt;
