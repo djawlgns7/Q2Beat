@@ -38,7 +38,7 @@ const RoundResult = () => {
         setTimeout(() => {
             getAnswerNumber(setting.gameMode);
             startTimer(currentTime);
-        }, 100);
+        }, 300);
     }, [setting]);
 
     const getAnswerNumber = async (gameMode) => {
