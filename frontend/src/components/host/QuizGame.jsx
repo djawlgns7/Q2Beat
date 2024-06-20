@@ -62,6 +62,7 @@ const QuizGame = () => {
         if (!response.ok) {
             // 오류 처리
             console.error('Failed to fetch quiz information');
+
             return;
         }
 
