@@ -7,7 +7,6 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import {useModal} from "../context/ModalContext.jsx";
 import Q2B_back from "../../image/Q2Beat_background.png";
 
-console.log("\tLobby.jsx from jun");
 const Lobby = () => {
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
     const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
@@ -24,7 +23,6 @@ const Lobby = () => {
         clearPlayInformation();
         //session에 방 이름 있으면 게임 진행. 없으면 /host/game/create로.
         if (roomId && storedName !== null) {
-            console.log("방이름:"+storedName+"\tfrom Lobby.jsx jun");
             setName(storedName);
         } else {
             navigate("/host/game/create");
@@ -53,7 +51,6 @@ const Lobby = () => {
     }
 
     const startQuiz = (gameType) => {
-        console.log("gameType:"+gameType+"start Quiz \tfrom Lobby.jsx jun")
         if (isConnected.current && roomId) {
             //navigate("/host/game/count");
             navigate("/host/game/setting/"+gameType);
