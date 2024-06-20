@@ -2,6 +2,9 @@ import {useSocket} from "../context/SocketContext.jsx";
 import PlayerTop from "../quiz/PlayerTop.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import '../../css/Moblie.css'
+import '../../css/Participant/PlayerRoundResult.css'
+import Q2B from "../../image/Q2BEAT_2.png";
 
 const PlayerRoundResult = () => {
     const {hostMessage, setHostMessage} = useSocket();
@@ -37,7 +40,10 @@ const PlayerRoundResult = () => {
 
     return (
         <>
-            <PlayerTop playerName={playerName.current}/>
+            <div className="player-header">
+                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                <PlayerTop playerName={playerName.current}/>
+            </div>
             {isReady ? (
                 gameMode.current === "NORMAL" ? (
                     // 일반 게임

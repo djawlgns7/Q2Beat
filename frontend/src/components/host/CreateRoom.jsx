@@ -28,9 +28,9 @@ const CreateRoom = () => {
     const createRoom = () => {
         sendMessage("CREATE:" + name);
         sessionStorage.setItem('hostName', name);
-        setTimeout(() => {
+        setTimeout(()=> {
             navigate('/host/game/lobby');
-        }, 300);
+        }, 100);
     };
 
     return (
