@@ -12,23 +12,28 @@ import '../../css/Board/Notice.css';
 *
 * */
 const Notice = () => {
+    // notices : 공지사항
+    // pagination : 페이지네이션
     const [notices, setNotices] = useState([]);
     const [pagination, setPagination] = useState({
-        currentPage: 1,
-        totalPages: 1,
-        pageSize: 5,
-        startPage: 1,
-        endPage:1
+        currentPage: 1, //현재 페이지
+        totalPages: 1,  //전체 페이지 수
+        pageSize: 5,    //한 페이지에 표시할 항목 수
+        startPage: 1,   //현재 페이지 블록에서 시작 페이지
+        endPage:1       //현재 페이지 블록에서 끝 페이지
     });
-
+    
+    //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchNotices 호출
     useEffect(() => {
         fetchNotices(pagination.currentPage, pagination.pageSize);
     }, [pagination.currentPage]);
 
+    //공지사항 목록을 서버에서 가져오는 비동기 함수
     const fetchNotices = async (page, size) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/notices?page=${page}&size=${size}`);
+            const response = await axios.get(`api/notices?page=${page}&size=${size}`);
             console.log('응답 데이터:', response.data);
+            //서버로 부터 받은 데이터를 상태에 설정
             setNotices(response.data.notices);
             setPagination({
                 ...pagination,
@@ -40,7 +45,7 @@ const Notice = () => {
             console.error('공지사항 목록 에러:', error);
         }
     };
-
+    //페이지 변경 함수
     const handlePageChange = (page) => {
         setPagination({
             ...pagination,
@@ -48,7 +53,7 @@ const Notice = () => {
         });
     };
 
-    //다음 페이지
+    //다음 페이지 블록으로 이동하는 함수
     const handleNextBlock = () => {
         if (pagination.endPage < pagination.totalPages) {
             setPagination({
@@ -58,7 +63,7 @@ const Notice = () => {
         }
     };
 
-    //이전 페이지
+    //이전 페이지 블록으로 이동하는 함수
     const handlePrevBlock = () => {
         if (pagination.startPage > 1) {
             setPagination({
@@ -68,7 +73,7 @@ const Notice = () => {
         }
     };
 
-    //글번호 순서
+    //현재 페이지와 페이지 크기를 기반으로 항목 번호(글번호)를 계산하는 함수
     const getDisplayNumber = (index) => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
