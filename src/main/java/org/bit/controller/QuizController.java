@@ -49,7 +49,7 @@ public class QuizController {
 
     @GetMapping("/send/answer/normal")
     public Player checkAnswer(@ModelAttribute Player player, @RequestParam("quizId") int quizId) {
-        int result = quizService.gradingNormal(quizId, player.getPlayer_recent_answer());
+        int result = quizService.gradingNormal(quizId, Integer.parseInt(player.getPlayer_recent_answer()));
 
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
@@ -140,15 +140,13 @@ public class QuizController {
         System.out.println("Quiz History: " + quizHistory);
 
         int quizNumber = quizIds.size();
-        Set<Integer> usedQuizIds = roomService.getUsedQuizIds(formattedRoomId); // 사용된 quiz_id 목록 가져오기
 
         while (true) {
             int randomIndex = (int) (Math.random() * quizNumber);
             int quizId = quizIds.get(randomIndex);
+            quizHistory.setQuiz_id(quizId);
 
-            if (!usedQuizIds.contains(quizId)) { // 사용되지 않은 quiz_id만 선택
-                quizHistory.setQuiz_id(quizId);
-
+            try {
                 if (roomService.insertQuizHistory(quizHistory)) {
                     System.out.println("quizId: " + quizId);
                     QuizListening quizListening = quizService.getQuizListening(quizId);
@@ -161,15 +159,18 @@ public class QuizController {
                     System.out.println(quizListening);
                     return ResponseEntity.ok(quizListening);
                 }
+            } catch (Exception e) {
+                System.err.println("Failed to insert quiz history: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
     }
 
     @PostMapping("/send/answer/listening")
-    public Player checkListeningAnswer(@RequestParam("quizId") int quizId,
-                                       @RequestParam("roomId") String roomId,
-                                       @RequestParam("playerName") String playerName,
-                                       @RequestParam("answer") String answer) {
+    public ResponseEntity<Player> checkListeningAnswer(@RequestParam("quizId") int quizId,
+                                                       @RequestParam("roomId") String roomId,
+                                                       @RequestParam("playerName") String playerName,
+                                                       @RequestParam("answer") String answer) {
         int result = quizService.gradingListening(quizId, answer);
 
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
@@ -179,22 +180,33 @@ public class QuizController {
         if (result == 1) {
             player.setPlayer_score(player.getPlayer_score() + 1);
             player.setCorrect(true);
-
             playerService.updatePlayerScore(player);
         }
 
-        return player;
+        player.setPlayer_recent_answer(answer);
+        playerService.updatePlayerRecentAnswer(player);
+
+        return ResponseEntity.ok(player);
     }
 
     @GetMapping("/get/round/result/listening")
-    public PlayerAnswer getListeningAnswer(@RequestParam("roomId") String roomId,
-                                           @RequestParam("answer") String answer) {
+    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
+                                                                  @RequestParam("answer") String answer) {
+        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
+        System.out.println("Received answer: " + answer);  // answer 로그 출력
+
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
+        List<Player> players = playerService.getPlayerList(formattedRoomId);
+        String correctAnswer = players.stream()
+                .filter(Player::isCorrect)
+                .findFirst()
+                .map(Player::getPlayer_recent_answer)
+                .orElse("정답자 없음");
 
-        PlayerAnswer listeningAnswer = new PlayerAnswer();
-        listeningAnswer.setAnswer(playerService.getAnswerListenings(formattedRoomId, answer));
+        Map<String, Object> response = new HashMap<>();
+        response.put("correctAnswer", correctAnswer);
+        response.put("players", players);
 
-        return listeningAnswer;
+        return ResponseEntity.ok(response);
     }
-
 }

@@ -22,15 +22,16 @@ const QuizGame = () => {
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
+        // 마운트 시 세션에서 값을 가져옴
         const settingString = sessionStorage.getItem('setting');
-        if (settingString) {
-            const setting = JSON.parse(settingString);
-            setSetting(setting);
-        }
+        const setting = JSON.parse(settingString);
+        setSetting(setting);
     }, []);
 
     useEffect(() => {
-        if (setting === "") return;
+        if (setting === "") {
+            return;
+        }
 
         if (setting.gameMode === "NORMAL") {
             getQuizNormal(setting.category);
@@ -41,21 +42,18 @@ const QuizGame = () => {
     }, [setting]);
 
     useEffect(() => {
-        if (currentTime <= 0) {
-            clearInterval(intervalRef.current);
-            setIsTimeout(true);
-        }
-    }, [currentTime]);
+        setTimeout(() => {
+            if (isTimeout === true) {
+                clearInterval(intervalRef.current);
 
-    useEffect(() => {
-        if (isTimeout) {
-            setting.round = Number.parseInt(setting.round) + 1;
-            sessionStorage.setItem('setting', JSON.stringify(setting));
-            sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
+                setting.round = Number.parseInt(setting.round) + 1;
+                sessionStorage.setItem('setting', JSON.stringify(setting));
+                sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-            setTimeout(() => navigate("/host/game/round/result"), 500);
-        }
-    }, [isTimeout]);
+                navigate("/host/game/round/result");
+            }
+        }, 1500)
+    }, [isTimeout])
 
     const getQuizNormal = async (category) => {
         const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
@@ -66,6 +64,7 @@ const QuizGame = () => {
         });
 
         if (!response.ok) {
+            // 오류 처리
             console.error('Failed to fetch quiz information');
             return;
         }
@@ -76,6 +75,10 @@ const QuizGame = () => {
         sendMessage(`MESSAGE:${roomId}:QUIZID:${data.normal_id}`);
         setIsReady(true);
     };
+
+    const handleTimeout = () => {
+        setIsTimeout(true);
+    }
 
     const getQuizListening = async () => {
         try {
@@ -99,7 +102,7 @@ const QuizGame = () => {
             }
 
             setQuiz(data);
-            setUsedQuizIds([...usedQuizIds, data.listening_id]);
+            setUsedQuizIds(prevUsedQuizIds => [...prevUsedQuizIds, data.listening_id]);
             sessionStorage.setItem("answer", data.listening_answer);
             sendMessage(`MESSAGE:${roomId}:QUIZID:${data.listening_id}`);
             setIsReady(true);
@@ -108,28 +111,6 @@ const QuizGame = () => {
         }
     };
 
-    const startTimer = () => {
-        intervalRef.current = setInterval(() => {
-            setCurrentTime((prevTime) => {
-                if (prevTime <= 1) {
-                    clearInterval(intervalRef.current);
-                    setIsTimeout(true);
-                    return 0;
-                }
-                return prevTime - 1;
-            });
-        }, 1000);
-    };
-
-    const handleTimeout = () => {
-        setIsTimeout(true);
-    };
-
-    useEffect(() => {
-        if (isReady && currentTime > 0) {
-            startTimer();
-        }
-    }, [isReady, currentTime]);
 
     return (
         <>
@@ -156,7 +137,6 @@ const QuizGame = () => {
                 ) : setting.gameMode === "LISTENING" ? (
                     <>
                         <h1>문제 {setting.round}</h1>
-                        <Timer time={currentTime} />
                         <ListeningQuiz quiz={quiz} />
                     </>
                 ) : setting.gameMode === "POSE" ? (

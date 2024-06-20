@@ -1,11 +1,11 @@
-import {useSocket} from "../context/SocketContext.jsx";
-import React, {useEffect, useRef, useState} from "react";
-import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
-import {useNavigate} from "react-router-dom";
-import '../../css/PC.css'
-import '../../css/Quiz/RoundResult.css'
+import React, { useEffect, useRef, useState } from "react";
+import { useSocket } from "../context/SocketContext.jsx";
+import { useNavigate } from "react-router-dom";
+import '../../css/PC.css';
+import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 import ListeningRoundResult from "../quiz/ListeningRoundResult.jsx";
+import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -38,12 +38,12 @@ const RoundResult = () => {
 
         setTimeout(() => {
             getAnswerNumber(setting.gameMode);
-            startTimer(currentTime);
-        }, 100);
+            startTimer();
+        }, 1000);
     }, [setting]);
 
     const getAnswerNumber = async (gameMode) => {
-        const response = await fetch(`/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}`, {
+        const response = await fetch(`/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}&answer=${quizAnswer.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const RoundResult = () => {
         setIsReady(true);
     }
 
-    const startTimer = (prevTime) => {
+    const startTimer = () => {
         intervalRef.current = setInterval(() => {
             setCurrentTime((prevTime) => {
                 if (prevTime <= 1) {
@@ -70,7 +70,7 @@ const RoundResult = () => {
                 }
                 return prevTime - 1;
             });
-        }, 1000);
+        }, 10000);
 
     }
 
@@ -125,7 +125,7 @@ const RoundResult = () => {
                                 <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
-                            <ListeningRoundResult correctAnswer={answer} answer={quizAnswer.current}/>
+                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers}/>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>

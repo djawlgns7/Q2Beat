@@ -10,6 +10,7 @@ import ListeningText from "../quiz/ListeningText.jsx";
 const PlayerQuizPage = () => {
     const {sendMessage, roomId, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
+    const [quiz, setQuiz] = useState(null);
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
@@ -20,7 +21,7 @@ const PlayerQuizPage = () => {
         gameMode.current = sessionStorage.getItem("gameMode");
 
         setIsReady(true);
-    }, []);
+    }, [quizId]);
 
     useEffect(() => {
         if (hostMessage === "ROUNDEND") {
@@ -84,7 +85,7 @@ const PlayerQuizPage = () => {
                     <h1>노래부르기</h1>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
-                    <ListeningText prepareAnswer={prepareAnswer}/>
+                    <ListeningText prepareAnswer={prepareAnswer} quizData={quiz} />
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

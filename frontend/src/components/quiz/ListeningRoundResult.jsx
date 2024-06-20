@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListeningRoundResult = (props) => {
+const ListeningRoundResult = ({ correctAnswer, correctPlayers }) => {
     const box = {
         display: "inline-block",
         justifyContent: "center",
@@ -13,9 +13,17 @@ const ListeningRoundResult = (props) => {
 
     return (
         <>
-            <h3>정답은: {props.correctAnswer}</h3>
+            <h3>정답은: {correctAnswer}</h3>
             <div>
-                <span style={box}>정답자 수: {props.correctCount}</span>
+                {correctPlayers.length > 0 ? (
+                    correctPlayers.map((player, index) => (
+                        <div key={index} style={box}>
+                            {player.player_name} - 점수 : {player.player_score}
+                        </div>
+                    ))
+                ) : (
+                    <div style={box}>정답자가 없습니다...</div>
+                )}
             </div>
         </>
     );

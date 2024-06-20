@@ -1,50 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ListeningText = ({ prepareAnswer }) => {
-    const [quiz, setQuiz] = useState(null);
+const ListeningText = ({ prepareAnswer, quizData }) => {
     const [answer, setAnswer] = useState('');
     const roomId = sessionStorage.getItem('roomId');
-
-    useEffect(() => {
-        const fetchQuiz = async () => {
-            try {
-                const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch quiz information');
-                }
-
-                const quizData = await response.json();
-                console.log("Listening Quiz Data:", quizData); // 로그 추가
-                setQuiz(quizData);
-                sessionStorage.setItem('quizId', quizData.listening_id);
-            } catch (error) {
-                console.error('Error fetching quiz:', error);
-            }
-        };
-
-        fetchQuiz();
-    }, [roomId]);
-
+    const playerName = sessionStorage.getItem('playerName');
 
     const handleAnswerChange = (e) => {
         setAnswer(e.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         prepareAnswer(answer);
+
+        // 정답을 서버에 전달하는 로직
+        try {
+            const quizId = sessionStorage.getItem('quizId');
+            const response = await fetch('/quiz/send/answer/listening', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    quizId: quizId,
+                    roomId: roomId,
+                    playerName: playerName,
+                    answer: answer,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send answer');
+            }
+
+            const data = await response.json();
+            console.log('Answer submitted successfully:', data);
+        } catch (error) {
+            console.error('Error sending answer:', error);
+        }
     };
 
     return (
         <div>
             <h3>노래 맞추기 문제</h3>
-            {quiz && (
+            {quizData && (
                 <>
                     <input
                         type="text"
