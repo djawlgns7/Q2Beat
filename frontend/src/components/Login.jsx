@@ -26,7 +26,7 @@ const Login = () => {
                     <span>개인정보 처리방침 | </span>
                     <span>이용약관 | </span>
                     <span>공지사항 | </span>
-                    <span><a href={"/notices-board"}>고객센터</a></span>
+                    <span><a href={"/notices"}>고객센터</a></span>
                 </div>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>

@@ -2,39 +2,59 @@ package org.bit.controller;
 
 import org.bit.model.Q2Notice.Notice;
 import org.bit.model.Q2Notice.Pagination;
-import org.bit.model.Q2Notice.Qna;
 import org.bit.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/notices")
 public class NoticeController {
+
     @Autowired
     private NoticeService noticeService;
 
-    @GetMapping("/notices")
-    public Map<String, Object> getNotice(@RequestParam(defaultValue = "1") int page,
-                                         @RequestParam(defaultValue = "10") int pageSize) {
-        List<Notice> notices = noticeService.getNotice(page, pageSize);
-        int totalCount = noticeService.getNoticeCount();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", notices);
-        response.put("pagination", new Pagination(page, pageSize, totalCount));
-
-        return response;
+    //공지사항 게시글 번호
+    @GetMapping("/{notice_id}")
+    public Notice getNoticeById(@PathVariable("notice_id") int notice_id) {
+        return noticeService.getNoticeById(notice_id);
     }
 
-    @GetMapping("/qna")
-    public List<Qna> getQna(){
-        return noticeService.getQna();
+    //공지사항 게시글 목록 페이지
+    @GetMapping
+    public Map<String, Object> getNotices(@RequestParam(value = "page", defaultValue = "1") int page,
+                                          @RequestParam(value = "size", defaultValue = "5") int size) {
+        int totalCount = noticeService.getTotalCount();
+        Pagination pagination = new Pagination(page, size, totalCount);
+
+        List<Notice> notices = noticeService.getNoticesByPage(page, size);
+        return Map.of(
+                "notices", notices,
+                "pagination", pagination
+        );
+    }
+//    public List<Notice> getAllNotices() {
+//        return noticeService.getAllNotices();
+//    }
+
+    //공지사항 추가
+    @PostMapping
+    public void addNotice(@RequestBody Notice notice) {
+        noticeService.addNotice(notice);
+    }
+
+    //공지사항 수정
+    @PutMapping("/{notice_id}")
+    public void updateNotice(@PathVariable("notice_id") int notice_id, @RequestBody Notice notice) {
+        notice.setNotice_id(notice_id);
+        noticeService.updateNotice(notice);
+    }
+
+    //공지사항 삭제
+    @DeleteMapping("/{notice_id}")
+    public void deleteNotice(@PathVariable("notice_id") int notice_id) {
+        noticeService.deleteNotice(notice_id);
     }
 }

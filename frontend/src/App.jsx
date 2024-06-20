@@ -28,7 +28,7 @@ import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
 import Notice from "./components/Notice/Notice.jsx";
 import Qna from "./components/Notice/Qna.jsx";
-import NoticeBoard from "./components/Notice/NoticeBoard.jsx";
+import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 
@@ -49,7 +49,7 @@ function App() {
                     <Route path="/participant" element={<ParticipantRoom/>}/>
                     <Route path="/notices" element={<Notice/>}/>
                     <Route path="/qna" element={<Qna/>}/>
-                    <Route path="/notices-board" element={<NoticeBoard/>}/> {/* NoticeBoard 경로 추가 */}
+                    <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
