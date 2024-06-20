@@ -3,6 +3,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../css/Board/Notice.css';
 
+/*
+* currentPage 현재 페이지
+* totalPages 전체 페이지 수
+* pageSize 한 페이지에 표시할 항목 수
+* startPage 시작페이지
+* endPage 끝페이지
+*
+* */
 const Notice = () => {
     const [notices, setNotices] = useState([]);
     const [pagination, setPagination] = useState({
