@@ -13,3 +13,11 @@
     translate: 0px 50px;
 }
 
+.notice-link {
+    text-decoration: none;
+    color: white;
+}
+
+.notice-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,22 @@
+.count-container-m {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.currentTime {
+    font-family: 'Our-Arcade-Games', sans-serif;
+    position: absolute;
+    font-size: 7rem;
+    transition: opacity 0.5s, transform 0.5s;
+    color: #FFD800;
+}
+
+@font-face {
+    font-family: 'Our-Arcade-Games';
+    src: url("../../font/Our-Arcade-Games.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}

@@ -16,3 +16,20 @@
     color: white;
     margin-top: 25px;
 }
+
+.notice-write-btn {
+    width: 120px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 15px;
+    margin: 20px;
+    translate: 0 20px;
+    background-color: #1A1F44;
+    border: 5px solid #5169A2;
+    color: white;
+}
+
+.notice-write-btn:hover {
+    border-color: #FFD800;
+}

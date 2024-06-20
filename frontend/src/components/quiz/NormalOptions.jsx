@@ -11,17 +11,18 @@ const NormalOptions = (options) => {
         borderRadius: "40px",
         color: "white",
         translate: "0 20px",
+        fontSize: "25px",
     }
 
     return (
         <>
             <div>
-                <span style={box}>{options.first}</span>
-                <span style={box}>{options.second}</span>
+                <span style={box}>1. {options.first}</span>
+                <span style={box}>2. {options.second}</span>
             </div>
             <div>
-                <span style={box}>{options.third}</span>
-                <span style={box}>{options.fourth}</span>
+                <span style={box}>3. {options.third}</span>
+                <span style={box}>4. {options.fourth}</span>
             </div>
         </>
     )

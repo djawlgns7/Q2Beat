@@ -73,10 +73,15 @@ const NoticeBoard = () => {
         getNoticeBoard(); //초기 렌더링 시 게시글 목록 조회
     }, []);
 
+    const moveLogin = () => {
+        navigate('/');
+    }
+
     return (
         <div className="board-container">
             <div className="board-box">
                 <h2>공지사항</h2>
+                <hr/>
                 <ul>
                     {noticeList.map((notice) => (
                         <li key={notice.note_id}>
@@ -85,12 +90,6 @@ const NoticeBoard = () => {
                     ))}
                 </ul>
                 <div>
-                    <button onClick={onClick} value={1}>
-                        &lt;&lt;
-                    </button>
-                    <button onClick={onClick} value={prevPage}>
-                        &lt;
-                    </button>
                     {pageList.length > 0 ? (
                         noticeList.map((page, index) => (
                             <button key={index} onClick={onClick} value={page}>
@@ -98,7 +97,7 @@ const NoticeBoard = () => {
                             </button>
                         ))
                     ) : (
-                        <li>공지사항이 없습니다</li>
+                        <p>공지사항이 없습니다</p>
                     )}
                 </div>
                 <div>
@@ -122,7 +121,8 @@ const NoticeBoard = () => {
                 </div>
             </div>
             <div>
-                <button onClick={moveToWrite}>글쓰기</button>
+                <button onClick={moveToWrite} className="notice-write-btn">글쓰기</button>
+                <button onClick={moveLogin} className="notice-write-btn">나가기</button>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>

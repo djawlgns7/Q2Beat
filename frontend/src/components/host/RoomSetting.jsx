@@ -56,7 +56,6 @@ const RoomSetting = () => {
         navigate("/host/game/lobby");
     }
     return(
-      <>
           <div>
               {(()=>{
                   switch (gameType){
@@ -91,7 +90,7 @@ const RoomSetting = () => {
                                   </label>
                               </div>
                               <div className="roomSetting-buttons">
-                                  <button onClick={clickOnButton} className="roomSetting-btn">시작</button>
+                                  <button onClick={gameStart} className="roomSetting-btn">시작</button>
                                   <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                               </div>
                               <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
@@ -121,7 +120,7 @@ const RoomSetting = () => {
                                   </label>
                               </div>
                               <div className="roomSetting-buttons">
-                                  <button onClick={clickOnButton} className="roomSetting-btn">시작</button>
+                                  <button onClick={gameStart} className="roomSetting-btn">시작</button>
                                   <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                               </div>
                               <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
@@ -150,7 +149,7 @@ const RoomSetting = () => {
                                   </label>
                               </div>
                               <div className="roomSetting-buttons">
-                                  <button onClick={clickOnButton} className="roomSetting-btn">시작</button>
+                                  <button onClick={gameStart} className="roomSetting-btn">시작</button>
                                   <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                               </div>
                               <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
@@ -178,7 +177,7 @@ const RoomSetting = () => {
                                   </label>
                               </div>
                               <div className="roomSetting-buttons">
-                                  <button onClick={clickOnButton} className="roomSetting-btn">시작</button>
+                                  <button onClick={gameStart} className="roomSetting-btn">시작</button>
                                   <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                               </div>
                               <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
@@ -187,7 +186,6 @@ const RoomSetting = () => {
               }
           })()}
       </div>
-
     );
 }
 export default RoomSetting;
