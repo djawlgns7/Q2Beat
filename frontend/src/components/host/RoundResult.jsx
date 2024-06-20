@@ -77,7 +77,7 @@ const RoundResult = () => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
 
-            if (setting.round > setting.maxRound) {
+            if (setting.round >= setting.maxRound) {
                 sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
 
                 navigate("/host/game/result");

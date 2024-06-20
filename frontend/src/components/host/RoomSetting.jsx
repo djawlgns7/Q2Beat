@@ -14,8 +14,8 @@ const RoomSetting = () => {
             setting.current = {
                 gameMode: "NORMAL",
                 round: 1,
-                maxRound: 10,
-                timeLimit: 30,
+                maxRound: 5,
+                timeLimit: 10,
                 category: "COMMON"
             }
         } else if (gameType === "1") {
@@ -64,16 +64,19 @@ const RoomSetting = () => {
                                     </select>
                                 </div>
                                 <div>제한시간
-                                    <select onChange={selectChange}>
-                                        <option value="timeLimit 30">30</option>
+                                    <select onChange={selectChange} defaultValue={"10"}>
+                                        <option value="timeLimit 5">5</option>
+                                        <option value="timeLimit 10">10</option>
+                                        <option value="timeLimit 15">15</option>
                                         <option value="timeLimit 20">20</option>
                                     </select>
                                 </div>
                                 <div>라운드 수
                                     <select onChange={selectChange}>
-                                        <option value="round 10">10라운드</option>
+                                        <option value="round 1">1라운드</option>
                                         <option value="round 5">5라운드</option>
-
+                                        <option value="round 10">10라운드</option>
+                                        <option value="round 15">15라운드</option>
                                     </select>
                                 </div>
                             </div>)
