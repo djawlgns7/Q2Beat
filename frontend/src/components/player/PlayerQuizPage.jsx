@@ -81,16 +81,20 @@ const PlayerQuizPage = () => {
 
     return (
         <>
-            <div className="player-header">
-                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                <PlayerTop playerName={playerName.current}/>
-            </div>
             {isReady ? (
                 gameMode.current === "NORMAL" ? (
                     // 일반 게임
-                    <div className="box-and-image">
-                        <NormalButton prepareAnswer={prepareAnswer}/>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p-quiz"/>
+                    <div className="container-m">
+                        <div className="loginBox-m">
+                            <div className="player-header">
+                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                <PlayerTop playerName={playerName.current}/>
+                            </div>
+                            <div className="quiz-box">
+                                <NormalButton prepareAnswer={prepareAnswer}/>
+                            </div>
+                        </div>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                     </div>
                 ) : gameMode.current === "SINGING" ? (
                     // 노래부르기

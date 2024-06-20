@@ -1,12 +1,5 @@
-.backImage-p-quiz {
-    width: 135%;
-    height: 200px;
-    background-size: cover;
-    background-position: bottom;
-    background-repeat: no-repeat;
-    translate: -30px 20px;
-}
-
-.box-and-image {
-    margin-top: 50px;
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
 }

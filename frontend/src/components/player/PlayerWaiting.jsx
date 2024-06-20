@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import {useNavigate} from "react-router-dom";
-import PlayerTop from "../quiz/PlayerTop.jsx";
 import '../../css/Participant/WaitingParticipant.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";

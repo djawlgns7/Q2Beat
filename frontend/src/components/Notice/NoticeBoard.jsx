@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import '../../css/PC.css'
-import '../../css/Board/NoticeBoard.css';
+import '../../css/Board/NoticeWrite.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const NoticeBoard = () => {

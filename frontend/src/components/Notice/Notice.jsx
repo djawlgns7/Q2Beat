@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import '../../css/Board/Notice.css'
 
 
 const Notice = () => {
@@ -17,13 +18,15 @@ const Notice = () => {
     },[]);
 
     return (
-        <div>
-            <h1>공지사항</h1>
-            <ul>
-                {notices.map(notice => (
-                    <li key = {notice.note_id}>{notice.title}</li>
-                ))}
-            </ul>
+        <div className="board-container">
+            <div className="board-box">
+                <h1>공지사항</h1>
+                <ul>
+                    {notices.map(notice => (
+                        <li key = {notice.note_id}>{notice.title}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };

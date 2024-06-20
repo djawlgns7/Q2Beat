@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import axios from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import '../css/NaverLogin.css'
 
 const NaverLoginButton = () => {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ const NaverLoginButton = () => {
         }
     };
 
-    return <div id="naverIdLogin" ref={naverRef} />;
+    return <div id="naverIdLogin" ref={naverRef} className="naverClassLogin"/>;
 };
 
 export default NaverLoginButton;
