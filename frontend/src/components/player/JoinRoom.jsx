@@ -7,7 +7,7 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const JoinRoom = () => {
-    const {sendMessage, roomId, clearPlayInformation, reconnectWebSocket} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation} = useSocket();
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const [roomInput, setRoomInput] = useState('');
@@ -25,7 +25,6 @@ const JoinRoom = () => {
             setRoomInput(roomNumber);
         }
 
-        setTimeout(() => reconnectWebSocket(), 100);
     }, []);
 
     useEffect(() => {

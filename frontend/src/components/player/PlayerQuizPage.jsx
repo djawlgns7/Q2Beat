@@ -11,7 +11,7 @@ import '../../css/Participant/PlayerQuizPage.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const PlayerQuizPage = () => {
-    const {sendMessage, roomId, hostMessage, setHostMessage, quizId} = useSocket();
+    const {roomId, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
@@ -86,27 +86,29 @@ const PlayerQuizPage = () => {
                 <PlayerTop playerName={playerName.current}/>
             </div>
             {isReady ? (
-                gameMode.current === "NORMAL" ? (
+                <>
+                    <h1>문저 {quizId}번</h1>
+                    gameMode.current === "NORMAL" ? (
                     // 일반 게임
                     <div className="box-and-image">
                         <NormalButton prepareAnswer={prepareAnswer}/>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-p-quiz"/>
                     </div>
-                ) : gameMode.current === "SINGING" ? (
+                    ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : gameMode.current === "LYRIC" ? (
+                    ) : gameMode.current === "LYRIC" ? (
                     // 가사 맞추기
                     <h1>가사 맞추기</h1>
-                ) : gameMode.current === "POSE" ? (
+                    ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>
-                ) : (
+                    ) : (
                     <h1>오류 발생</h1>
-                )
-            ) : (
-                <>
+                    )
                 </>
+            ) : (
+                <div></div>
             )}
         </>
     )
