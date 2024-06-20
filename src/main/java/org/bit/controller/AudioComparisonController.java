@@ -1,10 +1,7 @@
 package org.bit.controller;
 
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -16,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/audio")
+@CrossOrigin(origins = "https://q2beat.vercel.app")
 public class AudioComparisonController {
 
     @PostMapping("/compare")
