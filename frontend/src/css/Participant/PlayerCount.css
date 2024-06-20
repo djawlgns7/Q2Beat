@@ -1,22 +1,16 @@
 .count-container-m {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     height: 90vh;
 }
 
-.currentTime {
+.count-number-m {
     font-family: 'Our-Arcade-Games', sans-serif;
     position: absolute;
-    font-size: 7rem;
+    font-size: 5rem;
     transition: opacity 0.5s, transform 0.5s;
     color: #FFD800;
-}
-
-@font-face {
-    font-family: 'Our-Arcade-Games';
-    src: url("../../font/Our-Arcade-Games.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+    translate: -30px -30px;
 }

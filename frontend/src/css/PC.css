@@ -38,3 +38,9 @@
     background-size: cover;
     translate: 0px 50px;
 }
+
+.smallLogoImage {
+    width: 15%;
+    height: 15%;
+    translate: -35px -25px;
+}
