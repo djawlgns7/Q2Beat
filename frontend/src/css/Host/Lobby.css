@@ -54,7 +54,7 @@
     translate: -75px 10px;
 }
 
-.qrCode-btn:hover {
+.qrCode-btn:hover, .exit-btn:hover {
     background-color: #83B4FF;
     color: white;
 }

@@ -5,12 +5,6 @@
 
 }
 
-.smallLogoImage {
-    width: 15%;
-    height: 15%;
-    translate: -30px -20px;
-}
-
 .name-header {
     color: white;
     font-size: 20px;
@@ -18,7 +12,8 @@
 
 .waitingPart-main {
     color: white;
-    padding: 20px;
+    padding: 10px;
+    margin: 30px;
 }
 
 .waiting-message {
@@ -31,7 +26,7 @@
     font-size: 20px;
     font-weight: bold;
     padding: 5px;
-    margin: 20px;
+    margin: 10px;
     border: 3px solid #5169A2;
     border-radius: 10px;
     background-color: #1A1F44;

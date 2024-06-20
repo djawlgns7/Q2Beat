@@ -54,7 +54,7 @@ const PlayerWaiting = () => {
         <div className="container-m">
             <div className="loginBox-m">
                 <div className="waitingPart-header">
-                    <img src={Q2B} alt="Q2B" className="smallLogoImage"/>
+                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
                     <span className="name-header">{name} 님</span>
                 </div>
                 <div className="waitingPart-main">

@@ -1,0 +1,16 @@
+.count-container-m {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.count-number-m {
+    font-family: 'Our-Arcade-Games', sans-serif;
+    position: absolute;
+    font-size: 5rem;
+    transition: opacity 0.5s, transform 0.5s;
+    color: #FFD800;
+    translate: -30px -30px;
+}

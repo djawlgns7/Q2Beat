@@ -2,11 +2,15 @@ const NormalButton = ({prepareAnswer}) => {
     const box = {
         display: "inline-block",
         justifyContent: "center",
-        backgroundColor: "white",
+        backgroundColor: "#1A1F44",
+        border: "5px solid #516A92",
+        borderRadius: "8px",
+        color: "white",
+        fontSize: "25px",
         padding: "5px 10px",
         width: "200px",
-        height: "100px",
-        margin: "5px 10px",
+        height: "80px",
+        margin: "15px 10px",
     }
 
     return (

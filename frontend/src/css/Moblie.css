@@ -33,10 +33,23 @@ body, html {
     translate: 0 -30px;
 }
 
+.smallLogoImage-m {
+    width: 25%;
+    height: 25%;
+    translate: -30px -15px;
+}
+
 .backImage-m {
     width: 135%;
     height: 200px;
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px;
 }
