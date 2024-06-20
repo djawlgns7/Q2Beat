@@ -5,6 +5,10 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
+import Q2B from "../../image/Q2BEAT_2.png";
+import '../../css/Moblie.css'
+import '../../css/Participant/PlayerQuizPage.css'
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 const PlayerQuizPage = () => {
     const {sendMessage, roomId, hostMessage, setHostMessage, quizId} = useSocket();
@@ -77,13 +81,17 @@ const PlayerQuizPage = () => {
 
     return (
         <>
-            <PlayerTop playerName={playerName.current}/>
+            <div className="player-header">
+                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                <PlayerTop playerName={playerName.current}/>
+            </div>
             {isReady ? (
                 gameMode.current === "NORMAL" ? (
                     // 일반 게임
-                    <>
+                    <div className="box-and-image">
                         <NormalButton prepareAnswer={prepareAnswer}/>
-                    </>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p-quiz"/>
+                    </div>
                 ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>

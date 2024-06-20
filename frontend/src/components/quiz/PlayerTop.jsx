@@ -2,7 +2,7 @@ const PlayerTop = ({playerName}) => {
 
     return (
         <>
-            <h5 style={{"color": "white"}}>참가자: {playerName}</h5>
+            <h3 style={{"color": "white"}}>{playerName} 님</h3>
         </>
     )
 }

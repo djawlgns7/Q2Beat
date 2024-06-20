@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../css/Modal/Q2Modal.css'
 import QRCode from "qrcode.react";
 
 const Q2Modal = (props) => {
@@ -50,13 +51,14 @@ const Q2Modal = (props) => {
                     </Modal.Footer>
                 </Modal>
             ) : props.modalType === "QR" ? (
-                <Modal show={show} onHide={handleClose}>
+                <Modal show={show} onHide={handleClose} className="modal-box">
                     <Modal.Header closeButton>
                         <Modal.Title>{props.modalTitle}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="modal-body">
+                        <QRCode value={props.modalBody} className="modal-qrcode"/>
+                        <br/>
                         {props.modalBody}
-                        <QRCode value={props.modalBody} />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={handleClose}>

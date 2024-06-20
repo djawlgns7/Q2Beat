@@ -60,7 +60,7 @@ const Lobby = () => {
     const showQR = () => {
         setModalType("QR");
         setModalTitle("QR코드 표시");
-        setModalBody(`http://localhost:5173/player/game/join?roomNumber=${roomId}`)
+        setModalBody(`http://localhost:5173/player/game/join?roomNumber=${roomId}`);
         showModal();
     }
 
