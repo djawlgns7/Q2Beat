@@ -9,7 +9,7 @@ import '../../css/Host/QuizGame.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const QuizGame = () => {
-    const { sendMessage, roomId } = useSocket();
+    const { sendMessage, roomId, hostMessage } = useSocket();
     const [setting, setSetting] = useState('');
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
@@ -117,6 +117,11 @@ const QuizGame = () => {
         }
     };
 
+    useEffect(() => {
+        if (hostMessage === "ROUNDEND") {
+            navigate("/host/game/round/result/listening");
+        }
+    }, [hostMessage]);
 
     return (
         <>
