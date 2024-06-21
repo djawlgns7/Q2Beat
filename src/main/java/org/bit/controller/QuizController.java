@@ -181,8 +181,7 @@ public class QuizController {
         // 로그 추가
         System.out.println("Grading Result: " + result);
 
-        playerService.updatePlayerRecentAnswer(player);
-        player = playerService.getPlayer(player);
+        playerService.updatePlayerRecentAnswerByRoomAndName(roomId, playerName, answer);
         player.setCorrect(false);
 
         if (result == 1) {

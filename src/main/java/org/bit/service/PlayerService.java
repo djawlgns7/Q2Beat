@@ -59,8 +59,16 @@ public class PlayerService {
         return playerMapper.getPlayerRank(roomId);
     }
 
-    public String getAnswerListenings(String roomId, String answer) {
-        return playerMapper.getAnswerListenings(roomId, answer);
+    public Player getPlayerByRoomAndName(String roomId, String playerName) {
+        return playerMapper.getPlayerByRoomAndName(roomId, playerName);
+    }
+
+    public void updatePlayerRecentAnswerByRoomAndName(String roomId, String playerName, String answer) {
+        Player player = new Player();
+        player.setRoom_id(roomId);
+        player.setPlayer_name(playerName);
+        player.setPlayer_recent_answer(answer);
+        playerMapper.updatePlayerRecentAnswer(player);
     }
 
 }
