@@ -7,7 +7,7 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const JoinRoom = () => {
-    const {sendMessage, roomId, clearPlayInformation} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation, isConnected} = useSocket();
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const [roomInput, setRoomInput] = useState('');
@@ -35,9 +35,13 @@ const JoinRoom = () => {
     }, [roomId]);
 
     const joinRoom = () => {
-        if (roomInput.trim()) {
-            sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
-            sessionStorage.setItem('playerName', name);
+        if (isConnected.current) {
+            if (roomInput.trim()) {
+                sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
+                sessionStorage.setItem('playerName', name);
+            }
+        } else {
+            alert("현재 서버와 접속이 되지 않습니다. 재접속 중입니다.");
         }
     };
 

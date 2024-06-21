@@ -66,6 +66,7 @@ export const SocketProvider = ({children}) => {
 
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server. Trying to reconnect');
+            isConnected.current = false;
         };
 
         socket.onerror = (error) => {
