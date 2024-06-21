@@ -15,15 +15,13 @@ body, html {
     display: flex;
     align-items: center;
     flex-direction: column;
-    max-height: 840px;
+    max-height: 844px;
     max-width: 390px;
 }
 
 .loginBox-m {
-    width: 450px;
+    width: 120%;
     height: 800px;
-    padding: 50px 0 0 10px;
-    margin-top: 20px;
 }
 
 .title-m {
@@ -33,10 +31,23 @@ body, html {
     translate: 0 -30px;
 }
 
+.smallLogoImage-m {
+    width: 20%;
+    height: 20%;
+    translate: -30px;
+}
+
 .backImage-m {
-    width: 135%;
-    height: 200px;
+    width: 100%;
+    height: 250px;
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
 }

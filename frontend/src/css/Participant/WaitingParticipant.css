@@ -1,28 +1,31 @@
 .waitingPart-header {
     display: flex;
+    align-items: center;
     justify-content: space-around;
-    align-items: flex-start;
-
-}
-
-.smallLogoImage {
-    width: 15%;
-    height: 15%;
-    translate: -30px -20px;
+    margin-top: 20px;
 }
 
 .name-header {
     color: white;
-    font-size: 20px;
 }
 
 .waitingPart-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     color: white;
-    padding: 20px;
+    padding: 10px;
+    margin: 30px;
 }
 
 .waiting-message {
     padding: 40px;
+}
+
+.exit-button {
+    display: flex;
+    justify-content: center;
 }
 
 .exitBtn {
@@ -31,7 +34,7 @@
     font-size: 20px;
     font-weight: bold;
     padding: 5px;
-    margin: 20px;
+    margin: 30px;
     border: 3px solid #5169A2;
     border-radius: 10px;
     background-color: #1A1F44;

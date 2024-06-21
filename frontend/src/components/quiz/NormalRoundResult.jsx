@@ -11,6 +11,8 @@ const NormalRoundResult = (props) => {
         borderRadius: "40px",
         color: "white",
         translate: "0 20px",
+        fontSize: "25px",
+        textAlign: "center",
     });
 
     const answerStyle = {
@@ -20,18 +22,18 @@ const NormalRoundResult = (props) => {
         translate: "0 -100px",
     };
 
-    const { answerNumber, answer } = props;
+    const { choices, answer } = props;
 
     return (
         <>
             <h2 style={answerStyle}>정답 : {answer}번</h2>
             <div>
-                <span style={boxStyle(answer === "1")}>{answerNumber.answerOne}</span>
-                <span style={boxStyle(answer === "2")}>{answerNumber.answerTwo}</span>
+                <span style={boxStyle(answer === "1")}>1. {choices.first}</span>
+                <span style={boxStyle(answer === "2")}>2. {choices.second}</span>
             </div>
             <div>
-                <span style={boxStyle(answer === "3")}>{answerNumber.answerThree}</span>
-                <span style={boxStyle(answer === "4")}>{answerNumber.answerFour}</span>
+                <span style={boxStyle(answer === "3")}>3. {choices.third}</span>
+                <span style={boxStyle(answer === "4")}>4. {choices.fourth}</span>
             </div>
         </>
     )

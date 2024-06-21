@@ -1,0 +1,72 @@
+.roomSetting-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.roomSetting-box {
+    width: 1000px;
+    background-color: #1A1F44;
+    border: 3px solid #5169A2;
+    padding: 30px;
+    border-radius: 100px;
+    text-align: center;
+    color: white;
+    margin-top: 45px;
+}
+
+.roomSetting-circle-header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    translate: 55px -20px;
+    padding-bottom: 30px;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.roomSetting-label {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 25px;
+    padding: 20px;
+}
+
+.roomSetting-select {
+    width: 150px;
+    text-align: center;
+    border: 5px solid #83B4FF;
+    border-radius: 8px;
+}
+
+.roomSetting-select:focus {
+    outline-color: #83B4FF;
+}
+
+.roomSetting-buttons {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.roomSetting-btn {
+    padding: 10px;
+    margin: 30px;
+    font-size: 25px;
+    font-weight: bold;
+    border: 5px solid #5169A2;
+    border-radius: 30px;
+    background-color: #1A1F44;
+    color: white;
+    width: 150px;
+}
+
+.roomSetting-btn:hover {
+    border-color: #FFD800;
+}
+

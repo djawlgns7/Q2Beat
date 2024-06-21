@@ -7,6 +7,9 @@
 }
 
 .result-box {
+    display: flex;
+    justify-content: center;
+    align-content: center;
     width: 800px;
     height: 300px;
     background-color: #1A1F44;
@@ -28,13 +31,17 @@
     font-size: 30px;
 }
 
+.result-btn {
+    padding: 30px;
+}
+
 .endGame-button {
     width: 150px;
-    height: 60px;
+    height: 50px;
     font-size: 30px;
     font-weight: bold;
     border-radius: 15px;
-    margin: 20px;
+    margin: 30px;
     translate: 0 20px;
     background-color: #1A1F44;
     border: 5px solid #5169A2;
@@ -44,6 +51,7 @@
 .endGame-button:hover {
     border-color: #FFD800;
 }
+
 .backImage-p-result {
     width: 138%;
     height: 200px;
@@ -51,4 +59,8 @@
     background-position: bottom;
     background-size: cover;
     translate: 0px 50px;
+}
+
+.quiz-result-text {
+    translate: 20px;
 }

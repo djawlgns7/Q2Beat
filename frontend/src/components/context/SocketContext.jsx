@@ -1,4 +1,3 @@
-// SocketContext.jsx
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const SocketContext = createContext();
@@ -7,8 +6,8 @@ export const useSocket = () => {
     return useContext(SocketContext);
 };
 
-export const SocketProvider = ({ children }) => {
-    const socketRef = useRef();
+export const SocketProvider = ({children}) => {
+    const socketRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [roomId, setRoomId] = useState(sessionStorage.getItem('roomId') || null);
     const [quizId, setQuizId] = useState('');
@@ -70,19 +69,23 @@ export const SocketProvider = ({ children }) => {
         };
 
         socket.onclose = () => {
-            console.log('Disconnected from WebSocket server');
-            clearPlayInformation();
-            sessionStorage.removeItem('roomId');
-            sessionStorage.removeItem('hostName');
-            sessionStorage.removeItem('playerName');
-            isConnected.current = false;
+            console.log('Disconnected from WebSocket server. Trying to reconnect');
+        };
+
+        socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+            socket.close();
         };
 
         socketRef.current = socket;
     };
 
     useEffect(() => {
-        connectWebSocket();
+        setInterval(() => {
+            if (!isConnected.current) {
+                connectWebSocket();
+            }
+        }, 500);
 
         return () => {
             socketRef.current.close();
@@ -116,17 +119,27 @@ export const SocketProvider = ({ children }) => {
         sessionStorage.removeItem('playerScore');
     }
 
-    const reconnectWebSocket = () => {
-        if (socketRef.current) {
-            socketRef.current.close();
-        }
-        connectWebSocket();
+    const clearRoomIdAndName = () => {
+
     }
 
     return (
         <SocketContext.Provider value={{
-            sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef, quiz,
-            setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected, clearPlayInformation, reconnectWebSocket
+            sendMessage,
+            messages,
+            roomId,
+            quizId,
+            hostMessage,
+            clientMessage,
+            socketRef,
+            quiz,
+            setRoomId,
+            setMessages,
+            setQuizId,
+            setHostMessage,
+            setClientMessage,
+            isConnected,
+            clearPlayInformation
         }}>
             {children}
         </SocketContext.Provider>

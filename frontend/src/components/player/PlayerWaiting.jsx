@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import {useNavigate} from "react-router-dom";
-import PlayerTop from "../quiz/PlayerTop.jsx";
 import '../../css/Participant/WaitingParticipant.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
@@ -26,6 +25,7 @@ const PlayerWaiting = () => {
         if(hostMessage === "NORMAL" || hostMessage === "SINGING" || hostMessage === "LISTENING" || hostMessage === "POSE") {
             sessionStorage.setItem('gameMode', hostMessage);
             sessionStorage.setItem('playerName', name);
+            sessionStorage.setItem('round', "1");
 
             navigate("/player/game/count");
             setHostMessage("");
@@ -54,15 +54,17 @@ const PlayerWaiting = () => {
         <div className="container-m">
             <div className="loginBox-m">
                 <div className="waitingPart-header">
-                    <img src={Q2B} alt="Q2B" className="smallLogoImage"/>
-                    <span className="name-header">{name} 님</span>
+                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                    <h3 className="name-header">{name} 님</h3>
                 </div>
                 <div className="waitingPart-main">
                     <h1>방번호 : {roomId}</h1>
                     <br/>
                     <h2 className="waiting-message">게임이 곧 시작합니다.<br/>잠시만 기다려주세요.</h2>
                 </div>
-                <button onClick={exitRoom} className="exitBtn">나가기</button>
+                <div className="exit-button">
+                    <button onClick={exitRoom} className="exitBtn">나가기</button>
+                </div>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
         </div>

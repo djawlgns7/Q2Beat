@@ -72,6 +72,12 @@ const QuizGame = () => {
         const data = await response.json();
         setQuiz(data);
         sessionStorage.setItem("answer", data.normal_answer);
+        sessionStorage.setItem("choices", JSON.stringify({
+            "first": data.normal_first_choice,
+            "second": data.normal_second_choice,
+            "third": data.normal_third_choice,
+            "fourth": data.normal_fourth_choice
+        }));
         sendMessage(`MESSAGE:${roomId}:QUIZID:${data.normal_id}`);
         setIsReady(true);
     };

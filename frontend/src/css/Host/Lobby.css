@@ -8,6 +8,7 @@
 
 .lobby-box {
     width: 1000px;
+    height: 550px;
     background-color: #1A1F44;
     border: 3px solid #5169A2;
     padding: 30px;
@@ -54,7 +55,7 @@
     translate: -75px 10px;
 }
 
-.qrCode-btn:hover {
+.qrCode-btn:hover, .exit-btn:hover {
     background-color: #83B4FF;
     color: white;
 }
