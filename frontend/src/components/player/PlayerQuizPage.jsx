@@ -17,10 +17,12 @@ const PlayerQuizPage = () => {
     const playerName = useRef("");
     const answer = useRef(0);
     const navigate = useNavigate();
+    const roundNumber = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
+        roundNumber.current = sessionStorage.getItem("round");
 
         setIsReady(true);
     }, []);
@@ -32,6 +34,7 @@ const PlayerQuizPage = () => {
             sendAnswer(gameMode.current);
 
             setTimeout(() => {
+                sessionStorage.setItem("round", roundNumber.current + 1);
                 navigate("/player/game/round/result");
             }, 500);
         }
@@ -87,7 +90,7 @@ const PlayerQuizPage = () => {
             </div>
             {isReady ? (
                 <>
-                    <h1>문저 {quizId}번</h1>
+                    <h1>문저 {roundNumber.current}번</h1>
                     gameMode.current === "NORMAL" ? (
                     // 일반 게임
                     <div className="box-and-image">

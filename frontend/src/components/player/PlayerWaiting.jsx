@@ -26,6 +26,7 @@ const PlayerWaiting = () => {
         if (hostMessage === "NORMAL" || hostMessage === "SINGING" || hostMessage === "LYRIC" || hostMessage === "POSE") {
             sessionStorage.setItem('gameMode', hostMessage);
             sessionStorage.setItem('playerName', name);
+            sessionStorage.setItem('round', "1");
 
             navigate("/player/game/count");
             setHostMessage("");
