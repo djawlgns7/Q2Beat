@@ -57,6 +57,28 @@ const Lobby = () => {
         }
     }
 
+    const startListening = () => {
+        const category = 'COMMON'; // 사용할 category 설정
+        if (isConnected.current && roomId) {
+            const gameMode = "LISTENING";
+            sendMessage(`START:${roomId}:${gameMode}`);
+
+            // 객체를 JSON 문자열로 변환하여 저장
+            const setting = {
+                gameMode: "LISTENING",
+                round: 1,
+                maxRound: 2,
+                timeLimit: 10,
+                category: category
+            };
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+            sessionStorage.setItem('category', category); // category 값을 세션에 저장
+
+            navigate("/host/game/count");
+        }
+    };
+
+
     const showQR = () => {
         setModalType("QR");
         setModalTitle("QR코드 표시");
@@ -74,7 +96,7 @@ const Lobby = () => {
             setRoomId(null);
             socketRef.current.close();
 
-            window.location.reload();
+            navigate("/host/game/create");
         }
     }
 

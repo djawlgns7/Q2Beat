@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.*;
 import org.bit.model.QuizHistory;
 import org.bit.model.Room;
 
+import java.util.Set;
+
 @Mapper
 public interface RoomMapper {
     @Insert("insert into room(room_id) values(#{room_id})")
@@ -23,4 +25,11 @@ public interface RoomMapper {
 
     @Delete("delete from quiz_history where room_id = #{room_id}")
     int clearQuizHistory(String room_id);
+
+    @Select("SELECT COUNT(*) FROM quiz_history WHERE room_id = #{roomId} AND quiz_id = #{quizId}")
+    int getQuizHistoryCount(@Param("roomId") String roomId, @Param("quizId") int quizId);
+
+    @Select("SELECT quiz_id FROM quiz_history WHERE room_id = #{roomId}")
+    Set<Integer> getUsedQuizIds(String roomId);
+
 }

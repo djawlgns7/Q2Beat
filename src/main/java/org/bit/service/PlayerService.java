@@ -41,9 +41,7 @@ public class PlayerService {
         playerMapper.resetPlayerInformation(roomId);
     }
 
-    public boolean updatePlayerRecentAnswer(Player player) {
-        return playerMapper.updatePlayerRecentAnswer(player);
-    }
+    public void updatePlayerRecentAnswer(Player player) { playerMapper.updatePlayerRecentAnswer(player);}
 
     public int deletePlayer(Player player) {
         return playerMapper.deletePlayer(player);
@@ -60,4 +58,9 @@ public class PlayerService {
     public List<Player> getPlayerRank(String roomId) {
         return playerMapper.getPlayerRank(roomId);
     }
+
+    public String getAnswerListenings(String roomId, String answer) {
+        return playerMapper.getAnswerListenings(roomId, answer);
+    }
+
 }

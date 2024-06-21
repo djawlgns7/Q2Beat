@@ -1,9 +1,9 @@
 import React from 'react';
 import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
-import googleLogo from '../image/google_logo.png';
-import '../css/GoogleLogin.css';
+import googleLogo from '../../image/google_logo.png';
+import '../../css/GoogleLogin.css';
 
 const GoogleLoginButton = () => {
     const navigate = useNavigate();
@@ -21,7 +21,17 @@ const GoogleLoginButton = () => {
                 email,
             });
 
-            const member = result.data;
+            const response = result.data;
+            if (response.status === 'error') {
+                alert(response.message);
+                return;
+            }
+
+            const member = response.member;
+            if (!member) {
+                throw new Error('Member data is not defined in the response.');
+            }
+
             sessionStorage.setItem('member', JSON.stringify(member));
             if (!member.memberUsername) {
                 navigate('/set-nickname');
@@ -30,12 +40,21 @@ const GoogleLoginButton = () => {
             }
         } catch (error) {
             console.error('Google login error:', error);
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                console.error('Response headers:', error.response.headers);
+            }
+            alert('구글 로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     };
 
     const login = useGoogleLogin({
         onSuccess: handleLoginSuccess,
-        onError: (error) => console.error('Google login error:', error),
+        onError: (error) => {
+            console.error('Google login error:', error);
+            alert('구글 로그인에 실패했습니다. 다시 시도해 주세요.');
+        },
     });
 
     return (

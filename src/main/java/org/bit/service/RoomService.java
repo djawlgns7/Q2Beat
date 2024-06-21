@@ -5,7 +5,13 @@ import org.bit.mapper.PlayerMapper;
 import org.bit.mapper.RoomMapper;
 import org.bit.model.QuizHistory;
 import org.bit.model.Room;
+import org.bit.model.quiz.QuizNormal;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Data
@@ -41,5 +47,9 @@ public class RoomService {
         roomMapper.clearQuizHistory(id);
         playerMapper.clearPlayer(id);
         roomMapper.deleteRoom(id);
+    }
+
+    public Set<Integer> getUsedQuizIds(String roomId) {
+        return roomMapper.getUsedQuizIds(roomId);
     }
 }

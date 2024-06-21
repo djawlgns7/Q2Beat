@@ -73,9 +73,17 @@ const PlayerRoundResult = () => {
                 ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : gameMode.current === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
+                ) : gameMode.current === "LISTENING" ? (
+                    // 노래 맞추기
+                    <>
+                        {roundResult === "true" ? (
+                            <h1>정답입니다!</h1>
+                        ) : (
+                            <h1>오답입니다...</h1>
+                        )
+                        }
+                        <h2>내 점수: {playerScore}</h2>
+                    </>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

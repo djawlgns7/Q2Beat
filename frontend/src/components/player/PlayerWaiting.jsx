@@ -22,7 +22,7 @@ const PlayerWaiting = () => {
 
     useEffect(() => {
         // 방장이 시작 신호를 보내면
-        if (hostMessage === "NORMAL" || hostMessage === "SINGING" || hostMessage === "LYRIC" || hostMessage === "POSE") {
+        if(hostMessage === "NORMAL" || hostMessage === "SINGING" || hostMessage === "LISTENING" || hostMessage === "POSE") {
             sessionStorage.setItem('gameMode', hostMessage);
             sessionStorage.setItem('playerName', name);
             sessionStorage.setItem('round', "1");

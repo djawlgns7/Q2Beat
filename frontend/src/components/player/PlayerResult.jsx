@@ -74,9 +74,12 @@ const PlayerResult = () => {
                 ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : gameMode.current === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
+                ) : gameMode.current === "LISTENING" ? (
+                    // 노래 맞추기
+                    <>
+                        <h3>{Number(rank) + 1}등</h3>
+                        <h4>{playerScore.current}점</h4>
+                    </>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

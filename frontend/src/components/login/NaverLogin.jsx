@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import axios from '../utils/axios';
+import axios from '../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
 import '../css/NaverLogin.css'
 
@@ -47,7 +47,18 @@ const NaverLoginButton = () => {
                 name,
                 email,
             });
-            const member = result.data;
+
+            const response = result.data;
+            if (response.status === 'error') {
+                alert(response.message);
+                return;
+            }
+
+            const member = response.member;
+            if (!member) {
+                throw new Error('Member data is not defined in the response.');
+            }
+
             sessionStorage.setItem('member', JSON.stringify(member));
             sessionStorage.setItem('token', result.headers.authorization);
             if (!member.memberUsername) {
@@ -57,6 +68,7 @@ const NaverLoginButton = () => {
             }
         } catch (error) {
             console.error('Social login error:', error);
+            alert('소셜 로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     };
 
