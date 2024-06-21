@@ -166,15 +166,23 @@ public class QuizController {
         }
     }
 
-    @PostMapping("/send/answer/listening")
+    @GetMapping("/send/answer/listening")
     public ResponseEntity<Player> checkListeningAnswer(@RequestParam("quizId") int quizId,
                                                        @RequestParam("roomId") String roomId,
                                                        @RequestParam("playerName") String playerName,
                                                        @RequestParam("answer") String answer) {
+
+        // 로그 추가
+        System.out.println("Received Parameters - quizId: " + quizId + ", roomId: " + roomId + ", playerName: " + playerName + ", answer: " + answer);
+
+        Player player = new Player(roomId, playerName);
         int result = quizService.gradingListening(quizId, answer);
 
-        String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
-        Player player = playerService.getPlayer(new Player(formattedRoomId, playerName));
+        // 로그 추가
+        System.out.println("Grading Result: " + result);
+
+        playerService.updatePlayerRecentAnswer(player);
+        player = playerService.getPlayer(player);
         player.setCorrect(false);
 
         if (result == 1) {
@@ -183,11 +191,12 @@ public class QuizController {
             playerService.updatePlayerScore(player);
         }
 
-        player.setPlayer_recent_answer(answer);
-        playerService.updatePlayerRecentAnswer(player);
+        // 로그 추가
+        System.out.println("Player Info - Name: " + player.getPlayer_name() + ", Score: " + player.getPlayer_score() + ", Correct: " + player.isCorrect());
 
         return ResponseEntity.ok(player);
     }
+
 
     @GetMapping("/get/round/result/listening")
     public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,

@@ -8,20 +8,23 @@ import {useNavigate} from "react-router-dom";
 import ListeningText from "../quiz/ListeningText.jsx";
 
 const PlayerQuizPage = () => {
-    const {sendMessage, roomId, hostMessage, setHostMessage, quizId} = useSocket();
+    const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
-    const [quiz, setQuiz] = useState(null);
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
     const navigate = useNavigate();
+    const roundNumber = useRef("");
+    const roomId = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
+        roundNumber.current = sessionStorage.getItem("round");
+        roomId.current = sessionStorage.getItem("roomId");
 
         setIsReady(true);
-    }, [quizId]);
+    }, []);
 
     useEffect(() => {
         if (hostMessage === "ROUNDEND") {
@@ -30,6 +33,7 @@ const PlayerQuizPage = () => {
             sendAnswer(gameMode.current);
 
             setTimeout(() => {
+                sessionStorage.setItem("round", roundNumber.current +1);
                 navigate("/player/game/round/result");
             }, 500);
         }
@@ -37,6 +41,7 @@ const PlayerQuizPage = () => {
 
     const prepareAnswer = (inputAnswer) => {
         answer.current = inputAnswer;
+        sendAnswer(gameMode.current)
     }
 
     const sendAnswer = async (gameMode) => {
@@ -53,8 +58,10 @@ const PlayerQuizPage = () => {
             return;
         }
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=${roomId}&playerName=${playerName.current}`, {
-            method: "POST",
+        console.log("Sending answer:", answer.current); // 로그 추가
+
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=${roomId.current}&playerName=${playerName.current}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -85,7 +92,7 @@ const PlayerQuizPage = () => {
                     <h1>노래부르기</h1>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
-                    <ListeningText prepareAnswer={prepareAnswer} quizData={quiz} />
+                    <ListeningText prepareAnswer={prepareAnswer} />
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

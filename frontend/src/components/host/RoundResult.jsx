@@ -37,31 +37,12 @@ const RoundResult = () => {
         setCurrentTime(5);
 
         setTimeout(() => {
-            getAnswerNumber(setting.gameMode);
             startTimer();
+            setIsReady(true);
         }, 1000);
     }, [setting]);
 
-    const getAnswerNumber = async (gameMode) => {
-        const response = await fetch(`/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}&answer=${quizAnswer.current}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            // 오류 처리
-            console.error('Failed to fetch answer number');
-            return;
-        }
-
-        const data = await response.json();
-        setAnswer(data);
-        setIsReady(true);
-    }
-
-    const startTimer = () => {
+    const startTimer = (prevTime) => {
         intervalRef.current = setInterval(() => {
             setCurrentTime((prevTime) => {
                 if (prevTime <= 1) {
@@ -70,7 +51,7 @@ const RoundResult = () => {
                 }
                 return prevTime - 1;
             });
-        }, 10000);
+        }, 1000);
 
     }
 
@@ -125,7 +106,7 @@ const RoundResult = () => {
                                 <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
-                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers}/>
+                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers.current}/>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>

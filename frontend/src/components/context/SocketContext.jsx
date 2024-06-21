@@ -1,3 +1,4 @@
+// SocketContext.jsx
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const SocketContext = createContext();
@@ -13,6 +14,7 @@ export const SocketProvider = ({ children }) => {
     const [quizId, setQuizId] = useState('');
     const [hostMessage, setHostMessage] = useState('');
     const [clientMessage, setClientMessage] = useState('');
+    const [quiz, setQuiz] = useState(null);  // 추가된 부분
     const isConnected = useRef(false);
 
     const connectWebSocket = () => {
@@ -59,6 +61,9 @@ export const SocketProvider = ({ children }) => {
                 setHostMessage(msgData.split(":")[1]);
             } else if (msgData.startsWith("PLAYER:")) {
                 setClientMessage(msgData.split(":")[1]);
+            } else if (msgData.startsWith("QUIZ:")) {  // 퀴즈 데이터 수신
+                const quizData = JSON.parse(msgData.split(":", 2)[1]);
+                setQuiz(quizData);
             } else {
                 setMessages((prevMessages) => [...prevMessages, msgData]);
             }
@@ -120,7 +125,7 @@ export const SocketProvider = ({ children }) => {
 
     return (
         <SocketContext.Provider value={{
-            sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef,
+            sendMessage, messages, roomId, quizId, hostMessage, clientMessage, socketRef, quiz,
             setRoomId, setMessages, setQuizId, setHostMessage, setClientMessage, isConnected, clearPlayInformation, reconnectWebSocket
         }}>
             {children}
