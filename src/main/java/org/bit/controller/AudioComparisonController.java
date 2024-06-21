@@ -85,6 +85,32 @@ public class AudioComparisonController {
         return response;
     }
 
+    @PostMapping("/recognize")
+    public Map<String, Object> recognizeAudio(@RequestParam("file") MultipartFile file) throws IOException, InterruptedException {
+        File scriptFile = new ClassPathResource("python/speech_recognition.py").getFile();
+        File uploadedFile = convertMultiPartToFile(file);
+
+        ProcessBuilder processBuilder = new ProcessBuilder("python", scriptFile.getAbsolutePath(), uploadedFile.getAbsolutePath());
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String result;
+        StringBuilder output = new StringBuilder();
+        while ((result = in.readLine()) != null) {
+            output.append(result);
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new IOException("Python script execution failed");
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("text", output.toString().trim());
+        return response;
+    }
+
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
         file.transferTo(convFile);
