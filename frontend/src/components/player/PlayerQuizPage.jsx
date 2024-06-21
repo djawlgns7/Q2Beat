@@ -1,3 +1,5 @@
+import Timer from "../quiz/Timer.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
@@ -15,10 +17,12 @@ const PlayerQuizPage = () => {
     const playerName = useRef("");
     const answer = useRef(0);
     const navigate = useNavigate();
+    const roundNumber = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
+        roundNumber.current = sessionStorage.getItem("round");
 
         setIsReady(true);
     }, []);
@@ -30,6 +34,7 @@ const PlayerQuizPage = () => {
             sendAnswer(gameMode.current);
 
             setTimeout(() => {
+                sessionStorage.setItem("round", roundNumber.current + 1);
                 navigate("/player/game/round/result");
             }, 500);
         }
@@ -90,7 +95,7 @@ const PlayerQuizPage = () => {
                                     <PlayerTop playerName={playerName.current}/>
                                 </div>
                                 <div className="quiz-main">
-                                    <h1 className="quiz-round">문제 {quizId}번</h1>
+                                    <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
                                     <div className="quiz-box">
                                         <NormalButton prepareAnswer={prepareAnswer}/>
                                     </div>
@@ -112,8 +117,7 @@ const PlayerQuizPage = () => {
                 <h1>오류 발생</h1>
                 )
             ) : (
-                <>
-                </>
+                <div></div>
             )}
         </>
     )
