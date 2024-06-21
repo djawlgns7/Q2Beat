@@ -1,5 +1,3 @@
-import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
@@ -82,37 +80,40 @@ const PlayerQuizPage = () => {
     return (
         <>
             {isReady ? (
-                <>
-                    <h1>문저 {quizId}번</h1>
-                    gameMode.current === "NORMAL" ? (
-                    // 일반 게임
-                    <div className="container-m">
-                        <div className="loginBox-m">
-                            <div className="player-header">
-                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                                <PlayerTop playerName={playerName.current}/>
+                gameMode.current === "NORMAL" ? (
+                    //일반 게임
+                    <>
+                        <div className="container-m">
+                            <div className="loginBox-m">
+                                <div className="player-header">
+                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                    <PlayerTop playerName={playerName.current}/>
+                                </div>
+                                <div className="quiz-main">
+                                    <h1 className="quiz-round">문제 {quizId}번</h1>
+                                    <div className="quiz-box">
+                                        <NormalButton prepareAnswer={prepareAnswer}/>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="quiz-box">
-                                <NormalButton prepareAnswer={prepareAnswer}/>
-                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                         </div>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
-                    </div>
-                    ) : gameMode.current === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
-                    ) : gameMode.current === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
-                    ) : gameMode.current === "POSE" ? (
-                    // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
-                    ) : (
-                    <h1>오류 발생</h1>
-                    )
-                </>
+                    </>
+                ) : gameMode.current === "SINGING" ? (
+                // 노래부르기
+                <h1>노래부르기</h1>
+                ) : gameMode.current === "LYRIC" ? (
+                // 가사 맞추기
+                <h1>가사 맞추기</h1>
+                ) : gameMode.current === "POSE" ? (
+                // 포즈 따라하기
+                <h1>포즈 따라하기</h1>
+                ) : (
+                <h1>오류 발생</h1>
+                )
             ) : (
-                <div></div>
+                <>
+                </>
             )}
         </>
     )

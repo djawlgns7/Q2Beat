@@ -28,6 +28,7 @@ import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
+import MobileView from "./components/MobileView.jsx";
 
 function App() {
     return (

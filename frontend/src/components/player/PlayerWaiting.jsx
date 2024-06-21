@@ -54,14 +54,16 @@ const PlayerWaiting = () => {
             <div className="loginBox-m">
                 <div className="waitingPart-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                    <span className="name-header">{name} 님</span>
+                    <h3 className="name-header">{name} 님</h3>
                 </div>
                 <div className="waitingPart-main">
                     <h1>방번호 : {roomId}</h1>
                     <br/>
                     <h2 className="waiting-message">게임이 곧 시작합니다.<br/>잠시만 기다려주세요.</h2>
                 </div>
-                <button onClick={exitRoom} className="exitBtn">나가기</button>
+                <div className="exit-button">
+                    <button onClick={exitRoom} className="exitBtn">나가기</button>
+                </div>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
         </div>
