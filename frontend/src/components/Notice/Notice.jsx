@@ -22,7 +22,7 @@ const Notice = () => {
         startPage: 1,   //현재 페이지 블록에서 시작 페이지
         endPage:1       //현재 페이지 블록에서 끝 페이지
     });
-    
+
     //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchNotices 호출
     useEffect(() => {
         fetchNotices(pagination.currentPage, pagination.pageSize);
@@ -31,7 +31,7 @@ const Notice = () => {
     //공지사항 목록을 서버에서 가져오는 비동기 함수
     const fetchNotices = async (page, size) => {
         try {
-            const response = await axios.get(`api/notices?page=${page}&size=${size}`);
+            const response = await axios.get(`/api/notices?page=${page}&size=${size}`);
             console.log('응답 데이터:', response.data);
             //서버로 부터 받은 데이터를 상태에 설정
             setNotices(response.data.notices);

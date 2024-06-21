@@ -25,7 +25,7 @@ const Login = () => {
                     <span>서비스 약관 | </span>
                     <span>개인정보 처리방침 | </span>
                     <span>이용약관 | </span>
-                    <span><a href={"/notices-board"} className="notice-link">공지사항</a> | </span>
+                    <span><a href={"/notices"} className="notice-link">공지사항</a> | </span>
                     <span><a href={"/notices-board"} className="notice-link">QnA</a></span>
                 </div>
             </div>

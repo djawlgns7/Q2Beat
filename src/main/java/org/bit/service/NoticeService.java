@@ -1,5 +1,6 @@
 package org.bit.service;
 
+import lombok.RequiredArgsConstructor;
 import org.bit.mapper.NoticeMapper;
 import org.bit.model.Q2Notice.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NoticeService {
 
-    @Autowired
-    private NoticeMapper noticeMapper;
+    private final NoticeMapper noticeMapper;
 
     //작성날짜 문자열 -> 날짜 변환
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -54,7 +55,6 @@ public class NoticeService {
         notice.setCreate_date(LocalDate.now().format(formatter));
         noticeMapper.updateNotice(notice);
     }
-
     //공지사항 삭제
     public void deleteNotice(int notice_id) {
         noticeMapper.deleteNotice(notice_id);

@@ -12,6 +12,7 @@ const NormalRoundResult = (props) => {
         color: "white",
         translate: "0 20px",
         fontSize: "25px",
+        textAlign: "center",
     });
 
     const answerStyle = {
