@@ -62,7 +62,7 @@ const QuizResult = () => {
                     <>
                         <div className="result-container">
                             <div className="result-box">
-                                <h1>결과</h1>
+                                <h1 className="quiz-result-text">결과</h1>
                                 <ul className="result-list">
                                     {players.map((player, index) => (
                                         <li key={index}>
@@ -76,7 +76,7 @@ const QuizResult = () => {
                             <div className="result-btn">
                                 <button onClick={returnLobby} className="endGame-button">나가기</button>
                             </div>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p-result"/>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>
                 ) : setting.gameMode === "SINGING" ? (

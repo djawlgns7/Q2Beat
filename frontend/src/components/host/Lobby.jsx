@@ -111,15 +111,15 @@ const Lobby = () => {
                                 <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">노래 맞추기</button>
+                                <button className="option-btn-1">주크박스</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(1)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
-                                <button className="option-btn-1">노래 부르기</button>
+                                <button className="option-btn-1">잰말놀이</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(2)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
-                                <button className="option-btn-1">포즈 따라하기</button>
+                                <button className="option-btn-1">포토제닉</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(3)}}>시작하기</button>
                             </div>
                             {/*<div className="actions">*/}
