@@ -14,7 +14,7 @@ function AudioComparison() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('https://bit-two.com/api/audio/compare', formData, {
+      const response = await axios.post('http://localhost:8080/api/audio/compare', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
