@@ -26,11 +26,12 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
-import Notice from "./components/Notice/Notice.jsx";
-import Qna from "./components/Notice/Qna.jsx";
-import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
+import Notice from "./components/notice/Notice.jsx";
+import NoticeDetails from "./components/notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
+import QnaList from "./components/qna/QnaList.jsx";
+import QnaDetails from "./components/qna/QnaDetails.jsx";
 
 function App() {
     return (
@@ -48,8 +49,9 @@ function App() {
                     <Route path="/host" element={<HostRoom/>}/>
                     <Route path="/participant" element={<ParticipantRoom/>}/>
                     <Route path="/notices" element={<Notice/>}/>
-                    <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
+                    <Route path="/qna" element={<QnaList/>}/>
+                    <Route path="/qna/:qna_id" element={<QnaDetails/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>

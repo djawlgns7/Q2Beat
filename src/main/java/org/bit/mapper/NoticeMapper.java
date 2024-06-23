@@ -11,7 +11,7 @@ public interface NoticeMapper {
     @Select("SELECT * FROM notice WHERE notice_id = #{notice_id}")
     Notice selectNoticeById(@Param("notice_id") int notice_id);
 
-    //페이지네이션 공지사항 목록 조회
+    //페이지별로 공지사항 목록 조회
     @Select("SELECT * FROM notice LIMIT #{offset}, #{size}")
     List<Notice> selectNoticesByPage(@Param("offset") int offset, @Param("size") int size);
 

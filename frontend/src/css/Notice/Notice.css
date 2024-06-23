@@ -42,10 +42,6 @@
     text-decoration: underline;
 }
 
-.hide-column {
-    display: none;
-}
-
 .pagination {
     display: flex;
     justify-content: center;

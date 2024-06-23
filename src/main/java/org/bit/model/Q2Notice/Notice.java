@@ -2,8 +2,6 @@ package org.bit.model.Q2Notice;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class Notice {
     private int notice_id;      //공지사항 글번호
