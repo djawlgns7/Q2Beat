@@ -134,7 +134,7 @@ const Lobby = () => {
                             </div>
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">주크박스</button>
-                                <button className="hover-button" onClick={()=>{startQuiz(1)}}>시작하기</button>
+                                <button className="hover-button" onClick={startListening}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
                                 <button className="option-btn-1">잰말놀이</button>

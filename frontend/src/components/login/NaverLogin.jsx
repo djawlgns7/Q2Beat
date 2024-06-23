@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import axios from '../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
-import '../css/NaverLogin.css'
+import '../../css/NaverLogin.css'
 
 const NaverLoginButton = () => {
     const navigate = useNavigate();

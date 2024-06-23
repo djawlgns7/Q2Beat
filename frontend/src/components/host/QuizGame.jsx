@@ -142,7 +142,6 @@ const QuizGame = () => {
                     <h1>노래부르기</h1>
                 ) : setting.gameMode === "LISTENING" ? (
                     <>
-                        <h1>문제 {setting.round}</h1>
                         <ListeningQuiz quiz={quiz} />
                     </>
                 ) : setting.gameMode === "POSE" ? (
