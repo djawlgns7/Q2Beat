@@ -16,7 +16,7 @@ public interface PlayerMapper {
     Player getPlayerInformation(Player player);
 
     @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%'")
-    List<Player> getPlayerList(@Param("room_id")String room_id);
+    List<Player> getPlayerList(@Param("room_id") String room_id);
 
     @Select("select count(player_name) from player where room_id = #{room_id}")
     int getPlayerNumber(String room_id);
@@ -27,8 +27,8 @@ public interface PlayerMapper {
     @Update("update player set player_score = #{player_score} where room_id = #{room_id} and player_name = #{player_name}")
     boolean updatePlayerScore(Player player);
 
-    @Update("update player set player_recent_answer = #{player_recent_answer} where room_id = #{room_id} and player_name = #{player_name}")
-    boolean updatePlayerRecentAnswer(Player player);
+    @Update("UPDATE player SET player_recent_answer = #{player_recent_answer} WHERE player_name = #{player_name}")
+    void updatePlayerRecentAnswer(Player player);
 
     @Update("update player set player_team_id = null, player_recent_answer = null, player_score = 0 where room_id = #{room_id}")
     void resetPlayerInformation(@Param("room_id") String room_id);
@@ -44,4 +44,7 @@ public interface PlayerMapper {
 
     @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%' order by player_score desc")
     List<Player> getPlayerRank(@Param("room_id")String room_id);
+
+    @Select("select count(*) from player where room_id = #{room_id} and ")
+    String getAnswerListenings(@Param("room_id") String room_id, @Param("answer") String answer);
 }

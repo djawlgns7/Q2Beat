@@ -5,24 +5,27 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
+import ListeningText from "../quiz/ListeningText.jsx";
 import Q2B from "../../image/Q2BEAT_2.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const PlayerQuizPage = () => {
-    const {roomId, hostMessage, setHostMessage, quizId} = useSocket();
+    const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
-    const answer = useRef(0);
+    const answer = useRef("");
     const navigate = useNavigate();
     const roundNumber = useRef("");
+    const roomId = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
         roundNumber.current = sessionStorage.getItem("round");
+        roomId.current = sessionStorage.getItem("roomId");
 
         setIsReady(true);
     }, []);
@@ -40,8 +43,9 @@ const PlayerQuizPage = () => {
         }
     }, [hostMessage]);
 
-    const prepareAnswer = (buttonAnswer) => {
-        answer.current = buttonAnswer;
+    const prepareAnswer = (inputAnswer) => {
+        answer.current = inputAnswer;
+        sendAnswer(gameMode.current)
     }
 
     const sendAnswer = async (gameMode) => {
@@ -49,8 +53,8 @@ const PlayerQuizPage = () => {
             gameMode = "normal";
         } else if (gameMode === "SINGING") {
             gameMode = "singing";
-        } else if (gameMode === "LYRIC") {
-            gameMode = "lyric";
+        } else if (gameMode === "LISTENING") {
+            gameMode = "listening";
         } else if (gameMode === "POSE") {
             gameMode = "pose";
         } else {
@@ -58,7 +62,9 @@ const PlayerQuizPage = () => {
             return;
         }
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&player_recent_answer=${answer.current}&room_id=R${roomId}&player_name=${playerName.current}`, {
+        console.log("Sending answer:", answer.current); // 로그 추가
+
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -66,51 +72,52 @@ const PlayerQuizPage = () => {
         });
 
         if (!response.ok) {
-            // 오류 처리
             console.error('Failed to send answer');
             return;
         }
 
         const data = await response.json();
 
-        if (data.isCorrect === "true") {
-            sessionStorage.setItem("isCorrect", data.correct);
-        } else {
-            sessionStorage.setItem("isCorrect", data.correct);
-        }
-
+        sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
     };
 
     return (
         <>
-            <div className="player-header">
-                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                <PlayerTop playerName={playerName.current}/>
-            </div>
+            <PlayerTop playerName={playerName.current}/>
             {isReady ? (
-                <>
-                    <h1>문저 {roundNumber.current}번</h1>
-                    gameMode.current === "NORMAL" ? (
-                    // 일반 게임
-                    <div className="box-and-image">
-                        <NormalButton prepareAnswer={prepareAnswer}/>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p-quiz"/>
-                    </div>
-                    ) : gameMode.current === "SINGING" ? (
+                gameMode.current === "NORMAL" ? (
+                    //일반 게임
+                    <>
+                        <div className="container-m">
+                            <div className="loginBox-m">
+                                <div className="player-header">
+                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                    <PlayerTop playerName={playerName.current}/>
+                                </div>
+                                <div className="quiz-main">
+                                    <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
+                                    <div className="quiz-box">
+                                        <NormalButton prepareAnswer={prepareAnswer}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                        </div>
+                    </>
+                ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                    ) : gameMode.current === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
-                    ) : gameMode.current === "POSE" ? (
-                    // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
-                    ) : (
-                    <h1>오류 발생</h1>
-                    )
-                </>
-            ) : (
+                ) : gameMode.current === "LISTENING" ? (
+                    // 노래 맞추기
+                    <ListeningText prepareAnswer={prepareAnswer} />
+                ) : gameMode.current === "POSE" ? (
+                // 포즈 따라하기
+                <h1>포즈 따라하기</h1>
+                ) : (
+                <h1>오류 발생</h1>
+                )
+                ) : (
                 <div></div>
             )}
         </>

@@ -35,10 +35,10 @@
 }
 
 .backImage-p-count {
-    width: 138%;
+    width: 100%;
     height: 200px;
     background-repeat: no-repeat;
-    background-position: bottom;
+    /*background-position: bottom;*/    /* 왜 이거는 안될까;;; */
     background-size: cover;
     translate: 0px 350px;
 }

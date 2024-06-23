@@ -1,3 +1,5 @@
+import '../../css/Quiz/NormalButton.css'
+
 const NormalButton = ({prepareAnswer}) => {
     const box = {
         display: "inline-block",
@@ -15,22 +17,22 @@ const NormalButton = ({prepareAnswer}) => {
 
     return (
         <>
-            <div>
-                <button style={box} onClick={() => {
+            <div className="normal-btns">
+                <button className="normal-button" onClick={() => {
                     prepareAnswer(1);
                 }}>1번
                 </button>
-                <button style={box} onClick={() => {
+                <button className="normal-button" onClick={() => {
                     prepareAnswer(2);
                 }}>2번
                 </button>
             </div>
-            <div>
-                <button style={box} onClick={() => {
+            <div className="normal-btns">
+                <button className="normal-button" onClick={() => {
                     prepareAnswer(3);
                 }}>3번
                 </button>
-                <button style={box} onClick={() => {
+                <button className="normal-button" onClick={() => {
                     prepareAnswer(4);
                 }}>4번
                 </button>

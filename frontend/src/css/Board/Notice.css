@@ -1,0 +1,81 @@
+.notice-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #f9f9f9; /* 배경색을 더 밝게 변경 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.notice-table th, .notice-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center; /* 중앙 정렬 */
+}
+
+.notice-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.notice-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.notice-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.notice-table tr td a {
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.notice-table tr td a:hover {
+    text-decoration: underline;
+}
+
+.hide-column {
+    display: none;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    margin: 0 4px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.pagination button:hover {
+    background-color: #f2f2f2;
+}
+
+.pagination .active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.pagination button[disabled]:hover {
+    background-color: white;
+}

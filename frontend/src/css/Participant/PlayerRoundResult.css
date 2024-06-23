@@ -1,0 +1,34 @@
+.round-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    margin-top: 30px;
+    color: white;
+}
+
+
+.result-text {
+    font-size: 30px;
+}
+
+.result-rank {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+/* Green Circle */
+.green-circle {
+    color: green;
+    font-size: 200px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* Red X */
+.red-x {
+    color: red;
+    font-size: 200px;
+    font-weight: bold;
+    display: inline-block;
+}
