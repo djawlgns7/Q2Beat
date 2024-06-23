@@ -5,7 +5,7 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
-import ListeningText from "../quiz/ListeningText.jsx";
+import ListeningText from "../quiz/listening/ListeningText.jsx";
 
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
@@ -30,17 +30,17 @@ const PlayerQuizPage = () => {
         if (hostMessage === "ROUNDEND") {
             console.log(hostMessage);
             setHostMessage("");
-            sendAnswer(gameMode.current);
 
             setTimeout(() => {
                 sessionStorage.setItem("round", roundNumber.current +1);
-                navigate("/player/game/round/result");
+                navigate("/player/game/round/result/listening");
             }, 500);
         }
-    }, [hostMessage]);
+    }, [hostMessage, navigate, setHostMessage]);
 
-    const prepareAnswer = (inputAnswer) => {
+    const prepareAnswer = (inputAnswer, isCorrect) => {
         answer.current = inputAnswer;
+        sessionStorage.setItem("isCorrect", isCorrect);
         sendAnswer(gameMode.current)
     }
 
@@ -76,6 +76,7 @@ const PlayerQuizPage = () => {
 
         sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
+
     };
 
     return (
@@ -92,7 +93,11 @@ const PlayerQuizPage = () => {
                     <h1>노래부르기</h1>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
-                    <ListeningText prepareAnswer={prepareAnswer} />
+                    <ListeningText prepareAnswer={prepareAnswer}
+                                   quizId={quizId}
+                                   roomId={roomId.current}
+                                   playerName={playerName.current}
+                    />
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

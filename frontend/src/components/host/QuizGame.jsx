@@ -3,13 +3,13 @@ import { useSocket } from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
 import NormalOptions from "../quiz/NormalOptions.jsx";
 import { useNavigate } from "react-router-dom";
-import ListeningQuiz from "../quiz/ListeningQuiz.jsx";
+import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import '../../css/PC.css';
 import '../../css/Host/QuizGame.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const QuizGame = () => {
-    const { sendMessage, roomId, hostMessage } = useSocket();
+    const { sendMessage, roomId, hostMessage, setHostMessage } = useSocket();
     const [setting, setSetting] = useState('');
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
@@ -119,6 +119,7 @@ const QuizGame = () => {
 
     useEffect(() => {
         if (hostMessage === "ROUNDEND") {
+            setHostMessage("");
             navigate("/host/game/round/result/listening");
         }
     }, [hostMessage]);

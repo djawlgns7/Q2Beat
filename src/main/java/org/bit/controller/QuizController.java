@@ -1,6 +1,7 @@
 package org.bit.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.bit.handler.MyWebSocketHandler;
 import org.bit.model.Player;
 import org.bit.model.QuizHistory;
 import org.bit.model.quiz.PlayerAnswer;
@@ -25,6 +26,7 @@ public class QuizController {
     private final QuizService quizService;
     private final RoomService roomService;
     private final PlayerService playerService;
+    private final MyWebSocketHandler myWebSocketHandler;
 
     @GetMapping("/get/normal")
     public QuizNormal getQuizNormal(@RequestParam("category") String category, @RequestParam("roomId") int roomId) {
@@ -171,37 +173,61 @@ public class QuizController {
                                                        @RequestParam("roomId") String roomId,
                                                        @RequestParam("playerName") String playerName,
                                                        @RequestParam("answer") String answer) {
-
-        // 로그 추가
         System.out.println("Received Parameters - quizId: " + quizId + ", roomId: " + roomId + ", playerName: " + playerName + ", answer: " + answer);
 
-        Player player = new Player(roomId, playerName);
+        // formattedRoomId 변수로 roomId를 'R'로 시작하도록 수정
+        String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
+
+        Player player = playerService.getPlayerByRoomAndName(formattedRoomId, playerName);
+        if (player == null) {
+            System.out.println("Player not found - roomId: " + formattedRoomId + ", playerName: " + playerName);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
+        }
+
         int result = quizService.gradingListening(quizId, answer);
 
-        // 로그 추가
         System.out.println("Grading Result: " + result);
 
-        playerService.updatePlayerRecentAnswerByRoomAndName(roomId, playerName, answer);
+        player.setPlayer_recent_answer(answer);
+        playerService.updatePlayerRecentAnswerForListening(player.getPlayer_recent_answer(), player.getRoom_id(), player.getPlayer_name());
         player.setCorrect(false);
 
         if (result == 1) {
             player.setPlayer_score(player.getPlayer_score() + 1);
             player.setCorrect(true);
-            playerService.updatePlayerScore(player);
+            playerService.updatePlayerScoreForListening(player.getPlayer_score(), player.getRoom_id(), player.getPlayer_name());
+
+            // 라운드 종료 메시지 전송
+            try {
+                System.out.println("라운드 종료");
+                myWebSocketHandler.sendMessageToRoom(formattedRoomId, "ROUNDEND");
+            } catch (Exception e) {
+                System.out.println("Failed to send message to room: " + e.getMessage());
+            }
+
+            System.out.println("Player Info - Name: " + player.getPlayer_name() + ", Score: " + player.getPlayer_score() + ", Correct: " + player.isCorrect());
+            return ResponseEntity.ok(player);
         }
 
-        // 로그 추가
-        System.out.println("Player Info - Name: " + player.getPlayer_name() + ", Score: " + player.getPlayer_score() + ", Correct: " + player.isCorrect());
+        // 모든 답안이 제출되었는지 확인
+        List<Player> players = playerService.getPlayerList(formattedRoomId);
+        boolean allAnswered = players.stream().allMatch(p -> p.getPlayer_recent_answer() != null);
+        if (allAnswered) {
+            try {
+                myWebSocketHandler.sendMessageToRoom(formattedRoomId, "ROUNDEND");
+            } catch (Exception e) {
+                System.out.println("Failed to send message to room: " + e.getMessage());
+            }
+        }
 
+        System.out.println("Player Info - Name: " + player.getPlayer_name() + ", Score: " + player.getPlayer_score() + ", Correct: " + player.isCorrect());
         return ResponseEntity.ok(player);
     }
 
 
     @GetMapping("/get/round/result/listening")
-    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
-                                                                  @RequestParam("answer") String answer) {
-        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
-        System.out.println("Received answer: " + answer);  // answer 로그 출력
+    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId) {
+        System.out.println("Received roomId: " + roomId);
 
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
         List<Player> players = playerService.getPlayerList(formattedRoomId);

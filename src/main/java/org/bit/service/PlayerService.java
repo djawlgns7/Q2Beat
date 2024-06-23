@@ -1,9 +1,12 @@
 package org.bit.service;
 
 import lombok.Data;
+import org.apache.ibatis.annotations.Param;
 import org.bit.mapper.PlayerMapper;
 import org.bit.model.Player;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -63,12 +66,17 @@ public class PlayerService {
         return playerMapper.getPlayerByRoomAndName(roomId, playerName);
     }
 
-    public void updatePlayerRecentAnswerByRoomAndName(String roomId, String playerName, String answer) {
-        Player player = new Player();
-        player.setRoom_id(roomId);
-        player.setPlayer_name(playerName);
-        player.setPlayer_recent_answer(answer);
-        playerMapper.updatePlayerRecentAnswer(player);
+    public void updatePlayerRecentAnswerForListening(String playerRecentAnswer, String roomId, String playerName) {
+        int updatedRows = playerMapper.updatePlayerRecentAnswerForListening(playerRecentAnswer, roomId, playerName);
+        if (updatedRows == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
+        }
     }
 
+    public void updatePlayerScoreForListening(int playerScore, String roomId, String playerName) {
+        int updatedRows = playerMapper.updatePlayerScoreForListening(playerScore, roomId, playerName);
+        if (updatedRows == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
+        }
+    }
 }

@@ -63,6 +63,8 @@ export const SocketProvider = ({children}) => {
             } else if (msgData.startsWith("QUIZ:")) {  // 퀴즈 데이터 수신
                 const quizData = JSON.parse(msgData.split(":", 2)[1]);
                 setQuiz(quizData);
+            } else if (msgData === "ROUNDEND") {
+                setHostMessage("ROUNDEND");
             } else {
                 setMessages((prevMessages) => [...prevMessages, msgData]);
             }

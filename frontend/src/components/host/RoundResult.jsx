@@ -111,9 +111,6 @@ const RoundResult = () => {
                 ) : setting.gameMode === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : setting.gameMode === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>
