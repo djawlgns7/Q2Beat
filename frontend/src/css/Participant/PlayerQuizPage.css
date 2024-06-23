@@ -1,12 +1,12 @@
-.backImage-p-quiz {
-    width: 135%;
-    height: 200px;
-    background-size: cover;
-    background-position: bottom;
-    background-repeat: no-repeat;
-    translate: -30px 20px;
+.quiz-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
 }
 
-.box-and-image {
-    margin-top: 50px;
+.quiz-round {
+    font-size: 30px;
+    color: white;
 }

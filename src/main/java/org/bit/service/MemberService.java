@@ -29,4 +29,8 @@ public class MemberService {
     public Member findByEmail(String email) {
         return memberMapper.findByEmail(email);
     }
+
+    public boolean nicknameExist(String nickname) {
+        return memberMapper.findByUsername(nickname)!= null;
+    }
 }

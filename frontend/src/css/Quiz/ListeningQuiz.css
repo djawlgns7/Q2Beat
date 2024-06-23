@@ -1,0 +1,40 @@
+.listening-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.listening-loginBox {
+    position: relative;
+    width: 1000px;
+    height: 500px;
+    background-color: #1A1F44;
+    border: 3px solid #5169A2;
+    padding: 30px;
+    border-radius: 100px;
+    text-align: center;
+    color: white;
+    margin-top: 25px;
+    z-index: 2;
+}
+
+.youtube-player {
+    position: relative;
+    z-index: 1;
+}
+
+.listening-round {
+    position: relative;
+    z-index: 2;
+    translate: 0 -20px;
+}
+
+.listening-text {
+    position: relative;
+    z-index: 2;
+    font-size: 30px;
+    font-weight: bold;
+    translate: 0 30px;
+}

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
-import kakaoLogin from "../image/kakao_login.png";
-import '../css/KakaoLogin.css';
+import kakaoLogin from "../../image/kakao_login.png";
+import '../../css/KakaoLogin.css';
+import { useModal } from '../context/ModalContext.jsx';
 
 const KakaoLoginButton = () => {
     const navigate = useNavigate();
+    const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
 
     useEffect(() => {
         window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
@@ -22,10 +24,18 @@ const KakaoLoginButton = () => {
                     handleLoginSuccess({ socialId, name, email }, 'kakao');
                 } catch (error) {
                     console.error('Kakao API request error:', error);
+                    setModalType("error");
+                    setModalTitle("로그인 오류");
+                    setModalBody("카카오 API 요청 중 오류가 발생했습니다.");
+                    showModal();
                 }
             },
             fail: (error) => {
                 console.error('Kakao login error:', error);
+                setModalType("error");
+                setModalTitle("로그인 오류");
+                setModalBody("카카오 로그인에 실패했습니다. 다시 시도해 주세요.");
+                showModal();
             },
         });
     };
@@ -40,7 +50,21 @@ const KakaoLoginButton = () => {
                 name,
                 email,
             });
-            const member = result.data;
+
+            const response = result.data;
+            if (response.status === 'error') {
+                setModalType("error");
+                setModalTitle("로그인 오류");
+                setModalBody(response.message);
+                showModal();
+                return;
+            }
+
+            const member = response.member;
+            if (!member) {
+                throw new Error('Member data is not defined in the response.');
+            }
+
             sessionStorage.setItem('member', JSON.stringify(member));
             if (!member.memberUsername) {
                 navigate('/set-nickname');
@@ -49,6 +73,10 @@ const KakaoLoginButton = () => {
             }
         } catch (error) {
             console.error('Social login error:', error);
+            setModalType("error");
+            setModalTitle("로그인 오류");
+            setModalBody('같은 이메일 정보를 가진 계정이 이미 존재합니다.');
+            showModal();
         }
     };
 

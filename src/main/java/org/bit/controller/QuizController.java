@@ -3,17 +3,19 @@ package org.bit.controller;
 import lombok.RequiredArgsConstructor;
 import org.bit.model.Player;
 import org.bit.model.QuizHistory;
+import org.bit.model.quiz.PlayerAnswer;
 import org.bit.model.quiz.PlayerAnswerNumbers;
+import org.bit.model.quiz.QuizListening;
 import org.bit.model.quiz.QuizNormal;
-import org.bit.model.RoomInformation;
 import org.bit.service.PlayerService;
 import org.bit.service.QuizService;
 import org.bit.service.RoomService;
-import org.springframework.security.core.parameters.P;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/quiz")
@@ -47,7 +49,7 @@ public class QuizController {
 
     @GetMapping("/send/answer/normal")
     public Player checkAnswer(@ModelAttribute Player player, @RequestParam("quizId") int quizId) {
-        int result = quizService.gradingNormal(quizId, player.getPlayer_recent_answer());
+        int result = quizService.gradingNormal(quizId, Integer.parseInt(player.getPlayer_recent_answer()));
 
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
@@ -122,5 +124,98 @@ public class QuizController {
         String roomIdString = "R" + roomId;
 
         return playerService.getPlayerList(roomIdString);
+    }
+
+    @GetMapping("/get/listening")
+    public ResponseEntity<QuizListening> getQuizListening(@RequestParam("roomId") String roomId) {
+        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
+
+        String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
+
+        List<Integer> quizIds = quizService.getListeningQuizNumberList();
+        QuizHistory quizHistory = new QuizHistory();
+        quizHistory.setRoom_id(formattedRoomId);
+
+        System.out.println("Quiz IDs: " + quizIds);
+        System.out.println("Quiz History: " + quizHistory);
+
+        int quizNumber = quizIds.size();
+
+        while (true) {
+            int randomIndex = (int) (Math.random() * quizNumber);
+            int quizId = quizIds.get(randomIndex);
+            quizHistory.setQuiz_id(quizId);
+
+            try {
+                if (roomService.insertQuizHistory(quizHistory)) {
+                    System.out.println("quizId: " + quizId);
+                    QuizListening quizListening = quizService.getQuizListening(quizId);
+
+                    if (quizListening == null) {
+                        System.out.println("Failed to retrieve QuizListening for quizId: " + quizId);
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                    }
+
+                    System.out.println(quizListening);
+                    return ResponseEntity.ok(quizListening);
+                }
+            } catch (Exception e) {
+                System.err.println("Failed to insert quiz history: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+    }
+
+    @GetMapping("/send/answer/listening")
+    public ResponseEntity<Player> checkListeningAnswer(@RequestParam("quizId") int quizId,
+                                                       @RequestParam("roomId") String roomId,
+                                                       @RequestParam("playerName") String playerName,
+                                                       @RequestParam("answer") String answer) {
+
+        // 로그 추가
+        System.out.println("Received Parameters - quizId: " + quizId + ", roomId: " + roomId + ", playerName: " + playerName + ", answer: " + answer);
+
+        Player player = new Player(roomId, playerName);
+        int result = quizService.gradingListening(quizId, answer);
+
+        // 로그 추가
+        System.out.println("Grading Result: " + result);
+
+        playerService.updatePlayerRecentAnswer(player);
+        player = playerService.getPlayer(player);
+        player.setCorrect(false);
+
+        if (result == 1) {
+            player.setPlayer_score(player.getPlayer_score() + 1);
+            player.setCorrect(true);
+            playerService.updatePlayerScore(player);
+        }
+
+        // 로그 추가
+        System.out.println("Player Info - Name: " + player.getPlayer_name() + ", Score: " + player.getPlayer_score() + ", Correct: " + player.isCorrect());
+
+        return ResponseEntity.ok(player);
+    }
+
+
+    @GetMapping("/get/round/result/listening")
+    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
+                                                                  @RequestParam("answer") String answer) {
+        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
+        System.out.println("Received answer: " + answer);  // answer 로그 출력
+
+        String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
+        List<Player> players = playerService.getPlayerList(formattedRoomId);
+        String correctAnswer = players.stream()
+                .filter(Player::isCorrect)
+                .findFirst()
+                .map(Player::getPlayer_recent_answer)
+                .orElse("정답자 없음");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("correctAnswer", correctAnswer);
+        response.put("players", players);
+
+        return ResponseEntity.ok(response);
     }
 }

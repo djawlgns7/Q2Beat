@@ -2,11 +2,11 @@ import React from 'react';
 import GoogleLoginPage from './GoogleLogin';
 import NaverLoginButton from './NaverLogin';
 import KakaoLoginButton from './KakaoLogin';
-import '../App.css';
-import '../css/PC.css';
-import '../css/Login.css';
-import Q2B from '../image/Q2BEAT_2.png';
-import Q2B_back from '../image/Q2Beat_background.png';
+import '../../App.css';
+import '../../css/PC.css';
+import '../../css/Login.css';
+import Q2B from '../../image/Q2BEAT_2.png';
+import Q2B_back from '../../image/Q2Beat_background.png';
 
 const Login = () => {
     return (
@@ -25,7 +25,7 @@ const Login = () => {
                     <span>서비스 약관 | </span>
                     <span>개인정보 처리방침 | </span>
                     <span>이용약관 | </span>
-                    <span><a href={"/notices-board"} className="notice-link">공지사항</a> | </span>
+                    <span><a href={"/notices"} className="notice-link">공지사항</a> | </span>
                     <span><a href={"/notices-board"} className="notice-link">QnA</a></span>
                 </div>
             </div>

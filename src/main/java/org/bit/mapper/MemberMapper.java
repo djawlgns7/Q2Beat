@@ -19,4 +19,7 @@ public interface MemberMapper {
 
     @Select("SELECT * FROM member WHERE member_email = #{memberEmail}")
     Member findByEmail(String memberEmail);
+
+    @Select("SELECT * FROM member WHERE member_username = #{memberUsername}")
+    Member findByUsername(String memberUsername);
 }

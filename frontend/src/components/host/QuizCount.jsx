@@ -35,15 +35,17 @@ const QuizCount = () => {
 
     return (
         <div className="count-container">
-            <TransitionGroup>
-                <CSSTransition
-                    key={currentTime}
-                    timeout={500}
-                    classNames="count"
-                >
-                    <h1 className="count-number">{currentTime}</h1>
-                </CSSTransition>
-            </TransitionGroup>
+            <div className="count-box">
+                <TransitionGroup>
+                    <CSSTransition
+                        key={currentTime}
+                        timeout={500}
+                        classNames="count"
+                    >
+                        <h1 className="count-number">{currentTime}</h1>
+                    </CSSTransition>
+                </TransitionGroup>
+            </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-p-count"/>
         </div>
     );

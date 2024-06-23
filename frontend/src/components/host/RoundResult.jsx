@@ -1,16 +1,18 @@
-import {useSocket} from "../context/SocketContext.jsx";
-import React, {useEffect, useRef, useState} from "react";
-import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
-import {useNavigate} from "react-router-dom";
-import '../../css/PC.css'
-import '../../css/Quiz/RoundResult.css'
+import React, { useEffect, useRef, useState } from "react";
+import { useSocket } from "../context/SocketContext.jsx";
+import { useNavigate } from "react-router-dom";
+import '../../css/PC.css';
+import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
+import ListeningRoundResult from "../quiz/ListeningRoundResult.jsx";
+import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();
     const [setting, setSetting] = useState('');
     const [isReady, setIsReady] = useState(false);
     const [currentTime, setCurrentTime] = useState(-1);
+    const [answer, setAnswer] = useState("");
     const isSettingChanged = useRef(false);
     const intervalRef = useRef(null);
     const navigate = useNavigate();
@@ -93,9 +95,23 @@ const RoundResult = () => {
                 ) : setting.gameMode === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
-                ) : setting.gameMode === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
+                ) : setting.gameMode === "LISTENING" ? (
+                    // 노래 맞추기
+                    <>
+                        <div className="round-container">
+                            <div className="round-box">
+                                <div className="circle-header-game">
+                                    {colors.map((color, index) => (
+                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
+                                    ))}
+                                </div>
+                                <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
+                                <h4 className="round-timer">{currentTime}</h4>
+                            </div>
+                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers.current}/>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                        </div>
+                    </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

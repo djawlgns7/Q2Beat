@@ -1,5 +1,3 @@
 .naverClassLogin {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    translate: 5px 13px;
 }
