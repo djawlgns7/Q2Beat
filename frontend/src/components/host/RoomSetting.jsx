@@ -11,6 +11,7 @@ const RoomSetting = () => {
     const gameType = String(useParams().id);
     const navigate = useNavigate();
     const setting = useRef(null);
+    const playerNumber = sessionStorage.getItem('playerNumber');
 
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
@@ -26,6 +27,13 @@ const RoomSetting = () => {
         } else if (gameType === "1") {
 
         } else if (gameType === "2") {
+            setting.current = {
+                gameMode: "TWISTER",
+                round: 1,
+                maxRound: playerNumber,
+                timeLimit: 15,
+                level: "NORMAL"
+            }
 
         } else if (gameType === "3") {
 
@@ -133,14 +141,16 @@ const RoomSetting = () => {
                                                  style={{backgroundColor: color}}></div>
                                         ))}
                                     </div>
-                                    <label className="roomSetting-label">카테고리
-                                        <select onChange={selectChange} className="roomSetting-select">
-                                            <option>발라드</option>
+                                    <label className="roomSetting-label">라운드 수
+                                        <select className="roomSetting-select" unselectable={"on"}>
+                                            <option>{playerNumber}</option>
                                         </select>
                                     </label>
-                                    <label className="roomSetting-label">라운드 수
-                                        <select onChange={selectChange} className="roomSetting-select">
-                                            <option>10라운드</option>
+                                    <label className="roomSetting-label">난이도
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"level NORMAL"}>
+                                            <option value={"level EASY"}>쉬움</option>
+                                            <option value={"level NORMAL"}>보통</option>
+                                            <option value={"level HARD"}>어려움</option>
                                         </select>
                                     </label>
                                 </div>

@@ -13,8 +13,8 @@ public class TongueTwisterService {
 
     private final TongueTwisterMapper tongueTwisterMapper;
 
-    public List<Integer> getTongueTwisterIdList () {
-        return tongueTwisterMapper.getTongueTwisterIdList();
+    public List<Integer> getTongueTwisterIdList (String level) {
+        return tongueTwisterMapper.getTongueTwisterIdList(level);
     }
 
     public TongueTwister getTongueTwister (int id) {

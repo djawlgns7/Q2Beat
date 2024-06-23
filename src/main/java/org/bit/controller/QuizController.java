@@ -218,4 +218,17 @@ public class QuizController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/player/available")
+    public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
+        String roomNumber = "R" + roomId;
+        int size = -1;
+        int index = -1;
+
+        List<Player> playerList = playerService.getAvailablePlayerList(roomNumber);
+        size = playerList.size();
+        index = (int)(Math.random() * size);
+
+        return playerList.get(index).getPlayer_name();
+    }
 }

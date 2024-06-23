@@ -18,8 +18,8 @@ public class TongueTwisterController {
     private final RoomService roomService;
 
     @GetMapping("/twister/get")
-    public TongueTwister getQuizNormal(@RequestParam("roomId") int roomId) {
-        List<Integer> quizIds = tongueTwisterService.getTongueTwisterIdList();
+    public TongueTwister getQuizNormal(@RequestParam("roomId") int roomId, @RequestParam("level") String level) {
+        List<Integer> quizIds = tongueTwisterService.getTongueTwisterIdList(level);
         QuizHistory quizHistory = new QuizHistory();
         quizHistory.setRoom_id("R" + roomId);
 
