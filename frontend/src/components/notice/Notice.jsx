@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../../css/Board/Notice.css';
+import '../../css/Notice/Notice.css';
 
 /*
 * currentPage 현재 페이지
@@ -26,7 +26,7 @@ const Notice = () => {
     //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchNotices 호출
     useEffect(() => {
         fetchNotices(pagination.currentPage, pagination.pageSize);
-    }, [pagination.currentPage]);
+    }, [pagination.currentPage, pagination.pageSize]);
 
     //공지사항 목록을 서버에서 가져오는 비동기 함수
     const fetchNotices = async (page, size) => {
@@ -35,41 +35,41 @@ const Notice = () => {
             console.log('응답 데이터:', response.data);
             //서버로 부터 받은 데이터를 상태에 설정
             setNotices(response.data.notices);
-            setPagination({
-                ...pagination,
+            setPagination(prev => ({
+                ...prev,
                 totalPages: response.data.pagination.totalPages,
                 startPage: response.data.pagination.startPage,
                 endPage: response.data.pagination.endPage
-            });
+            }));
         } catch (error) {
             console.error('공지사항 목록 에러:', error);
         }
     };
     //페이지 변경 함수
     const handlePageChange = (page) => {
-        setPagination({
-            ...pagination,
+        setPagination(prev =>({
+            ...prev,
             currentPage: page
-        });
+        }));
     };
 
     //다음 페이지 블록으로 이동하는 함수
     const handleNextBlock = () => {
         if (pagination.endPage < pagination.totalPages) {
-            setPagination({
-                ...pagination,
+            setPagination(prev =>({
+                ...prev,
                 currentPage: pagination.endPage + 1
-            });
+            }));
         }
     };
 
     //이전 페이지 블록으로 이동하는 함수
     const handlePrevBlock = () => {
         if (pagination.startPage > 1) {
-            setPagination({
-                ...pagination,
+            setPagination(prev => ({
+                ...prev,
                 currentPage: pagination.startPage - 1
-            });
+            }));
         }
     };
 

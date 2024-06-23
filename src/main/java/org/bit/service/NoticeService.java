@@ -25,13 +25,7 @@ public class NoticeService {
         return notice;
     }
 
-    //공지사항 전체 게시글 조회
-    public List<Notice> getAllNotices() {
-        List<Notice> notices = noticeMapper.selectAllNotices();
-        return notices;
-    }
-
-    //공지사항 페이지
+    //공지사항 페이지별 조회(페이징으로 전체게시글 조회가능)
     public List<Notice> getNoticesByPage(int page, int size) {
         int offset = (page - 1) * size;
         return noticeMapper.selectNoticesByPage(offset, size);
@@ -42,7 +36,7 @@ public class NoticeService {
         return noticeMapper.countNotices();
     }
 
-    //공지사항 추가
+    //공지사항 등록
     public void addNotice(Notice notice) {
         //String create_date 변환 -> 현재날짜
         notice.setCreate_date(LocalDate.now().format(formatter));

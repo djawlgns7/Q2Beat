@@ -22,7 +22,7 @@ public class NoticeController {
         return noticeService.getNoticeById(notice_id);
     }
 
-    //공지사항 게시글 목록 페이지
+    //공지사항 게시글 목록 페이지(페이징으로 전체조회)
     @GetMapping
     public Map<String, Object> getNotices(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "size", defaultValue = "5") int size) {
@@ -35,9 +35,6 @@ public class NoticeController {
                 "pagination", pagination
         );
     }
-//    public List<Notice> getAllNotices() {
-//        return noticeService.getAllNotices();
-//    }
 
     //공지사항 추가
     @PostMapping

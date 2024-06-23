@@ -4,14 +4,16 @@ import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import ChatRoom from "./components/ChatRoom.jsx";
 import AudioComparison from "./components/test/AudioComparison.jsx";
 import {SocketProvider} from "./components/context/SocketContext.jsx";
+import ParticipantRoom2 from "./components/player/ParticipantRoom2.jsx";
+import HostRoom2 from "./components/host/HostRoom2.jsx";
 import CreateRoom from "./components/host/CreateRoom.jsx";
 import Lobby from "./components/host/Lobby.jsx";
 import JoinRoom from "./components/player/JoinRoom.jsx";
 import PlayerWaiting from "./components/player/PlayerWaiting.jsx";
 import Reset from "./components/Reset.jsx";
-import Login from "./components/login/Login.jsx";
+import Login from "./components/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
-import NaverCallback from "./components/login/NaverCallback.jsx";
+import NaverCallback from "./components/NaverCallback.jsx";
 import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/host/QuizGame.jsx";
 import QuizCount from "./components/host/QuizCount.jsx";
@@ -42,11 +44,9 @@ function App() {
                     <Route path="/callback" element={<NaverCallback/>}/>
                     <Route path="/reset" element={<Reset/>}/>
                     <Route path="/chat-room" element={<ChatRoom/>}/>
-
-                    {/* 테스트 */}
-                    <Route path="/test/timer" element={<TimerTest/>}/>
-                    <Route path="/test/record" element={<AudioRecorder/>}/>
                     <Route path="/audio" element={<AudioComparison/>}/>
+                    <Route path="/host" element={<HostRoom/>}/>
+                    <Route path="/participant" element={<ParticipantRoom/>}/>
                     <Route path="/notices" element={<Notice/>}/>
                     <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
