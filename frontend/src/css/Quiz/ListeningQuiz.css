@@ -23,12 +23,13 @@
 .youtube-player {
     position: relative;
     z-index: 1;
+    translate: 0 10px;
 }
 
 .listening-round {
     position: relative;
     z-index: 2;
-    translate: 0 -20px;
+    translate: 0 -15px;
 }
 
 .listening-text {
@@ -36,5 +37,12 @@
     z-index: 2;
     font-size: 30px;
     font-weight: bold;
-    translate: 0 30px;
+    translate: 0 40px;
+}
+
+.circle-header-listening {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    translate: 90px -10px;
 }

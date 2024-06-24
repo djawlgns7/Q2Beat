@@ -64,7 +64,7 @@ const ListeningQuiz = ({quiz}) => {
     return (
         <div className="listening-container">
             <div className="listening-loginBox">
-                <div className="circle-header-game">
+                <div className="circle-header-listening">
                     {colors.map((color, index) => (
                         <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
                     ))}
