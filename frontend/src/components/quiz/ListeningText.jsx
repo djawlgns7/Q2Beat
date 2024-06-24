@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../css/Moblie.css'
+import Q2B_back from "../../image/Q2Beat_background.png";
+import SoundIcon from "../../image/free-icon-sound-2.png";
+import '../../css/Quiz/ListeningText.css'
 
 const ListeningText = ({ prepareAnswer }) => {
     const [answer, setAnswer] = useState('');
@@ -15,18 +19,19 @@ const ListeningText = ({ prepareAnswer }) => {
 
     return (
         <>
-            <div>
-                <h3>노래 맞추기 문제</h3>
-                <input type="text"
-                       className="form-control"
-                       value={answer}
-                       onChange={onChange}/>
-                <button
-                    className="btn btn-primary mt-2"
-                    onClick={onSubmit}
-                >
-                    제출
-                </button>
+            <div className="container-m">
+                <div className="loginBox-m">
+                    <div className="listening-main">
+                        <h3>Round</h3>
+                        <img src={SoundIcon} alt="SoundIcon" className="sound-icon"/>
+                        <input className="listening-input"
+                               type="text"
+                               value={answer}
+                               onChange={onChange}/>
+                        <button className="listening-btn" onClick={onSubmit}>제출</button>
+                    </div>
+                </div>
+                <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
             </div>
         </>
     );
