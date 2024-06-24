@@ -16,8 +16,6 @@ const ListeningText = ({ quizId, roomId, playerName, prepareAnswer }) => {
             const response = await fetch(`/quiz/send/answer/listening?quizId=${quizId}&roomId=${roomId}&playerName=${playerName}&answer=${answer}`);
             const result = await response.json();
 
-            console.log("Response received: ", result);
-
             if (result.correct) {
                 setFeedback('정답입니다!');
                 prepareAnswer(answer, true);
@@ -38,7 +36,7 @@ const ListeningText = ({ quizId, roomId, playerName, prepareAnswer }) => {
                 <input type="text"
                        className="form-control"
                        value={answer}
-                       onChange={onChange} />
+                       onChange={onChange}/>
                 <button
                     className="btn btn-primary mt-2"
                     onClick={onSubmit}

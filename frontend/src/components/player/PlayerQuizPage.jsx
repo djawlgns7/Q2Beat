@@ -1,14 +1,14 @@
 import Timer from "../quiz/Timer.jsx";
 import NormalOptions from "../quiz/NormalOptions.jsx";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PlayerTop from "../quiz/PlayerTop.jsx";
-import {useSocket} from "../context/SocketContext.jsx";
+import { useSocket } from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ListeningText from "../quiz/listening/ListeningText.jsx";
 
 const PlayerQuizPage = () => {
-    const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
+    const { sendMessage, hostMessage, setHostMessage, quizId } = useSocket();
     const [isReady, setIsReady] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
@@ -30,19 +30,19 @@ const PlayerQuizPage = () => {
         if (hostMessage === "ROUNDEND") {
             console.log(hostMessage);
             setHostMessage("");
+            sendAnswer(gameMode.current);
 
             setTimeout(() => {
-                sessionStorage.setItem("round", roundNumber.current +1);
-                navigate("/player/game/round/result/listening");
+                sessionStorage.setItem("round", roundNumber.current + 1);
+                navigate("/player/game/round/result");
             }, 500);
         }
-    }, [hostMessage, navigate, setHostMessage]);
+    }, [hostMessage]);
 
     const prepareAnswer = (inputAnswer, isCorrect) => {
         answer.current = inputAnswer;
         sessionStorage.setItem("isCorrect", isCorrect);
-        sendAnswer(gameMode.current)
-    }
+    };
 
     const sendAnswer = async (gameMode) => {
         if (gameMode === "NORMAL") {
@@ -60,7 +60,7 @@ const PlayerQuizPage = () => {
 
         console.log("Sending answer:", answer.current); // 로그 추가
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -76,27 +76,28 @@ const PlayerQuizPage = () => {
 
         sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
-
     };
+
 
     return (
         <>
-            <PlayerTop playerName={playerName.current}/>
+            <PlayerTop playerName={playerName.current} />
             {isReady ? (
                 gameMode.current === "NORMAL" ? (
                     // 일반 게임
                     <>
-                        <NormalButton prepareAnswer={prepareAnswer}/>
+                        <NormalButton prepareAnswer={prepareAnswer} />
                     </>
                 ) : gameMode.current === "SINGING" ? (
                     // 노래부르기
                     <h1>노래부르기</h1>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
-                    <ListeningText prepareAnswer={prepareAnswer}
-                                   quizId={quizId}
-                                   roomId={roomId.current}
-                                   playerName={playerName.current}
+                    <ListeningText
+                        quizId={quizId}
+                        roomId={roomId.current}
+                        playerName={playerName.current}
+                        prepareAnswer={prepareAnswer}
                     />
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
