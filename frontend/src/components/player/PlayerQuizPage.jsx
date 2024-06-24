@@ -84,7 +84,6 @@ const PlayerQuizPage = () => {
 
     return (
         <>
-            <PlayerTop playerName={playerName.current}/>
             {isReady ? (
                 gameMode.current === "NORMAL" ? (
                     //일반 게임

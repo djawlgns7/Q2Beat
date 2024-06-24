@@ -8,6 +8,7 @@
 
 .result-box {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-content: center;
     width: 800px;
@@ -24,7 +25,8 @@
 
 .result-list {
     list-style: none;
-    padding: 20px;
+    margin-bottom: 100px;
+    translate: -15px;
 }
 
 .index-player {
@@ -62,5 +64,6 @@
 }
 
 .quiz-result-text {
-    translate: 20px;
+    translate: 5px;
+    margin-bottom: 30px;
 }
