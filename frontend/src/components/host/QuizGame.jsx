@@ -17,6 +17,7 @@ const QuizGame = () => {
     const [isReady, setIsReady] = useState(false);
     const [isTimeout, setIsTimeout] = useState(false);
     const [usedQuizIds, setUsedQuizIds] = useState([]);
+    const [nextPlayer, setNextPlayer] = useState("");
     const intervalRef = useRef(null);
     const navigate = useNavigate();
 
@@ -32,13 +33,12 @@ const QuizGame = () => {
     useEffect(() => {
         if (setting === "") {
             return;
-        }
-
-        if (setting.gameMode === "NORMAL") {
+        } else if (setting.gameMode === "NORMAL") {
             getQuizNormal(setting.category);
         } else if (setting.gameMode === "LISTENING") {
             getQuizListening();
         } else if (setting.gameMode === "TWISTER") {
+            getNextPlayer();
             getQuizTwister();
         }
         setCurrentTime(setting.timeLimit);
@@ -141,6 +141,24 @@ const QuizGame = () => {
         setIsReady(true);
     };
 
+    const getNextPlayer = async () => {
+        try {
+            const response = await fetch(`/quiz/player/available?roomId=${roomId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch player rank');
+            }
+
+            const data = await response.text();
+            setNextPlayer(data);
+            console.log("다음 플레이어 차례: " + data);
+            sendMessage(`MESSAGE:${roomId}:HOST:${data}`);
+            sessionStorage.setItem("nextPlayer", nextPlayer);
+
+        } catch (error) {
+            console.error('Error fetching player rank:', error);
+        }
+    }
+
 
     return (
         <>
@@ -166,7 +184,7 @@ const QuizGame = () => {
                 ) : setting.gameMode === "TWISTER" ? (
                     <>
                         <h2 className="quiz-title">문제 {setting.round}</h2>
-                        <TwisterQuiz quiz={quiz}/>
+                        <TwisterQuiz quiz={quiz} nextPlayer={nextPlayer} time={currentTime} onTimeout={handleTimeout}/>
                     </>
                 ) : setting.gameMode === "LISTENING" ? (
                     <>

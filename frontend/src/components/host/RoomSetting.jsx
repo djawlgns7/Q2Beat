@@ -142,7 +142,7 @@ const RoomSetting = () => {
                                         ))}
                                     </div>
                                     <label className="roomSetting-label">라운드 수
-                                        <select className="roomSetting-select" unselectable={"on"}>
+                                        <select className="roomSetting-select" disabled={true}>
                                             <option>{playerNumber}</option>
                                         </select>
                                     </label>

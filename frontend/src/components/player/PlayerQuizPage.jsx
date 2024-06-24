@@ -10,10 +10,12 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
+import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
+    const [myTurn, setMyTurn] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
@@ -40,31 +42,28 @@ const PlayerQuizPage = () => {
                 sessionStorage.setItem("round", roundNumber.current + 1);
                 navigate("/player/game/round/result");
             }, 500);
+        } else if (hostMessage === playerName.current) {
+            setMyTurn(true);
+            setHostMessage("");
         }
     }, [hostMessage]);
 
     const prepareAnswer = (inputAnswer) => {
         answer.current = inputAnswer;
-        sendAnswer(gameMode.current)
     }
 
     const sendAnswer = async (gameMode) => {
         if (gameMode === "NORMAL") {
             gameMode = "normal";
-        } else if (gameMode === "SINGING") {
-            gameMode = "singing";
-        } else if (gameMode === "LISTENING") {
+        }else if (gameMode === "LISTENING") {
             gameMode = "listening";
-        } else if (gameMode === "POSE") {
-            gameMode = "pose";
-        } else {
-            console.log("이상한 게임모드: " + gameMode);
+        }else {
             return;
         }
 
         console.log("Sending answer:", answer.current); // 로그 추가
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -105,19 +104,21 @@ const PlayerQuizPage = () => {
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                         </div>
                     </>
-                ) : gameMode.current === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
+                ) : gameMode.current === "TWISTER" ? (
+                    <>
+                        <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
+                        <TwisterAnswer quizId={quizId} myTurn={myTurn} roomId={roomId.current}/>
+                    </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
-                    <ListeningText prepareAnswer={prepareAnswer} />
+                    <ListeningText prepareAnswer={prepareAnswer}/>
                 ) : gameMode.current === "POSE" ? (
-                // 포즈 따라하기
-                <h1>포즈 따라하기</h1>
+                    // 포즈 따라하기
+                    <h1>포즈 따라하기</h1>
                 ) : (
-                <h1>오류 발생</h1>
+                    <h1>오류 발생</h1>
                 )
-                ) : (
+            ) : (
                 <div></div>
             )}
         </>
