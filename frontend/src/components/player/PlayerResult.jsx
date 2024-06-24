@@ -27,7 +27,7 @@ const PlayerResult = () => {
     }, []);
 
     useEffect(() => {
-        if(hostMessage === "RETURNLOBBY") {
+        if (hostMessage === "RETURNLOBBY") {
             navigate("/player/game/waiting");
         }
     }, [hostMessage]);
@@ -40,7 +40,7 @@ const PlayerResult = () => {
             }
             const data = await response.text();
 
-            if(data === "-1") {
+            if (data === "-1") {
                 setRank("게임에 참가하지 않은 유저입니다");
             } else {
                 setRank(data);
@@ -53,39 +53,22 @@ const PlayerResult = () => {
     return (
         <>
             {isReady ? (
-                gameMode.current === "NORMAL" ? (
-                    // 일반 게임
-                    <>
-                        <div className="container-m">
-                            <div className="loginBox-m">
-                                <div className="player-header">
-                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                                    <PlayerTop playerName={playerName.current}/>
-                                </div>
-                                <div className="round-result">
-                                    <h1 className="result-text">최종 결과</h1>
-                                    <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
-                                    <h4 className="result-text">{playerScore.current}점</h4>
-                                </div>
+                <>
+                    <div className="container-m">
+                        <div className="loginBox-m">
+                            <div className="player-header">
+                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                <PlayerTop playerName={playerName.current}/>
                             </div>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                            <div className="round-result">
+                                <h1 className="result-text">최종 결과</h1>
+                                <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
+                                <h4 className="result-text">{playerScore.current}점</h4>
+                            </div>
                         </div>
-                    </>
-                ) : gameMode.current === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
-                ) : gameMode.current === "LISTENING" ? (
-                    // 노래 맞추기
-                    <>
-                        <h3>{Number(rank) + 1}등</h3>
-                        <h4>{playerScore.current}점</h4>
-                    </>
-                ) : gameMode.current === "POSE" ? (
-                    // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
-                ) : (
-                    <h1>오류 발생</h1>
-                )
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                    </div>
+                </>
             ) : (
                 <>
                 </>

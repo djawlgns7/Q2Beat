@@ -237,4 +237,16 @@ public class QuizController {
 
         return playerList.get(index).getPlayer_name();
     }
+
+    @GetMapping("/player/score")
+    public int getPlayerScore(@ModelAttribute Player player) {
+        player = playerService.getPlayer(player);
+
+        return player.getPlayer_score();
+    }
+
+    @GetMapping("/player/score/update")
+    public boolean updatePlayerScore(@ModelAttribute Player player) {
+        return playerService.updatePlayerScore(player);
+    }
 }

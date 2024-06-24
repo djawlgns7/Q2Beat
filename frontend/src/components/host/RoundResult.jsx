@@ -6,6 +6,7 @@ import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 import ListeningRoundResult from "../quiz/ListeningRoundResult.jsx";
 import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
+import TwisterRoundResult from "../quiz/twister/TwisterRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -92,9 +93,8 @@ const RoundResult = () => {
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>
-                ) : setting.gameMode === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
+                ) : setting.gameMode === "TWISTER" ? (
+                    <TwisterRoundResult roomId={roomId}/>
                 ) : setting.gameMode === "LISTENING" ? (
                     // 노래 맞추기
                     <>

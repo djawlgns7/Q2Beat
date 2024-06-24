@@ -57,52 +57,26 @@ const QuizResult = () => {
     return (
         <>
             {isReady ? (
-                setting.gameMode === "NORMAL" ? (
-                    // 일반 게임
-                    <>
-                        <div className="result-container">
-                            <div className="result-box">
-                                <h1 className="quiz-result-text">결과</h1>
-                                <ul className="result-list">
-                                    {players.map((player, index) => (
-                                        <li key={index}>
-                                            <span className="index-player">{index + 1}등 &nbsp;</span>
-                                            <span className="index-player">{player.player_name} &nbsp;</span>
-                                            <span className="index-player">{player.player_score}점</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="result-btn">
-                                <button onClick={returnLobby} className="endGame-button">나가기</button>
-                            </div>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
-                        </div>
-                    </>
-                ) : setting.gameMode === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
-                ) : setting.gameMode === "LISTENING" ? (
-                    // 노래 맞추기
-                    <>
-                        <div>
-                            <ul>
+                <>
+                    <div className="result-container">
+                        <div className="result-box">
+                            <h1 className="quiz-result-text">결과</h1>
+                            <ul className="result-list">
                                 {players.map((player, index) => (
                                     <li key={index}>
-                                        <span>{index + 1}등 &nbsp;</span>
-                                        <span>{player.player_name} &nbsp;</span>
-                                        <span>{player.player_score}점</span>
+                                        <span className="index-player">{index + 1}등 &nbsp;</span>
+                                        <span className="index-player">{player.player_name} &nbsp;</span>
+                                        <span className="index-player">{player.player_score}점</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                    </>
-                ) : setting.gameMode === "POSE" ? (
-                    // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
-                ) : (
-                    <h1>오류 발생</h1>
-                )
+                        <div className="result-btn">
+                            <button onClick={returnLobby} className="endGame-button">나가기</button>
+                        </div>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                    </div>
+                </>
             ) : (
                 <>
                 </>

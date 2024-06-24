@@ -16,6 +16,7 @@ const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const [myTurn, setMyTurn] = useState(false);
+    const [currentPlayer, setCurrentPlayer] = useState("");
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
@@ -44,6 +45,9 @@ const PlayerQuizPage = () => {
             }, 500);
         } else if (hostMessage === playerName.current) {
             setMyTurn(true);
+            setHostMessage("");
+        } else {
+            setCurrentPlayer(hostMessage);
             setHostMessage("");
         }
     }, [hostMessage]);
@@ -107,7 +111,7 @@ const PlayerQuizPage = () => {
                 ) : gameMode.current === "TWISTER" ? (
                     <>
                         <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer quizId={quizId} myTurn={myTurn} roomId={roomId.current}/>
+                        <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
