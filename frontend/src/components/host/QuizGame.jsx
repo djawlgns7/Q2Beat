@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSocket } from '../context/SocketContext.jsx';
+import React, {useEffect, useRef, useState} from 'react';
+import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";;
 import { useNavigate } from "react-router-dom";
 import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import '../../css/PC.css';
 import '../../css/Host/QuizGame.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
+import TwisterQuiz from "../quiz/twister/TwisterQuiz.jsx";
 
 const QuizGame = () => {
     const { sendMessage, roomId, hostMessage, setHostMessage } = useSocket();
@@ -16,6 +17,7 @@ const QuizGame = () => {
     const [isReady, setIsReady] = useState(false);
     const [isTimeout, setIsTimeout] = useState(false);
     const [usedQuizIds, setUsedQuizIds] = useState([]);
+    const [nextPlayer, setNextPlayer] = useState("");
     const intervalRef = useRef(null);
     const navigate = useNavigate();
 
@@ -31,12 +33,13 @@ const QuizGame = () => {
     useEffect(() => {
         if (setting === "") {
             return;
-        }
-
-        if (setting.gameMode === "NORMAL") {
+        } else if (setting.gameMode === "NORMAL") {
             getQuizNormal(setting.category);
         } else if (setting.gameMode === "LISTENING") {
             getQuizListening();
+        } else if (setting.gameMode === "TWISTER") {
+            getNextPlayer();
+            getQuizTwister();
         }
         setCurrentTime(setting.timeLimit);
     }, [setting]);
@@ -124,6 +127,46 @@ const QuizGame = () => {
         }
     }, [hostMessage]);
 
+    const getQuizTwister = async (category) => {
+        const response = await fetch(`/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            // 오류 처리
+            console.error('Failed to fetch quiz information');
+            return;
+        }
+
+        const data = await response.json();
+        setQuiz(data);
+
+        sendMessage(`MESSAGE:${roomId}:QUIZID:${data.twister_id}`);
+        setIsReady(true);
+    };
+
+    const getNextPlayer = async () => {
+        try {
+            const response = await fetch(`/quiz/player/available?roomId=${roomId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch player rank');
+            }
+
+            const data = await response.text();
+            setNextPlayer(data);
+            console.log("다음 플레이어 차례: " + data);
+            sendMessage(`MESSAGE:${roomId}:HOST:${data}`);
+            sessionStorage.setItem("nextPlayer", nextPlayer);
+
+        } catch (error) {
+            console.error('Error fetching player rank:', error);
+        }
+    }
+
+
     return (
         <>
             {isReady ? (
@@ -132,24 +175,28 @@ const QuizGame = () => {
                         <div className="quiz-section">
                             <div className="circle-header-game">
                                 {colors.map((color, index) => (
-                                    <div key={index} className="circle-game" style={{ backgroundColor: color }}></div>
+                                    <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
                                 ))}
                             </div>
                             <h2 className="quiz-title">문제 {setting.round}</h2>
                             <h3 className="quiz-text">{quiz.normal_quiz}</h3>
-                            <Timer time={currentTime} onTimeout={handleTimeout} />
+                            <Timer time={currentTime} onTimeout={handleTimeout}/>
                         </div>
                         <div className="answer-section">
-                            <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice} third={quiz.normal_third_choice} fourth={quiz.normal_fourth_choice} />
+                            <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
+                                           third={quiz.normal_third_choice} fourth={quiz.normal_fourth_choice}/>
                         </div>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p" />
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                     </div>
-                ) : setting.gameMode === "SINGING" ? (
-                    <h1>노래부르기</h1>
+                ) : setting.gameMode === "TWISTER" ? (
+                    <>
+                        <h2 className="quiz-title">문제 {setting.round}</h2>
+                        <TwisterQuiz quiz={quiz} nextPlayer={nextPlayer} time={currentTime} onTimeout={handleTimeout}/>
+                    </>
                 ) : setting.gameMode === "LISTENING" ? (
                     <>
                         <h1>문제 {setting.round}</h1>
-                        <ListeningQuiz quiz={quiz} />
+                        <ListeningQuiz quiz={quiz}/>
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     <h1>포즈 따라하기</h1>

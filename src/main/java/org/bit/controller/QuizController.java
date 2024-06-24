@@ -50,8 +50,14 @@ public class QuizController {
     }
 
     @GetMapping("/send/answer/normal")
-    public Player checkAnswer(@ModelAttribute Player player, @RequestParam("quizId") int quizId) {
-        int result = quizService.gradingNormal(quizId, Integer.parseInt(player.getPlayer_recent_answer()));
+    public Player checkAnswer(@RequestParam("quizId") int quizId,
+                              @RequestParam("roomId") String roomId,
+                              @RequestParam("playerName") String playerName,
+                              @RequestParam("answer") String answer) {
+        Player player = new Player(roomId, playerName);
+        player.setPlayer_recent_answer(answer);
+
+        int result = quizService.gradingNormal(quizId, player.getPlayer_recent_answer());
 
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
@@ -219,5 +225,18 @@ public class QuizController {
         response.put("players", players);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/player/available")
+    public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
+        String roomNumber = "R" + roomId;
+        int size = -1;
+        int index = -1;
+
+        List<Player> playerList = playerService.getAvailablePlayerList(roomNumber);
+        size = playerList.size();
+        index = (int) (Math.random() * size);
+
+        return playerList.get(index).getPlayer_name();
     }
 }

@@ -53,7 +53,9 @@ const Lobby = () => {
     const startQuiz = (gameType) => {
         if (isConnected.current && roomId) {
             //navigate("/host/game/count");
-            navigate("/host/game/setting/"+gameType);
+            sessionStorage.setItem("playerNumber", participants.length + "");
+
+            setTimeout(() => navigate("/host/game/setting/"+gameType), 500);
         }
     }
 
@@ -133,7 +135,7 @@ const Lobby = () => {
                                 <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">노래 맞추기</button>
+                                <button className="option-btn-1">주크박스</button>
                                 <button className="hover-button" onClick={startListening}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">

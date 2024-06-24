@@ -45,6 +45,11 @@ public interface PlayerMapper {
     @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%' order by player_score desc")
     List<Player> getPlayerRank(@Param("room_id")String room_id);
 
+    @Select("select count(*) from player where room_id = #{room_id} and ")
+    String getAnswerListenings(@Param("room_id") String room_id, @Param("answer") String answer);
+
+    @Select("select * from player where room_id = #{room_id} and player_score = 0 and player_name not like '(HOST)%'")
+    List<Player> getAvailablePlayerList(@Param("room_id") String room_id);
 
     @Select("SELECT * FROM player WHERE room_id = #{room_id} AND player_name = #{player_name}")
     Player getPlayerByRoomAndName(@Param("room_id") String roomId, @Param("player_name") String playerName);

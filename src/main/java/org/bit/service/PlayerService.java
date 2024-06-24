@@ -66,6 +66,10 @@ public class PlayerService {
         return playerMapper.getPlayerByRoomAndName(roomId, playerName);
     }
 
+    public List<Player> getAvailablePlayerList(String roomId) {
+        return playerMapper.getAvailablePlayerList(roomId);
+    }
+
     public void updatePlayerRecentAnswerForListening(String playerRecentAnswer, String roomId, String playerName) {
         int updatedRows = playerMapper.updatePlayerRecentAnswerForListening(playerRecentAnswer, roomId, playerName);
         if (updatedRows == 0) {

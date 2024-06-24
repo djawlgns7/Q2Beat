@@ -27,7 +27,7 @@ public class MyBatisConfig {
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3306/q2beat");
+        hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3306/Q2Beat");
         hikariConfig.setUsername("root");
         hikariConfig.setPassword("1234");
         hikariConfig.setMaximumPoolSize(10);

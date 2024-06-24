@@ -1,8 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import YouTube from 'react-youtube';
+import Q2B_back from "../../image/Q2Beat_background.png";
+import '../../css/PC.css'
+import '../../css/Quiz/ListeningQuiz.css'
+import {hide} from "react-modal/lib/helpers/ariaAppHider.js";
 
-const ListeningQuiz = ({ quiz }) => {
+const ListeningQuiz = ({quiz}) => {
     const playerRef = useRef(null);
+    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         if (quiz && quiz.listening_url) {
@@ -57,27 +62,39 @@ const ListeningQuiz = ({ quiz }) => {
     };
 
     return (
-        <div>
-            <h3>노래 맞추기 문제</h3>
-            {quiz && quiz.listening_url && (
-                <div style={{ textAlign: 'center', margin: '1rem 0' }}>
-                    <YouTube
-                        videoId={extractVideoId(quiz.listening_url)}
-                        onReady={onReady}
-                        onError={onError}
-                        opts={{
-                            playerVars: {
-                                'autoplay': 1,
-                                'controls': 1,
-                                'rel': 0,
-                                'modestbranding': 1,
-                                'origin': 'http://localhost:5173', // Add your site domain
-                            }
-                        }}
-                        ref={playerRef}
-                    />
+        <div className="listening-container">
+            <div className="listening-loginBox">
+                <div className="circle-header-game">
+                    {colors.map((color, index) => (
+                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
+                    ))}
                 </div>
-            )}
+                <h2 className="listening-round">Round 1</h2>
+                {quiz && quiz.listening_url && (
+                    <div>
+                        <YouTube
+                            className="youtube-player"
+                            videoId={extractVideoId(quiz.listening_url)}
+                            onReady={onReady}
+                            onError={onError}
+                            opts={{
+                                width: '50%',
+                                height: '250px',
+                                playerVars: {
+                                    'autoplay': 1,
+                                    'controls': 1,
+                                    'rel': 0,
+                                    'modestbranding': 1,
+                                    'origin': 'http://localhost:5173', // Add your site domain
+                                }
+                            }}
+                            ref={playerRef}
+                        />
+                    </div>
+                )}
+                <p className="listening-text">음악을 듣고 노래 제목을 맞혀주세요!</p>
+            </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };

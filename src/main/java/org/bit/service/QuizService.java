@@ -26,7 +26,7 @@ public class QuizService {
         return quizMapper.getNormalQuizNumberList(category);
     }
 
-    public int gradingNormal(int normal_id, int normal_answer) {
+    public int gradingNormal(int normal_id, String normal_answer) {
         return quizMapper.gradingNormal(normal_id, normal_answer);
     }
 
