@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ListeningText = ({ quizId, roomId, playerName, prepareAnswer }) => {
+const ListeningText = ({ prepareAnswer }) => {
     const [answer, setAnswer] = useState('');
     const [feedback, setFeedback] = useState(null);
 
@@ -9,24 +9,9 @@ const ListeningText = ({ quizId, roomId, playerName, prepareAnswer }) => {
         setAnswer(e.target.value);
     }
 
-    const onSubmit = async () => {
+    const onSubmit = () => {
         console.log("Submitting answer: ", answer); // 로그 추가
-
-        try {
-            const response = await fetch(`/quiz/send/answer/listening?quizId=${quizId}&roomId=${roomId}&playerName=${playerName}&answer=${answer}`);
-            const result = await response.json();
-
-            if (result.correct) {
-                setFeedback('정답입니다!');
-                prepareAnswer(answer, true);
-            } else {
-                setFeedback('오답입니다...');
-                prepareAnswer(answer, false);
-            }
-        } catch (error) {
-            console.error('Error submitting answer:', error);
-            setFeedback('오류가 발생했습니다. 다시 시도해주세요.');
-        }
+        prepareAnswer(answer);
     }
 
     return (

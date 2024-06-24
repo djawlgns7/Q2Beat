@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../../css/PC.css';
 import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
-import ListeningRoundResult from "../quiz/ListeningRoundResult.jsx";
+import ListeningRoundResult from "../quiz/listening/ListeningRoundResult.jsx";
 import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
 
 const RoundResult = () => {

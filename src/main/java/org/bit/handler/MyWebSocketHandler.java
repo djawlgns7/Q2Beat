@@ -145,16 +145,4 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    public void sendMessageToRoom(String roomId, String message) throws Exception {
-        if (rooms.containsKey(roomId)) {
-            System.out.println("Sending message to room " + roomId + ": " + message);
-            for (WebSocketSession session : rooms.get(roomId)) {
-                if (session.isOpen()) {
-                    session.sendMessage(new TextMessage(message));
-                }
-            }
-        } else {
-            System.out.println("Room " + roomId + " does not exist.");
-        }
-    }
 }

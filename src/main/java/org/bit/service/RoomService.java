@@ -52,4 +52,6 @@ public class RoomService {
     public Set<Integer> getUsedQuizIds(String roomId) {
         return roomMapper.getUsedQuizIds(roomId);
     }
+
+    public boolean insertQuizHistoryForListening(QuizHistory quizHistory) {return roomMapper.insertQuizHistoryForListening(quizHistory);}
 }

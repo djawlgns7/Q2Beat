@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import YouTube from 'react-youtube';
-import Q2B_back from "../../image/Q2Beat_background.png";
-import '../../css/PC.css'
-import '../../css/Quiz/ListeningQuiz.css'
+import Q2B_back from "../../../image/Q2Beat_background.png";
+import '../../../css/PC.css'
+import '../../../css/Quiz/ListeningQuiz.css'
 import {hide} from "react-modal/lib/helpers/ariaAppHider.js";
 
 const ListeningQuiz = ({quiz}) => {

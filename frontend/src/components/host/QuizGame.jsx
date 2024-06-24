@@ -58,6 +58,14 @@ const QuizGame = () => {
         }, 1500)
     }, [isTimeout])
 
+    useEffect(() => {
+        if (hostMessage.startsWith("ROUNDEND")) {
+            setHostMessage("");
+            navigate("/host/game/round/result/listening");
+        }
+    }, [hostMessage, navigate, setHostMessage]);
+
+
     const getQuizNormal = async (category) => {
         const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",

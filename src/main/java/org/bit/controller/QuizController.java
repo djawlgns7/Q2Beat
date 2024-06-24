@@ -152,10 +152,10 @@ public class QuizController {
         while (true) {
             int randomIndex = (int) (Math.random() * quizNumber);
             int quizId = quizIds.get(randomIndex);
-            quizHistory.setQuiz_id(quizId);
+            quizHistory.setQuiz_id(quizId);  // quiz_id 필드에 listening_id 값을 설정
 
             try {
-                if (roomService.insertQuizHistory(quizHistory)) {
+                if (roomService.insertQuizHistoryForListening(quizHistory)) {
                     System.out.println("quizId: " + quizId);
                     QuizListening quizListening = quizService.getQuizListening(quizId);
 
@@ -173,6 +173,7 @@ public class QuizController {
             }
         }
     }
+
 
     @GetMapping("/send/answer/listening")
     public ResponseEntity<Player> checkListeningAnswer(@RequestParam("quizId") int quizId,
@@ -204,7 +205,6 @@ public class QuizController {
 
         return ResponseEntity.ok(player);
     }
-
 
     @GetMapping("/get/round/result/listening")
     public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
