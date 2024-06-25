@@ -4,6 +4,9 @@ import {useSocket} from "../context/SocketContext.jsx";
 import '../../css/PC.css'
 import '../../css/Host/QuizResult.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
+import first_medal from "../../image/icon-1st-medal.png";
+import second_medal from "../../image/icon-2nd-medal.png";
+import third_medal from "../../image/icon-3rd-medal.png";
 
 const QuizResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -57,52 +60,35 @@ const QuizResult = () => {
     return (
         <>
             {isReady ? (
-                setting.gameMode === "NORMAL" ? (
-                    // 일반 게임
-                    <>
-                        <div className="result-container">
-                            <div className="result-box">
-                                <h1 className="quiz-result-text">결과</h1>
-                                <ul className="result-list">
-                                    {players.map((player, index) => (
-                                        <li key={index}>
-                                            <span className="index-player">{index + 1}등 &nbsp;</span>
-                                            <span className="index-player">{player.player_name} &nbsp;</span>
-                                            <span className="index-player">{player.player_score}점</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="result-btn">
-                                <button onClick={returnLobby} className="endGame-button">나가기</button>
-                            </div>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
-                        </div>
-                    </>
-                ) : setting.gameMode === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
-                ) : setting.gameMode === "LISTENING" ? (
-                    // 노래 맞추기
-                    <>
-                        <div>
-                            <ul>
+                <>
+                    <div className="result-container">
+                        <div className="result-box">
+                            <h1 className="quiz-result-text">결과</h1>
+                            <ul className="result-list">
                                 {players.map((player, index) => (
                                     <li key={index}>
-                                        <span>{index + 1}등 &nbsp;</span>
-                                        <span>{player.player_name} &nbsp;</span>
-                                        <span>{player.player_score}점</span>
+                                        {index === 0 ? (
+                                            <img src={first_medal} alt="first_medal" className="medal-icon"/>
+                                        ) : index ===  1 ? (
+                                            <img src={second_medal} alt="second_medal" className="medal-icon"/>
+                                        ) : index === 2 ? (
+                                            <img src={third_medal} alt="third_medal" className="medal-icon"/>
+                                        ) : (
+                                            <>
+                                            </>)}
+                                        <span className="index-player">{index + 1}등 &nbsp;</span>
+                                        <span className="index-player">{player.player_name} &nbsp;</span>
+                                        <span className="index-player">{player.player_score}점</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                    </>
-                ) : setting.gameMode === "POSE" ? (
-                    // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
-                ) : (
-                    <h1>오류 발생</h1>
-                )
+                        <div className="result-btn">
+                            <button onClick={returnLobby} className="endGame-button">나가기</button>
+                        </div>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                    </div>
+                </>
             ) : (
                 <>
                 </>

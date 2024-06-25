@@ -6,6 +6,7 @@ import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 import ListeningRoundResult from "../quiz/listening/ListeningRoundResult.jsx";
 import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
+import TwisterRoundResult from "../quiz/twister/TwisterRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();

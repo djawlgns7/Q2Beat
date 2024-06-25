@@ -74,9 +74,18 @@ const PlayerRoundResult = () => {
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                         </div>
                     </>
-                ) : gameMode.current === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
+                ) : gameMode.current === "TWISTER" ? (
+                    // 잰말놀이
+                    <div className="container-m">
+                        <div className="loginBox-m">
+                            <div className="player-header">
+                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                <PlayerTop playerName={playerName.current}/>
+                            </div>
+                            <h1 className="twister-player-roundResult">{playerName.current}님의 점수는 <br/><br/>{playerScore}점 입니다!</h1>
+                        </div>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                    </div>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>

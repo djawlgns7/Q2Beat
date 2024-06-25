@@ -1,0 +1,19 @@
+.twister-answer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-top: 30px;
+    color: white;
+}
+
+/*점수 입력란 (임시용) */
+.twister-input {
+    display: none;
+}
+
+.mic-icon {
+    width: 30%;
+    height: 30%;
+}

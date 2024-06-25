@@ -1,17 +1,38 @@
 import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
-import '../../../css/PC.css'
-import '../../../css/Quiz/Twister/TwisterQuiz.css'
 import Q2B_back from "../../../image/Q2Beat_background.png";
 
-const TwisterQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
+const TwisterRoundResult = ({roomId}) => {
 
-    const [stage, setStage] = useState(false);
+    const [nextPlayer, setNextPlayer] = useState("");
+    const [score, setScore] = useState("");
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
-        setTimeout(() => setStage(true), 3000);
-    }, [])
+        const player = sessionStorage.getItem("nextPlayer");
+        setNextPlayer(player);
+    }, []);
+
+    useEffect(() => {
+        if (nextPlayer) {
+            getTwisterScore();
+        }
+    }, [nextPlayer]);
+
+    const getTwisterScore = async () => {
+        try {
+            const response = await fetch(`/quiz/player/score?roomId=${roomId}&playerName=${nextPlayer}`);
+
+            if (!response.ok) {
+                throw new Error('Failed to get player score');
+            }
+
+            setScore(await response.text());
+
+        } catch (error) {
+            console.error('Error clear room history:', error);
+        }
+    }
 
     return (
         <>
@@ -26,26 +47,13 @@ const TwisterQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
                         <h2 className="twister-round">Round 1</h2>
                     </div>
                     <div className="twister-main">
-                        {stage === false ? (
-                            <h1 className="twister-quiz-player">
-                                {nextPlayer}님 차례입니다
-                            </h1>
-                        ) : (
-                            <div className="twister-quiz-content">
-                                <div className="twister-quiz-text">
-                                    {quiz.twister_quiz}
-                                </div>
-                                <Timer time={time} onTimeout={onTimeout}/>
-                            </div>
-                        )
-                        }
+                        <h1 className="twister-roundResult">{nextPlayer}님의 점수<br/><br/>{score}%</h1>
                     </div>
                 </div>
                 <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
             </div>
         </>
-
     )
 }
 
-export default TwisterQuiz
+export default TwisterRoundResult;
