@@ -25,7 +25,13 @@ const RoomSetting = () => {
                 category: "COMMON"
             }
         } else if (gameType === "1") {
-
+            setting.current = {
+                gameMode: "LISTENING",
+                round: 1,
+                maxRound: 5,
+                timeLimit: 10,
+                category: "COMMON"
+            }
         } else if (gameType === "2") {
             setting.current = {
                 gameMode: "TWISTER",
@@ -34,9 +40,13 @@ const RoomSetting = () => {
                 timeLimit: 15,
                 level: "NORMAL"
             }
-
         } else if (gameType === "3") {
-
+            setting.current = {
+                gameMode: "POSE",
+                round: 1,
+                maxRound: 10,
+                timeLimit: 30
+            }
         }
     }, [gameType]);
 
@@ -113,14 +123,17 @@ const RoomSetting = () => {
                                         ))}
                                     </div>
                                     <label className="roomSetting-label">카테고리
-                                        <select onChange={selectChange} className="roomSetting-select">
-                                            <option value="option1">발라드</option>
-                                            <option value="category rap">힙합</option>
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"category COMMON"}>
+                                            <option value="category COMMON">발라드</option>
+                                            <option value="category RAP">힙합</option>
+                                            <option value="category DANCE">댄스</option>
                                         </select>
                                     </label>
                                     <label className="roomSetting-label">라운드 수
-                                        <select onChange={selectChange} className="roomSetting-select">
-                                            <option value="round 10">10라운드</option>
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"maxRound 5"}>
+                                            <option value="maxRound 1">1라운드</option>
+                                            <option value="maxRound 5">5라운드</option>
+                                            <option value="maxRound 10">10라운드</option>
                                         </select>
                                     </label>
                                 </div>

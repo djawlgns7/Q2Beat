@@ -146,10 +146,21 @@ public class QuizController {
         System.out.println("Quiz History: " + quizHistory);
 
         int quizNumber = quizIds.size();
+        Set<Integer> usedQuizIds = roomService.getUsedQuizIds(formattedRoomId); // 이미 사용된 quiz_id 목록 가져오기
 
         while (true) {
+            if (usedQuizIds.size() == quizNumber) {
+                // 모든 퀴즈가 사용되었을 경우 처리 로직 추가 (예: 중복 허용 또는 오류 반환)
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 예시로 NO_CONTENT 상태 반환
+            }
+
             int randomIndex = (int) (Math.random() * quizNumber);
             int quizId = quizIds.get(randomIndex);
+
+            if (usedQuizIds.contains(quizId)) {
+                continue; // 이미 사용된 퀴즈 ID라면 다시 루프
+            }
+
             quizHistory.setQuiz_id(quizId);  // quiz_id 필드에 listening_id 값을 설정
 
             try {
@@ -167,7 +178,7 @@ public class QuizController {
                 }
             } catch (Exception e) {
                 System.err.println("Failed to insert quiz history: " + e.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                // 예외 발생 시 continue로 다시 시도
             }
         }
     }

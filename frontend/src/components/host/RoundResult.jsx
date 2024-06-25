@@ -37,12 +37,17 @@ const RoundResult = () => {
             return;
         }
 
-        setCurrentTime(5);
+        if (setting.gameMode != "LISTENING") {
 
-        setTimeout(() => {
-            startTimer(currentTime);
+            setCurrentTime(5);
+
+            setTimeout(() => {
+                startTimer(currentTime);
+                setIsReady(true);
+            }, 100);
+        } else {
             setIsReady(true);
-        }, 100);
+        }
     }, [setting]);
 
     const startTimer = (prevTime) => {
@@ -107,7 +112,6 @@ const RoundResult = () => {
                                     ))}
                                 </div>
                                 <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
-                                <h4 className="round-timer">{currentTime}</h4>
                             </div>
                             <ListeningRoundResult correctAnswer={quizAnswer.current}/>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>

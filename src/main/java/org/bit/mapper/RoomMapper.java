@@ -34,4 +34,6 @@ public interface RoomMapper {
 
     @Select("SELECT * FROM quiz_history WHERE room_id = #{roomId}")
     QuizHistory getRecentQuizHistory(String roomId);
+
+
 }

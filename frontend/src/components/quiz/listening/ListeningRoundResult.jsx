@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import '../../../css/PC.css';
 import '../../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../../image/Q2Beat_background.png";
@@ -8,13 +9,10 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 const ListeningRoundResult = ({ correctAnswer }) => {
     const { sendMessage, roomId } = useSocket();
     const [correctPlayers, setCorrectPlayers] = useState([]);
-    const [currentRound, setCurrentRound] = useState(() => {
-        const setting = JSON.parse(sessionStorage.getItem('setting'));
-        return setting.round;
-    });
+    const setting = useRef(JSON.parse(sessionStorage.getItem('setting')));
+    const [currentRound, setCurrentRound] = useState(setting.current.round);
+    const [quiz, setQuiz] = useState(null);
     const navigate = useNavigate();
-    const intervalRef = useRef(null);
-    const [currentTime, setCurrentTime] = useState(5);
 
     useEffect(() => {
         const fetchRoundResult = async () => {
@@ -24,34 +22,40 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                     throw new Error('Failed to fetch round result');
                 }
                 const data = await response.json();
-                console.log("Fetched round result: ", data); // 콘솔 로그 추가
                 setCorrectPlayers(data.players);
             } catch (error) {
                 console.error('Error fetching round result:', error);
             }
         };
+
+        const fetchQuiz = async () => {
+            try {
+                const response = await fetch(`/quiz/get/listening?roomId=${roomId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch quiz');
+                }
+                const data = await response.json();
+                setQuiz(data);
+            } catch (error) {
+                console.error('Error fetching quiz:', error);
+            }
+        };
+
         fetchRoundResult();
+        fetchQuiz();
     }, [roomId]);
 
-    useEffect(() => {
-        intervalRef.current = setInterval(() => {
-            setCurrentTime((prevTime) => {
-                if (prevTime <= 1) {
-                    clearInterval(intervalRef.current);
-                    if (currentRound >= 5) {
-                        sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
-                        navigate('/host/game/result/listening');
-                    } else {
-                        sendMessage(`MESSAGE:${roomId}:HOST:NEXTROUND`);
-                        navigate('/host/game/count');
-                    }
-                    return 0;
-                }
-                return prevTime - 1;
-            });
-        }, 1000);
-        return () => clearInterval(intervalRef.current);
-    }, [currentRound, roomId, sendMessage, navigate]);
+    const handleNextRound = () => {
+        if (currentRound >= setting.current.maxRound) {
+            sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
+            navigate('/host/game/result');
+        } else {
+            setting.current.round = Number.parseInt(setting.current.round) + 1;
+            sessionStorage.setItem('setting', JSON.stringify(setting.current));
+            sendMessage(`MESSAGE:${roomId}:HOST:NEXTROUND`);
+            navigate('/host/game/count');
+        }
+    };
 
     return (
         <div className="round-container">
@@ -62,20 +66,31 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                     ))}
                 </div>
                 <h2 className="round-answer">문제 {currentRound}</h2>
-                <h4 className="round-timer">{currentTime}</h4>
             </div>
             <div>
-                <h3>정답은: {correctAnswer}</h3>
+                {quiz && quiz.listening_url && (
+                    <ReactPlayer
+                        url={quiz.listening_url}
+                        className="react-player"
+                        playing={true}
+                        loop
+                        volume={0.5}
+                    />
+                )}
+            </div>
+            <div>
+                <h3>정답은: {correctAnswer}입니다!</h3>
                 <div>
                     {correctPlayers.length > 0 ? (
                         correctPlayers.map((player, index) => (
                             <div key={index}>
-                                {player.player_name} 님이 정답을 맞추셨습니다!!
+                                {player.player_name}님이 정답을 맞추셨습니다!
                             </div>
                         ))
                     ) : (
                         <div>정답자가 없습니다...</div>
                     )}
+                    <button onClick={handleNextRound}>다음 라운드로 넘어갑니다.</button>
                 </div>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-p" />
