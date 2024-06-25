@@ -21,7 +21,7 @@ public interface RoomMapper {
     int deleteRoom(String id);
 
     @Insert("insert into quiz_history(room_id, quiz_id) values(#{room_id}, #{quiz_id})")
-    boolean insertQuizHistory(QuizHistory quizHistory);
+    int insertQuizHistory(QuizHistory quizHistory);
 
     @Delete("delete from quiz_history where room_id = #{room_id}")
     int clearQuizHistory(String room_id);

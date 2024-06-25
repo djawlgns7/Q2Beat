@@ -151,8 +151,8 @@ const QuizGame = () => {
             const data = await response.text();
             setNextPlayer(data);
             console.log("다음 플레이어 차례: " + data);
-            sendMessage(`MESSAGE:${roomId}:HOST:${data}`);
-            sessionStorage.setItem("nextPlayer", nextPlayer);
+            sendMessage(`MESSAGE:${roomId}:HOST:NEXTPLAYER-${data}`);
+            sessionStorage.setItem("nextPlayer", data);
 
         } catch (error) {
             console.error('Error fetching player rank:', error);

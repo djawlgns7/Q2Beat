@@ -15,39 +15,36 @@ import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
-    const [myTurn, setMyTurn] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
     const navigate = useNavigate();
-    const roundNumber = useRef("");
+    const roundNumber = useRef(0);
     const roomId = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
-        roundNumber.current = sessionStorage.getItem("round");
+        roundNumber.current = Number(sessionStorage.getItem("round"));
         roomId.current = sessionStorage.getItem("roomId");
 
         setIsReady(true);
     }, []);
 
     useEffect(() => {
-        if (hostMessage === "ROUNDEND") {
-            console.log(hostMessage);
+
+        if (hostMessage.startsWith("ROUNDEND")) {
             setHostMessage("");
             sendAnswer(gameMode.current);
 
             setTimeout(() => {
-                sessionStorage.setItem("round", roundNumber.current + 1);
+                sessionStorage.setItem("round", String(roundNumber.current + 1));
                 navigate("/player/game/round/result");
             }, 500);
-        } else if (hostMessage === playerName.current) {
-            setMyTurn(true);
-            setHostMessage("");
-        } else {
-            setCurrentPlayer(hostMessage);
+        } else if (hostMessage.startsWith("NEXTPLAYER-")) {
+            setCurrentPlayer(hostMessage.split("-")[1]);
+            sessionStorage.setItem("currentPlayer", hostMessage.split("-")[1]);
             setHostMessage("");
         }
     }, [hostMessage]);
@@ -110,7 +107,7 @@ const PlayerQuizPage = () => {
                 ) : gameMode.current === "TWISTER" ? (
                     <>
                         <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
+                        <TwisterAnswer playerName={playerName.current}/>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기

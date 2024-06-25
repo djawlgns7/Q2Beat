@@ -57,9 +57,9 @@ export const SocketProvider = ({children}) => {
             } else if (msgData.startsWith("QUIZID:")) {
                 setQuizId(msgData.split(":")[1]);
             } else if (msgData.startsWith("HOST:")) {
-                setHostMessage(msgData.split(":")[1]);
+                setHostMessage(msgData.split(":", 2)[1]);
             } else if (msgData.startsWith("PLAYER:")) {
-                setClientMessage(msgData.split(":")[1]);
+                setClientMessage(msgData.split(":", 2)[1]);
             } else if (msgData.startsWith("QUIZ:")) {  // 퀴즈 데이터 수신
                 const quizData = JSON.parse(msgData.split(":", 2)[1]);
                 setQuiz(quizData);

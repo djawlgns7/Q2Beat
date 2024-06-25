@@ -6,9 +6,10 @@ import '../../css/Moblie.css'
 import '../../css/Participant/PlayerRoundResult.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
+import TwisterPlayerRoundResult from "../quiz/twister/TwisterPlayerRoundResult.jsx";
 
 const PlayerRoundResult = () => {
-    const {hostMessage, setHostMessage} = useSocket();
+    const {hostMessage, setHostMessage, roomId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const [roundResult, setRoundResult] = useState("");
     const [playerScore, setPlayerScore] = useState("");
@@ -72,7 +73,7 @@ const PlayerRoundResult = () => {
                     </>
                 ) : gameMode.current === "TWISTER" ? (
                     // 잰말놀이
-                    <h1>{playerName.current}님의 점수는 {playerScore}점 입니다!</h1>
+                    <TwisterPlayerRoundResult roomId={roomId} />
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>

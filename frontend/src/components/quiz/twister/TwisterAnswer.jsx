@@ -1,14 +1,25 @@
 import {useSocket} from "../../context/SocketContext.jsx";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
-const TwisterAnswer = ({myTurn, playerName, currentPlayer}) => {
-
+const TwisterAnswer = ({playerName}) => {
     const {hostMessage, setHostMessage, roomId, quizId} = useSocket();
+    const [stage, setStage] = useState(false);
+    const [currentPlayer, setCurrentPlayer] = useState("");
     const score = useRef(null);
 
     useEffect(() => {
+
+        setTimeout(() => setCurrentPlayer(sessionStorage.getItem("currentPlayer")), 300);
+
+        setTimeout(() => {
+            setStage(true);
+            console.log("Stage set to true");
+        }, 3000);
+    }, []);
+
+    useEffect(() => {
         if (hostMessage === "ROUNDEND") {
-            if (myTurn) {
+            if (playerName === currentPlayer) {
                 updateScore();
                 sessionStorage.setItem("playerScore", score.current);
             }
@@ -23,7 +34,6 @@ const TwisterAnswer = ({myTurn, playerName, currentPlayer}) => {
             if (!response.ok) {
                 throw new Error('Failed to update player score');
             }
-
         } catch (error) {
             console.error('Error clear room history:', error);
         }
@@ -31,18 +41,21 @@ const TwisterAnswer = ({myTurn, playerName, currentPlayer}) => {
 
     return (
         <>
-            {myTurn === true ? (
-                <>
-                    <h1>여기에 희망하는 점수를 입력(임시)</h1>
-                    <input type={"number"} onChange={(e) => score.current = e.target.value}/><br/>
-                    <h3>당신 차례입니다!</h3>
-                </>
+            {stage ? (
+                playerName === currentPlayer ? (
+                    <>
+                        <h1>여기에 희망하는 점수를 입력(임시)</h1>
+                        <input type={"number"} onChange={(e) => score.current = e.target.value}/><br/>
+                        <h3>당신 차례입니다!</h3>
+                    </>
+                ) : (
+                    <>
+                        <h3>{currentPlayer}님 차례입니다.</h3>
+                    </>
+                )
             ) : (
-                <>
-                    <h3>{currentPlayer}님 차례입니다.</h3>
-                </>
+                <h1>{currentPlayer}님 차례입니다!</h1>
             )}
-
         </>
     )
 }
