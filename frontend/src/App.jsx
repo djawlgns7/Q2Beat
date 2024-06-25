@@ -9,9 +9,9 @@ import Lobby from "./components/host/Lobby.jsx";
 import JoinRoom from "./components/player/JoinRoom.jsx";
 import PlayerWaiting from "./components/player/PlayerWaiting.jsx";
 import Reset from "./components/Reset.jsx";
-import Login from "./components/Login.jsx";
+import Login from "./components/login/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
-import NaverCallback from "./components/NaverCallback.jsx";
+import NaverCallback from "./components/login/NaverCallback.jsx";
 import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/host/QuizGame.jsx";
 import QuizCount from "./components/host/QuizCount.jsx";
@@ -24,12 +24,13 @@ import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
 import Notice from "./components/Notice/Notice.jsx";
 import Qna from "./components/Notice/Qna.jsx";
-import NoticeBoard from "./components/Notice/NoticeBoard.jsx";
+import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
 import AudioRecorder2 from "./components/test/AudioRecorder2.jsx";
 import AudioRecorder3 from "./components/test/AudioRecorder3.jsx";
+import MobileView from "./components/MobileView.jsx";
 
 function App() {
     return (
@@ -50,7 +51,7 @@ function App() {
                     <Route path="/audio" element={<AudioComparison/>}/>
                     <Route path="/notices" element={<Notice/>}/>
                     <Route path="/qna" element={<Qna/>}/>
-                    <Route path="/notices-board" element={<NoticeBoard/>}/> {/* NoticeBoard 경로 추가 */}
+                    <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>

@@ -14,7 +14,7 @@
     border-radius: 100px;
     text-align: center;
     color: white;
-    margin-top: 25px;
+    margin-top: 45px;
 }
 
 .roomSetting-circle-header {
@@ -50,12 +50,13 @@
 }
 
 .roomSetting-buttons {
+    margin-top: 20px;
     padding: 10px;
 }
 
 .roomSetting-btn {
     padding: 10px;
-    margin: 20px;
+    margin: 30px;
     font-size: 25px;
     font-weight: bold;
     border: 5px solid #5169A2;

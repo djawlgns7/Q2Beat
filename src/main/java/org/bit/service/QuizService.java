@@ -2,8 +2,10 @@ package org.bit.service;
 
 import lombok.Data;
 import org.bit.mapper.QuizMapper;
+import org.bit.model.quiz.QuizListening;
 import org.bit.model.quiz.QuizNormal;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -24,7 +26,25 @@ public class QuizService {
         return quizMapper.getNormalQuizNumberList(category);
     }
 
-    public int gradingNormal(int normal_id, int normal_answer) {
+    public int gradingNormal(int normal_id, String normal_answer) {
         return quizMapper.gradingNormal(normal_id, normal_answer);
     }
+
+    public QuizListening getQuizListening(int listeningId) {return quizMapper.getQuizListening(listeningId);}
+
+    public List<Integer> getListeningQuizNumberList() {return quizMapper.getListeningQuizNumberList();}
+
+    public List<Integer> getAllQuizListeningIds() {
+        return quizMapper.getAllQuizListeningIds();
+    }
+
+    public int gradingListening(int listening_id, String listening_answer) {
+        return quizMapper.gradingListening(listening_id, listening_answer);
+    }
+
+    public List<Integer> getUsedQuizIds(String roomId) {
+        return quizMapper.getUsedQuizIds(roomId);
+    }
+
+
 }

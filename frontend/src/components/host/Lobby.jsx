@@ -53,9 +53,33 @@ const Lobby = () => {
     const startQuiz = (gameType) => {
         if (isConnected.current && roomId) {
             //navigate("/host/game/count");
-            navigate("/host/game/setting/"+gameType);
+            sessionStorage.setItem("playerNumber", participants.length + "");
+
+            setTimeout(() => navigate("/host/game/setting/"+gameType), 500);
         }
     }
+
+    const startListening = () => {
+        const category = 'COMMON'; // 사용할 category 설정
+        if (isConnected.current && roomId) {
+            const gameMode = "LISTENING";
+            sendMessage(`START:${roomId}:${gameMode}`);
+
+            // 객체를 JSON 문자열로 변환하여 저장
+            const setting = {
+                gameMode: "LISTENING",
+                round: 1,
+                maxRound: 2,
+                timeLimit: 10,
+                category: category
+            };
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+            sessionStorage.setItem('category', category); // category 값을 세션에 저장
+
+            navigate("/host/game/count");
+        }
+    };
+
 
     const showQR = () => {
         setModalType("QR");
@@ -74,7 +98,7 @@ const Lobby = () => {
             setRoomId(null);
             socketRef.current.close();
 
-            window.location.reload();
+            navigate("/host/game/create");
         }
     }
 
@@ -111,15 +135,15 @@ const Lobby = () => {
                                 <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">노래 맞추기</button>
-                                <button className="hover-button" onClick={()=>{startQuiz(1)}}>시작하기</button>
+                                <button className="option-btn-1">주크박스</button>
+                                <button className="hover-button" onClick={startListening}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
-                                <button className="option-btn-1">노래 부르기</button>
+                                <button className="option-btn-1">잰말놀이</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(2)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
-                                <button className="option-btn-1">포즈 따라하기</button>
+                                <button className="option-btn-1">포토제닉</button>
                                 <button className="hover-button" onClick={()=>{startQuiz(3)}}>시작하기</button>
                             </div>
                             {/*<div className="actions">*/}

@@ -1,10 +1,9 @@
 .login-btns {
     display: flex;
     width: 100%;
-    padding: 15px;
-    margin: 10px 0;
+    padding: 10px 120px 40px 0;
     border: none;
-    translate: -35px -0px;
+    gap: 40px;
 }
 
 .footer {

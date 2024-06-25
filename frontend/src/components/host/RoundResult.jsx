@@ -1,10 +1,12 @@
-import {useSocket} from "../context/SocketContext.jsx";
-import React, {useEffect, useRef, useState} from "react";
-import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
-import {useNavigate} from "react-router-dom";
-import '../../css/PC.css'
-import '../../css/Quiz/RoundResult.css'
+import React, { useEffect, useRef, useState } from "react";
+import { useSocket } from "../context/SocketContext.jsx";
+import { useNavigate } from "react-router-dom";
+import '../../css/PC.css';
+import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
+import ListeningRoundResult from "../quiz/ListeningRoundResult.jsx";
+import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
+import TwisterRoundResult from "../quiz/twister/TwisterRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -16,6 +18,7 @@ const RoundResult = () => {
     const intervalRef = useRef(null);
     const navigate = useNavigate();
     const quizAnswer = useRef("");
+    const choices = useRef("");
 
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
@@ -23,6 +26,7 @@ const RoundResult = () => {
         // 마운트 시 세션에서 값을 가져옴
         const settingString = sessionStorage.getItem('setting');
         const setting = JSON.parse(settingString);
+        choices.current = JSON.parse(sessionStorage.getItem("choices"));
         quizAnswer.current = sessionStorage.getItem('answer');
         setSetting(setting);
     }, []);
@@ -36,29 +40,10 @@ const RoundResult = () => {
         setCurrentTime(5);
 
         setTimeout(() => {
-            getAnswerNumber(setting.gameMode);
             startTimer(currentTime);
-        }, 300);
+            setIsReady(true);
+        }, 100);
     }, [setting]);
-
-    const getAnswerNumber = async (gameMode) => {
-        const response = await fetch(`https://bit-two.com/q2beat/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            // 오류 처리
-            console.error('Failed to fetch answer number');
-            return;
-        }
-
-        const data = await response.json();
-        setAnswer(data);
-        setIsReady(true);
-    }
 
     const startTimer = (prevTime) => {
         intervalRef.current = setInterval(() => {
@@ -77,7 +62,7 @@ const RoundResult = () => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
 
-            if (setting.round > setting.maxRound) {
+            if (setting.round >= setting.maxRound) {
                 sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
 
                 navigate("/host/game/result");
@@ -104,16 +89,29 @@ const RoundResult = () => {
                                 <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
-                            <NormalRoundResult answerNumber={answer} answer={quizAnswer.current}/>
+                            <NormalRoundResult choices={choices.current} answer={quizAnswer.current}/>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>
-                ) : setting.gameMode === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
-                ) : setting.gameMode === "LYRIC" ? (
-                    // 가사 맞추기
-                    <h1>가사 맞추기</h1>
+                ) : setting.gameMode === "TWISTER" ? (
+                    <TwisterRoundResult roomId={roomId}/>
+                ) : setting.gameMode === "LISTENING" ? (
+                    // 노래 맞추기
+                    <>
+                        <div className="round-container">
+                            <div className="round-box">
+                                <div className="circle-header-game">
+                                    {colors.map((color, index) => (
+                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
+                                    ))}
+                                </div>
+                                <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
+                                <h4 className="round-timer">{currentTime}</h4>
+                            </div>
+                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers.current}/>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                        </div>
+                    </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>
