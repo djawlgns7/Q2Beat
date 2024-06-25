@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
 
 const AudioRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -16,11 +17,27 @@ const AudioRecorder = () => {
       }
     };
 
-    mediaRecorderRef.current.onstop = () => {
+    mediaRecorderRef.current.onstop = async () => {
       const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
       const audioURL = URL.createObjectURL(audioBlob);
       setAudioURL(audioURL);
       audioChunksRef.current = [];
+
+      // Create FormData and send the recorded audio to the server
+      const formData = new FormData();
+      formData.append('file', audioBlob, 'audio.wav');
+
+      try {
+        const response = await axios.post('http://localhost:8080/api/naver/speech-to-text', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        console.log('Transcription:', response.data.text);
+      } catch (error) {
+        console.error('Error transcribing audio:', error);
+      }
     };
 
     mediaRecorderRef.current.start();
@@ -32,18 +49,6 @@ const AudioRecorder = () => {
     setIsRecording(false);
   };
 
-  const handleSaveRecording = () => {
-    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-    const audioURL = URL.createObjectURL(audioBlob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = audioURL;
-    a.download = 'recording.wav';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
   return (
     <div>
       <h1>Audio Recorder</h1>
@@ -53,7 +58,6 @@ const AudioRecorder = () => {
       {audioURL && (
         <div>
           <audio src={audioURL} controls />
-          <button onClick={handleSaveRecording}>Save Recording</button>
         </div>
       )}
     </div>
