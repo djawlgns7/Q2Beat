@@ -63,4 +63,8 @@ public class PlayerService {
         return playerMapper.getAnswerListenings(roomId, answer);
     }
 
+    public List<Player> getAvailablePlayerList(String roomId) {
+        return playerMapper.getAvailablePlayerList(roomId);
+    }
+
 }

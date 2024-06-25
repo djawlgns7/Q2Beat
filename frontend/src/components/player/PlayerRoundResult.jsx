@@ -70,9 +70,9 @@ const PlayerRoundResult = () => {
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                         </div>
                     </>
-                ) : gameMode.current === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
+                ) : gameMode.current === "TWISTER" ? (
+                    // 잰말놀이
+                    <h1>{playerName.current}님의 점수는 {playerScore}점 입니다!</h1>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>

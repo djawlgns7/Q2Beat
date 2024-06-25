@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import '../../css/PC.css'
 import '../../css/Board/Notice.css';
+import Q2B_back from "../../image/Q2Beat_background.png";
 
 /*
 * currentPage 현재 페이지
@@ -80,48 +82,51 @@ const Notice = () => {
 
     return (
         <div className="notice-container">
-            <h1>공지사항</h1>
-            <table className="notice-table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                    <th>작성자</th>
-                </tr>
-                </thead>
-                <tbody>
-                {notices.map((notice, index) => (
-                    <tr key={notice.notice_id}>
-                        <td>{getDisplayNumber(index)}</td>
-                        <td>
-                            <Link to={`/notices/${notice.notice_id}`}>
-                                {notice.title}
-                            </Link>
-                        </td>
-                        <td>{notice.create_date}</td>
-                        <td>{notice.member_id}</td>
+            <div className="notice-board">
+                <h1 className="notice-title">공지사항</h1>
+                <table className="notice-table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>제목</th>
+                        <th>날짜</th>
+                        <th>작성자</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <button onClick={() => handlePageChange(1)}
-                        disabled={pagination.currentPage === 1}>&laquo;</button>
-                <button onClick={handlePrevBlock}
-                        disabled={pagination.startPage === 1}>&lt;</button>
-                {Array.from({length: pagination.endPage - pagination.startPage + 1}, (_, i) => (
-                    <button key={pagination.startPage + i}
-                            className={pagination.currentPage === pagination.startPage + i ? 'active' : ''}
-                            onClick={() => handlePageChange(pagination.startPage + i)}>
-                        {pagination.startPage + i}
-                    </button>
-                ))}
-                <button onClick={handleNextBlock}
-                        disabled={pagination.endPage === pagination.totalPages}>&gt;</button>
-                <button onClick={() => handlePageChange(pagination.totalPages)}
-                        disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
+                    </thead>
+                    <tbody>
+                    {notices.map((notice, index) => (
+                        <tr key={notice.notice_id}>
+                            <td>{getDisplayNumber(index)}</td>
+                            <td>
+                                <Link to={`/notices/${notice.notice_id}`}>
+                                    {notice.title}
+                                </Link>
+                            </td>
+                            <td>{notice.create_date}</td>
+                            <td>{notice.member_id}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+                <div className="pagination">
+                    <button onClick={() => handlePageChange(1)}
+                            disabled={pagination.currentPage === 1}>&laquo;</button>
+                    <button onClick={handlePrevBlock}
+                            disabled={pagination.startPage === 1}>&lt;</button>
+                    {Array.from({length: pagination.endPage - pagination.startPage + 1}, (_, i) => (
+                        <button key={pagination.startPage + i}
+                                className={pagination.currentPage === pagination.startPage + i ? 'active' : ''}
+                                onClick={() => handlePageChange(pagination.startPage + i)}>
+                            {pagination.startPage + i}
+                        </button>
+                    ))}
+                    <button onClick={handleNextBlock}
+                            disabled={pagination.endPage === pagination.totalPages}>&gt;</button>
+                    <button onClick={() => handlePageChange(pagination.totalPages)}
+                            disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
+                </div>
             </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-notice"/>
         </div>
     );
 };

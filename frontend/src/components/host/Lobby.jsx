@@ -53,7 +53,9 @@ const Lobby = () => {
     const startQuiz = (gameType) => {
         if (isConnected.current && roomId) {
             //navigate("/host/game/count");
-            navigate("/host/game/setting/"+gameType);
+            sessionStorage.setItem("playerNumber", participants.length + "");
+
+            setTimeout(() => navigate("/host/game/setting/"+gameType), 500);
         }
     }
 

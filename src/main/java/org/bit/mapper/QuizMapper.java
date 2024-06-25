@@ -20,7 +20,7 @@ public interface QuizMapper {
     List<Integer> getNormalQuizNumberList(String category);
 
     @Select("select count(*) from quiz_normal where normal_id = #{normal_id} and normal_answer = #{normal_answer}")
-    int gradingNormal(@Param("normal_id") int normal_id, @Param("normal_answer") int normal_answer);
+    int gradingNormal(@Param("normal_id") int normal_id, @Param("normal_answer") String normal_answer);
 
     @Select("SELECT listening_id FROM quiz_listening")
     List<Integer> getAllQuizListeningIds();
