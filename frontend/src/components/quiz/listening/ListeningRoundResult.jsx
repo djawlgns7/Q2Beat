@@ -11,7 +11,7 @@ const ListeningRoundResult = ({ correctAnswer }) => {
     const [correctPlayers, setCorrectPlayers] = useState([]);
     const setting = useRef(JSON.parse(sessionStorage.getItem('setting')));
     const [currentRound, setCurrentRound] = useState(setting.current.round);
-    const [quiz, setQuiz] = useState(null);
+    const [quiz, setQuiz] = useState(null); // 문제 데이터를 저장할 상태
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,27 +23,21 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                 }
                 const data = await response.json();
                 setCorrectPlayers(data.players);
-            } catch (error) {
-                console.error('Error fetching round result:', error);
-            }
-        };
+                setCorrectAnswer(data.correctAnswer);  // 정답 설정
 
-        const fetchQuiz = async () => {
-            try {
-                const response = await fetch(`/quiz/get/listening?roomId=${roomId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch quiz');
+                // 문제 데이터를 가져오는 API 호출
+                const quizResponse = await fetch(`/quiz/get/listening?roomId=${roomId}`);
+                if (!quizResponse.ok) {
+                    throw new Error('Failed to fetch quiz data');
                 }
-                const data = await response.json();
-                setQuiz(data);
+                const quizData = await quizResponse.json();
+                setQuiz(quizData); // 문제 데이터를 상태에 저장
             } catch (error) {
-                console.error('Error fetching quiz:', error);
+                console.error('Error fetching round result or quiz data:', error);
             }
         };
-
         fetchRoundResult();
-        fetchQuiz();
-    }, [roomId]);
+    }, [roomId, currentRound]);
 
     const handleNextRound = () => {
         if (currentRound >= setting.current.maxRound) {
@@ -67,19 +61,20 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                 </div>
                 <h2 className="round-answer">문제 {currentRound}</h2>
             </div>
-            <div>
+            <div className="video-wrapper">
                 {quiz && quiz.listening_url && (
                     <ReactPlayer
                         url={quiz.listening_url}
                         className="react-player"
                         playing={true}
                         loop
-                        volume={0.5}
+                        width="100%"
+                        height="100%"
                     />
                 )}
             </div>
             <div>
-                <h3>정답은: {correctAnswer}입니다!</h3>
+                <h3>정답은: {correctAnswer}</h3>
                 <div>
                     {correctPlayers.length > 0 ? (
                         correctPlayers.map((player, index) => (
