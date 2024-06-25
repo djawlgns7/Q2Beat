@@ -5,9 +5,8 @@ import '../../../css/PC.css';
 import '../../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../../image/Q2Beat_background.png";
 
-const ListeningRoundResult = () => {
+const ListeningRoundResult = ({ correctAnswer }) => {
     const { sendMessage, roomId } = useSocket();
-    const [correctAnswer, setCorrectAnswer] = useState('');
     const [correctPlayers, setCorrectPlayers] = useState([]);
     const [currentRound, setCurrentRound] = useState(() => {
         const setting = JSON.parse(sessionStorage.getItem('setting'));
@@ -25,7 +24,7 @@ const ListeningRoundResult = () => {
                     throw new Error('Failed to fetch round result');
                 }
                 const data = await response.json();
-                setCorrectAnswer(data.correctAnswer);
+                console.log("Fetched round result: ", data); // 콘솔 로그 추가
                 setCorrectPlayers(data.players);
             } catch (error) {
                 console.error('Error fetching round result:', error);
@@ -71,7 +70,7 @@ const ListeningRoundResult = () => {
                     {correctPlayers.length > 0 ? (
                         correctPlayers.map((player, index) => (
                             <div key={index}>
-                                {player.player_name} - 점수: {player.player_score}
+                                {player.player_name} 님이 정답을 맞추셨습니다!!
                             </div>
                         ))
                     ) : (

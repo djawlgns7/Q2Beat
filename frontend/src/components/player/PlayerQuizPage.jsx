@@ -1,5 +1,3 @@
-import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
@@ -16,6 +14,7 @@ const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const [myTurn, setMyTurn] = useState(false);
+    const [currentPlayer, setCurrentPlayer] = useState("");
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
@@ -34,28 +33,44 @@ const PlayerQuizPage = () => {
 
     useEffect(() => {
         if (hostMessage === "ROUNDEND") {
-            console.log(hostMessage);
-            setHostMessage("");
-            sendAnswer(gameMode.current);
+            if (gameMode.current === "NORMAL") {
+                console.log(hostMessage);
+                setHostMessage("");
+                sendAnswer(gameMode.current);
 
-            setTimeout(() => {
-                sessionStorage.setItem("round", roundNumber.current + 1);
-                if (gameMode.current === "NORMAL") {
+                setTimeout(() => {
+                    sessionStorage.setItem("round", roundNumber.current + 1);
                     navigate("/player/game/round/result");
-                } else if (gameMode.current === "LISTENING") {
-                    navigate("/player/game/round/result/listening");
-                }
-            }, 500);
+                }, 500);
+            } else if (gameMode.current === "LISTENING") {
+                console.log(hostMessage);
+                setHostMessage("");
+
+                setTimeout(() => {
+                    sessionStorage.setItem("round", roundNumber.current + 1);
+                    navigate("/player/game/round/result");
+                }, 500);
+            }
+
         } else if (hostMessage === playerName.current) {
             setMyTurn(true);
             setHostMessage("");
+        } else {
+            setCurrentPlayer(hostMessage);
+            setHostMessage("");
         }
-    }, [hostMessage, navigate, setHostMessage]);
+    }, [hostMessage]);
 
-    const prepareAnswer = (inputAnswer) => {
+    const prepareAnswer = async (inputAnswer) => {
+        console.log("prepareAnswer : " + inputAnswer);
         answer.current = inputAnswer;
         if (gameMode.current === "LISTENING") {
-            sendAnswer(gameMode.current);
+            const data = await sendAnswer(gameMode.current);
+            if (data.correct) {
+                sendMessage(`MESSAGE:${roomId.current}:HOST:ROUNDEND`);
+                setHostMessage("ROUNDEND");
+            }
+            return data;
         }
     }
 
@@ -86,10 +101,7 @@ const PlayerQuizPage = () => {
 
         sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
-
-        if (data.correct && gameMode === "listening") {
-            sendMessage(`ROUNDEND:${roomId.current}`);
-        }
+        return data;
     };
 
     return (
@@ -118,7 +130,7 @@ const PlayerQuizPage = () => {
                 ) : gameMode.current === "TWISTER" ? (
                     <>
                         <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer quizId={quizId} myTurn={myTurn} roomId={roomId.current}/>
+                        <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기

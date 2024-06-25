@@ -62,25 +62,11 @@ public class PlayerService {
         return playerMapper.getPlayerRank(roomId);
     }
 
-    public Player getPlayerByRoomAndName(String roomId, String playerName) {
-        return playerMapper.getPlayerByRoomAndName(roomId, playerName);
-    }
-
     public List<Player> getAvailablePlayerList(String roomId) {
         return playerMapper.getAvailablePlayerList(roomId);
     }
 
-    public void updatePlayerRecentAnswerForListening(String playerRecentAnswer, String roomId, String playerName) {
-        int updatedRows = playerMapper.updatePlayerRecentAnswerForListening(playerRecentAnswer, roomId, playerName);
-        if (updatedRows == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
-        }
-    }
-
-    public void updatePlayerScoreForListening(int playerScore, String roomId, String playerName) {
-        int updatedRows = playerMapper.updatePlayerScoreForListening(playerScore, roomId, playerName);
-        if (updatedRows == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
-        }
+    public String getAnswerListening(String roomId) {
+        return playerMapper.getAnswerListening(roomId);
     }
 }

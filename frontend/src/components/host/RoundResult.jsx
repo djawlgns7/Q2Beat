@@ -25,6 +25,7 @@ const RoundResult = () => {
         // 마운트 시 세션에서 값을 가져옴
         const settingString = sessionStorage.getItem('setting');
         const setting = JSON.parse(settingString);
+        choices.current = JSON.parse(sessionStorage.getItem("choices"));
         quizAnswer.current = sessionStorage.getItem('answer');
         setSetting(setting);
     }, []);
@@ -38,29 +39,10 @@ const RoundResult = () => {
         setCurrentTime(5);
 
         setTimeout(() => {
-            getAnswerNumber(setting.gameMode);
             startTimer(currentTime);
+            setIsReady(true);
         }, 100);
     }, [setting]);
-
-    const getAnswerNumber = async (gameMode) => {
-        const response = await fetch(`/quiz/get/round/result/${gameMode.toLowerCase()}?roomId=${roomId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            // 오류 처리
-            console.error('Failed to fetch answer number');
-            return;
-        }
-
-        const data = await response.json();
-        setAnswer(data);
-        setIsReady(true);
-    }
 
     const startTimer = (prevTime) => {
         intervalRef.current = setInterval(() => {
@@ -79,7 +61,7 @@ const RoundResult = () => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
 
-            if (setting.round > setting.maxRound) {
+            if (setting.round >= setting.maxRound) {
                 sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
 
                 navigate("/host/game/result");
@@ -89,6 +71,7 @@ const RoundResult = () => {
             }
         }
     }, [currentTime])
+
 
     return (
         <>
@@ -106,13 +89,12 @@ const RoundResult = () => {
                                 <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
-                            <NormalRoundResult answerNumber={answer} answer={quizAnswer.current}/>
+                            <NormalRoundResult choices={choices.current} answer={quizAnswer.current}/>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>
-                ) : setting.gameMode === "SINGING" ? (
-                    // 노래부르기
-                    <h1>노래부르기</h1>
+                ) : setting.gameMode === "TWISTER" ? (
+                    <TwisterRoundResult roomId={roomId}/>
                 ) : setting.gameMode === "LISTENING" ? (
                     // 노래 맞추기
                     <>
@@ -126,7 +108,7 @@ const RoundResult = () => {
                                 <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
-                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers.current}/>
+                            <ListeningRoundResult correctAnswer={quizAnswer.current}/>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                         </div>
                     </>

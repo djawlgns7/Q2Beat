@@ -49,9 +49,12 @@ public class RoomService {
         roomMapper.deleteRoom(id);
     }
 
-    public Set<Integer> getUsedQuizIds(String roomId) {
-        return roomMapper.getUsedQuizIds(roomId);
+    public boolean insertQuizHistoryForListening(QuizHistory quizHistory) {return roomMapper.insertQuizHistoryForListening(quizHistory);}
+
+
+    public QuizHistory getRecentQuizHistory(String roomId) {
+        // 최근의 퀴즈 기록을 가져오는 로직을 구현합니다.
+        return roomMapper.getRecentQuizHistory(roomId);
     }
 
-    public boolean insertQuizHistoryForListening(QuizHistory quizHistory) {return roomMapper.insertQuizHistoryForListening(quizHistory);}
 }

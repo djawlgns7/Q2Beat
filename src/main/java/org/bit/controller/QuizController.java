@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.bit.handler.MyWebSocketHandler;
 import org.bit.model.Player;
 import org.bit.model.QuizHistory;
-import org.bit.model.quiz.PlayerAnswer;
 import org.bit.model.quiz.PlayerAnswerNumbers;
 import org.bit.model.quiz.QuizListening;
 import org.bit.model.quiz.QuizNormal;
@@ -14,7 +13,6 @@ import org.bit.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -181,15 +179,12 @@ public class QuizController {
                                                        @RequestParam("playerName") String playerName,
                                                        @RequestParam("answer") String answer) {
 
-        // 로그 추가
-        System.out.println("Received Parameters - quizId: " + quizId + ", roomId: " + roomId + ", playerName: " + playerName + ", answer: " + answer);
-
         Player player = new Player(roomId, playerName);
         int result = quizService.gradingListening(quizId, answer);
 
         // 로그 추가
         System.out.println("Grading Result: " + result);
-
+        player.setPlayer_recent_answer(answer);
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
         player.setCorrect(false);
@@ -206,11 +201,11 @@ public class QuizController {
         return ResponseEntity.ok(player);
     }
 
+
     @GetMapping("/get/round/result/listening")
-    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
-                                                                  @RequestParam("answer") String answer) {
+    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId) {
+
         System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
-        System.out.println("Received answer: " + answer);  // answer 로그 출력
 
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
         List<Player> players = playerService.getPlayerList(formattedRoomId);

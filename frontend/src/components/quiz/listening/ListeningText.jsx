@@ -9,9 +9,12 @@ const ListeningText = ({ prepareAnswer }) => {
         setAnswer(e.target.value);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         console.log("Submitting answer: ", answer); // 로그 추가
-        prepareAnswer(answer);
+        const data = await prepareAnswer(answer);
+        if(!data.correct) {
+            setFeedback("틀렸습니다. 다시 시도하세요");
+        }
     }
 
     return (

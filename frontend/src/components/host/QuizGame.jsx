@@ -59,11 +59,13 @@ const QuizGame = () => {
     }, [isTimeout])
 
     useEffect(() => {
-        if (hostMessage.startsWith("ROUNDEND")) {
+        if (hostMessage.startsWith("ROUNDEND") && setting.gameMode === "LISTENING") {
+            console.log("Received ROUNDEND message");
             setHostMessage("");
-            navigate("/host/game/round/result/listening");
+            navigate("/host/game/round/result");
         }
     }, [hostMessage, navigate, setHostMessage]);
+
 
 
     const getQuizNormal = async (category) => {
@@ -127,13 +129,6 @@ const QuizGame = () => {
             console.error('Error:', error);
         }
     };
-
-    useEffect(() => {
-        if (hostMessage === "ROUNDEND") {
-            setHostMessage("");
-            navigate("/host/game/round/result/listening");
-        }
-    }, [hostMessage]);
 
     const getQuizTwister = async (category) => {
         const response = await fetch(`/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {

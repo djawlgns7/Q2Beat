@@ -23,6 +23,7 @@ const ListeningPlayerRoundResult = () => {
                     throw new Error('Failed to fetch round result');
                 }
                 const data = await response.json();
+                console.log("Fetched round result: ", data); // 콘솔 로그 추가
                 setCorrectAnswer(data.correctAnswer);
                 const playerData = data.players.find(player => player.player_name === playerName.current);
                 setPlayerScore(playerData?.player_score || 0);

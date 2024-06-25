@@ -31,4 +31,7 @@ public interface RoomMapper {
 
     @Insert("insert into quiz_history(room_id, quiz_id) values(#{room_id}, #{quiz_id})")
     boolean insertQuizHistoryForListening(QuizHistory quizHistory);
+
+    @Select("SELECT * FROM quiz_history WHERE room_id = #{roomId}")
+    QuizHistory getRecentQuizHistory(String roomId);
 }
