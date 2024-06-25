@@ -17,7 +17,7 @@ export const SocketProvider = ({children}) => {
     const isConnected = useRef(false);
 
     const connectWebSocket = () => {
-        const socket = new WebSocket('wss://bit-two.com/q2beat/ws');
+        const socket = new WebSocket('ws://175.209.41.173:8080/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
