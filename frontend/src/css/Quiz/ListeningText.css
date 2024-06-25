@@ -1,13 +1,13 @@
 .sound-icon {
-    width: 20%;
-    height: 20%;
+    width: 25%;
+    height: 25%;
 }
 
 .listening-main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 40px;
 }
 
 .listening-input {
@@ -32,4 +32,10 @@
 
 .listening-btn:hover {
     border-color: rgb(255, 216, 0);
+}
+
+.listening-round-m {
+    translate: -5px;
+    color: white;
+    font-size: 30px;
 }
