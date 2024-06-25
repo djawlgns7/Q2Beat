@@ -1,5 +1,7 @@
 import {useSocket} from "../../context/SocketContext.jsx";
-import {useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
+import mic_icon from '../../../image/free-icon-mic.png'
+import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const TwisterAnswer = ({myTurn, playerName, currentPlayer}) => {
 
@@ -35,10 +37,12 @@ const TwisterAnswer = ({myTurn, playerName, currentPlayer}) => {
                 <>
                     <h1>여기에 희망하는 점수를 입력(임시)</h1>
                     <input type={"number"} onChange={(e) => score.current = e.target.value}/><br/>
+                    <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
                     <h3>당신 차례입니다!</h3>
                 </>
             ) : (
                 <>
+                    <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
                     <h3>{currentPlayer}님 차례입니다.</h3>
                 </>
             )}

@@ -9,6 +9,7 @@ import ListeningText from "../quiz/ListeningText.jsx";
 import Q2B from "../../image/Q2BEAT_2.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
+import '../../css/Quiz/Twister/TwisterAnswer.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 
@@ -109,8 +110,19 @@ const PlayerQuizPage = () => {
                     </>
                 ) : gameMode.current === "TWISTER" ? (
                     <>
-                        <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
+                        <div className="container-m">
+                            <div className="loginBox-m">
+                                <div className="player-header">
+                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                    <PlayerTop playerName={playerName.current}/>
+                                </div>
+                                <div className="twister-answer">
+                                    <h1 className="quiz-round">Round {roundNumber.current}</h1>
+                                    <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
+                                </div>
+                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                        </div>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
