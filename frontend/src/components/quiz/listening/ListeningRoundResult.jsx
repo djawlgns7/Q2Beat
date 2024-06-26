@@ -56,16 +56,18 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                         <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
                     ))}
                 </div>
-                <h2 className="round-answer">Round {currentRound}</h2>
+                <h2 className="listening-round-answer">Round {currentRound}</h2>
                 <div className="listening-youtube">
                     {quiz && quiz.listening_url && (
                         <div className="video-wrapper-listening">
                             <ReactPlayer
-                                url={testurl.current}
+                                url={quiz.listening_url}
                                 className="react-player"
                                 playing={true}
                                 loop
                                 volume={0.5}
+                                width="500px"
+                                height="280px"
                             />
                         </div>
                     )}
@@ -73,14 +75,24 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                 <h3 className="listening-correctAnswer">정답 : {correctAnswer}</h3>
             </div>
             <div className="listening-next-round">
-                {correctPlayer ? (
-                    <div>
-                        {correctPlayer.player_name}님이 정답을 맞추셨습니다!
-                    </div>
-                ) : (
-                    <div>정답자가 없습니다...</div>
-                )}
-                <button onClick={handleNextRound} className="next-round-btn">다음 라운드로 넘어갑니다.</button>
+                <button onClick={handleNextRound} className="next-round-btn">
+                    {correctPlayer ? (
+                        <span>
+                            {correctPlayer.player_name}님이 정답을 맞추셨습니다!
+                        </span>
+                    ) : (
+                        <span>정답자가 없습니다...</span>
+                    )}
+                    <span> 다음 라운드로 넘어갑니다.</span>
+                </button>
+                {/*{correctPlayer ? (*/}
+                {/*    <span>*/}
+                {/*        {correctPlayer.player_name}님이 정답을 맞추셨습니다!*/}
+                {/*    </span>*/}
+                {/*) : (*/}
+                {/*    <div>정답자가 없습니다...</div>*/}
+                {/*)}*/}
+                {/*<button onClick={handleNextRound} className="next-round-btn">다음 라운드로 넘어갑니다.</button>*/}
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-p" />
         </div>

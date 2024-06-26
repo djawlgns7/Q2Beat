@@ -16,7 +16,7 @@
     border-radius: 100px;
     text-align: center;
     color: white;
-    margin-top: 25px;
+    margin-top: 30px;
     z-index: 2;
 }
 
@@ -37,7 +37,7 @@
     z-index: 2;
     font-size: 30px;
     font-weight: bold;
-    padding: 60px;
+    padding: 90px;
 }
 
 .circle-header-listening {
@@ -66,7 +66,7 @@
 }
 
 .listening-main {
-    padding: 60px;
+    padding: 70px;
 }
 
 .sound-icon-2 {

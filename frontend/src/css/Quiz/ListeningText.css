@@ -3,15 +3,22 @@
     height: 25%;
 }
 
-.listening-main {
+.wrong-answer {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.listening-text-main {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
+    padding: 20px;
 }
 
 .listening-input {
-    margin: 20px;
+    margin: 10px;
     padding: 5px;
     height: 50px;
     width: 250px;
