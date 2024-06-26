@@ -3,7 +3,9 @@ import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import '../../../css/PC.css';
+import '../../../css/Quiz/ListeningQuiz.css'
 import '../../../css/Quiz/RoundResult.css';
+import '../../../css/Quiz/Listening/ListeningRoundResult.css'
 import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const ListeningRoundResult = ({ correctAnswer }) => {
@@ -13,6 +15,9 @@ const ListeningRoundResult = ({ correctAnswer }) => {
     const [currentRound, setCurrentRound] = useState(setting.current.round);
     const [quiz, setQuiz] = useState(null);
     const navigate = useNavigate();
+    const playerRef = useRef(null);
+
+    const testurl = useRef('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
 
     useEffect(() => {
         const fetchRoundResult = async () => {
@@ -35,6 +40,7 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                     throw new Error('Failed to fetch quiz');
                 }
                 const data = await response.json();
+                console.log(data);
                 setQuiz(data);
             } catch (error) {
                 console.error('Error fetching quiz:', error);
@@ -56,44 +62,45 @@ const ListeningRoundResult = ({ correctAnswer }) => {
             navigate('/host/game/count');
         }
     };
+    console.log("퀴즈정답",correctAnswer.current);
 
     return (
-        <div className="round-container">
-            <div className="round-box">
-                <div className="circle-header-game">
+        <div className="listening-container">
+            <div className="listening-loginBox">
+                <div className="circle-header-listening">
                     {['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'].map((color, index) => (
-                        <div key={index} className="circle-game" style={{ backgroundColor: color }}></div>
+                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
                     ))}
                 </div>
-                <h2 className="round-answer">문제 {currentRound}</h2>
-            </div>
-            <div>
-                {quiz && quiz.listening_url && (
-                    <ReactPlayer
-                        url={quiz.listening_url}
-                        className="react-player"
-                        playing={true}
-                        loop
-                        volume={0.5}
-                    />
-                )}
-            </div>
-            <div>
-                <h3>정답은: {correctAnswer}입니다!</h3>
-                <div>
-                    {correctPlayers.length > 0 ? (
-                        correctPlayers.map((player, index) => (
-                            <div key={index}>
-                                {player.player_name}님이 정답을 맞추셨습니다!
-                            </div>
-                        ))
-                    ) : (
-                        <div>정답자가 없습니다...</div>
+                <h2 className="round-answer">Round {currentRound}</h2>
+                <div className="listening-youtube">
+                    {quiz && quiz.listening_url && (
+                        <div className="video-wrapper-listening">
+                            <ReactPlayer
+                                url={testurl.current}
+                                className="react-player"
+                                playing={true}
+                                loop
+                                volume={0.5}
+                            />
+                        </div>
                     )}
-                    <button onClick={handleNextRound}>다음 라운드로 넘어갑니다.</button>
                 </div>
+                <h3 className="listening-correctAnswer">정답 : {correctAnswer}</h3>
             </div>
-            <img src={Q2B_back} alt="Q2B_back" className="backImage-p" />
+            <div className="listening-next-round">
+                {correctPlayers.length > 0 ? (
+                    correctPlayers.map((player, index) => (
+                        <span key={index}>
+                            {player.player_name}님이 정답을 맞추셨습니다!
+                        </span>
+                    ))
+                ) : (
+                    <span>정답자가 없습니다...</span>
+                )}
+                <button onClick={handleNextRound} className="next-round-btn">다음 라운드로 넘어갑니다.</button>
+            </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };
