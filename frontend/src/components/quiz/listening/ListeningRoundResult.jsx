@@ -85,14 +85,6 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                     )}
                     <span> 다음 라운드로 넘어갑니다.</span>
                 </button>
-                {/*{correctPlayer ? (*/}
-                {/*    <span>*/}
-                {/*        {correctPlayer.player_name}님이 정답을 맞추셨습니다!*/}
-                {/*    </span>*/}
-                {/*) : (*/}
-                {/*    <div>정답자가 없습니다...</div>*/}
-                {/*)}*/}
-                {/*<button onClick={handleNextRound} className="next-round-btn">다음 라운드로 넘어갑니다.</button>*/}
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-p" />
         </div>
