@@ -16,9 +16,12 @@ const ListeningPlayerRoundResult = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const correctAnswerFromSession = sessionStorage.getItem("answer"); // 세션에서 correctAnswer 가져오기
+        setCorrectAnswer(correctAnswerFromSession);
+
         const fetchRoundResult = async () => {
             try {
-                const response = await fetch(`/quiz/get/round/result/listening?roomId=${roomId}`);
+                const response = await fetch(`/quiz/get/round/result/listening?roomId=${roomId}&correctAnswer=${correctAnswerFromSession}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch round result');
                 }
@@ -62,10 +65,10 @@ const ListeningPlayerRoundResult = () => {
                         ) : (
                             <div className="round-result-container">
                                 <div className="red-x">X</div>
-                                <h1>오답입니다...</h1>
+                                <h1>정답을 맞추지 못하셨습니다...</h1>
                             </div>
                         )}
-                        <h2>내 점수: {playerScore}</h2>
+                        <h2>현재 {playerName.current}님의 점수는 {playerScore}점입니다.</h2>
                     </div>
                 </div>
                 <img src={Q2B_back} alt="Q2B_back" className="backImage-m" />

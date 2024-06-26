@@ -123,6 +123,7 @@ const QuizGame = () => {
             setQuiz(data);
             setUsedQuizIds(prevUsedQuizIds => [...prevUsedQuizIds, data.listening_id]);
             sessionStorage.setItem("answer", data.listening_answer);
+            sessionStorage.setItem("currentListeningQuiz", JSON.stringify(data)); // 저장
             sendMessage(`MESSAGE:${roomId}:QUIZID:${data.listening_id}`);
             setIsReady(true);
         } catch (error) {

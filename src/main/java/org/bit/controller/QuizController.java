@@ -198,12 +198,16 @@ public class QuizController {
         player.setPlayer_recent_answer(answer);
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
-        player.setCorrect(false);
 
         if (result == 1) {
-            player.setPlayer_score(player.getPlayer_score() + 1);
-            player.setCorrect(true);
-            playerService.updatePlayerScore(player);
+            // Check if there is already a correct player
+            boolean isAlreadyCorrect = playerService.getPlayerList(roomId).stream().anyMatch(Player::isCorrect);
+
+            if (!isAlreadyCorrect) {
+                player.setPlayer_score(player.getPlayer_score() + 1);
+                player.setCorrect(true);
+                playerService.updatePlayerScore(player);
+            }
         }
 
         // 로그 추가
@@ -213,25 +217,25 @@ public class QuizController {
     }
 
 
-    @GetMapping("/get/round/result/listening")
-    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId) {
 
-        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
+    @GetMapping("/get/round/result/listening")
+    public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
+                                                                  @RequestParam("correctAnswer") String correctAnswer) {
 
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
         List<Player> players = playerService.getPlayerList(formattedRoomId);
-        String correctAnswer = players.stream()
-                .filter(Player::isCorrect)
+        Player correctPlayer = players.stream()
+                .filter(player -> correctAnswer.equals(player.getPlayer_recent_answer()))
                 .findFirst()
-                .map(Player::getPlayer_recent_answer)
-                .orElse("정답자 없음");
+                .orElse(null);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("correctAnswer", correctAnswer);
+        response.put("correctPlayer", correctPlayer);
         response.put("players", players);
 
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/player/available")
     public String getAvailablePlayer(@RequestParam("roomId") int roomId) {

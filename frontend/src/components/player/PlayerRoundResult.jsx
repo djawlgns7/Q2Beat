@@ -6,8 +6,6 @@ import '../../css/Moblie.css'
 import '../../css/Participant/PlayerRoundResult.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
-import ListeningRoundResult from "../quiz/listening/ListeningRoundResult.jsx";
-import ListeningPlayerResult from "../quiz/listening/ListeningPlayerResult.jsx";
 import ListeningPlayerRoundResult from "../quiz/listening/ListeningPlayerRoundResult.jsx";
 
 const PlayerRoundResult = () => {

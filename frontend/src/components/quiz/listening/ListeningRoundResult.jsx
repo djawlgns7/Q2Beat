@@ -8,7 +8,7 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const ListeningRoundResult = ({ correctAnswer }) => {
     const { sendMessage, roomId } = useSocket();
-    const [correctPlayers, setCorrectPlayers] = useState([]);
+    const [correctPlayer, setCorrectPlayer] = useState([]);
     const setting = useRef(JSON.parse(sessionStorage.getItem('setting')));
     const [currentRound, setCurrentRound] = useState(setting.current.round);
     const [quiz, setQuiz] = useState(null); // 문제 데이터를 저장할 상태
@@ -17,21 +17,16 @@ const ListeningRoundResult = ({ correctAnswer }) => {
     useEffect(() => {
         const fetchRoundResult = async () => {
             try {
-                const response = await fetch(`/quiz/get/round/result/listening?roomId=${roomId}`);
+                const response = await fetch(`/quiz/get/round/result/listening?roomId=${roomId}&correctAnswer=${correctAnswer}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch round result');
                 }
                 const data = await response.json();
-                setCorrectPlayers(data.players);
-                setCorrectAnswer(data.correctAnswer);  // 정답 설정
+                console.log("Fetched round result: ", data); // 콘솔 로그 추가
+                setCorrectPlayer(data.correctPlayer);
 
-                // 문제 데이터를 가져오는 API 호출
-                const quizResponse = await fetch(`/quiz/get/listening?roomId=${roomId}`);
-                if (!quizResponse.ok) {
-                    throw new Error('Failed to fetch quiz data');
-                }
-                const quizData = await quizResponse.json();
-                setQuiz(quizData); // 문제 데이터를 상태에 저장
+                const savedQuiz = JSON.parse(sessionStorage.getItem('currentListeningQuiz'));
+                setQuiz(savedQuiz);
             } catch (error) {
                 console.error('Error fetching round result or quiz data:', error);
             }
@@ -74,14 +69,12 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                 )}
             </div>
             <div>
-                <h3>정답은: {correctAnswer}</h3>
+                <h3>정답은 {correctAnswer}입니다!</h3>
                 <div>
-                    {correctPlayers.length > 0 ? (
-                        correctPlayers.map((player, index) => (
-                            <div key={index}>
-                                {player.player_name}님이 정답을 맞추셨습니다!
+                    {correctPlayer ? (
+                            <div>
+                                {correctPlayer.player_name}님이 정답을 맞추셨습니다!
                             </div>
-                        ))
                     ) : (
                         <div>정답자가 없습니다...</div>
                     )}
