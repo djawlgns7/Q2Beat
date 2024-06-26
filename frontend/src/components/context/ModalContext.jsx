@@ -11,7 +11,7 @@ export const ModalProvider = ({ children }) => {
     const [modalType, setModalType] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [modalBody, setModalBody] = useState("");
-    const [useErrorModal, setUseErrorModal] = useState(true);
+    const [useErrorModal, setUseErrorModal] = useState(true); // 추가
 
     const showModal = () => {
         setState("show");

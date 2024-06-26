@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../css/Modal/Q2Modal.css'
+import '../../css/Modal/Q2Modal.css';
 import QRCode from "qrcode.react";
 
 const Q2Modal = (props) => {
@@ -16,7 +16,7 @@ const Q2Modal = (props) => {
         } else if (props.state === "hide") {
             handleClose();
         }
-    }, [props.state])
+    }, [props.state]);
 
     return (
         <>
