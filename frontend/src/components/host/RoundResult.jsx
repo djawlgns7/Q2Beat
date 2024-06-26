@@ -104,18 +104,7 @@ const RoundResult = () => {
                 ) : setting.gameMode === "LISTENING" ? (
                     // 노래 맞추기
                     <>
-                        <div className="round-container">
-                            <div className="round-box">
-                                <div className="circle-header-game">
-                                    {colors.map((color, index) => (
-                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                    ))}
-                                </div>
-                                <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
-                            </div>
-                            <ListeningRoundResult correctAnswer={quizAnswer.current}/>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
-                        </div>
+                        <ListeningRoundResult correctAnswer={quizAnswer.current}/>
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기

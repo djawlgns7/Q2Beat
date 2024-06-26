@@ -199,7 +199,6 @@ const QuizGame = () => {
                     </>
                 ) : setting.gameMode === "LISTENING" ? (
                     <>
-                        <h1>문제 {setting.round}</h1>
                         <ListeningQuiz quiz={quiz}/>
                     </>
                 ) : setting.gameMode === "POSE" ? (
