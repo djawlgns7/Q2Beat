@@ -1,11 +1,13 @@
 import {useSocket} from "../../context/SocketContext.jsx";
 import {useEffect, useRef, useState} from "react";
+import TwisterRecordAndGrade from "./TwisterRecordAndGrade.jsx";
 
 const TwisterAnswer = ({playerName}) => {
-    const {hostMessage, setHostMessage, roomId, quizId} = useSocket();
+    const {roomId, quizId} = useSocket();
     const [stage, setStage] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
-    const score = useRef(null);
+    const [questionString, setQuestionString] = useState("");
+    const isQuizValid = useRef(false);
 
     useEffect(() => {
 
@@ -18,22 +20,25 @@ const TwisterAnswer = ({playerName}) => {
     }, []);
 
     useEffect(() => {
-        if (hostMessage === "ROUNDEND") {
-            if (playerName === currentPlayer) {
-                updateScore();
-                sessionStorage.setItem("playerScore", score.current);
-            }
-            setHostMessage("");
+        if (isQuizValid.current) {
+            getQuestionString();
+        } else {
+            isQuizValid.current = true;
         }
-    }, [hostMessage]);
+    }, [quizId]);
 
-    const updateScore = async () => {
+    const getQuestionString = async () => {
         try {
-            const response = await fetch(`/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${score.current}`, {});
+            const response = await fetch(`/quiz/twister/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');
             }
+
+            const data = await response.json();
+
+            setQuestionString(data.twister_quiz);
+            console.log('퀴즈: ', data.twister_quiz);
         } catch (error) {
             console.error('Error clear room history:', error);
         }
@@ -44,8 +49,7 @@ const TwisterAnswer = ({playerName}) => {
             {stage ? (
                 playerName === currentPlayer ? (
                     <>
-                        <h1>여기에 희망하는 점수를 입력(임시)</h1>
-                        <input type={"number"} onChange={(e) => score.current = e.target.value}/><br/>
+                        <TwisterRecordAndGrade questionString={questionString} roomId={roomId} playerName={playerName}/>
                         <h3>당신 차례입니다!</h3>
                     </>
                 ) : (

@@ -54,6 +54,8 @@ public class PythonController {
             int exitCode = process.waitFor();
             if (exitCode == 0) {
                 double similarity = Double.parseDouble(output.toString().trim());
+                similarity = Math.round(similarity * 100.0) / 100.0;
+
                 response.put("similarity", similarity);
             } else {
                 response.put("error", "Failed to calculate similarity");

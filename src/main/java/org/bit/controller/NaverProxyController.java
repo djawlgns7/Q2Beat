@@ -52,7 +52,7 @@ public class NaverProxyController {
     }
 
     @PostMapping("/speech-to-text")
-    public Map<String, Object> recognizeAudio(@RequestParam("file") MultipartFile file) throws IOException {
+    public String recognizeAudio(@RequestParam("file") MultipartFile file) throws IOException {
 
         // 네이버 음성 인식 API 엔드포인트 URL
         String apiUrl = "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=Kor";
@@ -80,9 +80,6 @@ public class NaverProxyController {
         ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
 
         // 응답 처리
-        Map<String, Object> result = new HashMap<>();
-        result.put("text", response.getBody());
-
-        return result;
+        return response.getBody();
     }
 }
