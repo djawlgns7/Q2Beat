@@ -29,6 +29,8 @@ import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
 import MobileView from "./components/MobileView.jsx";
+import CompareStrings from "./components/test/CompareStrings.jsx";
+import TwisterRecordAndGrade from "./components/quiz/twister/TwisterRecordAndGrade.jsx";
 
 function App() {
     return (
@@ -50,6 +52,8 @@ function App() {
                     <Route path="/notices" element={<Notice/>}/>
                     <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
+                    <Route path="/compare" element={<CompareStrings/>}/>
+                    <Route path="/test/twister" element={<TwisterRecordAndGrade/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
