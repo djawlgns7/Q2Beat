@@ -10,7 +10,9 @@ const KakaoLoginButton = () => {
     const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
 
     useEffect(() => {
-        window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
+        if (!window.Kakao.isInitialized()) {
+            window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
+        }
     }, []);
 
     const handleLogin = () => {

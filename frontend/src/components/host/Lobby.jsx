@@ -9,7 +9,7 @@ import Q2B_back from "../../image/Q2Beat_background.png";
 
 const Lobby = () => {
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
-    const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
+    const {showModal, setModalType, setModalTitle, setModalBody, setUseErrorModal} = useModal();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
@@ -24,7 +24,8 @@ const Lobby = () => {
         } else {
             navigate("/host/game/create");
         }
-    }, []);
+        setUseErrorModal(false);
+    }, [setUseErrorModal]);
 
     useEffect(() => {
         setClientMessage("");

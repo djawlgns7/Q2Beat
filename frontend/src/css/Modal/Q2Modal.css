@@ -6,3 +6,8 @@
 
 .modal-qrcode {
 }
+
+/* Q2Modal.css */
+.modal-backdrop {
+    display: none;
+}
