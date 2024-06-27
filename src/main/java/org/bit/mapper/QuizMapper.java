@@ -31,6 +31,6 @@ public interface QuizMapper {
     @Select("SELECT * FROM quiz_listening WHERE listening_id = #{listening_id}")
     QuizListening getQuizListening(@Param("listening_id") int listeningId);
 
-    @Select("SELECT listening_id FROM quiz_listening")
-    List<Integer> getListeningQuizNumberList();
+    @Select("SELECT listening_id FROM quiz_listening WHERE category = #{category}")
+    List<Integer> getListeningQuizNumberListByCategory(@Param("category") int category);
 }

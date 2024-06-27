@@ -12,11 +12,11 @@ const ListeningPlayerRoundResult = () => {
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [playerScore, setPlayerScore] = useState('');
     const playerName = useRef(sessionStorage.getItem("playerName"));
-    const isCorrect = useRef(sessionStorage.getItem("isCorrect") === 'true');
+    const [roundResult, setRoundResult] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const correctAnswerFromSession = sessionStorage.getItem("answer"); // 세션에서 correctAnswer 가져오기
+        const correctAnswerFromSession = sessionStorage.getItem("answer");
         setCorrectAnswer(correctAnswerFromSession);
 
         const fetchRoundResult = async () => {
@@ -26,10 +26,10 @@ const ListeningPlayerRoundResult = () => {
                     throw new Error('Failed to fetch round result');
                 }
                 const data = await response.json();
-                console.log("Fetched round result: ", data); // 콘솔 로그 추가
-                setCorrectAnswer(data.correctAnswer);
+                console.log("Fetched round result: ", data);
                 const playerData = data.players.find(player => player.player_name === playerName.current);
                 setPlayerScore(playerData?.player_score || 0);
+                setRoundResult(sessionStorage.getItem("isCorrect") === "true");
             } catch (error) {
                 console.error('Error fetching round result:', error);
             }
@@ -39,6 +39,7 @@ const ListeningPlayerRoundResult = () => {
 
     useEffect(() => {
         if (hostMessage === "NEXTROUND") {
+            sessionStorage.setItem("isCorrect", "false");
             navigate("/player/game/count");
         } else if (hostMessage === "GAMEEND") {
             setHostMessage("");
@@ -49,31 +50,29 @@ const ListeningPlayerRoundResult = () => {
     }, [hostMessage, navigate, setHostMessage]);
 
     return (
-        <>
-            <div className="container-m">
-                <div className="loginBox-m">
-                    <div className="player-header">
-                        <img src={Q2B} alt="Q2B" className="smallLogoImage-m" />
-                        <PlayerTop playerName={playerName.current} />
-                    </div>
-                    <div className="round-result">
-                        {isCorrect.current ? (
-                            <div className="round-result-container">
-                                <div className="green-circle">O</div>
-                                <h1>정답입니다!</h1>
-                            </div>
-                        ) : (
-                            <div className="round-result-container">
-                                <div className="red-x">X</div>
-                                <h1>정답을 맞추지 못하셨습니다...</h1>
-                            </div>
-                        )}
-                        <h2>현재 {playerName.current}님의 점수는 {playerScore}점입니다.</h2>
-                    </div>
+        <div className="container-m">
+            <div className="loginBox-m">
+                <div className="player-header">
+                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m" />
+                    <PlayerTop playerName={playerName.current} />
                 </div>
-                <img src={Q2B_back} alt="Q2B_back" className="backImage-m" />
+                <div className="round-result">
+                    {roundResult ? (
+                        <div className="round-result-container">
+                            <div className="green-circle">O</div>
+                            <h1>정답입니다!</h1>
+                        </div>
+                    ) : (
+                        <div className="round-result-container">
+                            <div className="red-x">X</div>
+                            <h1>정답을 맞추지 못하셨습니다...</h1>
+                        </div>
+                    )}
+                    <h2>현재 {playerName.current}님의 점수는 {playerScore}점입니다.</h2>
+                </div>
             </div>
-        </>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-m" />
+        </div>
     );
 };
 

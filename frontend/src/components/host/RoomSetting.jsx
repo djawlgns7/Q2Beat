@@ -29,7 +29,7 @@ const RoomSetting = () => {
                 round: 1,
                 maxRound: 5,
                 timeLimit: 10,
-                category: "COMMON"
+                category: 90
             }
         } else if (gameType === "2") {
             setting.current = {
@@ -59,7 +59,7 @@ const RoomSetting = () => {
 
     const gameStart = () => {
         sessionStorage.setItem('setting', JSON.stringify(setting.current));
-        sendMessage(`START:${roomId}:${setting.current.gameMode}`);
+        sendMessage(`START:${roomId}:${setting.current.gameMode}:${setting.current.category}`);
         navigate("/host/game/count");
     }
 
@@ -113,31 +113,33 @@ const RoomSetting = () => {
                         )
                     case '1':
                         return (
-                            <div className="container-p">
-                                <BackgroundVideo/>
-                                <div className="contents-box-p">
-                                    <div className="label-section">
-                                        <label className="roomSetting-label">카테고리
-                                            <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"category COMMON"}>
-                                                <option value="category COMMON">발라드</option>
-                                                <option value="category RAP">힙합</option>
-                                                <option value="category DANCE">댄스</option>
-                                            </select>
-                                        </label>
-                                        <label className="roomSetting-label">라운드 수
-                                            <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"maxRound 5"}>
-                                                <option value="maxRound 1">1라운드</option>
-                                                <option value="maxRound 5">5라운드</option>
-                                                <option value="maxRound 10">10라운드</option>
-                                            </select>
-                                        </label>
+                            <div className="roomSetting-container">
+                                <div className="roomSetting-box">
+                                    <div className="roomSetting-circle-header">
+                                        {colors.map((color, index) => (
+                                            <div key={index} className="circle"
+                                                 style={{backgroundColor: color}}></div>
+                                        ))}
                                     </div>
-                                    <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
-                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
-                                    </div>
+                                    <label className="roomSetting-label">카테고리
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"category 90"}>
+                                            <option value="categoty 90">1990년대</option>
+                                            <option value="category 00">2000년대</option>
+                                            <option value="category 10">2010년대</option>
+                                            <option value="category 20">2020년대</option>
+                                        </select>
+                                    </label>
+                                    <label className="roomSetting-label">라운드 수
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"maxRound 5"}>
+                                            <option value="maxRound 1">1라운드</option>
+                                            <option value="maxRound 5">5라운드</option>
+                                            <option value="maxRound 10">10라운드</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div className="roomSetting-buttons">
+                                    <button onClick={gameStart} className="roomSetting-btn">시작</button>
+                                    <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                                 </div>
                             </div>
                         )
