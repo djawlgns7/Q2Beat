@@ -21,8 +21,8 @@ public class PythonController {
     @PostMapping("/text/compare")
     public Map<String, Object> compareStrings(@RequestBody Map<String, String> request) {
         Map<String, Object> response = new HashMap<>();
-        String question = request.get("question");
-        String answer = request.get("answer");
+        String question = request.get("question").trim();
+        String answer = request.get("answer").trim();
 
         try {
             // 파이썬 스크립트 경로 설정
