@@ -32,3 +32,9 @@
     font-weight: bold;
     display: inline-block;
 }
+
+.twister-player-roundResult {
+    text-align: center;
+    padding: 100px;
+    color: white;
+}

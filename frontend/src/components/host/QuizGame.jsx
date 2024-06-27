@@ -1,16 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";;
 import {useNavigate} from "react-router-dom";
-import ListeningQuiz from "../quiz/ListeningQuiz.jsx";
+import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import '../../css/PC.css';
 import '../../css/Host/QuizGame.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterQuiz from "../quiz/twister/TwisterQuiz.jsx";
 
 const QuizGame = () => {
-    const {sendMessage, roomId, clientMessage, setClientMessage} = useSocket();
+    const {sendMessage, roomId, hostMessage, setHostMessage, clientMessage, setClientMessage} = useSocket();
     const [setting, setSetting] = useState('');
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
@@ -80,6 +80,16 @@ const QuizGame = () => {
         setClientMessage("");
     }, [clientMessage])
 
+    useEffect(() => {
+        if (hostMessage.startsWith("ROUNDEND") && setting.gameMode === "LISTENING") {
+            console.log("Received ROUNDEND message");
+            setHostMessage("");
+            navigate("/host/game/round/result");
+        }
+    }, [hostMessage, navigate, setHostMessage]);
+
+
+
     const getQuizNormal = async (category) => {
         const response = await fetch(`http://bit-two.com:8080/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
@@ -135,6 +145,7 @@ const QuizGame = () => {
             setQuiz(data);
             setUsedQuizIds(prevUsedQuizIds => [...prevUsedQuizIds, data.listening_id]);
             sessionStorage.setItem("answer", data.listening_answer);
+            sessionStorage.setItem("currentListeningQuiz", JSON.stringify(data)); // 저장
             sendMessage(`MESSAGE:${roomId}:QUIZID:${data.listening_id}`);
             setIsReady(true);
         } catch (error) {

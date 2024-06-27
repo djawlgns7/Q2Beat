@@ -28,9 +28,6 @@ public interface QuizMapper {
     @Select("SELECT COUNT(*) FROM quiz_listening WHERE listening_id = #{listening_id} AND listening_answer = #{listening_answer}")
     int gradingListening(@Param("listening_id") int listening_id, @Param("listening_answer") String listening_answer);
 
-    @Select("SELECT quiz_id FROM quiz_history WHERE room_id = #{roomId}")
-    List<Integer> getUsedQuizIds(@Param("roomId") String roomId);
-
     @Select("SELECT * FROM quiz_listening WHERE listening_id = #{listening_id}")
     QuizListening getQuizListening(@Param("listening_id") int listeningId);
 

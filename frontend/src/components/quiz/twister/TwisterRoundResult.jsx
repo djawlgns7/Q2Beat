@@ -1,4 +1,6 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import Timer from "../Timer.jsx";
+import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const TwisterRoundResult = ({roomId}) => {
 
@@ -6,6 +8,7 @@ const TwisterRoundResult = ({roomId}) => {
     const [score, setScore] = useState("");
     const [answerString, SetAnswerString] = useState("");
     const [isFetched, setIsFetched] = useState(false);
+    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         const player = sessionStorage.getItem("nextPlayer");
@@ -41,11 +44,24 @@ const TwisterRoundResult = ({roomId}) => {
     return (
         <>
             {isFetched === true ? (
-                <>
-                    <h1>{nextPlayer}님의 결과</h1>
-                    <h4>{answerString}</h4>
-                    <h3>유사도: {score}%</h3>
-                </>
+                <div className="container-p">
+                    <div className="twister-box">
+                        <div className="twister-header">
+                            <div className="circle-header-listening">
+                                {colors.map((color, index) => (
+                                    <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
+                                ))}
+                            </div>
+                            <h2 className="twister-round">Round 1</h2>
+                        </div>
+                        <div className="twister-main">
+                            <h1>{nextPlayer}님의 결과</h1><br/>
+                            <h4>{answerString}</h4>
+                            <h3>유사도: {score}%</h3>
+                        </div>
+                    </div>
+                    <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                </div>
             ) : (
                 <></>
             )}

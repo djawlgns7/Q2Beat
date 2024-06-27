@@ -132,6 +132,7 @@ export const SocketProvider = ({children}) => {
             hostMessage,
             clientMessage,
             socketRef,
+            quiz,
             setRoomId,
             setMessages,
             setQuizId,

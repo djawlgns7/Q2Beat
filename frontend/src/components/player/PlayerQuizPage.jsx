@@ -5,16 +5,18 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
-import ListeningText from "../quiz/ListeningText.jsx";
+import ListeningText from "../quiz/listening/ListeningText.jsx";
 import Q2B from "../../image/Q2BEAT_2.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
+import '../../css/Quiz/Twister/TwisterAnswer.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
+    const [myTurn, setMyTurn] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [isRecording, setIsRecording] = useState(false);
     const gameMode = useRef("");
@@ -34,11 +36,25 @@ const PlayerQuizPage = () => {
     }, []);
 
     useEffect(() => {
+        if (hostMessage === "ROUNDEND") {
+            if (gameMode.current === "NORMAL") {
+                console.log(hostMessage);
+                setHostMessage("");
+                sendAnswer(gameMode.current);
 
-        if (hostMessage.startsWith("ROUNDEND")) {
-            setHostMessage("");
+                setTimeout(() => {
+                    sessionStorage.setItem("round", roundNumber.current + 1);
+                    navigate("/player/game/round/result");
+                }, 500);
+            } else if (gameMode.current === "LISTENING") {
+                console.log(hostMessage);
+                setHostMessage("");
 
-            if (!isRecording) {
+                setTimeout(() => {
+                    sessionStorage.setItem("round", roundNumber.current + 1);
+                    navigate("/player/game/round/result");
+                }, 500);
+            } else if (!isRecording) {
                 sendAnswer(gameMode.current);
 
                 setTimeout(() => {
@@ -53,8 +69,17 @@ const PlayerQuizPage = () => {
         }
     }, [hostMessage]);
 
-    const prepareAnswer = (inputAnswer) => {
+    const prepareAnswer = async (inputAnswer) => {
+        console.log("prepareAnswer : " + inputAnswer);
         answer.current = inputAnswer;
+        if (gameMode.current === "LISTENING") {
+            const data = await sendAnswer(gameMode.current);
+            if (data.correct) {
+                sendMessage(`MESSAGE:${roomId.current}:HOST:ROUNDEND`);
+                setHostMessage("ROUNDEND");
+            }
+            return data;
+        }
     }
 
     const sendAnswer = async (gameMode) => {
@@ -68,7 +93,7 @@ const PlayerQuizPage = () => {
 
         console.log("Sending answer:", answer.current); // 로그 추가
 
-        const response = await fetch(`http://bit-two.com:8080/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -84,6 +109,7 @@ const PlayerQuizPage = () => {
 
         sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
+        return data;
     };
 
     return (
@@ -110,9 +136,20 @@ const PlayerQuizPage = () => {
                     </>
                 ) : gameMode.current === "TWISTER" ? (
                     <>
-                        <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer playerName={playerName.current} isRecording={isRecording}
+                        <div className="container-m">
+                            <div className="loginBox-m">
+                                <div className="player-header">
+                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                    <PlayerTop playerName={playerName.current}/>
+                                </div>
+                                <div className="twister-answer">
+                                    <h1 className="quiz-round">Round {roundNumber.current}</h1>
+                                    <TwisterAnswer playerName={playerName.current} isRecording={isRecording}
                                        setIsRecording={setIsRecording} roundNumber={roundNumber.current}/>
+                                </div>
+                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                        </div>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기

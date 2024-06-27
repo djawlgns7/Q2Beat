@@ -56,6 +56,8 @@ public class RoomService {
         roomMapper.deleteRoom(id);
     }
 
+    public boolean insertQuizHistoryForListening(QuizHistory quizHistory) {return roomMapper.insertQuizHistoryForListening(quizHistory);}
+
     public Set<Integer> getUsedQuizIds(String roomId) {
         return roomMapper.getUsedQuizIds(roomId);
     }

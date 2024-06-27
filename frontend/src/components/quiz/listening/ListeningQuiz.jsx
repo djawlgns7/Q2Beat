@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Q2B_back from "../../image/Q2Beat_background.png";
-import '../../css/PC.css'
-import '../../css/Quiz/ListeningQuiz.css'
+import Q2B_back from "../../../image/Q2Beat_background.png";
+import '../../../css/PC.css'
+import '../../../css/Quiz/ListeningQuiz.css'
 import ReactPlayer from "react-player";
-import SoundIcon from "../../image/free-icon-sound-2.png";
+import SoundIcon from "../../../image/free-icon-sound-2.png";
 
 const ListeningQuiz = ({quiz}) => {
     const playerRef = useRef(null);

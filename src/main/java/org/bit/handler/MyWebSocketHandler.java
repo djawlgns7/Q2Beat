@@ -35,6 +35,10 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         String[] parts = payload.split(":", 2);
+        if (parts.length < 2) {
+            System.err.println("Invalid message format: " + payload);
+            return;
+        }
         String command = parts[0];
         String content = parts[1];
 
@@ -52,6 +56,10 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             playerService.createPlayer(player);
         } else if ("JOIN".equals(command)) {
             String[] msgParts = content.split(":", 3);
+            if (msgParts.length < 3) {
+                System.err.println("Invalid JOIN message format: " + content);
+                return;
+            }
             String personType = msgParts[0];
             String roomId = msgParts[1];
             String playerName = msgParts[2];
@@ -65,7 +73,9 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                     Player player = new Player("R" + roomId, playerName);
 
                     broadcast(roomId, "NEWMEMBER:" + playerName);
-                    playerService.createPlayer(player);
+                    if (playerService.getPlayer(player) == null) {
+                        playerService.createPlayer(player);
+                    }
                 } else if (personType.equals("HOST")) {
                     Player player = new Player("R" + roomId, "(HOST)" + playerName);
 
@@ -76,12 +86,20 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             }
         } else if ("START".equals(command)) {
             String[] msgParts = content.split(":", 2);
+            if (msgParts.length < 2) {
+                System.err.println("Invalid START message format: " + content);
+                return;
+            }
             String roomId = msgParts[0];
             String gameType = msgParts[1];
 
             broadcast(roomId, "START:" + gameType);
         } else if ("MESSAGE".equals(command)) {
             String[] msgParts = content.split(":", 2);
+            if (msgParts.length < 2) {
+                System.err.println("Invalid MESSAGE message format: " + content);
+                return;
+            }
             String roomId = msgParts[0];
             String chatMessage = msgParts[1];
             broadcast(roomId, chatMessage);
@@ -142,4 +160,5 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             }
         }
     }
+
 }

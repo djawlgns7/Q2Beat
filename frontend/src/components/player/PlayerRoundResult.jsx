@@ -7,6 +7,7 @@ import '../../css/Participant/PlayerRoundResult.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterPlayerRoundResult from "../quiz/twister/TwisterPlayerRoundResult.jsx";
+import ListeningPlayerRoundResult from "../quiz/listening/ListeningPlayerRoundResult.jsx";
 
 const PlayerRoundResult = () => {
     const {hostMessage, setHostMessage, roomId} = useSocket();
@@ -23,6 +24,7 @@ const PlayerRoundResult = () => {
             gameMode.current = sessionStorage.getItem("gameMode");
             setRoundResult(sessionStorage.getItem("isCorrect"));
             setPlayerScore(sessionStorage.getItem("playerScore"));
+            console.log("Player score: ", sessionStorage.getItem("playerScore")); // 콘솔 로그 추가
 
             setIsReady(true);
         }, 100);
@@ -77,13 +79,7 @@ const PlayerRoundResult = () => {
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>
-                        {roundResult === "true" ? (
-                            <h1>정답입니다!</h1>
-                        ) : (
-                            <h1>오답입니다...</h1>
-                        )
-                        }
-                        <h2>내 점수: {playerScore}</h2>
+                        <ListeningPlayerRoundResult />
                     </>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
