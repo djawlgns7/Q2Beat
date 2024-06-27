@@ -16,6 +16,7 @@ const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
+    const [isRecording, setIsRecording] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
@@ -36,12 +37,15 @@ const PlayerQuizPage = () => {
 
         if (hostMessage.startsWith("ROUNDEND")) {
             setHostMessage("");
-            sendAnswer(gameMode.current);
 
-            setTimeout(() => {
-                sessionStorage.setItem("round", String(roundNumber.current + 1));
-                navigate("/player/game/round/result");
-            }, 500);
+            if (!isRecording) {
+                sendAnswer(gameMode.current);
+
+                setTimeout(() => {
+                    sessionStorage.setItem("round", String(roundNumber.current + 1));
+                    navigate("/player/game/round/result");
+                }, 500);
+            }
         } else if (hostMessage.startsWith("NEXTPLAYER-")) {
             setCurrentPlayer(hostMessage.split("-")[1]);
             sessionStorage.setItem("currentPlayer", hostMessage.split("-")[1]);
@@ -56,15 +60,15 @@ const PlayerQuizPage = () => {
     const sendAnswer = async (gameMode) => {
         if (gameMode === "NORMAL") {
             gameMode = "normal";
-        }else if (gameMode === "LISTENING") {
+        } else if (gameMode === "LISTENING") {
             gameMode = "listening";
-        }else {
+        } else {
             return;
         }
 
         console.log("Sending answer:", answer.current); // 로그 추가
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -107,7 +111,8 @@ const PlayerQuizPage = () => {
                 ) : gameMode.current === "TWISTER" ? (
                     <>
                         <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer playerName={playerName.current}/>
+                        <TwisterAnswer playerName={playerName.current} isRecording={isRecording}
+                                       setIsRecording={setIsRecording} roundNumber={roundNumber.current}/>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기

@@ -1,16 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import question from "../Question.jsx";
 import {useSocket} from "../../context/SocketContext.jsx";
+import {useNavigate} from "react-router-dom";
 
-const TwisterRecordAndGrade = ({questionString, roomId, playerName}) => {
-    const {hostMessage, setHostMessage} = useSocket();
-    const [isRecording, setIsRecording] = useState(false);
+const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording, setIsRecording, roundNumber}) => {
+    const {hostMessage, sendMessage} = useSocket();
     const [isRecorded, setIsRecorded] = useState(false);
     const [answerString, setAnswerString] = useState('');
     const [similarity, setSimilarity] = useState('');
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
+    const shouldNavigate = useRef(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (answerString !== '') {
@@ -26,7 +27,9 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName}) => {
 
     useEffect(() => {
         if (hostMessage.startsWith("ROUNDEND") && isRecording) {
-            handleStopRecording();
+            shouldNavigate.current = true;
+
+            setTimeout(() => handleStopRecording(), 1000);
         }
     }, [hostMessage]);
 
@@ -49,7 +52,7 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName}) => {
             formData.append('file', audioBlob, 'audio.wav');
 
             try {
-                const response = await axios.post('http://localhost:8080/api/naver/speech-to-text', formData, {
+                const response = await axios.post('http://bit-two.com:8080/api/naver/speech-to-text', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -65,23 +68,28 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName}) => {
             }
         };
 
+        sendMessage(`MESSAGE:${roomId}:PLAYER:RECORDSTART`);
         mediaRecorderRef.current.start();
         setIsRecording(true);
     };
 
     const handleStopRecording = () => {
+        sendMessage(`MESSAGE:${roomId}:PLAYER:RECORDSTOP`);
         mediaRecorderRef.current.stop();
         setIsRecording(false);
         setIsRecorded(true);
     };
 
     const handleCompare = async () => {
-        const response = await fetch('/api/text/compare', {
+
+        sendMessage(`MESSAGE:${roomId}:PLAYER:ANSWER-${answerString}`);
+
+        const response = await fetch('http://bit-two.com:8080/api/text/compare', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ question: questionString, answer: answerString }),
+            body: JSON.stringify({question: questionString, answer: answerString}),
         });
 
         const data = await response.json();
@@ -98,10 +106,18 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName}) => {
         const fixedSimilarity = Math.round(similarity * 100);
 
         try {
-            const response = await fetch(`http://localhost:8080/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
+            const response = await fetch(`http://bit-two.com:8080/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');
+            }
+
+            if (shouldNavigate.current) {
+                setTimeout(() => {
+                    sessionStorage.setItem("round", String(roundNumber + 1));
+                    sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
+                    navigate("/player/game/round/result");
+                }, 500);
             }
         } catch (error) {
             console.error('Error clear room history:', error);

@@ -39,7 +39,7 @@ const Lobby = () => {
 
     const getPlayersList = async () => {
         try {
-            const response = await fetch(`/quiz/player/list?roomId=${roomId}`)
+            const response = await fetch(`http://bit-two.com:8080/quiz/player/list?roomId=${roomId}`)
             if (!response.ok) {
                 throw new Error('Failed to get player list');
             }

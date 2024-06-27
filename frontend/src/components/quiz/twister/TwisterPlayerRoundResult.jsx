@@ -16,7 +16,7 @@ const TwisterPlayerRoundResult = ({roomId}) => {
 
     const getTwisterScore = async () => {
         try {
-            const response = await fetch(`/quiz/player/score?room_id=R${roomId}&player_name=${currentPlayer}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/player/score?room_id=R${roomId}&player_name=${currentPlayer}`);
 
             if (!response.ok) {
                 throw new Error('Failed to get player score');
@@ -30,7 +30,7 @@ const TwisterPlayerRoundResult = ({roomId}) => {
     }
 
     return (
-        <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 <br/><br/>{playerScore}% 입니다!</h1>
+        <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 <br/><br/>{playerScore / 100}% 입니다!</h1>
     )
 }
 

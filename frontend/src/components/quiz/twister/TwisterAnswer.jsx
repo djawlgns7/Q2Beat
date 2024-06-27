@@ -2,12 +2,11 @@ import {useSocket} from "../../context/SocketContext.jsx";
 import {useEffect, useRef, useState} from "react";
 import TwisterRecordAndGrade from "./TwisterRecordAndGrade.jsx";
 
-const TwisterAnswer = ({playerName}) => {
+const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) => {
     const {roomId, quizId} = useSocket();
     const [stage, setStage] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [questionString, setQuestionString] = useState("");
-    const isQuizValid = useRef(false);
 
     useEffect(() => {
 
@@ -20,16 +19,12 @@ const TwisterAnswer = ({playerName}) => {
     }, []);
 
     useEffect(() => {
-        if (isQuizValid.current) {
-            getQuestionString();
-        } else {
-            isQuizValid.current = true;
-        }
+        getQuestionString();
     }, [quizId]);
 
     const getQuestionString = async () => {
         try {
-            const response = await fetch(`/quiz/twister/get/quiz?quizId=${quizId}`, {});
+            const response = await fetch(`http://bit-two.com:8080/quiz/twister/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');
@@ -49,7 +44,9 @@ const TwisterAnswer = ({playerName}) => {
             {stage ? (
                 playerName === currentPlayer ? (
                     <>
-                        <TwisterRecordAndGrade questionString={questionString} roomId={roomId} playerName={playerName}/>
+                        <TwisterRecordAndGrade questionString={questionString} roomId={roomId} playerName={playerName}
+                                               isRecording={isRecording} setIsRecording={setIsRecording}
+                                               roundNumber={roundNumber}/>
                         <h3>당신 차례입니다!</h3>
                     </>
                 ) : (

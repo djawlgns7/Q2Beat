@@ -61,6 +61,7 @@ const RoundResult = () => {
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
+            sessionStorage.removeItem("answerString");
 
             if (setting.round > setting.maxRound) {
                 sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
