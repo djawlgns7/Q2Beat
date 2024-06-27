@@ -21,7 +21,7 @@ const ListeningPlayerRoundResult = () => {
 
         const fetchRoundResult = async () => {
             try {
-                const response = await fetch(`/quiz/get/round/result/listening?roomId=${roomId}&correctAnswer=${correctAnswerFromSession}`);
+                const response = await fetch(`https://bit-two.com/quiz/get/round/result/listening?roomId=${roomId}&correctAnswer=${correctAnswerFromSession}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch round result');
                 }

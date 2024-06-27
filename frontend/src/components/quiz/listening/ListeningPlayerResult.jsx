@@ -16,7 +16,7 @@ const ListeningPlayerResult = () => {
     useEffect(() => {
         const fetchPlayerResults = async () => {
             try {
-                const response = await fetch(`/quiz/get/players/rank/list?roomId=${roomId}`);
+                const response = await fetch(`https://bit-two.com/quiz/get/players/rank/list?roomId=${roomId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch player results');
                 }
