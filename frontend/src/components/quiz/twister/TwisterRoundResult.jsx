@@ -25,7 +25,9 @@ const TwisterRoundResult = ({roomId}) => {
                 throw new Error('Failed to get player score');
             }
 
-            setScore(await response.text());
+            const returnedScore = await response.text();
+
+            setScore(String(returnedScore / 100));
             setIsFetched(true);
 
         } catch (error) {
@@ -36,7 +38,7 @@ const TwisterRoundResult = ({roomId}) => {
     return (
         <>
             {isFetched === true ? (
-                <h1>{nextPlayer}님의 점수는 {score}점 입니다</h1>
+                <h1>{nextPlayer}님의 유사도는 {score}% 입니다</h1>
             ) : (
                 <></>
             )}

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 const TwisterPlayerRoundResult = ({roomId}) => {
     const [currentPlayer, setCurrentPlayer] = useState("");
-    const [playerScore, setPlayerScore] = useState("");
+    const [playerScore, setPlayerScore] = useState("0");
 
     useEffect(() => {
         setCurrentPlayer(sessionStorage.getItem("currentPlayer"));
@@ -30,7 +30,7 @@ const TwisterPlayerRoundResult = ({roomId}) => {
     }
 
     return (
-        <h1 className="twister-player-roundResult">{currentPlayer}님의 점수는 <br/><br/>{playerScore}점 입니다!</h1>
+        <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 <br/><br/>{playerScore}% 입니다!</h1>
     )
 }
 

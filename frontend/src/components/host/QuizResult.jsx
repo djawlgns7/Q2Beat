@@ -78,7 +78,11 @@ const QuizResult = () => {
                                             </>)}
                                         <span className="index-player">{index + 1}등 &nbsp;</span>
                                         <span className="index-player">{player.player_name} &nbsp;</span>
-                                        <span className="index-player">{player.player_score}점</span>
+                                        {setting.gameMode === "TWISTER" ?
+                                            <span className="index-player">{player.player_score / 100}%</span>
+                                            :
+                                            <span className="index-player">{player.player_score}점</span>
+                                        }
                                     </li>
                                 ))}
                             </ul>

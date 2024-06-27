@@ -53,7 +53,6 @@ function App() {
                     <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
                     <Route path="/compare" element={<CompareStrings/>}/>
-                    <Route path="/test/twister" element={<TwisterRecordAndGrade/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>

@@ -25,7 +25,7 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName}) => {
     }, [similarity]);
 
     useEffect(() => {
-        if (hostMessage.startsWith("ROUNDEND")) {
+        if (hostMessage.startsWith("ROUNDEND") && isRecording) {
             handleStopRecording();
         }
     }, [hostMessage]);
