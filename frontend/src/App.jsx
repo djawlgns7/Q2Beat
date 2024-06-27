@@ -29,6 +29,11 @@ import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
 import MobileView from "./components/MobileView.jsx";
+import ListeningRoundResult from "./components/quiz/listening/ListeningRoundResult.jsx";
+import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPlayerRoundResult.jsx";
+import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
+import CompareStrings from "./components/test/CompareStrings.jsx";
+import TwisterRecordAndGrade from "./components/quiz/twister/TwisterRecordAndGrade.jsx";
 
 function App() {
     return (
@@ -50,6 +55,7 @@ function App() {
                     <Route path="/notices" element={<Notice/>}/>
                     <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
+                    <Route path="/compare" element={<CompareStrings/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
@@ -82,9 +88,19 @@ function App() {
                             <QuizResult/>
                         </SocketProvider>
                     }/>
+                    <Route path="/host/game/result/listening" element={
+                        <SocketProvider>
+                            <ListeningQuizResult/>
+                        </SocketProvider>
+                    }/>
                     <Route path="/host/game/round/result" element={
                         <SocketProvider>
                             <RoundResult/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/round/result/listening" element={
+                        <SocketProvider>
+                            <ListeningRoundResult />
                         </SocketProvider>
                     }/>
                     <Route path="/host/game/setting/:id" element={
@@ -118,9 +134,19 @@ function App() {
                             <PlayerRoundResult/>
                         </SocketProvider>
                     }/>
+                    <Route path="/player/game/round/result/listening" element={
+                        <SocketProvider>
+                            <ListeningPlayerRoundResult/>
+                        </SocketProvider>
+                    }/>
                     <Route path="/player/game/result" element={
                         <SocketProvider>
                             <PlayerResult/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/result/listening" element={
+                        <SocketProvider>
+                            <ListeningPlayerRoundResult/>
                         </SocketProvider>
                     }/>
                 </Routes>

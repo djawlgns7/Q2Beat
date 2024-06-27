@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
 import '../../css/Host/Lobby.css'
@@ -12,16 +12,13 @@ const Lobby = () => {
     const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
-    const [state, setState] = useState("hide");
     const navigate = useNavigate();
 
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
-        // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         const storedName = sessionStorage.getItem('hostName');
         clearPlayInformation();
-        //session에 방 이름 있으면 게임 진행. 없으면 /host/game/create로.
         if (roomId && storedName !== null) {
             setName(storedName);
         } else {
@@ -39,7 +36,7 @@ const Lobby = () => {
 
     const getPlayersList = async () => {
         try {
-            const response = await fetch(`/quiz/player/list?roomId=${roomId}`)
+            const response = await fetch(`http://bit-two.com:8080/quiz/player/list?roomId=${roomId}`)
             if (!response.ok) {
                 throw new Error('Failed to get player list');
             }
@@ -52,34 +49,11 @@ const Lobby = () => {
 
     const startQuiz = (gameType) => {
         if (isConnected.current && roomId) {
-            //navigate("/host/game/count");
             sessionStorage.setItem("playerNumber", participants.length + "");
 
             setTimeout(() => navigate("/host/game/setting/"+gameType), 500);
         }
     }
-
-    const startListening = () => {
-        const category = 'COMMON'; // 사용할 category 설정
-        if (isConnected.current && roomId) {
-            const gameMode = "LISTENING";
-            sendMessage(`START:${roomId}:${gameMode}`);
-
-            // 객체를 JSON 문자열로 변환하여 저장
-            const setting = {
-                gameMode: "LISTENING",
-                round: 1,
-                maxRound: 2,
-                timeLimit: 10,
-                category: category
-            };
-            sessionStorage.setItem('setting', JSON.stringify(setting));
-            sessionStorage.setItem('category', category); // category 값을 세션에 저장
-
-            navigate("/host/game/count");
-        }
-    };
-
 
     const showQR = () => {
         setModalType("QR");
@@ -132,23 +106,20 @@ const Lobby = () => {
                         <div className="game-options">
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">퀴즈</button>
-                                <button className="hover-button" onClick={()=>{startQuiz(0)}}>시작하기</button>
+                                <button className="hover-button" onClick={() => {startQuiz(0)}}>시작하기</button>
                             </div>
                             <div className="option-1 option-btn-1-container">
                                 <button className="option-btn-1">주크박스</button>
-                                <button className="hover-button" onClick={startListening}>시작하기</button>
+                                <button className="hover-button" onClick={() => {startQuiz(1)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
                                 <button className="option-btn-1">잰말놀이</button>
-                                <button className="hover-button" onClick={()=>{startQuiz(2)}}>시작하기</button>
+                                <button className="hover-button" onClick={() => {startQuiz(2)}}>시작하기</button>
                             </div>
                             <div className="option-2 option-btn-1-container">
                                 <button className="option-btn-1">포토제닉</button>
-                                <button className="hover-button" onClick={()=>{startQuiz(3)}}>시작하기</button>
+                                <button className="hover-button" onClick={() => {startQuiz(3)}}>시작하기</button>
                             </div>
-                            {/*<div className="actions">*/}
-                            {/*    <button onClick={startQuiz} className="action-btn">시작하기</button>*/}
-                            {/*</div>*/}
                         </div>
                     </div>
                 </div>

@@ -27,7 +27,7 @@ public interface PlayerMapper {
     @Update("update player set player_score = #{player_score} where room_id = #{room_id} and player_name = #{player_name}")
     boolean updatePlayerScore(Player player);
 
-    @Update("UPDATE player SET player_recent_answer = #{player_recent_answer} WHERE player_name = #{player_name}")
+    @Update("UPDATE player SET player_recent_answer = #{player_recent_answer} WHERE room_id = #{room_id} AND player_name = #{player_name}")
     void updatePlayerRecentAnswer(Player player);
 
     @Update("update player set player_team_id = null, player_recent_answer = null, player_score = 0 where room_id = #{room_id}")
@@ -45,9 +45,10 @@ public interface PlayerMapper {
     @Select("select * from player where room_id = #{room_id} and player_name not like '(HOST)%' order by player_score desc")
     List<Player> getPlayerRank(@Param("room_id")String room_id);
 
-    @Select("select count(*) from player where room_id = #{room_id} and ")
-    String getAnswerListenings(@Param("room_id") String room_id, @Param("answer") String answer);
+    @Select("select listening_answer from quiz_listening where listening_id = #{quiz_id}")
+    String getAnswerListening(@Param("room_id") String room_id);
 
     @Select("select * from player where room_id = #{room_id} and player_score = 0 and player_name not like '(HOST)%'")
     List<Player> getAvailablePlayerList(@Param("room_id") String room_id);
+
 }

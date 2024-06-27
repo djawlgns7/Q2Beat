@@ -11,7 +11,7 @@ const PlayerResult = () => {
     const {roomId, hostMessage} = useSocket();
     const playerName = useRef("");
     const gameMode = useRef("");
-    const playerScore = useRef("");
+    const playerScore = useRef("0");
     const [isReady, setIsReady] = useState(false);
     const [rank, setRank] = useState("");
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ const PlayerResult = () => {
 
     const fetchPlayerRank = async () => {
         try {
-            const response = await fetch(`/quiz/get/player/rank?roomId=${roomId}&playerName=${playerName.current}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/get/player/rank?roomId=${roomId}&playerName=${playerName.current}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -63,7 +63,12 @@ const PlayerResult = () => {
                             <div className="round-result">
                                 <h1 className="result-text">최종 결과</h1>
                                 <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
-                                <h4 className="result-text">{playerScore.current}점</h4>
+                                {gameMode.current === "TWISTER" ?
+                                    <h4 className="result-text">{playerScore.current}%</h4>
+                                    :
+                                    <h4 className="result-text">{playerScore.current}점</h4>
+                                }
+
                             </div>
                         </div>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>

@@ -5,10 +5,11 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
-import ListeningText from "../quiz/ListeningText.jsx";
+import ListeningText from "../quiz/listening/ListeningText.jsx";
 import Q2B from "../../image/Q2BEAT_2.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
+import '../../css/Quiz/Twister/TwisterAnswer.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 
@@ -17,17 +18,18 @@ const PlayerQuizPage = () => {
     const [isReady, setIsReady] = useState(false);
     const [myTurn, setMyTurn] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
+    const [isRecording, setIsRecording] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
     const navigate = useNavigate();
-    const roundNumber = useRef("");
+    const roundNumber = useRef(0);
     const roomId = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
-        roundNumber.current = sessionStorage.getItem("round");
+        roundNumber.current = Number(sessionStorage.getItem("round"));
         roomId.current = sessionStorage.getItem("roomId");
 
         setIsReady(true);
@@ -35,33 +37,57 @@ const PlayerQuizPage = () => {
 
     useEffect(() => {
         if (hostMessage === "ROUNDEND") {
-            console.log(hostMessage);
-            setHostMessage("");
-            sendAnswer(gameMode.current);
+            if (gameMode.current === "NORMAL") {
+                console.log(hostMessage);
+                setHostMessage("");
+                sendAnswer(gameMode.current);
 
-            setTimeout(() => {
-                sessionStorage.setItem("round", roundNumber.current + 1);
-                navigate("/player/game/round/result");
-            }, 500);
-        } else if (hostMessage === playerName.current) {
-            setMyTurn(true);
-            setHostMessage("");
-        } else {
-            setCurrentPlayer(hostMessage);
+                setTimeout(() => {
+                    sessionStorage.setItem("round", roundNumber.current + 1);
+                    navigate("/player/game/round/result");
+                }, 500);
+            } else if (gameMode.current === "LISTENING") {
+                console.log(hostMessage);
+                setHostMessage("");
+
+                setTimeout(() => {
+                    sessionStorage.setItem("round", roundNumber.current + 1);
+                    navigate("/player/game/round/result");
+                }, 500);
+            } else if (!isRecording) {
+                sendAnswer(gameMode.current);
+
+                setTimeout(() => {
+                    sessionStorage.setItem("round", String(roundNumber.current + 1));
+                    navigate("/player/game/round/result");
+                }, 500);
+            }
+        } else if (hostMessage.startsWith("NEXTPLAYER-")) {
+            setCurrentPlayer(hostMessage.split("-")[1]);
+            sessionStorage.setItem("currentPlayer", hostMessage.split("-")[1]);
             setHostMessage("");
         }
     }, [hostMessage]);
 
-    const prepareAnswer = (inputAnswer) => {
+    const prepareAnswer = async (inputAnswer) => {
+        console.log("prepareAnswer : " + inputAnswer);
         answer.current = inputAnswer;
+        if (gameMode.current === "LISTENING") {
+            const data = await sendAnswer(gameMode.current);
+            if (data.correct) {
+                sendMessage(`MESSAGE:${roomId.current}:HOST:ROUNDEND`);
+                setHostMessage("ROUNDEND");
+            }
+            return data;
+        }
     }
 
     const sendAnswer = async (gameMode) => {
         if (gameMode === "NORMAL") {
             gameMode = "normal";
-        }else if (gameMode === "LISTENING") {
+        } else if (gameMode === "LISTENING") {
             gameMode = "listening";
-        }else {
+        } else {
             return;
         }
 
@@ -83,6 +109,7 @@ const PlayerQuizPage = () => {
 
         sessionStorage.setItem("isCorrect", data.correct);
         sessionStorage.setItem("playerScore", data.player_score);
+        return data;
     };
 
     return (
@@ -109,8 +136,20 @@ const PlayerQuizPage = () => {
                     </>
                 ) : gameMode.current === "TWISTER" ? (
                     <>
-                        <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
-                        <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
+                        <div className="container-m">
+                            <div className="loginBox-m">
+                                <div className="player-header">
+                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                    <PlayerTop playerName={playerName.current}/>
+                                </div>
+                                <div className="twister-answer">
+                                    <h1 className="quiz-round">Round {roundNumber.current}</h1>
+                                    <TwisterAnswer playerName={playerName.current} isRecording={isRecording}
+                                       setIsRecording={setIsRecording} roundNumber={roundNumber.current}/>
+                                </div>
+                            </div>
+                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                        </div>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기

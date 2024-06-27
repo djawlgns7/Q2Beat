@@ -41,10 +41,4 @@ public class QuizService {
     public int gradingListening(int listening_id, String listening_answer) {
         return quizMapper.gradingListening(listening_id, listening_answer);
     }
-
-    public List<Integer> getUsedQuizIds(String roomId) {
-        return quizMapper.getUsedQuizIds(roomId);
-    }
-
-
 }
