@@ -30,7 +30,7 @@ const RoomSetting = () => {
                 round: 1,
                 maxRound: 5,
                 timeLimit: 10,
-                category: "COMMON"
+                category: 90
             }
         } else if (gameType === "2") {
             setting.current = {
@@ -60,7 +60,7 @@ const RoomSetting = () => {
 
     const gameStart = () => {
         sessionStorage.setItem('setting', JSON.stringify(setting.current));
-        sendMessage(`START:${roomId}:${setting.current.gameMode}`);
+        sendMessage(`START:${roomId}:${setting.current.gameMode}:${setting.current.category}`);
         navigate("/host/game/count");
     }
 
@@ -123,10 +123,11 @@ const RoomSetting = () => {
                                         ))}
                                     </div>
                                     <label className="roomSetting-label">카테고리
-                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"category COMMON"}>
-                                            <option value="category COMMON">발라드</option>
-                                            <option value="category RAP">힙합</option>
-                                            <option value="category DANCE">댄스</option>
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"category 90"}>
+                                            <option value="categoty 90">1990년대</option>
+                                            <option value="category 00">2000년대</option>
+                                            <option value="category 10">2010년대</option>
+                                            <option value="category 20">2020년대</option>
                                         </select>
                                     </label>
                                     <label className="roomSetting-label">라운드 수

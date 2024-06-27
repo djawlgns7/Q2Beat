@@ -3,7 +3,7 @@ import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import '../../../css/PC.css';
-import '../../../css/Quiz/RoundResult.css';
+import '../../../css/Quiz/ListeningRoundResult.css';
 import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const ListeningRoundResult = ({ correctAnswer }) => {
@@ -56,7 +56,7 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                 </div>
                 <h2 className="round-answer">문제 {currentRound}</h2>
             </div>
-            <div className="video-wrapper">
+            <div className="video-wrapper-listening">
                 {quiz && quiz.listening_url && (
                     <ReactPlayer
                         url={quiz.listening_url}

@@ -36,7 +36,7 @@ const QuizGame = () => {
         } else if (setting.gameMode === "NORMAL") {
             getQuizNormal(setting.category);
         } else if (setting.gameMode === "LISTENING") {
-            getQuizListening();
+            getQuizListening(setting.category);
         } else if (setting.gameMode === "TWISTER") {
             getNextPlayer();
             getQuizTwister();
@@ -99,9 +99,9 @@ const QuizGame = () => {
         setIsTimeout(true);
     }
 
-    const getQuizListening = async () => {
+    const getQuizListening = async (category) => {
         try {
-            const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
+            const response = await fetch(`/quiz/get/listening?roomId=${roomId}&category=${category}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
