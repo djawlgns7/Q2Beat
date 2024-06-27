@@ -1,9 +1,12 @@
 package org.bit.service;
 
 import lombok.Data;
+import org.apache.ibatis.annotations.Param;
 import org.bit.mapper.PlayerMapper;
 import org.bit.model.Player;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -59,12 +62,11 @@ public class PlayerService {
         return playerMapper.getPlayerRank(roomId);
     }
 
-    public String getAnswerListenings(String roomId, String answer) {
-        return playerMapper.getAnswerListenings(roomId, answer);
-    }
-
     public List<Player> getAvailablePlayerList(String roomId) {
         return playerMapper.getAvailablePlayerList(roomId);
     }
 
+    public String getAnswerListening(String roomId) {
+        return playerMapper.getAnswerListening(roomId);
+    }
 }

@@ -21,15 +21,19 @@ public interface RoomMapper {
     int deleteRoom(String id);
 
     @Insert("insert into quiz_history(room_id, quiz_id) values(#{room_id}, #{quiz_id})")
-    boolean insertQuizHistory(QuizHistory quizHistory);
+    int insertQuizHistory(QuizHistory quizHistory);
 
     @Delete("delete from quiz_history where room_id = #{room_id}")
     int clearQuizHistory(String room_id);
 
-    @Select("SELECT COUNT(*) FROM quiz_history WHERE room_id = #{roomId} AND quiz_id = #{quizId}")
-    int getQuizHistoryCount(@Param("roomId") String roomId, @Param("quizId") int quizId);
-
     @Select("SELECT quiz_id FROM quiz_history WHERE room_id = #{roomId}")
     Set<Integer> getUsedQuizIds(String roomId);
+
+    @Insert("insert into quiz_history(room_id, quiz_id) values(#{room_id}, #{quiz_id})")
+    boolean insertQuizHistoryForListening(QuizHistory quizHistory);
+
+    @Select("SELECT * FROM quiz_history WHERE room_id = #{roomId}")
+    QuizHistory getRecentQuizHistory(String roomId);
+
 
 }

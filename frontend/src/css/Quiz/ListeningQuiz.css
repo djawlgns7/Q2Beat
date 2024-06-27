@@ -16,19 +16,20 @@
     border-radius: 100px;
     text-align: center;
     color: white;
-    margin-top: 25px;
+    margin-top: 30px;
     z-index: 2;
 }
 
 .youtube-player {
     position: relative;
     z-index: 1;
+    translate: 0 10px;
 }
 
 .listening-round {
     position: relative;
     z-index: 2;
-    translate: 0 -20px;
+    translate: -5px -10px;
 }
 
 .listening-text {
@@ -36,5 +37,39 @@
     z-index: 2;
     font-size: 30px;
     font-weight: bold;
-    translate: 0 30px;
+    padding: 90px;
+}
+
+.circle-header-listening {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    translate: 90px -10px;
+}
+
+/* ListeningQuiz.css */
+.video-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.react-player {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.listening-main {
+    padding: 70px;
+}
+
+.sound-icon-2 {
+    width: 12%;
+    height: 12%;
 }

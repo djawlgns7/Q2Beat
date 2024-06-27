@@ -1,9 +1,9 @@
 package org.bit.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.bit.handler.MyWebSocketHandler;
 import org.bit.model.Player;
 import org.bit.model.QuizHistory;
-import org.bit.model.quiz.PlayerAnswer;
 import org.bit.model.quiz.PlayerAnswerNumbers;
 import org.bit.model.quiz.QuizListening;
 import org.bit.model.quiz.QuizNormal;
@@ -13,7 +13,6 @@ import org.bit.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -25,6 +24,7 @@ public class QuizController {
     private final QuizService quizService;
     private final RoomService roomService;
     private final PlayerService playerService;
+    private final MyWebSocketHandler myWebSocketHandler;
 
     @GetMapping("/get/normal")
     public QuizNormal getQuizNormal(@RequestParam("category") String category, @RequestParam("roomId") int roomId) {
@@ -146,14 +146,25 @@ public class QuizController {
         System.out.println("Quiz History: " + quizHistory);
 
         int quizNumber = quizIds.size();
+        Set<Integer> usedQuizIds = roomService.getUsedQuizIds(formattedRoomId); // 이미 사용된 quiz_id 목록 가져오기
 
         while (true) {
+            if (usedQuizIds.size() == quizNumber) {
+                // 모든 퀴즈가 사용되었을 경우 처리 로직 추가 (예: 중복 허용 또는 오류 반환)
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 예시로 NO_CONTENT 상태 반환
+            }
+
             int randomIndex = (int) (Math.random() * quizNumber);
             int quizId = quizIds.get(randomIndex);
-            quizHistory.setQuiz_id(quizId);
+
+            if (usedQuizIds.contains(quizId)) {
+                continue; // 이미 사용된 퀴즈 ID라면 다시 루프
+            }
+
+            quizHistory.setQuiz_id(quizId);  // quiz_id 필드에 listening_id 값을 설정
 
             try {
-                if (roomService.insertQuizHistory(quizHistory)) {
+                if (roomService.insertQuizHistoryForListening(quizHistory)) {
                     System.out.println("quizId: " + quizId);
                     QuizListening quizListening = quizService.getQuizListening(quizId);
 
@@ -167,10 +178,11 @@ public class QuizController {
                 }
             } catch (Exception e) {
                 System.err.println("Failed to insert quiz history: " + e.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                // 예외 발생 시 continue로 다시 시도
             }
         }
     }
+
 
     @GetMapping("/send/answer/listening")
     public ResponseEntity<Player> checkListeningAnswer(@RequestParam("quizId") int quizId,
@@ -178,23 +190,24 @@ public class QuizController {
                                                        @RequestParam("playerName") String playerName,
                                                        @RequestParam("answer") String answer) {
 
-        // 로그 추가
-        System.out.println("Received Parameters - quizId: " + quizId + ", roomId: " + roomId + ", playerName: " + playerName + ", answer: " + answer);
-
         Player player = new Player(roomId, playerName);
         int result = quizService.gradingListening(quizId, answer);
 
         // 로그 추가
         System.out.println("Grading Result: " + result);
-
+        player.setPlayer_recent_answer(answer);
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
-        player.setCorrect(false);
 
         if (result == 1) {
-            player.setPlayer_score(player.getPlayer_score() + 1);
-            player.setCorrect(true);
-            playerService.updatePlayerScore(player);
+            // Check if there is already a correct player
+            boolean isAlreadyCorrect = playerService.getPlayerList(roomId).stream().anyMatch(Player::isCorrect);
+
+            if (!isAlreadyCorrect) {
+                player.setPlayer_score(player.getPlayer_score() + 1);
+                player.setCorrect(true);
+                playerService.updatePlayerScore(player);
+            }
         }
 
         // 로그 추가
@@ -204,28 +217,26 @@ public class QuizController {
     }
 
 
+
     @GetMapping("/get/round/result/listening")
     public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
-                                                                  @RequestParam("answer") String answer) {
-        System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
-        System.out.println("Received answer: " + answer);  // answer 로그 출력
+                                                                  @RequestParam("correctAnswer") String correctAnswer) {
 
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
         List<Player> players = playerService.getPlayerList(formattedRoomId);
-        String correctAnswer = players.stream()
-                .filter(Player::isCorrect)
+        Player correctPlayer = players.stream()
+                .filter(player -> correctAnswer.equals(player.getPlayer_recent_answer()))
                 .findFirst()
-                .map(Player::getPlayer_recent_answer)
-                .orElse("정답자 없음");
+                .orElse(null);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("correctAnswer", correctAnswer);
+        response.put("correctPlayer", correctPlayer);
         response.put("players", players);
 
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/player/available")
+    @GetMapping(value = "/player/available", produces = "text/plain;charset=UTF-8")
     public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
         String roomNumber = "R" + roomId;
         int size = -1;

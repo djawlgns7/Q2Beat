@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../../css/PC.css';
 import '../../css/Quiz/RoundResult.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
-import ListeningRoundResult from "../quiz/ListeningRoundResult.jsx";
+import ListeningRoundResult from "../quiz/listening/ListeningRoundResult.jsx";
 import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
 import TwisterRoundResult from "../quiz/twister/TwisterRoundResult.jsx";
 
@@ -37,12 +37,17 @@ const RoundResult = () => {
             return;
         }
 
-        setCurrentTime(5);
+        if (setting.gameMode != "LISTENING") {
 
-        setTimeout(() => {
-            startTimer(currentTime);
+            setCurrentTime(5);
+
+            setTimeout(() => {
+                startTimer(currentTime);
+                setIsReady(true);
+            }, 100);
+        } else {
             setIsReady(true);
-        }, 100);
+        }
     }, [setting]);
 
     const startTimer = (prevTime) => {
@@ -61,8 +66,9 @@ const RoundResult = () => {
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
+            sessionStorage.removeItem("answerString");
 
-            if (setting.round >= setting.maxRound) {
+            if (setting.round > setting.maxRound) {
                 sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
 
                 navigate("/host/game/result");
@@ -72,6 +78,7 @@ const RoundResult = () => {
             }
         }
     }, [currentTime])
+
 
     return (
         <>
@@ -98,19 +105,7 @@ const RoundResult = () => {
                 ) : setting.gameMode === "LISTENING" ? (
                     // 노래 맞추기
                     <>
-                        <div className="round-container">
-                            <div className="round-box">
-                                <div className="circle-header-game">
-                                    {colors.map((color, index) => (
-                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                    ))}
-                                </div>
-                                <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
-                                <h4 className="round-timer">{currentTime}</h4>
-                            </div>
-                            <ListeningRoundResult correctAnswer={answer} correctPlayers={correctPlayers.current}/>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
-                        </div>
+                        <ListeningRoundResult correctAnswer={quizAnswer.current}/>
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기

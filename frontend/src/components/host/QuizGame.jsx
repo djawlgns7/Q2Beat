@@ -1,16 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";;
 import {useNavigate} from "react-router-dom";
-import ListeningQuiz from "../quiz/ListeningQuiz.jsx";
+import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import '../../css/PC.css';
 import '../../css/Host/QuizGame.css';
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterQuiz from "../quiz/twister/TwisterQuiz.jsx";
 
 const QuizGame = () => {
-    const {sendMessage, roomId} = useSocket();
+    const {sendMessage, roomId, hostMessage, setHostMessage, clientMessage, setClientMessage} = useSocket();
     const [setting, setSetting] = useState('');
     const [quiz, setQuiz] = useState('');
     const [currentTime, setCurrentTime] = useState(-1);
@@ -19,6 +19,7 @@ const QuizGame = () => {
     const [usedQuizIds, setUsedQuizIds] = useState([]);
     const [nextPlayer, setNextPlayer] = useState("");
     const intervalRef = useRef(null);
+    const isRecording = useRef(false);
     const navigate = useNavigate();
 
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
@@ -49,17 +50,48 @@ const QuizGame = () => {
             if (isTimeout === true) {
                 clearInterval(intervalRef.current);
 
-                setting.round = Number.parseInt(setting.round) + 1;
-                sessionStorage.setItem('setting', JSON.stringify(setting));
                 sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-                navigate("/host/game/round/result");
+                if (!isRecording.current) {
+                    setting.round = Number.parseInt(setting.round) + 1;
+                    sessionStorage.setItem('setting', JSON.stringify(setting));
+
+                    navigate("/host/game/round/result");
+                }
             }
         }, 1500)
     }, [isTimeout])
 
+    useEffect(() => {
+        if (clientMessage === "RECORDSTART") {
+            isRecording.current = true;
+        } else if (clientMessage === "RECORDSTOP") {
+            isRecording.current = false;
+        } else if (clientMessage === "ROUNDEND") {
+            setting.round = Number.parseInt(setting.round) + 1;
+            sessionStorage.setItem('setting', JSON.stringify(setting));
+
+            navigate("/host/game/round/result");
+        } else if (clientMessage.startsWith("ANSWER-")) {
+            const answerString = clientMessage.split("-")[1];
+            sessionStorage.setItem("answerString", answerString);
+        }
+
+        setClientMessage("");
+    }, [clientMessage])
+
+    useEffect(() => {
+        if (hostMessage.startsWith("ROUNDEND") && setting.gameMode === "LISTENING") {
+            console.log("Received ROUNDEND message");
+            setHostMessage("");
+            navigate("/host/game/round/result");
+        }
+    }, [hostMessage, navigate, setHostMessage]);
+
+
+
     const getQuizNormal = async (category) => {
-        const response = await fetch(`https://bit-two.com/q2beat/quiz/get/normal?category=${category}&roomId=${roomId}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -92,7 +124,7 @@ const QuizGame = () => {
 
     const getQuizListening = async () => {
         try {
-            const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
+            const response = await fetch(`http://bit-two.com:8080/quiz/get/listening?roomId=${roomId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -114,6 +146,7 @@ const QuizGame = () => {
             setQuiz(data);
             setUsedQuizIds(prevUsedQuizIds => [...prevUsedQuizIds, data.listening_id]);
             sessionStorage.setItem("answer", data.listening_answer);
+            sessionStorage.setItem("currentListeningQuiz", JSON.stringify(data)); // 저장
             sendMessage(`MESSAGE:${roomId}:QUIZID:${data.listening_id}`);
             setIsReady(true);
         } catch (error) {
@@ -122,7 +155,7 @@ const QuizGame = () => {
     };
 
     const getQuizTwister = async (category) => {
-        const response = await fetch(`/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -144,7 +177,7 @@ const QuizGame = () => {
 
     const getNextPlayer = async () => {
         try {
-            const response = await fetch(`/quiz/player/available?roomId=${roomId}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/player/available?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -152,8 +185,8 @@ const QuizGame = () => {
             const data = await response.text();
             setNextPlayer(data);
             console.log("다음 플레이어 차례: " + data);
-            sendMessage(`MESSAGE:${roomId}:HOST:${data}`);
-            sessionStorage.setItem("nextPlayer", nextPlayer);
+            sendMessage(`MESSAGE:${roomId}:HOST:NEXTPLAYER-${data}`);
+            sessionStorage.setItem("nextPlayer", data);
 
         } catch (error) {
             console.error('Error fetching player rank:', error);

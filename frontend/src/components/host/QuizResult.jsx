@@ -4,6 +4,9 @@ import {useSocket} from "../context/SocketContext.jsx";
 import '../../css/PC.css'
 import '../../css/Host/QuizResult.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
+import first_medal from "../../image/icon-1st-medal.png";
+import second_medal from "../../image/icon-2nd-medal.png";
+import third_medal from "../../image/icon-3rd-medal.png";
 
 const QuizResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -24,7 +27,7 @@ const QuizResult = () => {
 
     const fetchPlayersRank = async () => {
         try {
-            const response = await fetch(`https://bit-two.com/q2beat/quiz/get/players/rank/list?roomId=${roomId}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/get/players/rank/list?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -37,7 +40,7 @@ const QuizResult = () => {
 
     const clearHistory = async () => {
         try {
-            const response = await fetch(`https://bit-two.com/q2beat/quiz/reset/room?roomId=${roomId}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/reset/room?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to clear room history');
             }
@@ -64,9 +67,22 @@ const QuizResult = () => {
                             <ul className="result-list">
                                 {players.map((player, index) => (
                                     <li key={index}>
+                                        {index === 0 ? (
+                                            <img src={first_medal} alt="first_medal" className="medal-icon"/>
+                                        ) : index ===  1 ? (
+                                            <img src={second_medal} alt="second_medal" className="medal-icon"/>
+                                        ) : index === 2 ? (
+                                            <img src={third_medal} alt="third_medal" className="medal-icon"/>
+                                        ) : (
+                                            <>
+                                            </>)}
                                         <span className="index-player">{index + 1}등 &nbsp;</span>
                                         <span className="index-player">{player.player_name} &nbsp;</span>
-                                        <span className="index-player">{player.player_score}점</span>
+                                        {setting.gameMode === "TWISTER" ?
+                                            <span className="index-player">{player.player_score / 100}%</span>
+                                            :
+                                            <span className="index-player">{player.player_score}점</span>
+                                        }
                                     </li>
                                 ))}
                             </ul>

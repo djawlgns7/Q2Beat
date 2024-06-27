@@ -1,0 +1,28 @@
+.video-wrapper-listening {
+    position: relative;
+    top: 20px;
+    left: 210px;
+}
+
+.listening-round-answer {
+    translate: -2px -10px;
+}
+
+.listening-correctAnswer {
+    translate: 0 330px;
+}
+
+.next-round-btn {
+    background-color: #1A1F44;
+    border: 5px solid #5169A2;
+    border-radius: 30px;
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    translate: 0 30px;
+}
+
+.next-round-btn:hover {
+    border-color: #FFD800;
+}
+

@@ -17,7 +17,7 @@ export const SocketProvider = ({children}) => {
     const isConnected = useRef(false);
 
     const connectWebSocket = () => {
-        const socket = new WebSocket('ws://175.209.41.173:8080/ws');
+        const socket = new WebSocket('ws://bit-two.com:8080/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
@@ -57,9 +57,9 @@ export const SocketProvider = ({children}) => {
             } else if (msgData.startsWith("QUIZID:")) {
                 setQuizId(msgData.split(":")[1]);
             } else if (msgData.startsWith("HOST:")) {
-                setHostMessage(msgData.split(":")[1]);
+                setHostMessage(msgData.split(":", 2)[1]);
             } else if (msgData.startsWith("PLAYER:")) {
-                setClientMessage(msgData.split(":")[1]);
+                setClientMessage(msgData.split(":", 2)[1]);
             } else if (msgData.startsWith("QUIZ:")) {  // 퀴즈 데이터 수신
                 const quizData = JSON.parse(msgData.split(":", 2)[1]);
                 setQuiz(quizData);
@@ -70,7 +70,6 @@ export const SocketProvider = ({children}) => {
 
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server. Trying to reconnect');
-            isConnected.current = false;
         };
 
         socket.onerror = (error) => {
@@ -133,6 +132,7 @@ export const SocketProvider = ({children}) => {
             hostMessage,
             clientMessage,
             socketRef,
+            quiz,
             setRoomId,
             setMessages,
             setQuizId,
