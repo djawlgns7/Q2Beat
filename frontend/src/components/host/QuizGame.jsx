@@ -59,7 +59,7 @@ const QuizGame = () => {
     }, [isTimeout])
 
     useEffect(() => {
-        if (hostMessage.startsWith("ROUNDEND") && setting.gameMode === "LISTENING") {
+        if (hostMessage.startsWith("ROUNDEND") || hostMessage.startsWith("ALL_SKIPPED") && setting.gameMode === "LISTENING") {
             console.log("Received ROUNDEND message");
             setHostMessage("");
             navigate("/host/game/round/result");

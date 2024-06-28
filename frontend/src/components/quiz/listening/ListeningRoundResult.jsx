@@ -60,11 +60,10 @@ const ListeningRoundResult = ({ correctAnswer }) => {
                 {quiz && quiz.listening_url && (
                     <ReactPlayer
                         url={quiz.listening_url}
-                        className="react-player"
+                        className="react-player-listening"
                         playing={true}
                         loop
-                        width="100%"
-                        height="100%"
+
                     />
                 )}
             </div>

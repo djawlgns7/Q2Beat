@@ -1,7 +1,11 @@
 .video-wrapper-listening {
-    position: relative;
     top: 20px;
     left: 210px;
+}
+
+.react-player-listening {
+    width: 50%;
+    height: 50%;
 }
 
 .listening-round-answer {

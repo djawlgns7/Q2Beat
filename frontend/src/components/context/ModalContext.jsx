@@ -15,7 +15,7 @@ export const ModalProvider = ({ children }) => {
 
     const showModal = () => {
         setState("show");
-        setTimeout(() => setState(""), 5000);
+        setTimeout(() => setState(""), 50000);
     }
 
     const hideModal = () => {
