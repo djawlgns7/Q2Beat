@@ -85,7 +85,8 @@ const RoomSetting = () => {
                                     <label className="roomSetting-label">카테고리
                                         <select onChange={selectChange} className="roomSetting-select" defaultValue={"Category COMMON"}>
                                             <option value="category COMMON">상식</option>
-                                            <option value="category COUNTRY">나라</option>
+                                            <option value="category SPORTS">스포츠</option>
+                                            <option value="category IT">IT 상식</option>
                                         </select>
                                     </label>
                                     <label className="roomSetting-label">제한 시간
