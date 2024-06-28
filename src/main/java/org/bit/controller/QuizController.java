@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @RestController
@@ -227,7 +228,6 @@ public class QuizController {
         return ResponseEntity.ok(response);
     }
 
-
     @GetMapping("/player/available")
     public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
         String roomNumber = "R" + roomId;
@@ -252,4 +252,28 @@ public class QuizController {
     public boolean updatePlayerScore(@ModelAttribute Player player) {
         return playerService.updatePlayerScore(player);
     }
+
+    @GetMapping("/send/skip")
+    public ResponseEntity<Map<String, String>> skipQuestion(@RequestParam("roomId") String roomId,
+                                                            @RequestParam("playerName") String playerName,
+                                                            HttpSession session) {
+        playerService.markPlayerSkipped(roomId, playerName, session);
+
+        Map<String, String> response = new HashMap<>();
+
+        // Check if all players have skipped
+        boolean allSkipped = playerService.checkAllPlayersSkipped(roomId, session);
+
+        if (allSkipped) {
+            // Reset skip status for next round
+            playerService.resetSkipStatus(roomId, session);
+            response.put("status", "ALL_SKIPPED");
+        } else {
+            response.put("status", "SKIPPED");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+
 }

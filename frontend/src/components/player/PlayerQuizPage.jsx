@@ -35,7 +35,7 @@ const PlayerQuizPage = () => {
     }, []);
 
     useEffect(() => {
-        if (hostMessage === "ROUNDEND") {
+        if (hostMessage === "ROUNDEND" || hostMessage === "ALL_SKIPPED") {
             if (gameMode.current === "NORMAL") {
                 console.log(hostMessage);
                 setHostMessage("");
@@ -107,6 +107,30 @@ const PlayerQuizPage = () => {
         return data;
     };
 
+    const handleSkip = async () => {
+        const response = await fetch(`/quiz/send/skip?roomId=R${roomId.current}&playerName=${playerName.current}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            console.error('Failed to skip');
+            return;
+        }
+
+        const data = await response.json();
+
+        if (data.status === "ALL_SKIPPED") {
+            console.log("All players Skipped");
+            sendMessage(`MESSAGE:${roomId.current}:HOST:ALL_SKIPPED`);
+            setHostMessage("ALL_SKIPPED");
+        } else {
+            console.log("Player Skipped");
+        }
+    };
+
     return (
         <>
             {isReady ? (
@@ -142,12 +166,13 @@ const PlayerQuizPage = () => {
                                     <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
                                 </div>
                             </div>
+
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                         </div>
                     </>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
-                    <ListeningText prepareAnswer={prepareAnswer}/>
+                    <ListeningText prepareAnswer={prepareAnswer} onSkip={handleSkip}/>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
                     <h1>포즈 따라하기</h1>

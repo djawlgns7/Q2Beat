@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +68,30 @@ public class PlayerService {
         return playerMapper.getAvailablePlayerList(roomId);
     }
 
-    public String getAnswerListening(String roomId) {
-        return playerMapper.getAnswerListening(roomId);
+    public void markPlayerSkipped(String roomId, String playerName, HttpSession session) {
+        Map<String, Boolean> skippedPlayers = (Map<String, Boolean>) session.getAttribute("skippedPlayers");
+        if (skippedPlayers == null) {
+            skippedPlayers = new HashMap<>();
+        }
+        skippedPlayers.put(playerName, true);
+        session.setAttribute("skippedPlayers", skippedPlayers);
+    }
+
+    public boolean checkAllPlayersSkipped(String roomId, HttpSession session) {
+        Map<String, Boolean> skippedPlayers = (Map<String, Boolean>) session.getAttribute("skippedPlayers");
+        if (skippedPlayers == null) {
+            return false;
+        }
+        List<Player> players = getPlayerList(roomId);
+        for (Player player : players) {
+            if (!Boolean.TRUE.equals(skippedPlayers.get(player.getPlayer_name()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void resetSkipStatus(String roomId, HttpSession session) {
+        session.removeAttribute("skippedPlayers");
     }
 }

@@ -10,6 +10,7 @@ public class Player {
     private String player_recent_answer;
     private int player_score;
     private boolean isCorrect;
+    private boolean isSkipped;
 
     public Player() {
 
