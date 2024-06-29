@@ -1,4 +1,5 @@
 import '../../css/Quiz/NormalButton.css'
+import {useState} from "react";
 
 const NormalButton = ({prepareAnswer}) => {
     const box = {
@@ -15,25 +16,36 @@ const NormalButton = ({prepareAnswer}) => {
         margin: "15px 10px",
     }
 
+    const [borderColor, setBorderColor] = useState('#516A92');
+
+    const handleClick = () => {
+        setBorderColor(prevColor => (prevColor === '#516A92' ? '#FFD800' : '#516A92'));
+    };
+
+    const handleButtonClick = (num) => {
+        handleClick();
+        prepareAnswer(num);
+    }
+
     return (
         <>
             <div className="normal-btns">
                 <button className="normal-button" onClick={() => {
-                    prepareAnswer(1);
+                    handleButtonClick(1);
                 }}>1번
                 </button>
                 <button className="normal-button" onClick={() => {
-                    prepareAnswer(2);
+                    handleButtonClick(2);
                 }}>2번
                 </button>
             </div>
             <div className="normal-btns">
                 <button className="normal-button" onClick={() => {
-                    prepareAnswer(3);
+                    handleButtonClick(3);
                 }}>3번
                 </button>
                 <button className="normal-button" onClick={() => {
-                    prepareAnswer(4);
+                    handleButtonClick(4);
                 }}>4번
                 </button>
             </div>

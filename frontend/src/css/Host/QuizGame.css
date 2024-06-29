@@ -19,27 +19,21 @@
     translate: 0 20px;
 }
 
-.circle-header-game {
+.quiz-main {
     display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    translate: 80px -20px;
-}
-
-.circle-game {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    translate: -60px 25px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 .quiz-title {
-    translate: 0 -25px;
+
 }
 
 .quiz-text {
     padding: 40px;
-    translate: 0 -10px;
+
 }
 
 .answer-section {

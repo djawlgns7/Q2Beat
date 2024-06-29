@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";;
-import {useNavigate} from "react-router-dom";
-import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";
+import { useNavigate } from "react-router-dom";
 import '../../css/PC.css';
 import '../../css/Host/QuizGame.css';
-import Q2B_back from "../../image/Q2Beat_background.png";
+import backImage from "../../image/background-image.png";
+import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import TwisterQuiz from "../quiz/twister/TwisterQuiz.jsx";
 
 const QuizGame = () => {
@@ -21,8 +21,6 @@ const QuizGame = () => {
     const intervalRef = useRef(null);
     const isRecording = useRef(false);
     const navigate = useNavigate();
-
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -91,7 +89,7 @@ const QuizGame = () => {
 
 
     const getQuizNormal = async (category) => {
-        const response = await fetch(`http://bit-two.com:8080/quiz/get/normal?category=${category}&roomId=${roomId}`, {
+        const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -123,7 +121,7 @@ const QuizGame = () => {
 
     const getQuizListening = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/get/listening?roomId=${roomId}`, {
+            const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -154,7 +152,7 @@ const QuizGame = () => {
     };
 
     const getQuizTwister = async (category) => {
-        const response = await fetch(`http://bit-two.com:8080/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
+        const response = await fetch(`/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -176,7 +174,7 @@ const QuizGame = () => {
 
     const getNextPlayer = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/available?roomId=${roomId}`);
+            const response = await fetch(`/quiz/player/available?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -197,22 +195,19 @@ const QuizGame = () => {
         <>
             {isReady ? (
                 setting.gameMode === "NORMAL" ? (
-                    <div className="game-container">
-                        <div className="quiz-section">
-                            <div className="circle-header-game">
-                                {colors.map((color, index) => (
-                                    <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                ))}
+                    <div className="container-p">
+                        <div className="contents-box-p">
+                            <div className="quiz-main">
+                                <h2 className="quiz-title">문제 {setting.round}</h2>
+                                <h3 className="quiz-text">{quiz.normal_quiz}</h3>
+                                <Timer time={currentTime} onTimeout={handleTimeout}/>
                             </div>
-                            <h2 className="quiz-title">문제 {setting.round}</h2>
-                            <h3 className="quiz-text">{quiz.normal_quiz}</h3>
-                            <Timer time={currentTime} onTimeout={handleTimeout}/>
+                            <div className="answer-section">
+                                <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
+                                               third={quiz.normal_third_choice} fourth={quiz.normal_fourth_choice}/>
+                            </div>
                         </div>
-                        <div className="answer-section">
-                            <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
-                                           third={quiz.normal_third_choice} fourth={quiz.normal_fourth_choice}/>
-                        </div>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                        <img src={backImage} alt="backImage" className="backImage-p"/>
                     </div>
                 ) : setting.gameMode === "TWISTER" ? (
                     <>

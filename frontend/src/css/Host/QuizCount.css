@@ -1,46 +1,32 @@
-.count-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 90vh;
-}
-
 .count-number {
     font-family: 'Our-Arcade-Games', sans-serif;
     position: absolute;
     font-size: 7rem;
     transition: opacity 0.5s, transform 0.5s;
-    color: #FFD800;
+    color: rgb(231, 206, 255);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .count-enter {
     opacity: 0;
-    transform: scale(0.5);
+    transform: translate(-50%, -50%) scale(0.5);
 }
 
 .count-enter-active {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .count-exit {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .count-exit-active {
     opacity: 0;
-    transform: scale(0.5);
-}
-
-.backImage-p-count {
-    width: 100%;
-    height: 200px;
-    background-repeat: no-repeat;
-    /*background-position: bottom;*/    /* 왜 이거는 안될까;;; */
-    background-size: cover;
-    translate: 0px 350px;
+    transform: translate(-50%, -50%) scale(0.5);
 }
 
 @font-face {

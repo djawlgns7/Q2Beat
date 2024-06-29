@@ -28,7 +28,6 @@ import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
-import MobileView from "./components/MobileView.jsx";
 import ListeningRoundResult from "./components/quiz/listening/ListeningRoundResult.jsx";
 import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPlayerRoundResult.jsx";
 import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
