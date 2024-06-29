@@ -1,0 +1,53 @@
+.normal-options {
+    display: flex;
+    justify-content: center;
+    translate: 0 80px;
+}
+
+.normal-box-info {
+    /*--color: #181818;*/
+    /*background: var(--color);*/
+    /*color: var(--color);*/
+    /*border-radius: 30px;*/
+    /*width: 340px;*/
+    /*height: 70px;*/
+    /*margin: 20px;*/
+    /*padding: 15px;*/
+    --color: #181818;
+    background: var(--color);
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    width: 340px;
+    height: 70px;
+    border-radius: .7rem;
+    position: absolute;
+    margin: -5px;
+    padding: 10px;
+}
+
+.normal-box {
+    /*border-radius: 30px;*/
+    /*width: 350px;*/
+    /*height: 80px;*/
+    /*margin: 20px;*/
+    /*padding: 15px;*/
+    /*color: white;*/
+    /*font-size: 30px;*/
+    /*text-align: center;*/
+    /*translate: 0 50px;*/
+    /*--background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);*/
+    /*background: #fc00ff;*/
+    /*background: var(--background);*/
+    /*z-index: 1;*/
+    --background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);
+    /*background: #fc00ff;*/
+    background: var(--background);
+    z-index: 1;
+    position: relative;
+    padding: 10px 10px;
+    border-radius: .7rem;
+    width: 350px;
+    height: 80px;
+    margin: 15px;
+}

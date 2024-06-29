@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/PC.css'
 import '../../css/Board/Notice.css';
-import Q2B_back from "../../image/Q2Beat_background.png";
+import backImage from "../../image/background-image.png";
 
 /*
 * currentPage 현재 페이지
@@ -24,6 +24,7 @@ const Notice = () => {
         startPage: 1,   //현재 페이지 블록에서 시작 페이지
         endPage:1       //현재 페이지 블록에서 끝 페이지
     });
+    const navigate = useNavigate();
 
     //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchNotices 호출
     useEffect(() => {
@@ -80,10 +81,17 @@ const Notice = () => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
 
+    const lobbyPage = () => {
+        navigate("/");
+    }
+
     return (
-        <div className="notice-container">
-            <div className="notice-board">
-                <h1 className="notice-title">공지사항</h1>
+        <div className="container-p">
+            <div className="contents-box-p">
+                <div className="notice-header">
+                    <h1 className="notice-title">공지사항</h1>
+                    <button onClick={lobbyPage}>나가기</button>
+                </div>
                 <table className="notice-table">
                     <thead>
                     <tr>
@@ -126,7 +134,7 @@ const Notice = () => {
                             disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
                 </div>
             </div>
-            <img src={Q2B_back} alt="Q2B_back" className="backImage-notice"/>
+            <img src={backImage} alt="backImage" className="backImage-p"/>
         </div>
     );
 };

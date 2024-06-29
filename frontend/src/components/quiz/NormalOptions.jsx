@@ -1,29 +1,24 @@
+import '../../css/Quiz/NormalOptions.css';
+
 const NormalOptions = (options) => {
-    const box = {
-        display: "inline-block",
-        justifyContent: "center",
-        backgroundColor: "#1A1F44",
-        border: "5px solid #5169A2",
-        padding: "20px 10px",
-        width: "300px",
-        height: "90px",
-        margin: "15px 15px",
-        borderRadius: "40px",
-        color: "white",
-        translate: "0 20px",
-        fontSize: "25px",
-        textAlign: "center",
-    }
 
     return (
         <>
-            <div>
-                <span style={box}>1. {options.first}</span>
-                <span style={box}>2. {options.second}</span>
+            <div className="normal-options">
+                <div className="normal-box">
+                    <span className="normal-box-info">1. {options.first}</span>
+                </div>
+                <div className="normal-box">
+                    <span className="normal-box-info">2. {options.second}</span>
+                </div>
             </div>
-            <div>
-                <span style={box}>3. {options.third}</span>
-                <span style={box}>4. {options.fourth}</span>
+            <div className="normal-options">
+                <div className="normal-box">
+                    <span className="normal-box-info">3. {options.third}</span>
+                </div>
+                <div className="normal-box">
+                    <span className="normal-box-info">4. {options.fourth}</span>
+                </div>
             </div>
         </>
     )

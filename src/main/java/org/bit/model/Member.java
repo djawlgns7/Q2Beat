@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class Member {
-    private int memberId;
+    private Integer memberId;
     private String memberUsername;
     private String memberName;
     private MemberPlatform memberPlatform;
