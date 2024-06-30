@@ -173,6 +173,7 @@ const QuizGame = () => {
         <>
             {isReady ? (
                 setting.gameMode === "NORMAL" ? (
+                    // 퀴즈 게임
                     <div className="container-p">
                         <div className="contents-box-p">
                             <div className="quiz-main">
@@ -187,6 +188,7 @@ const QuizGame = () => {
                         </div>
                         <img src={backImage} alt="backImage" className="backImage-p"/>
                     </div>
+                    
                 ) : setting.gameMode === "TWISTER" ? (
                     <>
                         <h2 className="quiz-title">문제 {setting.round}</h2>

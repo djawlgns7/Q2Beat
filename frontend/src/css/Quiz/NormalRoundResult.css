@@ -1,10 +1,18 @@
-.normal-options {
-    display: flex;
-    justify-content: center;
-    translate: 0 80px;
+.answer-title {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    padding: 60px;
 }
 
-.normal-box {
+.box-container {
+    display: flex;
+    justify-content: center;
+    margin: 0 80px;
+}
+
+.result-box {
     --background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);
     background: var(--background);
     z-index: 1;
@@ -16,16 +24,22 @@
     margin: 15px;
 }
 
-.normal-box-info {
+.result-box-info {
     --color: #181818;
     background: var(--color);
     color: white;
     font-size: 30px;
     text-align: center;
-    width: 340px;
-    height: 70px;
+    width: 335px;
+    height: 65px;
     border-radius: .7rem;
     position: absolute;
     margin: -5px;
     padding: 10px;
 }
+
+.result-box-info.correct {
+    background-color: #00B20D;
+}
+
+

@@ -5,6 +5,13 @@
     margin: 10px 20px;
 }
 
+.player-count {
+    font-size: 30px;
+    color: rgb(231, 206, 255);
+    font-weight: bold;
+    translate: -30px 12px;
+}
+
 .room-number {
     color: rgb(231, 206, 255);
     font-size: 28px;
@@ -26,7 +33,7 @@
     position: relative;
     cursor: pointer;
     transition: all 0.3s;
-    translate: 5px 11px;
+    translate: 8px 10px;
 }
 
 .BG {
@@ -142,12 +149,6 @@
     translate: 0px -80px;
 }
 
-.player-count {
-    font-size: 30px;
-    color: rgb(231, 206, 255);
-    font-weight: bold;
-    translate: -35px 12px;
-}
 
 .player-box {
     --background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);
@@ -200,11 +201,11 @@
 .player {
     text-align: center;
     margin: 10px;
-    padding: 5px;
+    border: 8px solid white;
+    background-color: rgb(231, 206, 255);
     border-radius: 15px;
     font-size: 20px;
     font-weight: bold;
-    background-color: rgb(231, 206, 255);
     color: black;
 }
 

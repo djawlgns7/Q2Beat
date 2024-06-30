@@ -81,19 +81,19 @@ const RoundResult = () => {
         <>
             {isReady ? (
                 setting.gameMode === "NORMAL" ? (
-                    // 일반 게임
-                    <>
-                        <div className="container-p">
-                            <div className="contents-box-p">
-                                <div className="quiz-main">
-                                    <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
-                                    <h4 className="round-timer">{currentTime}</h4>
-                                </div>
+                    // 퀴즈 게임
+                    <div className="container-p">
+                        <div className="contents-box-p">
+                            <div className="roundResult-main">
+                                <h2 className="roundResult-title">문제{Number(setting.round) - 1}</h2>
+                                <h4 className="round-timer">{currentTime}</h4>
+                            </div>
+                            <div className="normal-round-result">
                                 <NormalRoundResult choices={choices.current} answer={quizAnswer.current}/>
                             </div>
-                            <img src={backImage} alt="backImage" className="backImage-p"/>
                         </div>
-                    </>
+                        <img src={backImage} alt="backImage" className="backImage-p"/>
+                    </div>
 
                 ) : setting.gameMode === "TWISTER" ? (
                     <TwisterRoundResult roomId={roomId}/>

@@ -1,32 +1,17 @@
-.result-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 90vh;
-}
-
-.result-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    width: 800px;
-    height: 300px;
-    background-color: #1A1F44;
-    border: 3px solid #5169A2;
-    padding: 40px 30px;
-    margin: 20px 10px;
-    border-radius: 100px;
+.quiz-result-text {
     text-align: center;
-    color: white;
-    translate: 0 20px;
+    padding: 10px;
 }
 
 .result-list {
     list-style: none;
-    margin-bottom: 100px;
-    translate: -15px 10px;
+    padding: 10px;
+    margin: 50px;
+    text-align: center;
+}
+
+.player-section {
+    padding: 10px;
 }
 
 .index-player {
@@ -34,38 +19,57 @@
 }
 
 .result-btn {
-    padding: 30px;
+    display: flex;
+    justify-content: center;
+    margin: 30px;
 }
 
 .endGame-button {
-    width: 150px;
-    height: 50px;
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 15px;
-    margin: 30px;
-    translate: 0 20px;
-    background-color: #1A1F44;
-    border: 5px solid #5169A2;
-    color: white;
+    --glow-color: rgb(217, 176, 255);
+    --glow-spread-color: rgba(191, 123, 255, 0.781);
+    --enhanced-glow-color: rgb(231, 206, 255);
+    --btn-color: rgb(100, 61, 136);
+    border: .25em solid var(--glow-color);
+    padding: 1em 3em;
+    color: var(--glow-color);
+    font-size: 17px;
+    background-color: var(--btn-color);
+    border-radius: 1em;
+    outline: none;
+    box-shadow: 0 0 1em .25em var(--glow-color),
+    0 0 4em 1em var(--glow-spread-color),
+    inset 0 0 .75em .25em var(--glow-color);
+    text-shadow: 0 0 .5em var(--glow-color);
+    position: relative;
+    transition: all 0.3s;
+}
+
+.endGame-button::after {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    top: 120%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--glow-spread-color);
+    filter: blur(2em);
+    opacity: .7;
+    transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
 }
 
 .endGame-button:hover {
-    border-color: #FFD800;
+    color: var(--btn-color);
+    background-color: var(--glow-color);
+    box-shadow: 0 0 1em .25em var(--glow-color),
+    0 0 4em 2em var(--glow-spread-color),
+    inset 0 0 .75em .25em var(--glow-color);
 }
 
-.backImage-p-result {
-    width: 138%;
-    height: 200px;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-size: cover;
-    translate: 0px 50px;
-}
-
-.quiz-result-text {
-    translate: 0 15px;
-    margin-bottom: 30px;
+.endGame-button:active {
+    box-shadow: 0 0 0.6em .25em var(--glow-color),
+    0 0 2.5em 2em var(--glow-spread-color),
+    inset 0 0 .5em .25em var(--glow-color);
 }
 
 .medal-icon {
