@@ -12,6 +12,7 @@ import '../../css/Participant/PlayerQuizPage.css'
 import '../../css/Quiz/Twister/TwisterAnswer.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
+import PoseAnswer from "../quiz/pose/PoseAnswer.jsx";
 
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
@@ -156,7 +157,19 @@ const PlayerQuizPage = () => {
                     <ListeningText prepareAnswer={prepareAnswer}/>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                    <div className="container-m">
+                        <div className="loginBox-m">
+                            <div className="player-header">
+                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                <PlayerTop playerName={playerName.current}/>
+                            </div>
+                            <div className="twister-answer">
+                                <h1 className="quiz-round">Round {roundNumber.current}</h1>
+                                <PoseAnswer playerName={playerName.current} roundNumber={roundNumber.current}/>
+                            </div>
+                        </div>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                    </div>
                 ) : (
                     <h1>오류 발생</h1>
                 )

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const TwisterPlayerRoundResult = ({roomId}) => {
+const PosePlayerRoundResult = ({roomId}) => {
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [playerScore, setPlayerScore] = useState("0");
 
@@ -10,11 +10,11 @@ const TwisterPlayerRoundResult = ({roomId}) => {
 
     useEffect(() => {
         if (currentPlayer !== "") {
-            getTwisterScore();
+            getPoseScore();
         }
     }, [currentPlayer]);
 
-    const getTwisterScore = async () => {
+    const getPoseScore = async () => {
         try {
             const response = await fetch(`/quiz/player/score?room_id=R${roomId}&player_name=${currentPlayer}`);
 
@@ -34,4 +34,4 @@ const TwisterPlayerRoundResult = ({roomId}) => {
     )
 }
 
-export default TwisterPlayerRoundResult;
+export default PosePlayerRoundResult;

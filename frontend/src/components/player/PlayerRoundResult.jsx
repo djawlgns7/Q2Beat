@@ -8,6 +8,7 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
 import TwisterPlayerRoundResult from "../quiz/twister/TwisterPlayerRoundResult.jsx";
 import ListeningPlayerRoundResult from "../quiz/listening/ListeningPlayerRoundResult.jsx";
+import PosePlayerRoundResult from "../quiz/pose/PosePlayerRoundResult.jsx";
 
 const PlayerRoundResult = () => {
     const {hostMessage, setHostMessage, roomId} = useSocket();
@@ -83,7 +84,7 @@ const PlayerRoundResult = () => {
                     </>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                    <PosePlayerRoundResult roomId={roomId} />
                 ) : (
                     <h1>오류 발생</h1>
                 )

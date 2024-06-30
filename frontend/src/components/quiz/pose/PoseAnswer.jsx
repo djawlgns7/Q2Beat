@@ -2,13 +2,13 @@ import {useSocket} from "../../context/SocketContext.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import mic_icon from '../../../image/free-icon-mic.png'
 import Q2B_back from "../../../image/Q2Beat_background.png";
-import TwisterRecordAndGrade from "./TwisterRecordAndGrade.jsx";
+import PoseShootAndGrade from "./PoseShootAndGrade.jsx";
 
-const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) => {
+const PoseAnswer = ({playerName, roundNumber}) => {
     const {roomId, quizId} = useSocket();
     const [stage, setStage] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
-    const [questionString, setQuestionString] = useState("");
+    const [poseQuiz, setPoseQuiz] = useState("");
 
     useEffect(() => {
 
@@ -21,12 +21,14 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
     }, []);
 
     useEffect(() => {
-        getQuestionString();
+        if (quizId !== "") {
+            getPoseQuiz();
+        }
     }, [quizId]);
 
-    const getQuestionString = async () => {
+    const getPoseQuiz = async () => {
         try {
-            const response = await fetch(`/quiz/twister/get/quiz?quizId=${quizId}`, {});
+            const response = await fetch(`/quiz/pose/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');
@@ -34,8 +36,8 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
 
             const data = await response.json();
 
-            setQuestionString(data.twister_quiz);
-            console.log('퀴즈: ', data.twister_quiz);
+            setPoseQuiz(data);
+            console.log('포즈 이름: ', data.pose_name);
         } catch (error) {
             console.error('Error clear room history:', error);
         }
@@ -46,8 +48,7 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
             {stage ? (
                 playerName === currentPlayer ? (
                     <>
-                        <TwisterRecordAndGrade questionString={questionString} roomId={roomId} playerName={playerName}
-                                               isRecording={isRecording} setIsRecording={setIsRecording}
+                        <PoseShootAndGrade poseQuiz={poseQuiz} roomId={roomId} playerName={playerName}
                                                roundNumber={roundNumber}/>
                         <h3>당신 차례입니다!</h3>
                     </>
@@ -67,4 +68,4 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
     )
 }
 
-export default TwisterAnswer;
+export default PoseAnswer;

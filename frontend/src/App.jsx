@@ -32,7 +32,7 @@ import ListeningRoundResult from "./components/quiz/listening/ListeningRoundResu
 import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPlayerRoundResult.jsx";
 import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
 import CompareStrings from "./components/test/CompareStrings.jsx";
-import TwisterRecordAndGrade from "./components/quiz/twister/TwisterRecordAndGrade.jsx";
+import ImageGame from "./components/test/ImageGame.jsx";
 
 function App() {
     return (
@@ -55,6 +55,7 @@ function App() {
                     <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
                     <Route path="/compare" element={<CompareStrings/>}/>
+                    <Route path="/image/game" element={<ImageGame/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>

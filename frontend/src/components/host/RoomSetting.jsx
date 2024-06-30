@@ -43,8 +43,9 @@ const RoomSetting = () => {
             setting.current = {
                 gameMode: "POSE",
                 round: 1,
-                maxRound: 10,
-                timeLimit: 30
+                maxRound: playerNumber,
+                timeLimit: 15,
+                level: "NORMAL"
             }
         }
     }, [gameType]);
@@ -176,20 +177,24 @@ const RoomSetting = () => {
                                 <BackgroundVideo/>
                                 <div className="contents-box-p">
                                     <div className="label-section">
-                                        <label className="roomSetting-label">제한시간
-                                            <select onChange={selectChange} className="roomSetting-select">
-                                                <option>30초</option>
+                                        <label className="roomSetting-label round-count-label">라운드 수
+                                            <select className="roomSetting-select round-count" disabled={true}>
+                                                <option>{playerNumber}</option>
                                             </select>
                                         </label>
-                                        <label className="roomSetting-label">라운드 수
-                                            <select onChange={selectChange} className="roomSetting-select">
-                                                <option>10라운드</option>
+                                        <label className="roomSetting-label">난이도
+                                            <select onChange={selectChange} className="roomSetting-select"
+                                                    defaultValue={"level NORMAL"}>
+                                                <option value={"level EASY"}>쉬움</option>
+                                                <option value={"level NORMAL"}>보통</option>
+                                                <option value={"level HARD"}>어려움</option>
                                             </select>
                                         </label>
                                     </div>
                                     <div className="roomSetting-buttons">
                                         <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
-                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
+                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

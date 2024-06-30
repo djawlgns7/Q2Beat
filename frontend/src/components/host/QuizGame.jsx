@@ -8,6 +8,7 @@ import '../../css/Host/QuizGame.css';
 import backImage from "../../image/background-image.png";
 import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import TwisterQuiz from "../quiz/twister/TwisterQuiz.jsx";
+import PoseQuiz from "../quiz/pose/PoseQuiz.jsx";
 
 const QuizGame = () => {
     const {sendMessage, roomId, hostMessage, setHostMessage, clientMessage, setClientMessage} = useSocket();
@@ -39,6 +40,9 @@ const QuizGame = () => {
         } else if (setting.gameMode === "TWISTER") {
             getNextPlayer();
             getQuizTwister();
+        } else if (setting.gameMode === "POSE") {
+            getNextPlayer();
+            getQuizPose();
         }
         setCurrentTime(setting.timeLimit);
     }, [setting]);
@@ -190,6 +194,27 @@ const QuizGame = () => {
         }
     }
 
+    const getQuizPose = async (category) => {
+        const response = await fetch(`/quiz/pose/get?level=${setting.level}&roomId=${roomId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            // 오류 처리
+            console.error('Failed to fetch quiz information');
+            return;
+        }
+
+        const data = await response.json();
+        setQuiz(data);
+
+        sendMessage(`MESSAGE:${roomId}:QUIZID:${data.pose_id}`);
+        setIsReady(true);
+    };
+
 
     return (
         <>
@@ -219,7 +244,10 @@ const QuizGame = () => {
                         <ListeningQuiz quiz={quiz}/>
                     </>
                 ) : setting.gameMode === "POSE" ? (
-                    <h1>포즈 따라하기</h1>
+                    <>
+                        <h2 className="quiz-title">문제 {setting.round}</h2>
+                        <PoseQuiz quiz={quiz} nextPlayer={nextPlayer} time={currentTime} onTimeout={handleTimeout}/>
+                    </>
                 ) : (
                     <h1>오류 발생</h1>
                 )

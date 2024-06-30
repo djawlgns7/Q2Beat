@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
 import Q2B_back from "../../../image/Q2Beat_background.png";
 
-const TwisterRoundResult = ({roomId}) => {
+const PoseRoundResult = ({roomId}) => {
 
     const [nextPlayer, setNextPlayer] = useState("");
     const [score, setScore] = useState("");
@@ -12,18 +12,18 @@ const TwisterRoundResult = ({roomId}) => {
 
     useEffect(() => {
         const player = sessionStorage.getItem("nextPlayer");
-        const answer = sessionStorage.getItem("answerString");
-        SetAnswerString(answer);
+        //const answer = sessionStorage.getItem("answerString");
+        //SetAnswerString(answer);
         setNextPlayer(player);
     }, []);
 
     useEffect(() => {
         if (nextPlayer !== "") {
-            getTwisterScore();
+            getPoseScore();
         }
     }, [nextPlayer]);
 
-    const getTwisterScore = async () => {
+    const getPoseScore = async () => {
         try {
             const response = await fetch(`/quiz/player/score?room_id=R${roomId}&player_name=${nextPlayer}`);
 
@@ -56,7 +56,7 @@ const TwisterRoundResult = ({roomId}) => {
                         </div>
                         <div className="twister-main">
                             <h1>{nextPlayer}님의 결과</h1><br/>
-                            <h4>{answerString}</h4>
+                            {/*<h4>{answerString}</h4>*/}
                             <h3>유사도: {score}%</h3>
                         </div>
                     </div>
@@ -69,4 +69,4 @@ const TwisterRoundResult = ({roomId}) => {
     )
 }
 
-export default TwisterRoundResult;
+export default PoseRoundResult;
