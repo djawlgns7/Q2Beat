@@ -5,7 +5,6 @@ import '../../css/PC.css'
 import '../../css/Host/RoomSetting.css'
 import Q2B_back from "../../image/Q2Beat_background.png";
 import React from "react";
-import BackgroundVideo from "../BackgroundVideo.jsx";
 
 const RoomSetting = () => {
     const {sendMessage, roomId} = useSocket();
@@ -13,6 +12,8 @@ const RoomSetting = () => {
     const navigate = useNavigate();
     const setting = useRef(null);
     const playerNumber = sessionStorage.getItem('playerNumber');
+
+    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         if (gameType === "0") {
@@ -73,42 +74,42 @@ const RoomSetting = () => {
                 switch (gameType) {
                     case '0':
                         return (
-                            <div className="container-p">
-                                <BackgroundVideo/>
-                                <div className="contents-box-p">
-                                    <div className="label-section-three">
-                                        <label className="roomSetting-label">카테고리
-                                            <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"Category COMMON"}>
-                                                <option value="category COMMON">상식</option>
-                                                <option value="category COUNTRY">나라</option>
-                                            </select>
-                                        </label>
-                                        <label className="roomSetting-label">제한 시간
-                                            <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"timeLimit 15"}>
-                                                <option value="timeLimit 5">5</option>
-                                                <option value="timeLimit 10">10</option>
-                                                <option value="timeLimit 15">15</option>
-                                                <option value="timeLimit 20">20</option>
-                                            </select>
-                                        </label>
-                                        <label className="roomSetting-label">라운드 수
-                                            <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"maxRound 5"}>
-                                                <option value="maxRound 1">1라운드</option>
-                                                <option value="maxRound 5">5라운드</option>
-                                                <option value="maxRound 10">10라운드</option>
-                                                <option value="maxRound 15">15라운드</option>
-                                            </select>
-                                        </label>
+                            <div className="roomSetting-container">
+                                <div className="roomSetting-box">
+                                    <div className="roomSetting-circle-header">
+                                        {colors.map((color, index) => (
+                                            <div key={index} className="circle"
+                                                 style={{backgroundColor: color}}></div>
+                                        ))}
                                     </div>
-                                    <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
-                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span>
-                                        </button>
-                                    </div>
+                                    <label className="roomSetting-label">카테고리
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"Category COMMON"}>
+                                            <option value="category COMMON">상식</option>
+                                            <option value="category COUNTRY">나라</option>
+                                        </select>
+                                    </label>
+                                    <label className="roomSetting-label">제한 시간
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"timeLimit 15"}>
+                                            <option value="timeLimit 5">5</option>
+                                            <option value="timeLimit 10">10</option>
+                                            <option value="timeLimit 15">15</option>
+                                            <option value="timeLimit 20">20</option>
+                                        </select>
+                                    </label>
+                                    <label className="roomSetting-label">라운드 수
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"maxRound 5"}>
+                                            <option value="maxRound 1">1라운드</option>
+                                            <option value="maxRound 5">5라운드</option>
+                                            <option value="maxRound 10">10라운드</option>
+                                            <option value="maxRound 15">15라운드</option>
+                                        </select>
+                                    </label>
                                 </div>
+                                <div className="roomSetting-buttons">
+                                    <button onClick={gameStart} className="roomSetting-btn">시작</button>
+                                    <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                </div>
+                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
                     case '1':
@@ -141,58 +142,65 @@ const RoomSetting = () => {
                                     <button onClick={gameStart} className="roomSetting-btn">시작</button>
                                     <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                                 </div>
+                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
-
                     case '2':
                         return (
-                            <div className="container-p">
-                                <BackgroundVideo/>
-                                <div className="contents-box-p">
-                                    <div className="label-section">
-                                        <label className="roomSetting-label round-count-label">라운드 수
-                                            <select className="roomSetting-select round-count" disabled={true}>
-                                                <option>{playerNumber}</option>
-                                            </select>
-                                        </label>
-                                        <label className="roomSetting-label">난이도
-                                            <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"level NORMAL"}>
-                                                <option value={"level EASY"}>쉬움</option>
-                                                <option value={"level NORMAL"}>보통</option>
-                                                <option value={"level HARD"}>어려움</option>
-                                            </select>
-                                        </label>
+                            <div className="roomSetting-container">
+                                <div className="roomSetting-box">
+                                    <div className="roomSetting-circle-header">
+                                        {colors.map((color, index) => (
+                                            <div key={index} className="circle"
+                                                 style={{backgroundColor: color}}></div>
+                                        ))}
                                     </div>
-                                    <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
-                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
-                                    </div>
+                                    <label className="roomSetting-label">라운드 수
+                                        <select className="roomSetting-select" disabled={true}>
+                                            <option>{playerNumber}</option>
+                                        </select>
+                                    </label>
+                                    <label className="roomSetting-label">난이도
+                                        <select onChange={selectChange} className="roomSetting-select" defaultValue={"level NORMAL"}>
+                                            <option value={"level EASY"}>쉬움</option>
+                                            <option value={"level NORMAL"}>보통</option>
+                                            <option value={"level HARD"}>어려움</option>
+                                        </select>
+                                    </label>
                                 </div>
+                                <div className="roomSetting-buttons">
+                                    <button onClick={gameStart} className="roomSetting-btn">시작</button>
+                                    <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                </div>
+                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
                     case '3':
                         return (
-                            <div className="container-p">
-                                <BackgroundVideo/>
-                                <div className="contents-box-p">
-                                    <div className="label-section">
-                                        <label className="roomSetting-label">제한시간
-                                            <select onChange={selectChange} className="roomSetting-select">
-                                                <option>30초</option>
-                                            </select>
-                                        </label>
-                                        <label className="roomSetting-label">라운드 수
-                                            <select onChange={selectChange} className="roomSetting-select">
-                                                <option>10라운드</option>
-                                            </select>
-                                        </label>
+                            <div className="roomSetting-container">
+                                <div className="roomSetting-box">
+                                    <div className="roomSetting-circle-header">
+                                        {colors.map((color, index) => (
+                                            <div key={index} className="circle"
+                                                 style={{backgroundColor: color}}></div>
+                                        ))}
                                     </div>
-                                    <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
-                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
-                                    </div>
+                                    <label className="roomSetting-label">제한시간
+                                        <select onChange={selectChange} className="roomSetting-select">
+                                            <option>30초</option>
+                                        </select>
+                                    </label>
+                                    <label className="roomSetting-label">라운드 수
+                                        <select onChange={selectChange} className="roomSetting-select">
+                                            <option>10라운드</option>
+                                        </select>
+                                    </label>
                                 </div>
+                                <div className="roomSetting-buttons">
+                                    <button onClick={gameStart} className="roomSetting-btn">시작</button>
+                                    <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                </div>
+                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
                 }
