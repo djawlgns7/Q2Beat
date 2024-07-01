@@ -52,6 +52,11 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
         setImageSrc(imageSrc);
+        sendImageToSocket(imageSrc);
+    };
+
+    const sendImageToSocket = (imageSrc) => {
+        sendMessage(`IMAGE:${roomId}:IMAGE:${imageSrc}`);
     };
 
     const predictImage = async () => {

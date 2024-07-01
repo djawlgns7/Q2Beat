@@ -216,8 +216,6 @@ public class QuizController {
         return ResponseEntity.ok(player);
     }
 
-
-
     @GetMapping("/get/round/result/listening")
     public ResponseEntity<Map<String, Object>> getListeningAnswer(@RequestParam("roomId") String roomId,
                                                                   @RequestParam("correctAnswer") String correctAnswer) {
@@ -259,5 +257,20 @@ public class QuizController {
     @GetMapping("/player/score/update")
     public boolean updatePlayerScore(@ModelAttribute Player player) {
         return playerService.updatePlayerScore(player);
+    }
+
+    @GetMapping("/player/name/available")
+    public boolean isAvailableName(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
+        boolean result = true;
+
+        List<Player> playerList = playerService.getAvailablePlayerList(roomId);
+
+        for (Player player : playerList) {
+            if (player.getPlayer_name().equals(playerName)) {
+                result = false;
+            }
+        }
+
+        return result;
     }
 }

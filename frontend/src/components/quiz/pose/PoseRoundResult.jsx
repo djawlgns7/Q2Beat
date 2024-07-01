@@ -4,7 +4,7 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const PoseRoundResult = ({roomId}) => {
 
-    const [nextPlayer, setNextPlayer] = useState("");
+    const [nextPlayer, setNextPlayer, image] = useState("");
     const [score, setScore] = useState("");
     const [answerString, SetAnswerString] = useState("");
     const [isFetched, setIsFetched] = useState(false);
@@ -56,7 +56,7 @@ const PoseRoundResult = ({roomId}) => {
                         </div>
                         <div className="twister-main">
                             <h1>{nextPlayer}님의 결과</h1><br/>
-                            {/*<h4>{answerString}</h4>*/}
+                            <img src={image} alt="Received" style={{width: '300px', height: 'auto'}}/>
                             <h3>유사도: {score}%</h3>
                         </div>
                     </div>

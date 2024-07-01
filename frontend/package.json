@@ -30,6 +30,7 @@
     "react-router-dom": "^6.23.1",
     "react-webcam": "^7.2.0",
     "react-youtube": "^10.1.0",
+    "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.11"
   },
   "devDependencies": {

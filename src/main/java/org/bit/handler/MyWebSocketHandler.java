@@ -103,6 +103,11 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             String roomId = msgParts[0];
             String chatMessage = msgParts[1];
             broadcast(roomId, chatMessage);
+        } else if ("IMAGE".equals(command)) {
+            String[] msgParts = content.split(":", 2);
+            String roomId = msgParts[0];
+            String image = msgParts[1];
+            sendHost(roomId, image);
         }
     }
 
@@ -141,6 +146,18 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         if (rooms.containsKey(roomId)) {
             for (WebSocketSession session : rooms.get(roomId)) {
                 if (session.isOpen()) {
+                    session.sendMessage(new TextMessage(message));
+                }
+            }
+        }
+    }
+
+    private void sendHost (String roomId, String message) throws Exception {
+        if (rooms.containsKey(roomId)) {
+            for (WebSocketSession session : rooms.get(roomId)) {
+                String name = sessionNameMap.get(session);
+
+                if (name.startsWith("(HOST)") && session.isOpen()) {
                     session.sendMessage(new TextMessage(message));
                 }
             }
