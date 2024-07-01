@@ -4,7 +4,7 @@ import '../../../css/PC.css'
 import '../../../css/Quiz/Twister/TwisterQuiz.css'
 import Q2B_back from "../../../image/Q2Beat_background.png";
 
-const PoseQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
+const PoseQuiz = ({quiz, nextPlayer}) => {
 
     const [stage, setStage] = useState(false);
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
@@ -35,7 +35,6 @@ const PoseQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
                                 <div className="twister-quiz-text">
                                     <img src={quiz.pose_image} alt="" />
                                 </div>
-                                <Timer time={time} onTimeout={onTimeout}/>
                             </div>
                         )
                         }

@@ -26,7 +26,7 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
 
     const getQuestionString = async () => {
         try {
-            const response = await fetch(`/quiz/twister/get/quiz?quizId=${quizId}`, {});
+            const response = await fetch(`http://bit-two.com:8080/quiz/twister/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');
@@ -37,7 +37,7 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
             setQuestionString(data.twister_quiz);
             console.log('퀴즈: ', data.twister_quiz);
         } catch (error) {
-            console.error('Error clear room history:', error);
+            console.error(error);
         }
     }
 

@@ -15,7 +15,7 @@ import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 import PoseAnswer from "../quiz/pose/PoseAnswer.jsx";
 
 const PlayerQuizPage = () => {
-    const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
+    const {sendMessage, hostMessage, setHostMessage, quizId, clientMessage, setClientMessage} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const [myTurn, setMyTurn] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
@@ -55,8 +55,9 @@ const PlayerQuizPage = () => {
                     sessionStorage.setItem("round", roundNumber.current + 1);
                     navigate("/player/game/round/result");
                 }, 500);
-            } else if (!isRecording) {
+            } else if (!isRecording && gameMode.current !== "POSE") {
                 sendAnswer(gameMode.current);
+                setHostMessage("");
 
                 setTimeout(() => {
                     sessionStorage.setItem("round", String(roundNumber.current + 1));
@@ -68,7 +69,26 @@ const PlayerQuizPage = () => {
             sessionStorage.setItem("currentPlayer", hostMessage.split("-")[1]);
             setHostMessage("");
         }
+
+        setHostMessage("");
     }, [hostMessage]);
+
+    useEffect(() => {
+
+        if (clientMessage === "RECORDSTART") {
+            setIsRecording(true);
+        } else if (clientMessage === "RECORDSTOP") {
+            setIsRecording(false);
+        } else if (clientMessage === "ROUNDEND") {
+            setTimeout(() => {
+                setClientMessage("");
+                sessionStorage.setItem("round", roundNumber.current + 1);
+                navigate("/player/game/round/result");
+            }, 500);
+        }
+
+        setClientMessage("");
+    }, [clientMessage]);
 
     const prepareAnswer = async (inputAnswer) => {
         console.log("prepareAnswer : " + inputAnswer);
@@ -94,7 +114,7 @@ const PlayerQuizPage = () => {
 
         console.log("Sending answer:", answer.current); // 로그 추가
 
-        const response = await fetch(`/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

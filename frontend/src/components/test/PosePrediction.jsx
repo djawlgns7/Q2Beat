@@ -1,18 +1,15 @@
-import React, {useEffect, useRef, useState} from "react";
-import axios from "axios";
-import {useSocket} from "../../context/SocketContext.jsx";
-import Webcam from "react-webcam";
+import React, { useState, useRef, useEffect } from 'react';
+import Webcam from 'react-webcam';
 
-const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
-    const {sendMessage} = useSocket();
+function PosePrediction() {
     const [model, setModel] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [predictionResult, setPredictionResult] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
-    const [timer, setTimer] = useState(15); // 타이머 설정
+    const [timer, setTimer] = useState(10); // 타이머를 10초로 설정
     const webcamRef = useRef(null);
 
-    const targetPose = poseQuiz.pose_name;
+    const targetPose = '강시'; // 분석하고자 하는 타겟 포즈 이름
 
     useEffect(() => {
         const loadModel = async () => {
@@ -43,12 +40,6 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
         }
     }, [imageSrc])
 
-    useEffect(() => {
-        if (predictionResult !== null) {
-            updateScore();
-        }
-    }, [predictionResult]);
-
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
         setImageSrc(imageSrc);
@@ -63,32 +54,13 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
                 const prediction = await model.predict(posenetOutput);
                 const targetPrediction = prediction.find(p => p.className === targetPose);
                 if (targetPrediction) {
-                    setPredictionResult(targetPrediction.probability.toFixed(4) * 100);
+                    setPredictionResult(`Probability of ${targetPose}: ${targetPrediction.probability.toFixed(4)}`);
                 } else {
                     setPredictionResult('Target pose not detected.');
                 }
             };
         }
     };
-
-    const updateScore = async () => {
-        sessionStorage.setItem("playerScore", String(predictionResult));
-        const fixedSimilarity = Math.round(predictionResult * 100);
-
-        try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
-
-            if (!response.ok) {
-                throw new Error('Failed to update player score');
-            }
-
-            setTimeout(() => {
-                sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
-            }, 300);
-        } catch (error) {
-            console.error('Error clear room history:', error);
-        }
-    }
 
     return (
         <div>
@@ -103,7 +75,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
                             width={400}
                             height={300}
                         /> :
-                        <img src={imageSrc} alt="Captured" style={{width: '300px', height: 'auto'}}/>
+                        <img src={imageSrc} alt="Captured" style={{ width: '300px', height: 'auto' }} />
                     }
                     <div>타이머: {timer}초</div>
                     {predictionResult && <p>{predictionResult}</p>}
@@ -115,4 +87,4 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     );
 }
 
-export default PoseShootAndGrade;
+export default PosePrediction;

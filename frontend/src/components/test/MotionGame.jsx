@@ -1,6 +1,6 @@
 import React, { useState, useEffect,useRef } from 'react';
-import './App.css';
-/* 
+import * as tmPose from "react-dom/test-utils";
+/*
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
 */
@@ -19,29 +19,29 @@ function MotionGame() {
   const motionResult=useRef(null);  //모션인식 결과값 저장.
   const stopWebcamFlag=useRef(false); //true면, 웹 캠 동작 멈춤.
   const webcamSize=250;
+  const isCaptured = useRef(false);
+
+  const targetPose = '강시';
 
   useEffect(() => {
     const init=(async function() {
       console.log("hello");
       //모델 로딩
-      const modelURL = 'src/my_model/model.json';
-      const metadataURL = 'src/my_model/metadata.json';
-      const loadedModel = await tmPose.load(modelURL, metadataURL);
+      const modelURL = '/pose_model/model.json';
+      const metadataURL = '/pose_model/metadata.json';
+      const loadedModel = await window.tmPose.load(modelURL, metadataURL);
       setModel(loadedModel);
       maxPredictions.current=loadedModel.getTotalClasses();
 
       //웹캠 로딩
-      const loadedWebcam = new tmPose.Webcam(webcamSize, webcamSize, true);
+      const loadedWebcam = new window.tmPose.Webcam(webcamSize, webcamSize, true);
       await loadedWebcam.setup();
       await loadedWebcam.play();
       setWebcam(loadedWebcam);
 
-      //canvas태그 설정
-      const canvas = document.getElementById("canvas");
-      canvas.width = webcamSize;
-      canvas.height = webcamSize;
-      setCtx(canvas.getContext("2d"));
-      
+      // div에 웹캠 넣기
+      document.getElementById("webcam-container").appendChild(loadedWebcam.canvas);
+
       //앞의 과정 로딩 완료 여부
       setIsComplete(true);
     })();
@@ -66,52 +66,47 @@ function MotionGame() {
     };
   }, []);
 
-    useEffect(() => {
-      if (isComplete) window.requestAnimationFrame(loop);
-    }, [isComplete]);
+  useEffect(() => {
+    if (isComplete) window.requestAnimationFrame(loop);
+  }, [isComplete]);
 
   async function loop(timestamp) {
     if (webcam && model && timer > 0) {
       webcam.update();
-      await predict();
+      if (timer === 1 && isCaptured.current === false) {
+        await predict();
+        isCaptured.current = true;
+      }
+
       if(stopWebcamFlag.current===false){
         window.requestAnimationFrame(loop);
       }
     }
   }
+
   //해당 함수에서 유사도 측정.
   async function predict() {
     const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
     const prediction = await model.predict(posenetOutput);
     for (let i = 0; i < maxPredictions.current; i++) {
-      console.log("i:"+prediction[i].probability.toFixed(2));
-    }
-    drawPose(pose);
-  }
-
-  function drawPose(pose) {
-    if (webcam.canvas && ctx) {
-      ctx.drawImage(webcam.canvas, 0, 0);
-      if (pose) {
-        const minPartConfidence = 0.5;
-        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+      if (prediction[i].className === targetPose) {
+        console.log(`Probability of ${targetPose}: ${prediction[i].probability.toFixed(4)}`);
+        motionResult.current = prediction[i].probability.toFixed(4);
+        break;
       }
     }
   }
 
   return (
-    <>
-      {isComplete &&<div>{<h2>앞에 보이는 화면과 동일한 포즈를 취해주세요</h2>}</div>}
-      {!isComplete &&<div>{<h3>화면을 로딩중 입니다.</h3>}</div>}
-      <p></p>
-      <div>
-        <canvas id="canvas" style={{ width: '500px', height: '500px'}}></canvas>
-      </div>
-      <div id="label-container"></div>
-      {!stopWebcamFlag.current&&<h3>{timer}</h3>}
-      {stopWebcamFlag.current&&<h2>점수:{Number(motionResult.current*100).toFixed(1)}</h2>}
-    </>
+      <>
+        {isComplete &&<div>{<h2>앞에 보이는 화면과 동일한 포즈를 취해주세요</h2>}</div>}
+        {!isComplete &&<div>{<h3>화면을 로딩중 입니다.</h3>}</div>}
+        <p></p>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+        {!stopWebcamFlag.current && <h3>{timer}</h3>}
+        {stopWebcamFlag.current&&<h2>점수:{Number(motionResult.current*100)}</h2>}
+      </>
   );
 }
 export default MotionGame;

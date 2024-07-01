@@ -16,8 +16,8 @@ function ImageGame() {
     useEffect(() => {
         const init = async () => {
             // 모델 로딩
-            const modelURL = '/pose_model/model.json';
-            const metadataURL = '/pose_model/metadata.json';
+            const modelURL = '/image_model/model.json';
+            const metadataURL = '/image_model/metadata.json';
             const loadedModel = await window.tmImage.load(modelURL, metadataURL); // tmImage를 글로벌 변수로 사용
             setModel(loadedModel);
             maxPredictions.current = loadedModel.getTotalClasses();

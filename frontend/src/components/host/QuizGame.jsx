@@ -54,7 +54,7 @@ const QuizGame = () => {
 
                 sendMessage(`MESSAGE:${roomId}:HOST:ROUNDEND`);
 
-                if (!isRecording.current) {
+                if (!isRecording.current && setting.gameMode !== "POSE") {
                     setting.round = Number.parseInt(setting.round) + 1;
                     sessionStorage.setItem('setting', JSON.stringify(setting));
 
@@ -93,7 +93,7 @@ const QuizGame = () => {
 
 
     const getQuizNormal = async (category) => {
-        const response = await fetch(`/quiz/get/normal?category=${category}&roomId=${roomId}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const QuizGame = () => {
 
     const getQuizListening = async () => {
         try {
-            const response = await fetch(`/quiz/get/listening?roomId=${roomId}`, {
+            const response = await fetch(`http://bit-two.com:8080/quiz/get/listening?roomId=${roomId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -156,7 +156,7 @@ const QuizGame = () => {
     };
 
     const getQuizTwister = async (category) => {
-        const response = await fetch(`/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -178,7 +178,7 @@ const QuizGame = () => {
 
     const getNextPlayer = async () => {
         try {
-            const response = await fetch(`/quiz/player/available?roomId=${roomId}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/player/available?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -195,7 +195,7 @@ const QuizGame = () => {
     }
 
     const getQuizPose = async (category) => {
-        const response = await fetch(`/quiz/pose/get?level=${setting.level}&roomId=${roomId}`, {
+        const response = await fetch(`http://bit-two.com:8080/quiz/pose/get?level=${setting.level}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -246,7 +246,7 @@ const QuizGame = () => {
                 ) : setting.gameMode === "POSE" ? (
                     <>
                         <h2 className="quiz-title">문제 {setting.round}</h2>
-                        <PoseQuiz quiz={quiz} nextPlayer={nextPlayer} time={currentTime} onTimeout={handleTimeout}/>
+                        <PoseQuiz quiz={quiz} nextPlayer={nextPlayer}/>
                     </>
                 ) : (
                     <h1>오류 발생</h1>
