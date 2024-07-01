@@ -4,9 +4,6 @@ import '../../../css/Moblie.css';
 import Q2B_back from "../../../image/Q2Beat_background.png";
 import SoundIcon from "../../../image/free-icon-sound-2.png";
 import '../../../css/Quiz/ListeningText.css'
-import Q2B from "../../../image/Q2BEAT_2.png";
-import PlayerTop from "../PlayerTop.jsx";
-import '../../../css/Quiz/ListeningText.css';
 
 const ListeningText = ({ prepareAnswer, onSkip }) => {
     const [answer, setAnswer] = useState('');
@@ -70,11 +67,14 @@ const ListeningText = ({ prepareAnswer, onSkip }) => {
                         <div className="modal show">
                             <div className="modal-content">
                                 <h5>정말 스킵하시겠습니까?</h5>
-                                <button onClick={handleModalConfirm}>확인</button>
-                                <button onClick={handleModalCancel}>취소</button>
+                                <div className="button-container">
+                                    <button className="confirm-button" onClick={handleModalConfirm}>확인</button>
+                                    <button className="cancel-button" onClick={handleModalCancel}>취소</button>
+                                </div>
                             </div>
                         </div>
                     )}
+
                 </div>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>

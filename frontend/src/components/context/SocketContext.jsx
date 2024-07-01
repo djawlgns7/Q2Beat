@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { useModal } from "./ModalContext.jsx";
 
 const SocketContext = createContext();
 
@@ -15,6 +16,8 @@ export const SocketProvider = ({children}) => {
     const [clientMessage, setClientMessage] = useState('');
     const [quiz, setQuiz] = useState(null);  // 추가된 부분
     const isConnected = useRef(false);
+
+    const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
 
     const connectWebSocket = () => {
         const socket = new WebSocket('ws://localhost:8080/ws');
@@ -47,7 +50,10 @@ export const SocketProvider = ({children}) => {
                 setRoomId(newRoomId);
                 sessionStorage.setItem('roomId', newRoomId);
             } else if (msgData.startsWith("ERROR:")) {
-                alert(msgData.split(":")[1]);
+                setModalType('error');
+                setModalTitle('오류');
+                setModalBody(msgData.split(":")[1]);
+                showModal();
             } else if (msgData.startsWith("NEWMEMBER:")) {
                 setClientMessage(msgData);
             } else if (msgData.startsWith("USERLEFT:")) {

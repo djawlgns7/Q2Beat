@@ -7,6 +7,14 @@
 .modal-qrcode {
 }
 
-.modal-backdrop {
-    display: none;
+.btn {
+    background-color: #8a2be2;
+}
+
+.btn:hover {
+    background-color: #7a1bbd;
+}
+
+.modal-title{
+    font-weight: bold;
 }
