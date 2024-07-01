@@ -1,17 +1,15 @@
-import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import PlayerTop from "../quiz/PlayerTop.jsx";
 import {useSocket} from "../context/SocketContext.jsx";
 import NormalButton from "../quiz/NormalButton.jsx";
 import {useNavigate} from "react-router-dom";
 import ListeningText from "../quiz/listening/ListeningText.jsx";
+import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 import Q2B from "../../image/Q2BEAT_2.png";
+import Q2B_back from "../../image/background-image.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
 import '../../css/Quiz/Twister/TwisterAnswer.css'
-import Q2B_back from "../../image/Q2Beat_background.png";
-import TwisterAnswer from "../quiz/twister/TwisterAnswer.jsx";
 
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
@@ -143,8 +141,8 @@ const PlayerQuizPage = () => {
                                     <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
                                     <PlayerTop playerName={playerName.current}/>
                                 </div>
-                                <div className="quiz-main">
-                                    <h1 className="quiz-round">문제 {roundNumber.current}번</h1>
+                                <div className="quiz-info">
+                                    <h1 className="quiz-round">Round {roundNumber.current}</h1>
                                     <div className="quiz-box">
                                         <NormalButton prepareAnswer={prepareAnswer}/>
                                     </div>

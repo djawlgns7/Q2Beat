@@ -3,10 +3,8 @@ import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import '../../../css/PC.css';
-import '../../../css/Quiz/ListeningQuiz.css'
-import '../../../css/Quiz/RoundResult.css';
-import '../../../css/Quiz/Listening/ListeningRoundResult.css'
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import '../../../css/Quiz/Listening/ListeningRoundResult.css';
+import Q2B_back from "../../../image/background-image.png";
 
 const ListeningRoundResult = ({ correctAnswer }) => {
     const { sendMessage, roomId } = useSocket();
@@ -49,44 +47,36 @@ const ListeningRoundResult = ({ correctAnswer }) => {
     };
 
     return (
-        <div className="listening-container">
-            <div className="listening-loginBox">
-                <div className="circle-header-listening">
-                    {['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'].map((color, index) => (
-                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                    ))}
-                </div>
-                <h2 className="listening-round-answer">Round {currentRound}</h2>
-                <div className="listening-youtube">
-                    {quiz && quiz.listening_url && (
-                        <div className="video-wrapper-listening">
-                            <ReactPlayer
-                                url={quiz.listening_url}
-                                className="react-player"
-                                playing={true}
-                                loop
-                                volume={0.5}
-                                width="500px"
-                                height="280px"
-                            />
-                        </div>
-                    )}
-                </div>
-                <h3 className="listening-correctAnswer">정답 : {correctAnswer}</h3>
-            </div>
-            <div className="listening-next-round">
-                <button onClick={handleNextRound} className="next-round-btn">
-                    {correctPlayer ? (
-                        <span>
-                            {correctPlayer.player_name}님이 정답을 맞추셨습니다!
+        <div className="container-p">
+            <div className="contents-box-listening">
+                <h2 className="listening-title">Round {currentRound}</h2>
+                {quiz && quiz.listening_url && (
+                    <div className="video-wrapper-result">
+                        <ReactPlayer
+                            url={quiz.listening_url}
+                            className="react-player-result"
+                            playing={true}
+                            loop
+                            volume={0.5}
+                            width="500px"
+                            height="280px"
+                        />
+                    </div>
+                )}
+                <h3 className="listening-answer">정답 : {correctAnswer}</h3>
+                <div className="listening-next-round">
+                    <button onClick={handleNextRound} className="next-round-btn">
+                        {correctPlayer ? (
+                            <span>
+                            {correctPlayer.player_name}님이 정답을 맞추셨습니다! 다음 라운도로 넘어갑니다.
                         </span>
-                    ) : (
-                        <span>정답자가 없습니다...</span>
-                    )}
-                    <span> 다음 라운드로 넘어갑니다.</span>
-                </button>
+                        ) : (
+                            <span>정답자가 없습니다ㅠㅠ 다음 라운드로 넘어갑니다.</span>
+                        )}
+                    </button>
+                </div>
             </div>
-            <img src={Q2B_back} alt="Q2B_back" className="backImage-p" />
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };

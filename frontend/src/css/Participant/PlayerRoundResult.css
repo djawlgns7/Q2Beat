@@ -2,18 +2,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
-    margin-top: 30px;
+    gap: 50px;
+    margin-top: 50px;
     color: white;
 }
 
 
 .result-text {
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .result-rank {
-    font-size: 40px;
+    font-size: 45px;
     font-weight: bold;
 }
 
@@ -22,6 +22,10 @@
     color: #00B20D;
     font-size: 200px;
     display: inline-block;
+}
+
+.correct-text {
+    translate: 10px;
 }
 
 /* Red X */

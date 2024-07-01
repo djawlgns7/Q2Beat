@@ -1,16 +1,37 @@
-.count-container-m {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 90vh;
-}
-
 .count-number-m {
     font-family: 'Our-Arcade-Games', sans-serif;
     position: absolute;
-    font-size: 5rem;
+    font-size: 7rem;
     transition: opacity 0.5s, transform 0.5s;
-    color: #FFD800;
-    translate: -30px -30px;
+    color: rgb(231, 206, 255);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+}
+
+.count-m-enter {
+    opacity: 0;
+    transform: translate(-50%, -70%) scale(0.5);
+}
+
+.count-m-enter-active {
+    opacity: 1;
+    transform: translate(-50%, -70%) scale(1);
+}
+
+.count-m-exit {
+    opacity: 1;
+    transform: translate(-50%, -70%) scale(1);
+}
+
+.count-m-exit-active {
+    opacity: 0;
+    transform: translate(-50%, -70%) scale(0.5);
+}
+
+@font-face {
+    font-family: 'Our-Arcade-Games';
+    src: url("../../font/Our-Arcade-Games.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
 }

@@ -7,24 +7,24 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 const TwisterQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
 
     const [stage, setStage] = useState(false);
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
+    const [setting, setSetting] = useState('');
 
     useEffect(() => {
         setTimeout(() => setStage(true), 3000);
     }, [])
 
+    useEffect(() => {
+        // 마운트 시 세션에서 값을 가져옴
+        const settingString = sessionStorage.getItem('setting');
+        const setting = JSON.parse(settingString);
+        setSetting(setting);
+    }, []);
+
     return (
         <>
             <div className="container-p">
-                <div className="twister-box">
-                    <div className="twister-header">
-                        <div className="circle-header-listening">
-                            {colors.map((color, index) => (
-                                <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                            ))}
-                        </div>
-                        <h2 className="twister-round">Round 1</h2>
-                    </div>
+                <div className="contents-box-p">
+                    <h2 className="quiz-title">Round {setting.round}</h2>
                     <div className="twister-main">
                         {stage === false ? (
                             <h1 className="twister-quiz-player">

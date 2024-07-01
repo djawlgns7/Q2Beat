@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerRoundResult.css'
 import Q2B from "../../image/Q2BEAT_2.png";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import Q2B_back from "../../image/background-image.png";
 import ListeningPlayerRoundResult from "../quiz/listening/ListeningPlayerRoundResult.jsx";
 
 const PlayerRoundResult = () => {
@@ -46,32 +46,33 @@ const PlayerRoundResult = () => {
             {isReady ? (
                 gameMode.current === "NORMAL" ? (
                     // 일반 게임
-                    <>
-                        <div className="container-m">
-                            <div className="loginBox-m">
-                                <div className="player-header">
-                                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                                    <PlayerTop playerName={playerName.current}/>
-                                </div>
-                                <div className="round-result">
-                                    {roundResult === "true" ? (
-                                        <div className="round-result-container">
-                                            <div className="green-circle">O</div>
-                                            <h1>정답입니다!</h1>
-                                        </div>
-                                    ) : (
-                                        <div className="round-result-container">
-                                            <div className="red-x">X</div>
-                                            <h1>오답입니다...</h1>
-                                        </div>
-                                    )
-                                    }
-                                    <h2>내 점수: {playerScore}</h2>
-                                </div>
+
+                    <div className="container-m">
+                        <div className="Box-m">
+                            <div className="player-header">
+                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                <PlayerTop playerName={playerName.current}/>
                             </div>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                            <div className="round-result">
+                                {roundResult === "true" ? (
+                                    <div className="round-result-container">
+                                        <div className="green-circle">O</div>
+                                        <h1>정답입니다!</h1>
+                                    </div>
+                                ) : (
+                                    <div className="round-result-container">
+                                        <div className="red-x">X</div>
+                                        <h1>오답입니다...</h1>
+                                    </div>
+                                )
+                                }
+                                <h2>내 점수: {playerScore}</h2>
+                            </div>
                         </div>
-                    </>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                    </div>
+
+
                 ) : gameMode.current === "TWISTER" ? (
                     // 잰말놀이
                     <div className="container-m">
@@ -84,6 +85,7 @@ const PlayerRoundResult = () => {
                         </div>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
                     </div>
+
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>

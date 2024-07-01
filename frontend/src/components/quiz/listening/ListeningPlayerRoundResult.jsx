@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../../css/Moblie.css';
 import '../../../css/Participant/PlayerRoundResult.css';
 import Q2B from "../../../image/Q2BEAT_2.png";
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 import PlayerTop from "../PlayerTop.jsx";
 
 const ListeningPlayerRoundResult = () => {
@@ -51,7 +51,7 @@ const ListeningPlayerRoundResult = () => {
 
     return (
         <div className="container-m">
-            <div className="loginBox-m">
+            <div className="Box-m">
                 <div className="player-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage-m" />
                     <PlayerTop playerName={playerName.current} />
@@ -60,7 +60,7 @@ const ListeningPlayerRoundResult = () => {
                     {roundResult ? (
                         <div className="round-result-container">
                             <div className="green-circle">O</div>
-                            <h1>정답입니다!</h1>
+                            <h1 className="correct-text">정답입니다!</h1>
                         </div>
                     ) : (
                         <div className="round-result-container">

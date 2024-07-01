@@ -1,12 +1,10 @@
 import React, {useRef, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../css/Moblie.css';
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 import SoundIcon from "../../../image/free-icon-sound-2.png";
-import '../../../css/Quiz/ListeningText.css'
+import '../../../css/Quiz/Listening/ListeningText.css'
 import Q2B from "../../../image/Q2BEAT_2.png";
-import PlayerTop from "../PlayerTop.jsx";
-import '../../../css/Quiz/ListeningText.css';
 
 const ListeningText = ({ prepareAnswer, onSkip }) => {
     const [answer, setAnswer] = useState('');
@@ -52,7 +50,11 @@ const ListeningText = ({ prepareAnswer, onSkip }) => {
 
     return (
         <div className="container-m">
-            <div className="loginBox-m">
+            <div className="Box-m">
+                <div className="player-header">
+                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                    <h3 className="name-header">{name} 님</h3>
+                </div>
                 <div className="listening-main">
                     <h3 className="listening-round-m">Round 1</h3>
                     <img src={SoundIcon} alt="SoundIcon" className="sound-icon"/>
@@ -63,8 +65,10 @@ const ListeningText = ({ prepareAnswer, onSkip }) => {
                            onChange={onChange}
                            disabled={skipped}
                     />
-                    <button className="listening-btn" onClick={onSubmit} disabled={skipped}>제출</button>
-                    <button className="listening-btn" onClick={handleSkipClick} disabled={skipped}>스킵</button>
+                    <div className="listening-buttons">
+                        <button className="listening-btn" onClick={onSubmit} disabled={skipped}><span>제출</span></button>
+                        <button className="listening-btn" onClick={handleSkipClick} disabled={skipped}><span>스킵</span></button>
+                    </div>
 
                     {showModal && (
                         <div className="modal show">

@@ -1,4 +1,4 @@
-.logo-header {
+.join-header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,52 +6,120 @@
 }
 
 .logoImage-m {
-    width: 40%;
-    height: 25%;
-}
-
-.roomNum, .name {
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.logo-footer-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 60%;
     margin: 30px;
 }
 
-.startBtn {
-    width: 100px;
+.title-m {
     color: white;
-    font-size: 20px;
+    font-size: 2.5em;
+    translate: 0 -40px;
+}
+
+.box-input {
+    position: relative;
+}
+
+.border-input {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    box-shadow: -25px -10px 30px -5px rgba(225, 0, 255, 0.5),
+    25px -10px 30px -5px rgba(255, 0, 212, 0.5),
+    25px 10px 30px -5px rgba(0, 102, 255, 0.5),
+    -25px 10px 30px -5px rgba(0, 136, 121, 0.5);
+    padding: 4px;
+    margin: 70px;
+    width: 230px;
+    translate: 10px -20px;
+    border-radius: 8px;
+}
+
+.join-input {
+    background-color: #212121;
+    max-width: 222px;
+    height: 50px;
+    padding: 0 19px 0 15px;
+    font-size: 1.1em;
     font-weight: bold;
-    padding: 5px;
-    border: 3px solid #5169A2;
-    border-radius: 10px;
-    background-color: #1A1F44;
+    position: relative;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    outline: 0;
+    overflow: hidden;
 }
 
-.startBtn:hover {
-    border-color: rgb(255, 216, 0);
+.box-input::after,
+.box-input::before {
+    content: "";
+    width: 130px;
+    height: 30px;
+    position: absolute;
+    z-index: -1;
 }
 
-.inputForm {
+.box-input::after {
+    bottom: 0;
+    right: 0;
+}
+
+.box-input::before {
+    top: 0;
+    left: 0;
+}
+
+.join-input::placeholder {
+    transition: all 0.5s ease-in, transform 0.2s ease-in 0.6s;
+}
+
+.join-input:focus::placeholder {
+    padding-left: 165px;
+    transform: translateY(-50px);
+}
+
+.startBtn {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
+    font-family: Phantomsans, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1em;
+    width: 150px;
+    height: 60px;
+    padding: 5px;
+    margin-left: 100px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+    translate: 10px;
 }
 
+.startBtn:active,
+.startBtn:hover {
+    outline: 0;
+}
 
-.roomNum-input, .name-input {
-    margin: 20px;
-    padding: 5px;
-    height: 40px;
-    border-radius: 10px;
-    border: 5px solid #83B4FF;
-    translate: 0 -5px;
+.startBtn span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.startBtn:hover span {
+    background: none;
+}
+
+.startBtn:active {
+    transform: scale(0.9);
 }

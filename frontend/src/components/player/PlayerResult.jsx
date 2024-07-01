@@ -3,7 +3,7 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Q2B from "../../image/Q2BEAT_2.png";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import Q2B_back from "../../image/background-image.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerRoundResult.css'
 

@@ -13,34 +13,68 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
     color: white;
     padding: 10px;
     margin: 30px;
 }
 
-.waiting-message {
-    padding: 40px;
+.roomNum-text {
+    padding: 20px;
+    font-size: 30px;
 }
 
-.exit-button {
-    display: flex;
-    justify-content: center;
+.waiting-message {
+    padding: 30px;
+    font-size: 27px;
 }
 
 .exitBtn {
-    width: 100px;
-    color: white;
-    font-size: 20px;
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 25px;
     font-weight: bold;
+    line-height: 1em;
+    width: 150px;
+    height: 60px;
     padding: 5px;
-    margin: 30px;
-    border: 3px solid #5169A2;
-    border-radius: 10px;
-    background-color: #1A1F44;
+    margin-left: 100px;
+    margin-top: 80px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+    translate: 20px;
 }
 
+.exitBtn:active,
 .exitBtn:hover {
-    border-color: rgb(255, 216, 0);
+    outline: 0;
+}
+
+.exitBtn span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.exitBtn:hover span {
+    background: none;
+}
+
+.exitBtn:active {
+    transform: scale(0.9);
 }
 

@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import '../../css/Participant/WaitingParticipant.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import Q2B_back from "../../image/background-image.png";
 
 const PlayerWaiting = () => {
     const {socketRef, roomId, setRoomId, hostMessage, setHostMessage, sendMessage, clearPlayInformation} = useSocket();
@@ -52,19 +52,17 @@ const PlayerWaiting = () => {
 
     return (
         <div className="container-m">
-            <div className="loginBox-m">
-                <div className="waitingPart-header">
+            <div className="Box-m">
+                <div className="player-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
                     <h3 className="name-header">{name} 님</h3>
                 </div>
                 <div className="waitingPart-main">
-                    <h1>방번호 : {roomId}</h1>
+                    <h1 className="roomNum-text">방번호 : {roomId}</h1>
                     <br/>
                     <h2 className="waiting-message">게임이 곧 시작합니다.<br/>잠시만 기다려주세요.</h2>
                 </div>
-                <div className="exit-button">
-                    <button onClick={exitRoom} className="exitBtn">나가기</button>
-                </div>
+                <button onClick={exitRoom} className="exitBtn"><span>나가기</span></button>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
         </div>

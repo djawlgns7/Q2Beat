@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
-import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";;
 import { useNavigate } from "react-router-dom";
+import Timer from "../quiz/Timer.jsx";
+import NormalOptions from "../quiz/NormalOptions.jsx";
 import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import '../../css/PC.css';
 import '../../css/Host/QuizGame.css';
-import Q2B_back from "../../image/Q2Beat_background.png";
+import Q2B_back from "../../image/background-image.png";
 import TwisterQuiz from "../quiz/twister/TwisterQuiz.jsx";
 
 const QuizGame = () => {
@@ -21,7 +21,6 @@ const QuizGame = () => {
     const intervalRef = useRef(null);
     const navigate = useNavigate();
 
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -175,31 +174,28 @@ const QuizGame = () => {
         <>
             {isReady ? (
                 setting.gameMode === "NORMAL" ? (
-                    <div className="game-container">
-                        <div className="quiz-section">
-                            <div className="circle-header-game">
-                                {colors.map((color, index) => (
-                                    <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                ))}
+                    <div className="container-p">
+                        <div className="contents-box-p">
+                            <div className="quiz-main">
+                                <h2 className="quiz-title">문제 {setting.round}</h2>
+                                <h3 className="quiz-text">{quiz.normal_quiz}</h3>
+                                <Timer time={currentTime} onTimeout={handleTimeout}/>
                             </div>
-                            <h2 className="quiz-title">문제 {setting.round}</h2>
-                            <h3 className="quiz-text">{quiz.normal_quiz}</h3>
-                            <Timer time={currentTime} onTimeout={handleTimeout}/>
-                        </div>
-                        <div className="answer-section">
-                            <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
-                                           third={quiz.normal_third_choice} fourth={quiz.normal_fourth_choice}/>
+                            <div className="answer-section">
+                                <NormalOptions first={quiz.normal_first_choice} second={quiz.normal_second_choice}
+                                               third={quiz.normal_third_choice} fourth={quiz.normal_fourth_choice}/>
+                            </div>
                         </div>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                     </div>
+
                 ) : setting.gameMode === "TWISTER" ? (
                     <>
-                        <h2 className="quiz-title">문제 {setting.round}</h2>
+                        <h2 className="quiz-title">Round {setting.round}</h2>
                         <TwisterQuiz quiz={quiz} nextPlayer={nextPlayer} time={currentTime} onTimeout={handleTimeout}/>
                     </>
                 ) : setting.gameMode === "LISTENING" ? (
                     <>
-                        <h1>문제 {setting.round}</h1>
                         <ListeningQuiz quiz={quiz}/>
                     </>
                 ) : setting.gameMode === "POSE" ? (

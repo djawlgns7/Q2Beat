@@ -11,9 +11,9 @@
     --enhanced-glow-color: rgb(231, 206, 255);
     --btn-color: rgb(100, 61, 136);
     border: .25em solid var(--glow-color);
-    padding: 1em 3em;
+    padding: 1em 2.5em;
     color: var(--glow-color);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     background-color: var(--btn-color);
     border-radius: 1em;

@@ -4,7 +4,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import '../../css/Participant/JoinRoom.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import Q2B_back from "../../image/background-image.png";
 
 const JoinRoom = () => {
     const {sendMessage, roomId, clearPlayInformation} = useSocket();
@@ -43,36 +43,44 @@ const JoinRoom = () => {
 
     return (
         <div className="container-m">
-            <div className="loginBox-m">
-                <div className="logo-header">
+            <div className="Box-m">
+                <div className="join-header">
                     <img src={Q2B} alt="Q2B" className="logoImage-m"/>
                     <h1 className="title-m">Q2BEAT</h1>
                 </div>
                 <div className="inputForm">
-                    <div className="roomNum-section">
-                        <h2 className="roomNum">방 번호</h2>
-                        <input
-                            className="roomNum-input"
-                            type="number"
-                            maxLength="5"
-                            value={roomInput}
-                            onChange={(e) => setRoomInput(e.target.value)}
-                        />
+                    <div className="join-form">
+                        {/*<h2 className="join-label-text">Room No:</h2>*/}
+                        <div className="box-input">
+                            <div className="border-input">
+                                <input
+                                    className="join-input"
+                                    placeholder="roomNum"
+                                    type="text"
+                                    maxLength="5"
+                                    value={roomInput}
+                                    onChange={(e) => setRoomInput(e.target.value)}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="name-section">
-                        <h2 className="name">이름</h2>
-                        <input
-                            className="name-input"
-                            type="text"
-                            maxLength="20"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
+                    <div className="join-form">
+                        {/*<h2 className="join-label-text">이름</h2>*/}
+                        <div className="box-input">
+                            <div className="border-input">
+                                <input
+                                    className="join-input"
+                                    placeholder="name"
+                                    type="text"
+                                    maxLength="20"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="logo-footer-btn">
-                    <button onClick={joinRoom} className="startBtn">입장</button>
-                </div>
+                <button onClick={joinRoom} className="startBtn"><span>입장</span></button>
             </div>
             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
         </div>

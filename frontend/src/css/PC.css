@@ -6,6 +6,7 @@
     height: 100vh;
 }
 
+/*투명박스 없는 버전*/
 .Box-p {
     width: 1000px;
     padding: 30px;
@@ -13,6 +14,7 @@
     text-align: center;
 }
 
+/*투명박스 버전*/
 .contents-box-p {
     z-index: 0;
     width: 1000px;
