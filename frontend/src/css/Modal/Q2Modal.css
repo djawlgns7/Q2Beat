@@ -15,6 +15,6 @@
     background-color: #7a1bbd;
 }
 
-.modal-title{
-    font-weight: bold;
+.btn-close {
+    translate: 100px -10px;
 }
