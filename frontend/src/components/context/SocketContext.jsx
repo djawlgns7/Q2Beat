@@ -16,7 +16,6 @@ export const SocketProvider = ({ children }) => {
     const [hostMessage, setHostMessage] = useState('');
     const [clientMessage, setClientMessage] = useState('');
     const [quiz, setQuiz] = useState(null);  // 추가된 부분
-    const [image, setImage] = useState(null);
     const isConnected = useRef(false);
     const location = useLocation(); // 현재 경로를 가져오기 위한 훅
 
@@ -67,8 +66,6 @@ export const SocketProvider = ({ children }) => {
             } else if (msgData.startsWith("QUIZ:")) {  // 퀴즈 데이터 수신
                 const quizData = JSON.parse(msgData.split(":", 2)[1]);
                 setQuiz(quizData);
-            } else if (msgData.startsWith("IMAGE:")) {
-                setImage(msgData.split(":")[1]);
             } else {
                 setMessages((prevMessages) => [...prevMessages, msgData]);
             }
@@ -138,13 +135,11 @@ export const SocketProvider = ({ children }) => {
             clientMessage,
             socketRef,
             quiz,
-            image,
             setRoomId,
             setMessages,
             setQuizId,
             setHostMessage,
             setClientMessage,
-            setImage,
             isConnected,
             clearPlayInformation
         }}>

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -61,9 +62,9 @@ public class PoseController {
         playerService.updatePlayerImage(player);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pose/image/get")
     public byte[] getImage(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
-        return null;
+        return playerService.getPlayerImage(roomId, playerName);
     }
 
 }

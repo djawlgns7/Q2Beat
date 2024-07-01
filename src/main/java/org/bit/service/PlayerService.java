@@ -73,4 +73,8 @@ public class PlayerService {
     public void updatePlayerImage(Player player) {
         playerMapper.updatePlayerImage(player);
     }
+
+    public byte[] getPlayerImage(String roomId, String playerName) {
+        return playerMapper.getPlayerImage(roomId, playerName);
+    }
 }

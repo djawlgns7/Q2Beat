@@ -103,11 +103,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             String roomId = msgParts[0];
             String chatMessage = msgParts[1];
             broadcast(roomId, chatMessage);
-        } else if ("IMAGE".equals(command)) {
-            String[] msgParts = content.split(":", 2);
-            String roomId = msgParts[0];
-            String image = msgParts[1];
-            sendHost(roomId, image);
         }
     }
 

@@ -4,22 +4,21 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 
 const PoseRoundResult = ({roomId}) => {
 
-    const [nextPlayer, setNextPlayer, image] = useState("");
+    const [nextPlayer, setNextPlayer] = useState("");
     const [score, setScore] = useState("");
-    const [answerString, SetAnswerString] = useState("");
     const [isFetched, setIsFetched] = useState(false);
+    const [image, setImage] = useState("");
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         const player = sessionStorage.getItem("nextPlayer");
-        //const answer = sessionStorage.getItem("answerString");
-        //SetAnswerString(answer);
         setNextPlayer(player);
     }, []);
 
     useEffect(() => {
         if (nextPlayer !== "") {
             getPoseScore();
+            fetchImage();
         }
     }, [nextPlayer]);
 
@@ -41,6 +40,25 @@ const PoseRoundResult = ({roomId}) => {
         }
     }
 
+    const fetchImage = async () => {
+            try {
+                const response = await axios.get(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`, {
+                    responseType: 'arraybuffer'
+                });
+
+                const base64 = btoa(
+                    new Uint8Array(response.data).reduce(
+                        (data, byte) => data + String.fromCharCode(byte),
+                        ''
+                    )
+                );
+
+                setImage(`data:image/jpeg;base64,${base64}`);
+            } catch (error) {
+                console.error('Error fetching image:', error);
+            }
+        };
+
     return (
         <>
             {isFetched === true ? (
@@ -56,7 +74,7 @@ const PoseRoundResult = ({roomId}) => {
                         </div>
                         <div className="twister-main">
                             <h1>{nextPlayer}님의 결과</h1><br/>
-                            <img src={image} alt="Received" style={{width: '300px', height: 'auto'}}/>
+                            <img src={image} alt="Fetched from server"/>
                             <h3>유사도: {score}%</h3>
                         </div>
                     </div>

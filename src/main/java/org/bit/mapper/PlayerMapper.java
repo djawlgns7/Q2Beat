@@ -53,4 +53,7 @@ public interface PlayerMapper {
 
     @Update("update player set player_image = #{player_image} where player_name = #{player_name} and room_id = #{room_id}")
     void updatePlayerImage(Player player);
+
+    @Select("select player_image from player where room_id = #{room_id} and player_name = #{player_name}")
+    byte[] getPlayerImage(@Param("room_id") String room_id, @Param("player_name") String player_name);
 }
