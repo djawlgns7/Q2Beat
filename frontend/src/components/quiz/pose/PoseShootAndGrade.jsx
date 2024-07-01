@@ -40,6 +40,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     useEffect(() => {
         if (imageSrc !== null) {
             predictImage();
+            uploadImage();
         }
     }, [imageSrc])
 
@@ -52,11 +53,36 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
         setImageSrc(imageSrc);
-        sendImageToSocket(imageSrc);
     };
 
-    const sendImageToSocket = (imageSrc) => {
-        sendMessage(`IMAGE:${roomId}:IMAGE:${imageSrc}`);
+    const uploadImage = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("image", dataURItoBlob(imageSrc), "image.jpg");
+            formData.append("roomId", "R" + roomId);
+            formData.append("playerName", playerName);
+
+            const response = await axios.post('http://bit-two.com:8080/quiz/pose/image/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    };
+
+    const dataURItoBlob = (dataURI) => {
+        const byteString = atob(dataURI.split(',')[1]);
+        const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
     };
 
     const predictImage = async () => {

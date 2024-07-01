@@ -59,6 +59,10 @@ const RoomSetting = () => {
     }
 
     const gameStart = () => {
+        if (playerNumber === "0") {
+            alert("방에 들어와 있는 사람이 없습니다.");
+            return;
+        }
         sessionStorage.setItem('setting', JSON.stringify(setting.current));
         sendMessage(`START:${roomId}:${setting.current.gameMode}`);
         navigate("/host/game/count");

@@ -69,4 +69,8 @@ public class PlayerService {
     public String getAnswerListening(String roomId) {
         return playerMapper.getAnswerListening(roomId);
     }
+
+    public void updatePlayerImage(Player player) {
+        playerMapper.updatePlayerImage(player);
+    }
 }
