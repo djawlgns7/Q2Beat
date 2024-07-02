@@ -44,8 +44,14 @@ const PoseRoundResult = ({roomId}) => {
 
     const fetchImage = async () => {
         try {
-            const response = await axios.get(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`);
-            setImage(`data:image/jpeg;base64,${response.data}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`);
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch image');
+            }
+
+            const data = await response.text();
+            setImage(`data:image/jpeg;base64,${data}`);
         } catch (error) {
             console.error("Error fetching image:", error);
             setError("Failed to load image");
@@ -67,7 +73,8 @@ const PoseRoundResult = ({roomId}) => {
                         </div>
                         <div className="twister-main">
                             <h1>{nextPlayer}님의 결과</h1><br/>
-                            {error ? <p>{error}</p> : (image ? <img src={image} alt="Fetched from DB"/> : <p>Loading...</p>)}
+                            {error ? <p>{error}</p> : (image ? <img src={image} alt="Fetched from DB"/> :
+                                <p>Loading...</p>)}
                             <h3>유사도: {score}%</h3>
                         </div>
                     </div>

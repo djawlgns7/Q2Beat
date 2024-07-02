@@ -62,12 +62,17 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
             formData.append("roomId", "R" + roomId);
             formData.append("playerName", playerName);
 
-            const response = await axios.post('http://bit-two.com:8080/quiz/pose/image/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            const response = await fetch('http://bit-two.com:8080/quiz/pose/image/upload', {
+                method: 'POST',
+                body: formData
             });
 
+            if (!response.ok) {
+                throw new Error('Failed to upload image');
+            }
+
+            const result = await response.json();
+            console.log(result);
 
         } catch (error) {
             console.error('Error uploading image:', error);
@@ -82,7 +87,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
         for (let i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
         }
-        return new Blob([ab], { type: mimeString });
+        return new Blob([ab], {type: mimeString});
     };
 
     const predictImage = async () => {
@@ -90,7 +95,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
             const img = new Image();
             img.src = imageSrc;
             img.onload = async () => {
-                const { pose, posenetOutput } = await model.estimatePose(img);
+                const {pose, posenetOutput} = await model.estimatePose(img);
                 const prediction = await model.predict(posenetOutput);
                 const targetPrediction = prediction.find(p => p.className === targetPose);
                 if (targetPrediction) {
