@@ -256,6 +256,7 @@ public class QuizController {
 
     @GetMapping("/player/score/update")
     public boolean updatePlayerScore(@ModelAttribute Player player) {
+        player.setPlayer_team_id(0);
         return playerService.updatePlayerScore(player);
     }
 
