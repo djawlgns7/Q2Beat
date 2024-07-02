@@ -7,9 +7,11 @@ import '../../css/Participant/PlayerRoundResult.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/background-image.png";
 import ListeningPlayerRoundResult from "../quiz/listening/ListeningPlayerRoundResult.jsx";
+import TwisterPlayerRoundResult from "../quiz/twister/TwisterPlayerRoundResult.jsx";
+import PosePlayerRoundResult from "../quiz/pose/PosePlayerRoundResult.jsx";
 
 const PlayerRoundResult = () => {
-    const {hostMessage, setHostMessage} = useSocket();
+    const {hostMessage, setHostMessage, roomId} = useSocket();
     const [isReady, setIsReady] = useState(false);
     const [roundResult, setRoundResult] = useState("");
     const [playerScore, setPlayerScore] = useState("");
@@ -75,17 +77,7 @@ const PlayerRoundResult = () => {
 
                 ) : gameMode.current === "TWISTER" ? (
                     // 잰말놀이
-                    <div className="container-m">
-                        <div className="loginBox-m">
-                            <div className="player-header">
-                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                                <PlayerTop playerName={playerName.current}/>
-                            </div>
-                            <h1 className="twister-player-roundResult">{playerName.current}님의 점수는 <br/><br/>{playerScore}점 입니다!</h1>
-                        </div>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
-                    </div>
-
+                    <TwisterPlayerRoundResult roomId={roomId} />
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>
@@ -93,7 +85,7 @@ const PlayerRoundResult = () => {
                     </>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                    <PosePlayerRoundResult roomId={roomId} />
                 ) : (
                     <h1>오류 발생</h1>
                 )

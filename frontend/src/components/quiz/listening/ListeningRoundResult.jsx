@@ -17,7 +17,7 @@ const ListeningRoundResult = ({ correctAnswer }) => {
     useEffect(() => {
         const fetchRoundResult = async () => {
             try {
-                const response = await fetch(`/quiz/get/round/result/listening?roomId=${roomId}&correctAnswer=${correctAnswer}`);
+                const response = await fetch(`http://bit-two.com:8080/quiz/get/round/result/listening?roomId=${roomId}&correctAnswer=${correctAnswer}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch round result');
                 }

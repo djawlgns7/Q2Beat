@@ -27,7 +27,7 @@ const QuizResult = () => {
 
     const fetchPlayersRank = async () => {
         try {
-            const response = await fetch(`/quiz/get/players/rank/list?roomId=${roomId}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/get/players/rank/list?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -40,7 +40,7 @@ const QuizResult = () => {
 
     const clearHistory = async () => {
         try {
-            const response = await fetch(`/quiz/reset/room?roomId=${roomId}`);
+            const response = await fetch(`http://bit-two.com:8080/quiz/reset/room?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to clear room history');
             }
@@ -78,7 +78,11 @@ const QuizResult = () => {
                                             </>)}
                                         <span className="index-player">{index + 1}등 &nbsp;</span>
                                         <span className="index-player">{player.player_name} &nbsp;</span>
-                                        <span className="index-player">{player.player_score}점</span>
+                                        {setting.gameMode === "TWISTER" || setting.gameMode === "POSE" ?
+                                            <span className="index-player">{player.player_score / 100}%</span>
+                                            :
+                                            <span className="index-player">{player.player_score}점</span>
+                                        }
                                     </li>
                                 ))}
                             </ul>

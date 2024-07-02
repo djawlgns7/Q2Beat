@@ -5,6 +5,7 @@ import '../../css/PC.css'
 import '../../css/Host/RoomSetting.css'
 import Q2B_back from "../../image/background-image.png";
 import React from "react";
+import BackgroundVideo from "../BackgroundVideo.jsx";
 
 const RoomSetting = () => {
     const {sendMessage, roomId} = useSocket();
@@ -42,8 +43,9 @@ const RoomSetting = () => {
             setting.current = {
                 gameMode: "POSE",
                 round: 1,
-                maxRound: 10,
-                timeLimit: 30
+                maxRound: playerNumber,
+                timeLimit: 15,
+                level: "NORMAL"
             }
         }
     }, [gameType]);
@@ -57,8 +59,12 @@ const RoomSetting = () => {
     }
 
     const gameStart = () => {
+        if (playerNumber === "0") {
+            alert("방에 들어와 있는 사람이 없습니다.");
+            return;
+        }
         sessionStorage.setItem('setting', JSON.stringify(setting.current));
-        sendMessage(`START:${roomId}:${setting.current.gameMode}:${setting.current.category}`);
+        sendMessage(`START:${roomId}:${setting.current.gameMode}`);
         navigate("/host/game/count");
     }
 
@@ -73,13 +79,15 @@ const RoomSetting = () => {
                     case '0':
                         return (
                             <div className="container-p">
+                                <BackgroundVideo/>
                                 <div className="contents-box-p">
                                     <div className="label-section-three">
                                         <label className="roomSetting-label">카테고리
                                             <select onChange={selectChange} className="roomSetting-select"
                                                     defaultValue={"Category COMMON"}>
                                                 <option value="category COMMON">상식</option>
-                                                <option value="category COUNTRY">나라</option>
+                                                <option value="category SPORTS">스포츠</option>
+                                                <option value="category IT">IT 상식</option>
                                             </select>
                                         </label>
                                         <label className="roomSetting-label">제한 시간
@@ -106,12 +114,12 @@ const RoomSetting = () => {
                                         <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                                     </div>
                                 </div>
-                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
                     case '1':
                         return (
                             <div className="container-p">
+                                <BackgroundVideo/>
                                 <div className="contents-box-p">
                                     <div className="label-section">
                                         <label className="roomSetting-label">카테고리
@@ -137,12 +145,13 @@ const RoomSetting = () => {
                                         <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                                     </div>
                                 </div>
-                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
+
                     case '2':
                         return (
                             <div className="container-p">
+                                <BackgroundVideo/>
                                 <div className="contents-box-p">
                                     <div className="label-section">
                                         <label className="roomSetting-label">라운드 수
@@ -164,22 +173,25 @@ const RoomSetting = () => {
                                         <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                                     </div>
                                 </div>
-                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
                     case '3':
                         return (
                             <div className="container-p">
+                                <BackgroundVideo/>
                                 <div className="contents-box-p">
                                     <div className="label-section">
-                                        <label className="roomSetting-label">제한시간
-                                            <select onChange={selectChange} className="roomSetting-select">
-                                                <option>30초</option>
+                                        <label className="roomSetting-label round-count-label">라운드 수
+                                            <select className="roomSetting-select round-count" disabled={true}>
+                                                <option>{playerNumber}</option>
                                             </select>
                                         </label>
-                                        <label className="roomSetting-label">라운드 수
-                                            <select onChange={selectChange} className="roomSetting-select">
-                                                <option>10라운드</option>
+                                        <label className="roomSetting-label">난이도
+                                            <select onChange={selectChange} className="roomSetting-select"
+                                                    defaultValue={"level NORMAL"} disabled={true}>
+                                                <option value={"level EASY"}>쉬움</option>
+                                                <option value={"level NORMAL"}>보통</option>
+                                                <option value={"level HARD"}>어려움</option>
                                             </select>
                                         </label>
                                     </div>
@@ -188,7 +200,6 @@ const RoomSetting = () => {
                                         <button onClick={exitButton} className="roomSetting-btn">나가기</button>
                                     </div>
                                 </div>
-                                <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
                             </div>
                         )
                 }

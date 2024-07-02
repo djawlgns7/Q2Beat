@@ -27,6 +27,12 @@ const PlayerWaiting = () => {
             sessionStorage.setItem('playerName', name);
             sessionStorage.setItem('round', "1");
 
+            if(hostMessage === "TWISTER") {
+                requestAudio();
+            } else if (hostMessage === "POSE") {
+                requestCamera();
+            }
+
             navigate("/player/game/count");
             setHostMessage("");
         } else if (hostMessage === "DISMISS") {
@@ -47,6 +53,22 @@ const PlayerWaiting = () => {
         const reply = confirm("방을 나가시겠습니까?");
         if (reply) {
             exit();
+        }
+    }
+
+    const requestAudio = async () => {
+        try {
+            await navigator.mediaDevices.getUserMedia({audio: true});
+        } catch (error) {
+            console.error('MicroPhone permission denied: ', error);
+        }
+    }
+
+    const requestCamera = async () => {
+        try {
+            await navigator.mediaDevices.getUserMedia({video: true});
+        } catch (error) {
+            console.error('Camera permission denied: ', error);
         }
     }
 

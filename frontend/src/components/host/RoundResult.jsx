@@ -7,6 +7,7 @@ import backImage from "../../image/background-image.png";
 import ListeningRoundResult from "../quiz/listening/ListeningRoundResult.jsx";
 import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
 import TwisterRoundResult from "../quiz/twister/TwisterRoundResult.jsx";
+import PoseRoundResult from "../quiz/pose/PoseRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -64,8 +65,9 @@ const RoundResult = () => {
     useEffect(() => {
         if (currentTime === 0) {
             clearInterval(intervalRef.current);
+            sessionStorage.removeItem("answerString");
 
-            if (setting.round >= setting.maxRound) {
+            if (setting.round > setting.maxRound) {
                 sendMessage(`MESSAGE:${roomId}:HOST:GAMEEND`);
 
                 navigate("/host/game/result");
@@ -104,7 +106,7 @@ const RoundResult = () => {
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                    <PoseRoundResult roomId={roomId}/>
                 ) : (
                     <h1>오류 발생</h1>
                 )

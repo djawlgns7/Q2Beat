@@ -147,6 +147,18 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    private void sendHost (String roomId, String message) throws Exception {
+        if (rooms.containsKey(roomId)) {
+            for (WebSocketSession session : rooms.get(roomId)) {
+                String name = sessionNameMap.get(session);
+
+                if (name.startsWith("(HOST)") && session.isOpen()) {
+                    session.sendMessage(new TextMessage(message));
+                }
+            }
+        }
+    }
+
     private String generateRoomId() {
         int roomId = (int) (Math.random() * 99999 + 1);
 

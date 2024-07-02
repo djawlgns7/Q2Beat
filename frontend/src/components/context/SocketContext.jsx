@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import SockJS from 'sockjs-client'
 
 const SocketContext = createContext();
 
@@ -6,7 +8,7 @@ export const useSocket = () => {
     return useContext(SocketContext);
 };
 
-export const SocketProvider = ({children}) => {
+export const SocketProvider = ({ children }) => {
     const socketRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [roomId, setRoomId] = useState(sessionStorage.getItem('roomId') || null);
@@ -15,9 +17,10 @@ export const SocketProvider = ({children}) => {
     const [clientMessage, setClientMessage] = useState('');
     const [quiz, setQuiz] = useState(null);  // 추가된 부분
     const isConnected = useRef(false);
+    const location = useLocation(); // 현재 경로를 가져오기 위한 훅
 
     const connectWebSocket = () => {
-        const socket = new WebSocket('ws://localhost:8080/ws');
+        const socket = new SockJS('http://bit-two.com:8080/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
@@ -57,9 +60,9 @@ export const SocketProvider = ({children}) => {
             } else if (msgData.startsWith("QUIZID:")) {
                 setQuizId(msgData.split(":")[1]);
             } else if (msgData.startsWith("HOST:")) {
-                setHostMessage(msgData.split(":")[1]);
+                setHostMessage(msgData.split(":", 2)[1]);
             } else if (msgData.startsWith("PLAYER:")) {
-                setClientMessage(msgData.split(":")[1]);
+                setClientMessage(msgData.split(":", 2)[1]);
             } else if (msgData.startsWith("QUIZ:")) {  // 퀴즈 데이터 수신
                 const quizData = JSON.parse(msgData.split(":", 2)[1]);
                 setQuiz(quizData);
@@ -70,6 +73,7 @@ export const SocketProvider = ({children}) => {
 
         socket.onclose = () => {
             console.log('Disconnected from WebSocket server. Trying to reconnect');
+            isConnected.current = false;
         };
 
         socket.onerror = (error) => {
@@ -94,8 +98,10 @@ export const SocketProvider = ({children}) => {
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
-            event.preventDefault();
-            event.returnValue = '';  // Chrome requires returnValue to be set.
+            if (location.pathname !== '/host/game/create' && location.pathname !== '/host/game/join') {  // 특정 페이지를 확인
+                event.preventDefault();
+                event.returnValue = '';  // Chrome requires returnValue to be set.
+            }
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -103,7 +109,7 @@ export const SocketProvider = ({children}) => {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, []);
+    }, [location]);
 
     const sendMessage = (message) => {
         if (socketRef.current) {
@@ -117,10 +123,6 @@ export const SocketProvider = ({children}) => {
         sessionStorage.removeItem('gameMode');
         sessionStorage.removeItem('isCorrect');
         sessionStorage.removeItem('playerScore');
-    }
-
-    const clearRoomIdAndName = () => {
-
     }
 
     return (

@@ -1,52 +1,65 @@
 import {useSocket} from "../../context/SocketContext.jsx";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import mic_icon from '../../../image/free-icon-mic.png'
 import Q2B_back from "../../../image/Q2Beat_background.png";
+import TwisterRecordAndGrade from "./TwisterRecordAndGrade.jsx";
 
-const TwisterAnswer = ({myTurn, playerName, currentPlayer}) => {
-
-    const {hostMessage, setHostMessage, roomId, quizId} = useSocket();
-    const score = useRef(null);
+const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber, currentPlayer}) => {
+    const {roomId, quizId} = useSocket();
+    const [stage, setStage] = useState(false);
+    const [questionString, setQuestionString] = useState("");
 
     useEffect(() => {
-        if (hostMessage === "ROUNDEND") {
-            if (myTurn) {
-                updateScore();
-                sessionStorage.setItem("playerScore", score.current);
-            }
-            setHostMessage("");
-        }
-    }, [hostMessage]);
 
-    const updateScore = async () => {
+        setTimeout(() => {
+            setStage(true);
+            console.log("Stage set to true");
+        }, 3000);
+    }, []);
+
+    useEffect(() => {
+        getQuestionString();
+    }, [quizId]);
+
+    const getQuestionString = async () => {
         try {
-            const response = await fetch(`/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${score.current}`, {});
+            const response = await fetch(`http://bit-two.com:8080/quiz/twister/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');
             }
 
+            const data = await response.json();
+
+            setQuestionString(data.twister_quiz);
+            console.log('퀴즈: ', data.twister_quiz);
         } catch (error) {
-            console.error('Error clear room history:', error);
+            console.error(error);
         }
     }
 
     return (
         <>
-            {myTurn === true ? (
-                <>
-                    <h1>여기에 희망하는 점수를 입력(임시)</h1>
-                    <input type={"number"} onChange={(e) => score.current = e.target.value}/><br/>
-                    <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
-                    <h3>당신 차례입니다!</h3>
-                </>
+            {stage ? (
+                playerName === currentPlayer ? (
+                    <>
+                        <TwisterRecordAndGrade questionString={questionString} roomId={roomId} playerName={playerName}
+                                               isRecording={isRecording} setIsRecording={setIsRecording}
+                                               roundNumber={roundNumber}/>
+                        <h3>당신 차례입니다!</h3>
+                    </>
+                ) : (
+                    <>
+                        <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
+                        <h3>{currentPlayer}님 차례입니다.</h3>
+                    </>
+                )
             ) : (
                 <>
                     <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
                     <h3>{currentPlayer}님 차례입니다.</h3>
                 </>
             )}
-
         </>
     )
 }

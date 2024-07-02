@@ -228,6 +228,7 @@ public class QuizController {
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/player/available")
     public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
         String roomNumber = "R" + roomId;
@@ -238,7 +239,12 @@ public class QuizController {
         size = playerList.size();
         index = (int) (Math.random() * size);
 
-        return playerList.get(index).getPlayer_name();
+        Player selectedPlayer = playerList.get(index);
+        selectedPlayer.setPlayer_team_id(0);
+
+        playerService.updatePlayerTeam(selectedPlayer);
+
+        return selectedPlayer.getPlayer_name();
     }
 
     @GetMapping("/player/score")
@@ -276,4 +282,19 @@ public class QuizController {
     }
 
 
+
+    @GetMapping("/player/name/available")
+    public boolean isAvailableName(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
+        boolean result = true;
+
+        List<Player> playerList = playerService.getAvailablePlayerList(roomId);
+
+        for (Player player : playerList) {
+            if (player.getPlayer_name().equals(playerName)) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
 }

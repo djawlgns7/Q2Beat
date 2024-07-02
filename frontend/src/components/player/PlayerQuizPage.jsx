@@ -10,23 +10,24 @@ import Q2B_back from "../../image/background-image.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerQuizPage.css'
 import '../../css/Quiz/Twister/TwisterAnswer.css'
+import PoseAnswer from "../quiz/pose/PoseAnswer.jsx";
 
 const PlayerQuizPage = () => {
-    const {sendMessage, hostMessage, setHostMessage, quizId} = useSocket();
+    const {sendMessage, hostMessage, setHostMessage, quizId, clientMessage, setClientMessage} = useSocket();
     const [isReady, setIsReady] = useState(false);
-    const [myTurn, setMyTurn] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
+    const [isRecording, setIsRecording] = useState(false);
     const gameMode = useRef("");
     const playerName = useRef("");
     const answer = useRef("");
     const navigate = useNavigate();
-    const roundNumber = useRef("");
+    const roundNumber = useRef(0);
     const roomId = useRef("");
 
     useEffect(() => {
         playerName.current = sessionStorage.getItem("playerName");
         gameMode.current = sessionStorage.getItem("gameMode");
-        roundNumber.current = sessionStorage.getItem("round");
+        roundNumber.current = Number(sessionStorage.getItem("round"));
         roomId.current = sessionStorage.getItem("roomId");
 
         setIsReady(true);
@@ -51,16 +52,40 @@ const PlayerQuizPage = () => {
                     sessionStorage.setItem("round", roundNumber.current + 1);
                     navigate("/player/game/round/result");
                 }, 500);
-            }
+            } else if (!isRecording && gameMode.current !== "POSE") {
+                sendAnswer(gameMode.current);
+                setHostMessage("");
 
-        } else if (hostMessage === playerName.current) {
-            setMyTurn(true);
-            setHostMessage("");
-        } else {
-            setCurrentPlayer(hostMessage);
+                setTimeout(() => {
+                    sessionStorage.setItem("round", String(roundNumber.current + 1));
+                    navigate("/player/game/round/result");
+                }, 500);
+            }
+        } else if (hostMessage.startsWith("NEXTPLAYER-")) {
+            setCurrentPlayer(hostMessage.split("-")[1]);
+            sessionStorage.setItem("currentPlayer", hostMessage.split("-")[1]);
             setHostMessage("");
         }
+
+        setHostMessage("");
     }, [hostMessage]);
+
+    useEffect(() => {
+
+        if (clientMessage === "RECORDSTART") {
+            setIsRecording(true);
+        } else if (clientMessage === "RECORDSTOP") {
+            setIsRecording(false);
+        } else if (clientMessage === "ROUNDEND") {
+            setTimeout(() => {
+                setClientMessage("");
+                sessionStorage.setItem("round", roundNumber.current + 1);
+                navigate("/player/game/round/result");
+            }, 500);
+        }
+
+        setClientMessage("");
+    }, [clientMessage]);
 
     const prepareAnswer = async (inputAnswer) => {
         console.log("prepareAnswer : " + inputAnswer);
@@ -78,9 +103,9 @@ const PlayerQuizPage = () => {
     const sendAnswer = async (gameMode) => {
         if (gameMode === "NORMAL") {
             gameMode = "normal";
-        }else if (gameMode === "LISTENING") {
+        } else if (gameMode === "LISTENING") {
             gameMode = "listening";
-        }else {
+        } else {
             return;
         }
 
@@ -161,7 +186,8 @@ const PlayerQuizPage = () => {
                                 </div>
                                 <div className="twister-answer">
                                     <h1 className="quiz-round">Round {roundNumber.current}</h1>
-                                    <TwisterAnswer myTurn={myTurn} playerName={playerName.current} currentPlayer={currentPlayer}/>
+                                    <TwisterAnswer playerName={playerName.current} isRecording={isRecording}
+                                       setIsRecording={setIsRecording} roundNumber={roundNumber.current} currentPlayer={currentPlayer}/>
                                 </div>
                             </div>
 
@@ -173,7 +199,19 @@ const PlayerQuizPage = () => {
                     <ListeningText prepareAnswer={prepareAnswer} onSkip={handleSkip}/>
                 ) : gameMode.current === "POSE" ? (
                     // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                    <div className="container-m">
+                        <div className="loginBox-m">
+                            <div className="player-header">
+                                <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                                <PlayerTop playerName={playerName.current}/>
+                            </div>
+                            <div className="twister-answer">
+                                <h1 className="quiz-round">Round {roundNumber.current}</h1>
+                                <PoseAnswer playerName={playerName.current} roundNumber={roundNumber.current} currentPlayer={currentPlayer}/>
+                            </div>
+                        </div>
+                        <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+                    </div>
                 ) : (
                     <h1>오류 발생</h1>
                 )

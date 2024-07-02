@@ -11,6 +11,7 @@ public class Player {
     private int player_score;
     private boolean isCorrect;
     private boolean isSkipped;
+    private byte[] player_image;
 
     public Player() {
 

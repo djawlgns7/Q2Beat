@@ -31,6 +31,10 @@ import AudioRecorder from "./components/test/AudioRecorder.jsx";
 import ListeningRoundResult from "./components/quiz/listening/ListeningRoundResult.jsx";
 import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPlayerRoundResult.jsx";
 import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
+import CompareStrings from "./components/test/CompareStrings.jsx";
+import ImageGame from "./components/test/ImageGame.jsx";
+import MotionGame from "./components/test/MotionGame.jsx";
+import PosePrediction from "./components/test/PosePrediction.jsx";
 
 function App() {
     return (
@@ -52,6 +56,9 @@ function App() {
                     <Route path="/notices" element={<Notice/>}/>
                     <Route path="/qna" element={<Qna/>}/>
                     <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
+                    <Route path="/compare" element={<CompareStrings/>}/>
+                    <Route path="/image/game" element={<ImageGame/>}/>
+                    <Route path="/pose/game" element={<PosePrediction/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
