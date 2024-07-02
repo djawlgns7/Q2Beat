@@ -23,7 +23,7 @@ public interface PlayerMapper {
     @Update("update player set player_team_id = #{player_team_id} where room_id = #{room_id} and player_name = #{player_name}")
     boolean updatePlayerTeam(Player player);
 
-    @Update("update player set player_score = #{player_score}, player_team_id = #{player_team_id} where room_id = #{room_id} and player_name = #{player_name}")
+    @Update("update player set player_score = #{player_score} where room_id = #{room_id} and player_name = #{player_name}")
     boolean updatePlayerScore(Player player);
 
     @Update("UPDATE player SET player_recent_answer = #{player_recent_answer} WHERE room_id = #{room_id} AND player_name = #{player_name}")

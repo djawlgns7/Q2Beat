@@ -244,7 +244,12 @@ public class QuizController {
         size = playerList.size();
         index = (int) (Math.random() * size);
 
-        return playerList.get(index).getPlayer_name();
+        Player selectedPlayer = playerList.get(index);
+        selectedPlayer.setPlayer_team_id(0);
+
+        playerService.updatePlayerTeam(selectedPlayer);
+
+        return selectedPlayer.getPlayer_name();
     }
 
     @GetMapping("/player/score")
@@ -256,7 +261,6 @@ public class QuizController {
 
     @GetMapping("/player/score/update")
     public boolean updatePlayerScore(@ModelAttribute Player player) {
-        player.setPlayer_team_id(0);
         return playerService.updatePlayerScore(player);
     }
 
