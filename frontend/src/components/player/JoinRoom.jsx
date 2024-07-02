@@ -78,9 +78,7 @@ const JoinRoom = () => {
             }
 
             const result = await response.text();
-            console.log(result);
             if (result === "true") {
-                console.log("트루");
                 isAvailable.current = true;
             }
         } catch (error) {

@@ -9,7 +9,7 @@ const PoseQuiz = ({quiz, nextPlayer}) => {
     const [stage, setStage] = useState(false);
 
     useEffect(() => {
-        // setTimeout(() => setStage(true), 3000);
+        setTimeout(() => setStage(true), 3000);
     }, [])
 
     return (

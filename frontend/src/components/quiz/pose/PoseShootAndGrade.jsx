@@ -71,9 +71,6 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
                 throw new Error('Failed to upload image');
             }
 
-            const result = await response.json();
-            console.log(result);
-
         } catch (error) {
             console.error('Error uploading image:', error);
         }
@@ -119,7 +116,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
             }
 
             setTimeout(() => {
-                // sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
+                sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
             }, 300);
         } catch (error) {
             console.error('Error clear room history:', error);
