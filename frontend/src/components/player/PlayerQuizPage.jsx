@@ -17,7 +17,6 @@ import PoseAnswer from "../quiz/pose/PoseAnswer.jsx";
 const PlayerQuizPage = () => {
     const {sendMessage, hostMessage, setHostMessage, quizId, clientMessage, setClientMessage} = useSocket();
     const [isReady, setIsReady] = useState(false);
-    const [myTurn, setMyTurn] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [isRecording, setIsRecording] = useState(false);
     const gameMode = useRef("");
@@ -185,7 +184,7 @@ const PlayerQuizPage = () => {
                             </div>
                             <div className="twister-answer">
                                 <h1 className="quiz-round">Round {roundNumber.current}</h1>
-                                <PoseAnswer playerName={playerName.current} roundNumber={roundNumber.current}/>
+                                <PoseAnswer playerName={playerName.current} roundNumber={roundNumber.current} currentPlayer={currentPlayer}/>
                             </div>
                         </div>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>

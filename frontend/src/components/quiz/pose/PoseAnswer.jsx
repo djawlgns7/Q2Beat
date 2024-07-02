@@ -4,15 +4,12 @@ import mic_icon from '../../../image/free-icon-mic.png'
 import Q2B_back from "../../../image/Q2Beat_background.png";
 import PoseShootAndGrade from "./PoseShootAndGrade.jsx";
 
-const PoseAnswer = ({playerName, roundNumber}) => {
+const PoseAnswer = ({playerName, roundNumber, currentPlayer}) => {
     const {roomId, quizId} = useSocket();
     const [stage, setStage] = useState(false);
-    const [currentPlayer, setCurrentPlayer] = useState("");
     const [poseQuiz, setPoseQuiz] = useState("");
 
     useEffect(() => {
-
-        setTimeout(() => setCurrentPlayer(sessionStorage.getItem("currentPlayer")), 300);
 
         setTimeout(() => {
             setStage(true);
