@@ -109,19 +109,17 @@ const Lobby = () => {
                 </div>
 
                 <div className="lobby-main">
-                    {/*플레이어 리스트 박스*/}
+                    {/*플레이어 박스*/}
                     <div className="left-section">
                         <div className="player-box">
-                            <div className="player-box-info">
-                                <div className="players">
-                                    {participants.map((participant, index) => (
-                                        <div key={index} className="player">{participant.player_name}</div>
-                                    ))}
-                                </div>
+                            <div className="players">
+                                {participants.map((participant, index) => (
+                                    <div key={index} className="player">{participant.player_name}</div>
+                                ))}
                             </div>
                         </div>
                     </div>
-                    {/*게임 리스트 박스*/}
+                    {/*게임 박스*/}
                     <div className="right-section">
                         <div className="game-options">
                             <div className="option-box">

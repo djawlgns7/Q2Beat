@@ -161,6 +161,10 @@
     }
 }
 
+.roomSetting-label .level {
+    translate: 17px;
+}
+
 /*.roomSetting-btn-exit {*/
 /*    padding: 10px;*/
 /*    margin: 30px;*/

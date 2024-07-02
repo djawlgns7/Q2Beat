@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
 import '../../../css/PC.css'
 import '../../../css/Quiz/Twister/TwisterQuiz.css'
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 
 const TwisterQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
 
@@ -24,7 +24,7 @@ const TwisterQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
         <>
             <div className="container-p">
                 <div className="contents-box-p">
-                    <h2 className="quiz-title">Round {setting.round}</h2>
+                    <h2 className="twister-title">Round {setting.round}</h2>
                     <div className="twister-main">
                         {stage === false ? (
                             <h1 className="twister-quiz-player">
@@ -32,10 +32,14 @@ const TwisterQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
                             </h1>
                         ) : (
                             <div className="twister-quiz-content">
-                                <div className="twister-quiz-text">
-                                    {quiz.twister_quiz}
+                                <div className="twister-quiz-text-box">
+                                    <div className="twister-quiz-text">
+                                        {quiz.twister_quiz}
+                                    </div>
                                 </div>
-                                <Timer time={time} onTimeout={onTimeout}/>
+                                <div className="twister-timer">
+                                    <Timer time={time} onTimeout={onTimeout}/>
+                                </div>
                             </div>
                         )
                         }

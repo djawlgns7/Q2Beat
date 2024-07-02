@@ -191,7 +191,6 @@ const QuizGame = () => {
 
                 ) : setting.gameMode === "TWISTER" ? (
                     <>
-                        <h2 className="quiz-title">Round {setting.round}</h2>
                         <TwisterQuiz quiz={quiz} nextPlayer={nextPlayer} time={currentTime} onTimeout={handleTimeout}/>
                     </>
                 ) : setting.gameMode === "LISTENING" ? (

@@ -151,62 +151,95 @@
 
 
 .player-box {
-    --background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);
-    background: #fc00ff;
-    background: var(--background);
-    z-index: 1;
-    position: relative;
-    overflow: visible;
-    padding: 10px 10px;
-    border-radius: 1rem;
+    /*--background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);*/
+    /*background: #fc00ff;*/
+    /*background: var(--background);*/
+    /*z-index: 1;*/
+    /*position: relative;*/
+    /*overflow: visible;*/
+    /*padding: 10px 10px;*/
+    /*border-radius: 1rem;*/
     height: 350px;
     width: 280px;
     translate: 10px 40px;
+    background: #100720;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    position: relative;
+    overflow: scroll;
+    border-radius: 20px;
+    z-index: 1;
+
+}
+
+.player-box::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(255, 48, 255));
+    height: 130%;
+    animation: rotBGimg 3s linear infinite;
+    transition: all 0.2s linear;
+}
+
+@keyframes rotBGimg {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .player-box::after {
+    /*position: absolute;*/
+    /*content: "";*/
+    /*top: 30px;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*z-index: -1;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*transform: scale(0.8);*/
+    /*filter: blur(25px);*/
+    /*background: #fc00ff;*/
+    /*background: var(--background);*/
+    /*transition: opacity .5s;*/
+    content: '';
     position: absolute;
-    content: "";
-    top: 30px;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    height: 100%;
-    width: 100%;
-    transform: scale(0.8);
-    filter: blur(25px);
-    background: #fc00ff;
-    background: var(--background);
-    transition: opacity .5s;
+    background: #100720;
+    inset: 5px;
+    border-radius: 15px;
 }
 
-.player-box-info {
-    --color: #181818;
-    background: var(--color);
-    color: var(--color);
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    border-radius: .7rem;
-}
 
-.player-box:hover::after {
-    opacity: 0;
-}
+/*.player-box-info {*/
+/*    --color: #181818;*/
+/*    background: var(--color);*/
+/*    color: var(--color);*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    border-radius: .7rem;*/
+/*}*/
 
 .players {
     padding: 10px;
+    z-index: 1;
 }
 
 .player {
     text-align: center;
-    margin: 10px;
     border: 8px solid white;
     background-color: rgb(231, 206, 255);
     border-radius: 15px;
     font-size: 20px;
     font-weight: bold;
     color: black;
+    padding: 0 60px;
+    margin: 10px;
 }
 
 .right-section {

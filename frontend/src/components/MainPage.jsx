@@ -29,10 +29,22 @@ const MainPage = () => {
                 </div>
 
                 <div className="main-btns">
-                    <button className="main-button" onClick={() => navigate('/host/game/create')}>Create Room</button>
-                    <button className="main-button" onClick={() => navigate('/host/game/create')}>Create Quiz</button>
+                    <button className="main-button" onClick={() => navigate('/host/game/create')}>
+                        <div className="btn-int">
+                            <span className="btn_span">Create Room</span>
+                        </div>
+                    </button>
+                    <button className="main-button" onClick={() => navigate('/host/game/create')}>
+                        <div className="btn-int">
+                            <span className="btn_span">Create Quiz</span>
+                        </div>
+                    </button>
                 </div>
-                <button className="main-button logout-button" onClick={handleLogout}>Logout</button>
+                <button className="main-button logout-button" onClick={handleLogout}>
+                    <div className="btn-int">
+                        <span className="btn-span">Logout</span>
+                    </div>
+                </button>
             </div>
         </div>
     );

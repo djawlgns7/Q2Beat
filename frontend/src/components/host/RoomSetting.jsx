@@ -13,8 +13,6 @@ const RoomSetting = () => {
     const setting = useRef(null);
     const playerNumber = sessionStorage.getItem('playerNumber');
 
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
-
     useEffect(() => {
         if (gameType === "0") {
             setting.current = {
@@ -152,8 +150,8 @@ const RoomSetting = () => {
                                                 <option>{playerNumber}</option>
                                             </select>
                                         </label>
-                                        <label className="roomSetting-label">난이도
-                                            <select onChange={selectChange} className="roomSetting-select"
+                                        <label className="roomSetting-label level">난이도
+                                            <select onChange={selectChange} className="roomSetting-select level"
                                                     defaultValue={"level NORMAL"}>
                                                 <option value={"level EASY"}>쉬움</option>
                                                 <option value={"level NORMAL"}>보통</option>
