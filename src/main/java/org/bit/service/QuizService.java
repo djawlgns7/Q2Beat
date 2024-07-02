@@ -32,7 +32,7 @@ public class QuizService {
 
     public QuizListening getQuizListening(int listeningId) {return quizMapper.getQuizListening(listeningId);}
 
-    public List<Integer> getListeningQuizNumberList() {return quizMapper.getListeningQuizNumberList();}
+    public List<Integer> getListeningQuizNumberListByCategory(int category) {return quizMapper.getListeningQuizNumberListByCategory(category);}
 
     public List<Integer> getAllQuizListeningIds() {
         return quizMapper.getAllQuizListeningIds();

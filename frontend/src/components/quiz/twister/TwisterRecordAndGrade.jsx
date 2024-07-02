@@ -4,10 +4,11 @@ import {useSocket} from "../../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording, setIsRecording, roundNumber}) => {
-    const {hostMessage, sendMessage} = useSocket();
+    const {hostMessage, sendMessage, setClientMessage} = useSocket();
     const [isRecorded, setIsRecorded] = useState(false);
     const [answerString, setAnswerString] = useState('');
     const [similarity, setSimilarity] = useState('');
+    const [recordState, setRecordState] = useState(false);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
     const shouldNavigate = useRef(false);
@@ -71,13 +72,13 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
         sendMessage(`MESSAGE:${roomId}:PLAYER:RECORDSTART`);
         mediaRecorderRef.current.start();
         setIsRecording(true);
+        setRecordState(true);
     };
 
     const handleStopRecording = () => {
-        sendMessage(`MESSAGE:${roomId}:PLAYER:RECORDSTOP`);
         mediaRecorderRef.current.stop();
-        setIsRecording(false);
         setIsRecorded(true);
+        setRecordState(false);
     };
 
     const handleCompare = async () => {
@@ -112,10 +113,15 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
                 throw new Error('Failed to update player score');
             }
 
+            sendMessage(`MESSAGE:${roomId}:PLAYER:RECORDSTOP`);
+            setIsRecording(false);
+
             if (shouldNavigate.current) {
+                sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
+
                 setTimeout(() => {
                     sessionStorage.setItem("round", String(roundNumber + 1));
-                    sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
+                    setClientMessage("");
                     navigate("/player/game/round/result");
                 }, 500);
             }
@@ -127,9 +133,8 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     return (
         <div>
             <button onClick={isRecording ? handleStopRecording : (isRecorded ? null : handleStartRecording)}>
-                {isRecording ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}
+                {recordState ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}
             </button>
-            {similarity !== null && <p>Similarity: {similarity}%</p>}
         </div>
     );
 }

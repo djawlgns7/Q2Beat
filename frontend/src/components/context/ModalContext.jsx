@@ -11,10 +11,11 @@ export const ModalProvider = ({ children }) => {
     const [modalType, setModalType] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [modalBody, setModalBody] = useState("");
+    const [useErrorModal, setUseErrorModal] = useState(true); // 추가
 
     const showModal = () => {
         setState("show");
-        setTimeout(() => setState(""), 5000);
+        setTimeout(() => setState(""), 500);
     }
 
     const hideModal = () => {
@@ -22,9 +23,9 @@ export const ModalProvider = ({ children }) => {
     }
 
     return (
-        <ModalContext.Provider value={{ showModal, hideModal, setModalType, setModalTitle, setModalBody }}>
+        <ModalContext.Provider value={{ showModal, hideModal, setModalType, setModalTitle, setModalBody, setUseErrorModal }}>
             <Q2Modal state = {state} modalType = {modalType} modalTitle = {modalTitle} modalBody = {modalBody}/>
-            <ErrorModal state={state} modalTitle={modalTitle} modalBody={modalBody} hideModal={hideModal} />
+            {useErrorModal && <ErrorModal state={state} modalTitle={modalTitle} modalBody={modalBody} hideModal={hideModal} />}
             {children}
         </ModalContext.Provider>
     );

@@ -10,7 +10,9 @@ const KakaoLoginButton = () => {
     const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
 
     useEffect(() => {
-        window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
+        if (!window.Kakao.isInitialized()) {
+            window.Kakao.init('968999b5870ed199c9714edd0e7e2e63');
+        }
     }, []);
 
     const handleLogin = () => {
@@ -18,7 +20,7 @@ const KakaoLoginButton = () => {
             success: async (authObj) => {
                 try {
                     const userInfo = await window.Kakao.API.request({
-                        url: '/v2/user/me',
+                        url: 'http://bit-two.com:8080/v2/user/me',
                     });
                     const { id: socialId, kakao_account: { profile: { nickname: name }, email } } = userInfo;
                     handleLoginSuccess({ socialId, name, email }, 'kakao');

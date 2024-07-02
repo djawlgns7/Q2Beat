@@ -3,7 +3,7 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Q2B from "../../image/Q2BEAT_2.png";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import Q2B_back from "../../image/background-image.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerRoundResult.css'
 
@@ -63,7 +63,7 @@ const PlayerResult = () => {
                             <div className="round-result">
                                 <h1 className="result-text">최종 결과</h1>
                                 <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
-                                {gameMode.current === "TWISTER" ?
+                                {gameMode.current === "TWISTER" || gameMode.current === "POSE" ?
                                     <h4 className="result-text">{playerScore.current}%</h4>
                                     :
                                     <h4 className="result-text">{playerScore.current}점</h4>

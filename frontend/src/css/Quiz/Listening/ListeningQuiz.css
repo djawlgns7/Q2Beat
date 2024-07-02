@@ -1,0 +1,134 @@
+.listening-round {
+    text-align: center;
+    padding: 10px;
+}
+
+.video-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.react-player {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 0;
+    left: 0;
+}
+
+.listening-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 80px;
+}
+
+.container-LP {
+    width: 175px;
+    height: 175px;
+    background-color: rgb(231, 206, 255);
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 5px 5px 0 0 #675D50;
+}
+
+.plate-LP {
+    width: fit-content;
+}
+
+.plate-LP .black-LP,
+.plate-LP .white-LP,
+.plate-LP .center-LP,
+.plate-LP .border-LP {
+    border-radius: 100%;
+}
+
+.container-LP,
+.plate-LP .black-LP,
+.plate-LP .white-LP,
+.plate-LP .border-LP {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.plate-LP .black-LP {
+    width: 150px;
+    height: 150px;
+    background-color: #675D50;
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.plate-LP .white-LP {
+    width: 70px;
+    height: 70px;
+    background-color: #F3DEBA;
+}
+
+.plate-LP .center-LP {
+    width: 20px;
+    height: 20px;
+    background-color: #675D50;
+}
+
+.plate-LP .border-LP {
+    width: 111px;
+    height: 111px;
+    border-top: 3px solid #F3DEBA;
+    border-bottom: 3px solid #F3DEBA;
+    border-left: 3px solid #675D50;
+    border-right: 3px solid #675D50;
+}
+
+.player-LP {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    rotate: -45deg;
+}
+
+.player-LP .circ-LP {
+    width: 25px;
+    height: 25px;
+    background-color: #F3DEBA;
+    border-radius: 100%;
+    z-index: 1;
+}
+
+.player-LP .rect-LP {
+    width: 10px;
+    height: 55px;
+    background-color: #F3DEBA;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 5px;
+}
+
+
+.listening-text {
+    font-size: 30px;
+    font-weight: bold;
+    padding: 40px;
+}

@@ -6,3 +6,15 @@
 
 .modal-qrcode {
 }
+
+.btn {
+    background-color: #8a2be2;
+}
+
+.btn:hover {
+    background-color: #7a1bbd;
+}
+
+.btn-close {
+    translate: 100px -10px;
+}

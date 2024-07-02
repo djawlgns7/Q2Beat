@@ -1,13 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 import '../../../css/PC.css'
-import '../../../css/Quiz/ListeningQuiz.css'
+import '../../../css/Quiz/Listening/ListeningQuiz.css'
 import ReactPlayer from "react-player";
-import SoundIcon from "../../../image/free-icon-sound-2.png";
 
 const ListeningQuiz = ({quiz}) => {
     const playerRef = useRef(null);
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
+    const [setting, setSetting] = useState('');
+
+    useEffect(() => {
+        // 마운트 시 세션에서 값을 가져옴
+        const settingString = sessionStorage.getItem('setting');
+        const setting = JSON.parse(settingString);
+        setSetting(setting);
+    }, []);
+
 
     useEffect(() => {
         if (quiz && quiz.listening_url) {
@@ -37,14 +44,9 @@ const ListeningQuiz = ({quiz}) => {
     };
 
     return (
-        <div className="listening-container">
-            <div className="listening-loginBox">
-                <div className="circle-header-listening">
-                    {colors.map((color, index) => (
-                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                    ))}
-                </div>
-                <h2 className="listening-round">Round 1</h2>
+        <div className="container-p">
+            <div className="contents-box-p">
+                <h2 className="listening-round">Round {setting.round}</h2>
                 {quiz && quiz.listening_url && (
                     <div className="video-wrapper">
                         <ReactPlayer
@@ -58,7 +60,22 @@ const ListeningQuiz = ({quiz}) => {
                     </div>
                 )}
                 <div className="listening-main">
-                    <img src={SoundIcon} alt="SoundIcon" className="sound-icon-2"/>
+                    <div className="container-LP">
+                        <div className="plate-LP">
+                            <div className="black-LP">
+                                <div className="border-LP">
+                                    <div className="white-LP">
+                                        <div className="center-LP"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="player-LP">
+                            <div className="rect-LP"></div>
+                            <div className="circ-LP"></div>
+                        </div>
+                    </div>
                     <p className="listening-text">음악을 듣고 노래 제목을 맞혀주세요!</p>
                 </div>
             </div>

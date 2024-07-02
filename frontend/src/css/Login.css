@@ -3,10 +3,10 @@
     width: 100%;
     padding: 10px 120px 40px 0;
     border: none;
-    gap: 40px;
+    gap: 45px;
 }
 
-.footer {
+.login-footer {
     color: white;
     margin-top: 20px;
     translate: 0px 50px;

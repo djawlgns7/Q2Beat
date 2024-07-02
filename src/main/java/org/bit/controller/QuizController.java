@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @RestController
@@ -24,7 +25,6 @@ public class QuizController {
     private final QuizService quizService;
     private final RoomService roomService;
     private final PlayerService playerService;
-    private final MyWebSocketHandler myWebSocketHandler;
 
     @GetMapping("/get/normal")
     public QuizNormal getQuizNormal(@RequestParam("category") String category, @RequestParam("roomId") int roomId) {
@@ -133,39 +133,35 @@ public class QuizController {
     }
 
     @GetMapping("/get/listening")
-    public ResponseEntity<QuizListening> getQuizListening(@RequestParam("roomId") String roomId) {
+    public ResponseEntity<QuizListening> getQuizListening(@RequestParam("roomId") String roomId,
+                                                          @RequestParam("category") Integer category) {
         System.out.println("Received roomId: " + roomId);  // roomId 로그 출력
+        System.out.println("Received category: " + category);  // category 로그 출력
 
         String formattedRoomId = roomId.startsWith("R") ? roomId : "R" + roomId;
-
-        List<Integer> quizIds = quizService.getListeningQuizNumberList();
+        List<Integer> quizIds = quizService.getListeningQuizNumberListByCategory(category);
         QuizHistory quizHistory = new QuizHistory();
         quizHistory.setRoom_id(formattedRoomId);
 
-        System.out.println("Quiz IDs: " + quizIds);
-        System.out.println("Quiz History: " + quizHistory);
-
         int quizNumber = quizIds.size();
-        Set<Integer> usedQuizIds = roomService.getUsedQuizIds(formattedRoomId); // 이미 사용된 quiz_id 목록 가져오기
+        Set<Integer> usedQuizIds = roomService.getUsedQuizIds(formattedRoomId);
 
         while (true) {
             if (usedQuizIds.size() == quizNumber) {
-                // 모든 퀴즈가 사용되었을 경우 처리 로직 추가 (예: 중복 허용 또는 오류 반환)
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 예시로 NO_CONTENT 상태 반환
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
 
             int randomIndex = (int) (Math.random() * quizNumber);
             int quizId = quizIds.get(randomIndex);
 
             if (usedQuizIds.contains(quizId)) {
-                continue; // 이미 사용된 퀴즈 ID라면 다시 루프
+                continue;
             }
 
-            quizHistory.setQuiz_id(quizId);  // quiz_id 필드에 listening_id 값을 설정
+            quizHistory.setQuiz_id(quizId);
 
             try {
                 if (roomService.insertQuizHistoryForListening(quizHistory)) {
-                    System.out.println("quizId: " + quizId);
                     QuizListening quizListening = quizService.getQuizListening(quizId);
 
                     if (quizListening == null) {
@@ -173,22 +169,20 @@ public class QuizController {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                     }
 
-                    System.out.println(quizListening);
+                    quizListening.setCategory(category);  // 카테고리 설정
                     return ResponseEntity.ok(quizListening);
                 }
             } catch (Exception e) {
                 System.err.println("Failed to insert quiz history: " + e.getMessage());
-                // 예외 발생 시 continue로 다시 시도
             }
         }
     }
 
-
     @GetMapping("/send/answer/listening")
-    public ResponseEntity<Player> checkListeningAnswer(@RequestParam("quizId") int quizId,
-                                                       @RequestParam("roomId") String roomId,
-                                                       @RequestParam("playerName") String playerName,
-                                                       @RequestParam("answer") String answer) {
+    public Player checkListeningAnswer(@RequestParam("quizId") int quizId,
+                                       @RequestParam("roomId") String roomId,
+                                       @RequestParam("playerName") String playerName,
+                                       @RequestParam("answer") String answer) {
 
         Player player = new Player(roomId, playerName);
         int result = quizService.gradingListening(quizId, answer);
@@ -198,22 +192,20 @@ public class QuizController {
         player.setPlayer_recent_answer(answer);
         playerService.updatePlayerRecentAnswer(player);
         player = playerService.getPlayer(player);
-
+        player.setCorrect(false);
         if (result == 1) {
-            // Check if there is already a correct player
-            boolean isAlreadyCorrect = playerService.getPlayerList(roomId).stream().anyMatch(Player::isCorrect);
+            player.setPlayer_score(player.getPlayer_score() + 1);
+            player.setCorrect(true);
 
-            if (!isAlreadyCorrect) {
-                player.setPlayer_score(player.getPlayer_score() + 1);
-                player.setCorrect(true);
-                playerService.updatePlayerScore(player);
-            }
+            playerService.updatePlayerScore(player);
+        } else {
+
         }
 
         // 로그 추가
         System.out.println("Player Info - Name: " + player.getPlayer_name() + ", Score: " + player.getPlayer_score() + ", Correct: " + player.isCorrect());
 
-        return ResponseEntity.ok(player);
+        return player;
     }
 
 
@@ -236,6 +228,7 @@ public class QuizController {
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping(value = "/player/available", produces = "text/plain;charset=UTF-8")
     public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
         String roomNumber = "R" + roomId;
@@ -246,7 +239,12 @@ public class QuizController {
         size = playerList.size();
         index = (int) (Math.random() * size);
 
-        return playerList.get(index).getPlayer_name();
+        Player selectedPlayer = playerList.get(index);
+        selectedPlayer.setPlayer_team_id(0);
+
+        playerService.updatePlayerTeam(selectedPlayer);
+
+        return selectedPlayer.getPlayer_name();
     }
 
     @GetMapping("/player/score")
@@ -259,5 +257,44 @@ public class QuizController {
     @GetMapping("/player/score/update")
     public boolean updatePlayerScore(@ModelAttribute Player player) {
         return playerService.updatePlayerScore(player);
+    }
+
+    @GetMapping("/send/skip")
+    public ResponseEntity<Map<String, String>> skipQuestion(@RequestParam("roomId") String roomId,
+                                                            @RequestParam("playerName") String playerName,
+                                                            HttpSession session) {
+        playerService.markPlayerSkipped(roomId, playerName, session);
+
+        Map<String, String> response = new HashMap<>();
+
+        // Check if all players have skipped
+        boolean allSkipped = playerService.checkAllPlayersSkipped(roomId, session);
+
+        if (allSkipped) {
+            // Reset skip status for next round
+            playerService.resetSkipStatus(roomId, session);
+            response.put("status", "ALL_SKIPPED");
+        } else {
+            response.put("status", "SKIPPED");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
+    @GetMapping("/player/name/available")
+    public boolean isAvailableName(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
+        boolean result = true;
+
+        List<Player> playerList = playerService.getAvailablePlayerList(roomId);
+
+        for (Player player : playerList) {
+            if (player.getPlayer_name().equals(playerName)) {
+                result = false;
+            }
+        }
+
+        return result;
     }
 }

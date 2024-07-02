@@ -82,7 +82,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                     playerService.createPlayer(player);
                 }
             } else {
-                session.sendMessage(new TextMessage("ERROR:Room not found"));
+                session.sendMessage(new TextMessage("ERROR:방을 찾을 수 없습니다"));
             }
         } else if ("START".equals(command)) {
             String[] msgParts = content.split(":", 2);
@@ -141,6 +141,18 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         if (rooms.containsKey(roomId)) {
             for (WebSocketSession session : rooms.get(roomId)) {
                 if (session.isOpen()) {
+                    session.sendMessage(new TextMessage(message));
+                }
+            }
+        }
+    }
+
+    private void sendHost (String roomId, String message) throws Exception {
+        if (rooms.containsKey(roomId)) {
+            for (WebSocketSession session : rooms.get(roomId)) {
+                String name = sessionNameMap.get(session);
+
+                if (name.startsWith("(HOST)") && session.isOpen()) {
                     session.sendMessage(new TextMessage(message));
                 }
             }

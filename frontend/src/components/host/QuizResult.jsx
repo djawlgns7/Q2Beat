@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useSocket} from "../context/SocketContext.jsx";
 import '../../css/PC.css'
 import '../../css/Host/QuizResult.css'
-import Q2B_back from "../../image/Q2Beat_background.png";
+import backImage from "../../image/background-image.png";
 import first_medal from "../../image/icon-1st-medal.png";
 import second_medal from "../../image/icon-2nd-medal.png";
 import third_medal from "../../image/icon-3rd-medal.png";
@@ -61,15 +61,15 @@ const QuizResult = () => {
         <>
             {isReady ? (
                 <>
-                    <div className="result-container">
-                        <div className="result-box">
+                    <div className="container-p">
+                        <div className="contents-box-p">
                             <h1 className="quiz-result-text">결과</h1>
                             <ul className="result-list">
                                 {players.map((player, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="player-section">
                                         {index === 0 ? (
                                             <img src={first_medal} alt="first_medal" className="medal-icon"/>
-                                        ) : index ===  1 ? (
+                                        ) : index === 1 ? (
                                             <img src={second_medal} alt="second_medal" className="medal-icon"/>
                                         ) : index === 2 ? (
                                             <img src={third_medal} alt="third_medal" className="medal-icon"/>
@@ -78,7 +78,7 @@ const QuizResult = () => {
                                             </>)}
                                         <span className="index-player">{index + 1}등 &nbsp;</span>
                                         <span className="index-player">{player.player_name} &nbsp;</span>
-                                        {setting.gameMode === "TWISTER" ?
+                                        {setting.gameMode === "TWISTER" || setting.gameMode === "POSE" ?
                                             <span className="index-player">{player.player_score / 100}%</span>
                                             :
                                             <span className="index-player">{player.player_score}점</span>
@@ -86,11 +86,11 @@ const QuizResult = () => {
                                     </li>
                                 ))}
                             </ul>
+                            <div className="result-btn">
+                                <button onClick={returnLobby} className="endGame-button">나가기</button>
+                            </div>
                         </div>
-                        <div className="result-btn">
-                            <button onClick={returnLobby} className="endGame-button">나가기</button>
-                        </div>
-                        <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                        <img src={backImage} alt="backImage" className="backImage-p"/>
                     </div>
                 </>
             ) : (

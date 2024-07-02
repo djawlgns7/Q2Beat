@@ -3,10 +3,11 @@ import { useSocket } from "../context/SocketContext.jsx";
 import { useNavigate } from "react-router-dom";
 import '../../css/PC.css';
 import '../../css/Quiz/RoundResult.css';
-import Q2B_back from "../../image/Q2Beat_background.png";
+import backImage from "../../image/background-image.png";
 import ListeningRoundResult from "../quiz/listening/ListeningRoundResult.jsx";
 import NormalRoundResult from "../quiz/NormalRoundResult.jsx";
 import TwisterRoundResult from "../quiz/twister/TwisterRoundResult.jsx";
+import PoseRoundResult from "../quiz/pose/PoseRoundResult.jsx";
 
 const RoundResult = () => {
     const {sendMessage, roomId} = useSocket();
@@ -19,8 +20,6 @@ const RoundResult = () => {
     const navigate = useNavigate();
     const quizAnswer = useRef("");
     const choices = useRef("");
-
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         // 마운트 시 세션에서 값을 가져옴
@@ -84,22 +83,20 @@ const RoundResult = () => {
         <>
             {isReady ? (
                 setting.gameMode === "NORMAL" ? (
-                    // 일반 게임
-                    <>
-                        <div className="round-container">
-                            <div className="round-box">
-                                <div className="circle-header-game">
-                                    {colors.map((color, index) => (
-                                        <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                    ))}
-                                </div>
-                                <h2 className="round-answer">문제{Number(setting.round) - 1}</h2>
+                    // 퀴즈 게임
+                    <div className="container-p">
+                        <div className="contents-box-p">
+                            <div className="roundResult-main">
+                                <h2 className="roundResult-title">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
-                            <NormalRoundResult choices={choices.current} answer={quizAnswer.current}/>
-                            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+                            <div className="normal-round-result">
+                                <NormalRoundResult choices={choices.current} answer={quizAnswer.current}/>
+                            </div>
                         </div>
-                    </>
+                        <img src={backImage} alt="backImage" className="backImage-p"/>
+                    </div>
+
                 ) : setting.gameMode === "TWISTER" ? (
                     <TwisterRoundResult roomId={roomId}/>
                 ) : setting.gameMode === "LISTENING" ? (
@@ -109,7 +106,7 @@ const RoundResult = () => {
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     // 포즈 따라하기
-                    <h1>포즈 따라하기</h1>
+                    <PoseRoundResult roomId={roomId}/>
                 ) : (
                     <h1>오류 발생</h1>
                 )

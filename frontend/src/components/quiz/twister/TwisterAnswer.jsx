@@ -4,15 +4,12 @@ import mic_icon from '../../../image/free-icon-mic.png'
 import Q2B_back from "../../../image/Q2Beat_background.png";
 import TwisterRecordAndGrade from "./TwisterRecordAndGrade.jsx";
 
-const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) => {
+const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber, currentPlayer}) => {
     const {roomId, quizId} = useSocket();
     const [stage, setStage] = useState(false);
-    const [currentPlayer, setCurrentPlayer] = useState("");
     const [questionString, setQuestionString] = useState("");
 
     useEffect(() => {
-
-        setTimeout(() => setCurrentPlayer(sessionStorage.getItem("currentPlayer")), 300);
 
         setTimeout(() => {
             setStage(true);
@@ -37,7 +34,7 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber}) =
             setQuestionString(data.twister_quiz);
             console.log('퀴즈: ', data.twister_quiz);
         } catch (error) {
-            console.error('Error clear room history:', error);
+            console.error(error);
         }
     }
 

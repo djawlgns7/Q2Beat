@@ -1,5 +1,5 @@
 import React from 'react';
-import './ErrorModal.css'; // 스타일을 정의하는 CSS 파일
+import '../../css/Modal/ErrorModal.css';
 
 const ErrorModal = ({ state, modalTitle, modalBody, hideModal }) => {
     return (

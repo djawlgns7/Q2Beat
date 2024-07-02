@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import '../../css/Host/QuizCount.css';
 import '../../css/PC.css'
-import Q2B_back from "../../image/Q2Beat_background.png";
+import backImage from "../../image/background-image.png";
 
 const QuizCount = () => {
     const [currentTime, setCurrentTime] = useState(3);
@@ -34,8 +34,8 @@ const QuizCount = () => {
     };
 
     return (
-        <div className="count-container">
-            <div className="count-box">
+        <div className="container-p">
+            <div className="Box-p">
                 <TransitionGroup>
                     <CSSTransition
                         key={currentTime}
@@ -46,7 +46,7 @@ const QuizCount = () => {
                     </CSSTransition>
                 </TransitionGroup>
             </div>
-            <img src={Q2B_back} alt="Q2B_back" className="backImage-p-count"/>
+            <img src={backImage} alt="backImage" className="backImage-p"/>
         </div>
     );
 };

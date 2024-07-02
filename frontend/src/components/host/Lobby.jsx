@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useSocket} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {useModal} from "../context/ModalContext.jsx";
 import '../../css/Host/Lobby.css'
 import '../../css/PC.css'
 import Q2B from "../../image/Q2BEAT_2.png";
-import {useModal} from "../context/ModalContext.jsx";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import BackgroundVideo from "../BackgroundVideo.jsx";
 
 const Lobby = () => {
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
-    const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
+    const {showModal, setModalType, setModalTitle, setModalBody, setUseErrorModal} = useModal();
     const [name, setName] = useState(null);
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
-
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         const storedName = sessionStorage.getItem('hostName');
@@ -24,7 +22,8 @@ const Lobby = () => {
         } else {
             navigate("/host/game/create");
         }
-    }, []);
+        setUseErrorModal(false);
+    }, [setUseErrorModal]);
 
     useEffect(() => {
         setClientMessage("");
@@ -77,24 +76,42 @@ const Lobby = () => {
     }
 
     return (
-        <div className="lobby-container">
-            <div className="lobby-box">
+        <div className="container-p">
+            <BackgroundVideo/>
+            <div className="contents-box-p">
                 <div className="lobby-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage"/>
-                    <div className="circle-header">
-                        {colors.map((color, index) => (
-                            <div key={index} className="circle" style={{backgroundColor: color}}></div>
-                        ))}
-                    </div>
+                    <h3 className="player-count">플레이어 : {participants.length}</h3>
                     <h2 className="room-number">방 번호 : {roomId}</h2>
-                    <button className="qrCode-btn" onClick={showQR}>QR</button>
-                    <button onClick={exitRoom} className="exit-btn">나가기</button>
+                    <button className="qrCode-btn" onClick={showQR}>
+                        <span className="svgContainer">QR</span>
+                        <span className="BG"></span>
+                    </button>
+                    <button onClick={exitRoom} className="exit-btn">
+                        EXIT
+                        <div className="arrow-icon">
+                            <svg
+                                height="24"
+                                width="24"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                                    fill="currentColor"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                ></path>
+                            </svg>
+                        </div>
+                    </button>
                 </div>
 
-                <div className="main-contents">
+                <div className="lobby-main">
+                    {/*플레이어 박스*/}
                     <div className="left-section">
                         <div className="player-box">
-                            <h3 className="player-count">플레이어 : {participants.length}</h3>
                             <div className="players">
                                 {participants.map((participant, index) => (
                                     <div key={index} className="player">{participant.player_name}</div>
@@ -102,29 +119,30 @@ const Lobby = () => {
                             </div>
                         </div>
                     </div>
+                    {/*게임 박스*/}
                     <div className="right-section">
                         <div className="game-options">
-                            <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">퀴즈</button>
-                                <button className="hover-button" onClick={() => {startQuiz(0)}}>시작하기</button>
+                            <div className="option-box">
+                                <button className="option-btn-1">Quiz 🤔</button>
+                                <button className="hover-button" onClick={() => {startQuiz(0)}}>START!</button>
                             </div>
-                            <div className="option-1 option-btn-1-container">
-                                <button className="option-btn-1">주크박스</button>
-                                <button className="hover-button" onClick={() => {startQuiz(1)}}>시작하기</button>
+                            <div className="option-box">
+                                <button className="option-btn-1">Jukebox 🎵</button>
+                                <button className="hover-button" onClick={() => {startQuiz(1)}}>START!</button>
                             </div>
-                            <div className="option-2 option-btn-1-container">
-                                <button className="option-btn-1">잰말놀이</button>
-                                <button className="hover-button" onClick={() => {startQuiz(2)}}>시작하기</button>
+                            <div className="option-box">
+                                <button className="option-btn-1">Tongue-twister 😛</button>
+                                <button className="hover-button" onClick={() => {startQuiz(2)}}>START!</button>
                             </div>
-                            <div className="option-2 option-btn-1-container">
-                                <button className="option-btn-1">포토제닉</button>
-                                <button className="hover-button" onClick={() => {startQuiz(3)}}>시작하기</button>
+                            <div className="option-box">
+                                <button className="option-btn-1">Photogenic 📷</button>
+                                <button className="hover-button" onClick={() => {startQuiz(3)}}>START!</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
+            {/*<img src={backImage} alt="backImage" className="backImage-p"/>*/}
         </div>
     );
 };

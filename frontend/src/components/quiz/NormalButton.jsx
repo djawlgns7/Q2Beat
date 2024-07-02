@@ -1,41 +1,48 @@
 import '../../css/Quiz/NormalButton.css'
+import {useState} from "react";
 
 const NormalButton = ({prepareAnswer}) => {
-    const box = {
-        display: "inline-block",
-        justifyContent: "center",
-        backgroundColor: "#1A1F44",
-        border: "5px solid #516A92",
-        borderRadius: "8px",
-        color: "white",
-        fontSize: "25px",
-        padding: "5px 10px",
-        width: "200px",
-        height: "80px",
-        margin: "15px 10px",
+
+    const [backColor, setBackColor] = useState('white');
+
+    const handleClick = () => {
+        setBackColor(prevColor => (prevColor === '#FFFFFF' ? '#000000' : '#FFFFFF'));
+    };
+
+    const handleButtonClick = (num) => {
+        handleClick();
+        prepareAnswer(num);
     }
 
     return (
         <>
             <div className="normal-btns">
-                <button className="normal-button" onClick={() => {
-                    prepareAnswer(1);
-                }}>1번
-                </button>
-                <button className="normal-button" onClick={() => {
-                    prepareAnswer(2);
-                }}>2번
-                </button>
+                <div className="normal-button">
+                    <button className="normal-button-info" onClick={() => {
+                        handleButtonClick(1);
+                    }}>1번
+                    </button>
+                </div>
+                <div className="normal-button">
+                    <button className="normal-button-info" onClick={() => {
+                        handleButtonClick(2);
+                    }}>2번
+                    </button>
+                </div>
             </div>
             <div className="normal-btns">
-                <button className="normal-button" onClick={() => {
-                    prepareAnswer(3);
-                }}>3번
-                </button>
-                <button className="normal-button" onClick={() => {
-                    prepareAnswer(4);
-                }}>4번
-                </button>
+                <div className="normal-button">
+                    <button className="normal-button-info" onClick={() => {
+                        handleButtonClick(3);
+                    }}>3번
+                    </button>
+                </div>
+                <div className="normal-button">
+                    <button className="normal-button-info" onClick={() => {
+                        handleButtonClick(4);
+                    }}>4번
+                    </button>
+                </div>
             </div>
         </>
     )
