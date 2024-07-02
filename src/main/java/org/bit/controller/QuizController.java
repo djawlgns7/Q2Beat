@@ -229,7 +229,7 @@ public class QuizController {
     }
 
 
-    @GetMapping("/player/available")
+    @GetMapping(value = "/player/available", produces = "text/plain;charset=UTF-8")
     public String getAvailablePlayer(@RequestParam("roomId") int roomId) {
         String roomNumber = "R" + roomId;
         int size = -1;

@@ -131,7 +131,6 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
             <button onClick={isRecording ? handleStopRecording : (isRecorded ? null : handleStartRecording)}>
                 {isRecording ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}
             </button>
-            {similarity !== null && <p>Similarity: {similarity}%</p>}
         </div>
     );
 }
