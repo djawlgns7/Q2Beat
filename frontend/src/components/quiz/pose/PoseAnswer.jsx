@@ -10,10 +10,10 @@ const PoseAnswer = ({playerName, roundNumber, currentPlayer}) => {
 
     useEffect(() => {
 
-        // setTimeout(() => {
-        //     setStage(true);
-        //     console.log("Stage set to true");
-        // }, 3000);
+        setTimeout(() => {
+            setStage(true);
+            console.log("Stage set to true");
+        }, 3000);
     }, []);
 
     useEffect(() => {
