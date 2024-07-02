@@ -8,6 +8,7 @@ import org.bit.model.quiz.TongueTwister;
 import org.bit.service.PlayerService;
 import org.bit.service.PoseService;
 import org.bit.service.RoomService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,9 +66,17 @@ public class PoseController {
 
     @GetMapping("/pose/image/get")
     public ResponseEntity<String> getImage(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
-        byte[] image = playerService.getPlayerImage(roomId, playerName);
-        String encodedImage = Base64.getEncoder().encodeToString(image);
-        return ResponseEntity.ok().body(encodedImage);
+        try {
+            byte[] image = playerService.getPlayerImage(roomId, playerName);
+            if (image == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found");
+            }
+            String encodedImage = java.util.Base64.getEncoder().encodeToString(image);
+            return ResponseEntity.ok().body(encodedImage);
+        } catch (Exception e) {
+            e.printStackTrace(); // 전체 스택 트레이스 출력
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching image: " + e.getMessage());
+        }
     }
 
 }

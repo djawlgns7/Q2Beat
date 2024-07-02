@@ -9,6 +9,7 @@ const PoseRoundResult = ({roomId}) => {
     const [score, setScore] = useState("");
     const [isFetched, setIsFetched] = useState(false);
     const [image, setImage] = useState("");
+    const [error, setError] = useState(null);
     const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
@@ -42,16 +43,14 @@ const PoseRoundResult = ({roomId}) => {
     }
 
     const fetchImage = async () => {
-            try {
-                const response = await axios.get(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`, {
-                    responseType: 'arraybuffer'
-                });
-
-                setImage(`data:image/jpeg;base64,${response.data}`);
-            } catch (error) {
-                console.error('Error fetching image:', error);
-            }
-        };
+        try {
+            const response = await axios.get(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`);
+            setImage(`data:image/jpeg;base64,${response.data}`);
+        } catch (error) {
+            console.error("Error fetching image:", error);
+            setError("Failed to load image");
+        }
+    };
 
     return (
         <>
@@ -68,7 +67,7 @@ const PoseRoundResult = ({roomId}) => {
                         </div>
                         <div className="twister-main">
                             <h1>{nextPlayer}님의 결과</h1><br/>
-                            <img src={image} alt="Fetched from server"/>
+                            {error ? <p>{error}</p> : (image ? <img src={image} alt="Fetched from DB"/> : <p>Loading...</p>)}
                             <h3>유사도: {score}%</h3>
                         </div>
                     </div>

@@ -2,12 +2,14 @@ package org.bit.service;
 
 import lombok.Data;
 import org.apache.ibatis.annotations.Param;
+import org.bit.mapper.BlobToByteArrayConverter;
 import org.bit.mapper.PlayerMapper;
 import org.bit.model.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +77,18 @@ public class PlayerService {
     }
 
     public byte[] getPlayerImage(String roomId, String playerName) {
-        return playerMapper.getPlayerImage(roomId, playerName);
+        byte[] imageBytes = null;
+        try {
+            InputStream inputStream = playerMapper.getPlayerImage(roomId, playerName);
+            if (inputStream == null) {
+                System.err.println("No image found for roomId: " + roomId + ", playerName: " + playerName);
+            } else {
+                imageBytes = BlobToByteArrayConverter.convert(inputStream);
+                System.out.println("Image size: " + imageBytes.length);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 전체 스택 트레이스 출력
+        }
+        return imageBytes;
     }
 }

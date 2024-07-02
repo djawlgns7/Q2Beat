@@ -2,10 +2,9 @@ package org.bit.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.bit.model.Player;
-import org.springframework.security.core.parameters.P;
 
+import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface PlayerMapper {
@@ -54,6 +53,6 @@ public interface PlayerMapper {
     @Update("update player set player_image = #{player_image} where player_name = #{player_name} and room_id = #{room_id}")
     void updatePlayerImage(Player player);
 
-    @Select("select player_image from player where room_id = #{room_id} and player_name = #{player_name}")
-    byte[] getPlayerImage(@Param("room_id") String room_id, @Param("player_name") String player_name);
+    @Select("SELECT player_image FROM player WHERE room_id = #{room_id} AND player_name = #{player_name}")
+    InputStream getPlayerImage(@Param("room_id") String room_id, @Param("player_name") String player_name);
 }
