@@ -24,7 +24,7 @@ const PoseAnswer = ({playerName, roundNumber, currentPlayer}) => {
 
     const getPoseQuiz = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/pose/get/quiz?quizId=${quizId}`, {});
+            const response = await fetch(`https://bit-two.com/quiz/pose/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');

@@ -53,7 +53,7 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
             formData.append('file', audioBlob, 'audio.wav');
 
             try {
-                const response = await axios.post('http://bit-two.com:8080/api/naver/speech-to-text', formData, {
+                const response = await axios.post('https://bit-two.com/api/naver/speech-to-text', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -85,7 +85,7 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
 
         sendMessage(`MESSAGE:${roomId}:PLAYER:ANSWER-${answerString}`);
 
-        const response = await fetch('http://bit-two.com:8080/api/text/compare', {
+        const response = await fetch('https://bit-two.com/api/text/compare', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
         const fixedSimilarity = Math.round(similarity * 100);
 
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
+            const response = await fetch(`https://bit-two.com/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');

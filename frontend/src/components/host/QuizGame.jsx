@@ -93,7 +93,7 @@ const QuizGame = () => {
 
 
     const getQuizNormal = async (category) => {
-        const response = await fetch(`http://bit-two.com:8080/quiz/get/normal?category=${category}&roomId=${roomId}`, {
+        const response = await fetch(`https://bit-two.com/quiz/get/normal?category=${category}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const QuizGame = () => {
 
     const getQuizListening = async (category) => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/get/listening?roomId=${roomId}&category=${category}`, {
+            const response = await fetch(`https://bit-two.com/quiz/get/listening?roomId=${roomId}&category=${category}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -156,7 +156,7 @@ const QuizGame = () => {
     };
 
     const getQuizTwister = async (category) => {
-        const response = await fetch(`http://bit-two.com:8080/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
+        const response = await fetch(`https://bit-two.com/quiz/twister/get?level=${setting.level}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -178,7 +178,7 @@ const QuizGame = () => {
 
     const getNextPlayer = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/available?roomId=${roomId}`);
+            const response = await fetch(`https://bit-two.com/quiz/player/available?roomId=${roomId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch player rank');
             }
@@ -195,7 +195,7 @@ const QuizGame = () => {
     }
 
     const getQuizPose = async (category) => {
-        const response = await fetch(`http://bit-two.com:8080/quiz/pose/get?level=${setting.level}&roomId=${roomId}`, {
+        const response = await fetch(`https://bit-two.com/quiz/pose/get?level=${setting.level}&roomId=${roomId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

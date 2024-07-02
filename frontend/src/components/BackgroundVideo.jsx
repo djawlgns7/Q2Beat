@@ -5,7 +5,7 @@ const BackgroundVideo = () => {
     return (
         <div className="background-video">
             <video autoPlay loop muted>
-                <source src={`/video/background.mp4`} type="video/mp4" />
+                <source src="/video/background.webm" type="video/webm"/>
                 Your browser does not support the video tag.
             </video>
         </div>
