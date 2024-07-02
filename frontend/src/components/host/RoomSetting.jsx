@@ -188,7 +188,7 @@ const RoomSetting = () => {
                                         </label>
                                         <label className="roomSetting-label">난이도
                                             <select onChange={selectChange} className="roomSetting-select"
-                                                    defaultValue={"level NORMAL"}>
+                                                    defaultValue={"level NORMAL"} disabled={true}>
                                                 <option value={"level EASY"}>쉬움</option>
                                                 <option value={"level NORMAL"}>보통</option>
                                                 <option value={"level HARD"}>어려움</option>
