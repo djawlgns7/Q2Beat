@@ -11,7 +11,7 @@ const MainPage = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('/api/members/logout');
+            await axios.post('https://bit-two.com/api/members/logout');
             sessionStorage.clear();
             navigate('/login');
         } catch (error) {

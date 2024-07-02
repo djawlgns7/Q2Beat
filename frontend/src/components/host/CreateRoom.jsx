@@ -7,7 +7,7 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/Q2Beat_background.png";
 
 const CreateRoom = () => {
-    const {sendMessage, roomId, clearPlayInformation} = useSocket();
+    const {sendMessage, roomId, clearPlayInformation, isConnected} = useSocket();
     const [name, setName] = useState(null);
     const navigate = useNavigate();
 
@@ -23,11 +23,15 @@ const CreateRoom = () => {
     }, []);
 
     const createRoom = () => {
-        sendMessage("CREATE:" + name);
-        sessionStorage.setItem('hostName', name);
-        setTimeout(()=> {
-            navigate('/host/game/lobby');
-        }, 100);
+        if(isConnected.current) {
+            sendMessage("CREATE:" + name);
+            sessionStorage.setItem('hostName', name);
+            setTimeout(() => {
+                navigate('/host/game/lobby');
+            }, 100);
+        } else {
+            alert("현재 서버와 연결이 끊어졌습니다. 재접속 중입니다");
+        }
     };
 
     return (
