@@ -74,8 +74,10 @@ const ListeningText = ({ prepareAnswer, onSkip }) => {
                         <div className="modal show">
                             <div className="modal-content">
                                 <h5>정말 스킵하시겠습니까?</h5>
-                                <button onClick={handleModalConfirm}>확인</button>
-                                <button onClick={handleModalCancel}>취소</button>
+                                <div className="button-container">
+                                    <button className="confirm-button" onClick={handleModalConfirm}>확인</button>
+                                    <button className="cancel-button" onClick={handleModalCancel}>취소</button>
+                                </div>
                             </div>
                         </div>
                     )}

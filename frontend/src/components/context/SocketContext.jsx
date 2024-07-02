@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import SockJS from 'sockjs-client'
+import { useModal } from "./ModalContext.jsx";
 
 const SocketContext = createContext();
 
@@ -18,6 +19,8 @@ export const SocketProvider = ({ children }) => {
     const [quiz, setQuiz] = useState(null);  // 추가된 부분
     const isConnected = useRef(false);
     const location = useLocation(); // 현재 경로를 가져오기 위한 훅
+
+    const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
 
     const connectWebSocket = () => {
         const socket = new SockJS('http://bit-two.com:8080/ws');
@@ -50,7 +53,10 @@ export const SocketProvider = ({ children }) => {
                 setRoomId(newRoomId);
                 sessionStorage.setItem('roomId', newRoomId);
             } else if (msgData.startsWith("ERROR:")) {
-                alert(msgData.split(":")[1]);
+                setModalType('error');
+                setModalTitle('오류');
+                setModalBody(msgData.split(":")[1]);
+                showModal();
             } else if (msgData.startsWith("NEWMEMBER:")) {
                 setClientMessage(msgData);
             } else if (msgData.startsWith("USERLEFT:")) {

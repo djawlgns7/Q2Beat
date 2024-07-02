@@ -82,7 +82,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                     playerService.createPlayer(player);
                 }
             } else {
-                session.sendMessage(new TextMessage("ERROR:Room not found"));
+                session.sendMessage(new TextMessage("ERROR:방을 찾을 수 없습니다"));
             }
         } else if ("START".equals(command)) {
             String[] msgParts = content.split(":", 2);
