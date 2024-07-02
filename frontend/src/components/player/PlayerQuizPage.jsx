@@ -165,7 +165,7 @@ const PlayerQuizPage = () => {
                                 <div className="twister-answer">
                                     <h1 className="quiz-round">Round {roundNumber.current}</h1>
                                     <TwisterAnswer playerName={playerName.current} isRecording={isRecording}
-                                       setIsRecording={setIsRecording} roundNumber={roundNumber.current}/>
+                                       setIsRecording={setIsRecording} roundNumber={roundNumber.current} currentPlayer={currentPlayer}/>
                                 </div>
                             </div>
                             <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
