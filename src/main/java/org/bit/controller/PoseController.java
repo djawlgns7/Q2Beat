@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -63,8 +64,10 @@ public class PoseController {
     }
 
     @GetMapping("/pose/image/get")
-    public byte[] getImage(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
-        return playerService.getPlayerImage(roomId, playerName);
+    public ResponseEntity<String> getImage(@RequestParam("roomId") String roomId, @RequestParam("playerName") String playerName) {
+        byte[] image = playerService.getPlayerImage(roomId, playerName);
+        String encodedImage = Base64.getEncoder().encodeToString(image);
+        return ResponseEntity.ok().body(encodedImage);
     }
 
 }

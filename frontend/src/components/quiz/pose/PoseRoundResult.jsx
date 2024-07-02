@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
 import Q2B_back from "../../../image/Q2Beat_background.png";
+import axios from "axios";
 
 const PoseRoundResult = ({roomId}) => {
 
@@ -46,14 +47,7 @@ const PoseRoundResult = ({roomId}) => {
                     responseType: 'arraybuffer'
                 });
 
-                const base64 = btoa(
-                    new Uint8Array(response.data).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        ''
-                    )
-                );
-
-                setImage(`data:image/jpeg;base64,${base64}`);
+                setImage(`data:image/jpeg;base64,${response.data}`);
             } catch (error) {
                 console.error('Error fetching image:', error);
             }
