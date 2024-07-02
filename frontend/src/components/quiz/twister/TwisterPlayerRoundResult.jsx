@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from "react";
+import '../../../css/Quiz/Twister/TwisterPlayerRoundResult.css'
+import backImage from '../../../image/background-image.png'
+import Q2B_back from "../../../image/background-image.png";
 
 const TwisterPlayerRoundResult = ({roomId}) => {
     const [currentPlayer, setCurrentPlayer] = useState("");
@@ -30,7 +33,12 @@ const TwisterPlayerRoundResult = ({roomId}) => {
     }
 
     return (
-        <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 <br/><br/>{playerScore / 100}% 입니다!</h1>
+        <div className="container-m">
+            <div className="Box-m">
+                <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 {playerScore / 100}% 입니다!</h1>
+            </div>
+            <img src={backImage} alt="backImage" className="backImage-m"/>
+        </div>
     )
 }
 

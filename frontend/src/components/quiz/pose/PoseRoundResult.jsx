@@ -10,7 +10,6 @@ const PoseRoundResult = ({roomId}) => {
     const [isFetched, setIsFetched] = useState(false);
     const [image, setImage] = useState("");
     const [error, setError] = useState(null);
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
         const player = sessionStorage.getItem("nextPlayer");
@@ -64,11 +63,6 @@ const PoseRoundResult = ({roomId}) => {
                 <div className="container-p">
                     <div className="twister-box">
                         <div className="twister-header">
-                            <div className="circle-header-listening">
-                                {colors.map((color, index) => (
-                                    <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                ))}
-                            </div>
                             <h2 className="twister-round">Round 1</h2>
                         </div>
                         <div className="twister-main">

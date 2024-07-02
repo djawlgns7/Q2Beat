@@ -119,7 +119,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
             }
 
             setTimeout(() => {
-                sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
+                // sendMessage(`MESSAGE:${roomId}:PLAYER:ROUNDEND`);
             }, 300);
         } catch (error) {
             console.error('Error clear room history:', error);

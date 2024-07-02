@@ -46,11 +46,6 @@ const TwisterRoundResult = ({roomId}) => {
                 <div className="container-p">
                     <div className="twister-box">
                         <div className="twister-header">
-                            <div className="circle-header-listening">
-                                {colors.map((color, index) => (
-                                    <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                                ))}
-                            </div>
                             <h2 className="twister-round">Round 1</h2>
                         </div>
                         <div className="twister-main">

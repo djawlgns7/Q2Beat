@@ -7,10 +7,9 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 const PoseQuiz = ({quiz, nextPlayer}) => {
 
     const [stage, setStage] = useState(false);
-    const colors = ['#00B20D', '#FFD800', '#FF8D00', '#E80091', '#009CE1', '#9A34A1'];
 
     useEffect(() => {
-        setTimeout(() => setStage(true), 3000);
+        // setTimeout(() => setStage(true), 3000);
     }, [])
 
     return (
@@ -18,11 +17,6 @@ const PoseQuiz = ({quiz, nextPlayer}) => {
             <div className="container-p">
                 <div className="twister-box">
                     <div className="twister-header">
-                        <div className="circle-header-listening">
-                            {colors.map((color, index) => (
-                                <div key={index} className="circle-game" style={{backgroundColor: color}}></div>
-                            ))}
-                        </div>
                         <h2 className="twister-round">Round 1</h2>
                     </div>
                     <div className="twister-main">

@@ -20,7 +20,7 @@ const KakaoLoginButton = () => {
             success: async (authObj) => {
                 try {
                     const userInfo = await window.Kakao.API.request({
-                        url: '/v2/user/me',
+                        url: 'http://bit-two.com:8080/v2/user/me',
                     });
                     const { id: socialId, kakao_account: { profile: { nickname: name }, email } } = userInfo;
                     handleLoginSuccess({ socialId, name, email }, 'kakao');
