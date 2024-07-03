@@ -1,36 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import '../../css/Notice/Notice.css';
-import { getNotices } from "../../controller/noticeController.js";
+import {useEffect, useState} from "react";
+import axios from "axios";
 import { Link } from 'react-router-dom';
-import '../../css/Notice/Notice.css';
+import '../../css/Qna/Qna.css';
 
-//공지사항 목록
-const NoticeList = ({ isAdmin }) => {
-    const [notices, setNotices] = useState([]);
+/*
+* currentPage 현재 페이지
+* totalPages 전체 페이지 수
+* pageSize 한 페이지에 표시할 항목 수
+* startPage 시작페이지
+* endPage 끝페이지
+*
+* */
+const Qna = () => {
+    // qna : 질문 답변
+    // pagination : 페이지네이션
+    const [qna, setQna] = useState([]);
     const [pagination, setPagination] = useState({
         currentPage: 1, //현재 페이지
         totalPages: 1,  //전체 페이지 수
         pageSize: 5,    //한 페이지에 표시할 항목 수
         startPage: 1,   //현재 페이지 블록에서 시작 페이지
-        endPage:1,      //현재 페이지 블록에서 끝 페이지
-        totalCount:0,   //전체 항목 수
+        endPage:1       //현재 페이지 블록에서 끝 페이지
+    });
+    const [addQna, setAddQna ] = useState({
+        member_id: '', //로그인한 회원의 ID를 설정
+        qna_title: '',
+        qna_content: ''
     });
 
-    const navigate = useNavigate();
-
-    //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchNotices 호출
+    //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchQna 호출
+    const [editQna, setEditQna] = useState(null); //수정할 QnA를 관리하는 상태
     useEffect(() => {
-        fetchNotices(pagination.currentPage, pagination.pageSize);
+        fetchQna(pagination.currentPage, pagination.pageSize);
     }, [pagination.currentPage, pagination.pageSize]);
 
     //공지사항 목록을 서버에서 가져오는 비동기 함수
-    const fetchNotices = async (page, size) => {
+    const fetchQna = async (page, size) => {
         try {
-            const response = await getNotices(page, size);
-            console.log('응답 데이터:', response);
+            const response = await axios.get(`api/qna?page=${page}&size=${size}`);
+            console.log('응답 데이터:', response.data);
             //서버로 부터 받은 데이터를 상태에 설정
-
+            setQna(response.data.qna);
             setPagination(prev => ({
                 ...prev,
                 totalPages: response.data.pagination.totalPages,
@@ -41,9 +51,9 @@ const NoticeList = ({ isAdmin }) => {
             console.error('공지사항 목록 에러:', error);
         }
     };
-    //페이지 변경 함수
+    //페이지 변경 함수(현재 페이지)
     const handlePageChange = (page) => {
-        setPagination(prev => ({
+        setPagination(prev =>({
             ...prev,
             currentPage: page
         }));
@@ -52,7 +62,7 @@ const NoticeList = ({ isAdmin }) => {
     //다음 페이지 블록으로 이동하는 함수
     const handleNextBlock = () => {
         if (pagination.endPage < pagination.totalPages) {
-            setPagination(prev => ({
+            setPagination(prev =>({
                 ...prev,
                 currentPage: pagination.endPage + 1
             }));
@@ -74,41 +84,71 @@ const NoticeList = ({ isAdmin }) => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
 
-    //날짜 변환
-    // const formatDate = (dateString) => {
-    //     const date = new Date(dateString);
-    //     const year = date.getFullYear();
-    //     const month = String(date.getMonth() + 1).padStart(2, '0');
-    //     const day = String(date.getDate()).padStart(2, '0');
-    //     return `${year}-${month}-${day}`;
-    // };
+    const handleInputChange = (e) => {
+        const [name, value] = e.target;
+        setAddQna(prev => ({
+            ...prev, [name]: value
+        }));
+    };
 
-    //관리자 상태체크
-    console.log("isAdmin", isAdmin);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            await axios.post('api/qna', addQna);
+            setAddQna({member_id: '', qna_content: '', qna_title: ''});
+            fetchQna(pagination.currentPage, pagination.pageSize); // 등록 후 리스트 갱신
+        } catch (error) {
+            console.error('QnA 등록 에러', error);
+        }
+    };
+
+    const handleEdit = (qna) => {
+        setEditQna(qna);
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        try{
+            await axios.put(`api/qna/${editQna.qna_id}`, editQna);
+            setEditQna(null);
+            fetchQna(pagination.currentPage, pagination.pageSize); // 수정 후 리스트 갱신
+        } catch(error) {
+            console.error('QnA 수정 에러', error);
+        }
+    }
+
+    const handleDelete = async (qna_id) => {
+        try {
+            await axios.delete(`api/qna/${qna_id}`);
+            fetchQna(pagination.currentPage, pagination.pageSize);
+        } catch (error){
+            console.error('QnA 삭제 에러', error);
+        }
+    }
 
     return (
-        <div className="notice-container">
-            <h1>공지사항</h1>
-            <table className="notice-table">
+        <div className="qna-container">
+            <h1>QnA</h1>
+            <table className="qna-table">
                 <thead>
                 <tr>
-                    <th className="th-nt-id">{/*번호*/}</th>
-                    <th className="th-nt-title" style={{cursor:"pointer"}}>제목</th>
-                    <th className="th-nt-date">날짜</th>
-                    <th className="th-nt-author">작성자</th>
+                    <th></th>
+                    <th>제목</th>
+                    <th>날짜</th>
+                    <th>작성자</th>
                 </tr>
                 </thead>
                 <tbody>
-                {notices.map((notice, index) => (
-                    <tr key={notice.notice_id}>
+                {qna.map((qna, index) => (
+                    <tr key={qna.qna_id}>
                         <td>{getDisplayNumber(index)}</td>
                         <td>
-                            <Link to={`/notices/${notice.notice_id}`}>
-                                {notice.title}
+                            <Link to={`/qna/${qna.qna_id}`}>
+                                {qna.qna_title}
                             </Link>
                         </td>
-                        <td>{notice.create_date}</td>
-                        <td>{notice.admin_username}</td>
+                        <td>{qna.qna_date}</td>
+                        <td>{qna.member_id}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -130,9 +170,8 @@ const NoticeList = ({ isAdmin }) => {
                 <button onClick={() => handlePageChange(pagination.totalPages)}
                         disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
             </div>
-            {isAdmin && <button className="write-btn" onClick={() => navigate(`/notices/create`)}>글 작성</button>}
         </div>
     );
 };
 
-export default NoticeList;
+export default Qna;
