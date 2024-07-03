@@ -75,3 +75,25 @@
 .pagination button[disabled]:hover {
     background-color: white;
 }
+
+/* 글 작성 버튼 스타일 추가 */
+.write-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.write-btn:hover {
+    background-color: #45a049;
+}
+
+.write-btn:focus {
+    outline: none;
+}

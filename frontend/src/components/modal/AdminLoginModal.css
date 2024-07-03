@@ -1,0 +1,51 @@
+.admin-login-form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.btn {
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-close {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.logout-section {
+    margin-top: 20px;
+}
+
+.close-section {
+    margin-top: 10px;
+}

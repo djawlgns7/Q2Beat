@@ -1,19 +1,17 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {Route, BrowserRouter as Router, Routes, Navigate} from "react-router-dom";
 import ChatRoom from "./components/ChatRoom.jsx";
 import AudioComparison from "./components/test/AudioComparison.jsx";
 import {SocketProvider} from "./components/context/SocketContext.jsx";
-import ParticipantRoom2 from "./components/player/ParticipantRoom2.jsx";
-import HostRoom2 from "./components/host/HostRoom2.jsx";
 import CreateRoom from "./components/host/CreateRoom.jsx";
 import Lobby from "./components/host/Lobby.jsx";
 import JoinRoom from "./components/player/JoinRoom.jsx";
 import PlayerWaiting from "./components/player/PlayerWaiting.jsx";
 import Reset from "./components/Reset.jsx";
-import Login from "./components/Login.jsx";
+import Login from "./components/login/Login.jsx";
 import MainPage from "./components/MainPage.jsx";
-import NaverCallback from "./components/NaverCallback.jsx";
+import NaverCallback from "./components/login/NaverCallback.jsx";
 import SetNickname from "./components/SetNickname.jsx";
 import QuizGame from "./components/host/QuizGame.jsx";
 import QuizCount from "./components/host/QuizCount.jsx";
@@ -24,20 +22,38 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
-import Notice from "./components/Notice/Notice.jsx";
-import Qna from "./components/Notice/Qna.jsx";
-import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
-import AudioRecorder from "./components/test/AudioRecorder.jsx";
-import MobileView from "./components/MobileView.jsx";
+import NoticeList from "./components/notice/NoticeList.jsx";
+import NoticeDetails from "./components/notice/NoticeDetails.jsx";
+import NoticeCreate from "./components/notice/NoticeCreate.jsx";
+import NoticeEdit from "./components/notice/NoticeEdit.jsx";
+import QnaList from "./components/qna/QnaList.jsx";
+import QnaDetails from "./components/qna/QnaDetails.jsx";
+import QnaWrite from "./components/qna/QnaWrite.jsx";
+
 
 function App() {
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const adminStatus = sessionStorage.getItem('admin');
+        if(adminStatus) {
+            setIsAdmin(true);
+            console.log("admin data session", JSON.parse(adminStatus));
+        }
+    }, []);
+
+    const handleLoginSuccess = () => {
+        console.log('Login Success: isAdmin true');
+        setIsAdmin(true);
+    }
+
     return (
         <ModalProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Login/>}/>
+                    <Route path="/" element={<Login setIsAdmin={setIsAdmin}/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
                     <Route path="/main" element={<MainPage/>}/>
@@ -45,11 +61,16 @@ function App() {
                     <Route path="/reset" element={<Reset/>}/>
                     <Route path="/chat-room" element={<ChatRoom/>}/>
                     <Route path="/audio" element={<AudioComparison/>}/>
-                    <Route path="/host" element={<HostRoom/>}/>
-                    <Route path="/participant" element={<ParticipantRoom/>}/>
-                    <Route path="/notices" element={<Notice/>}/>
-                    <Route path="/qna" element={<Qna/>}/>
-                    <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
+                    <Route path="/notices" element={<NoticeList isAdmin={isAdmin}/>}/>
+                    <Route path="/notices/:notice_id" element={<NoticeDetails isAdmin={isAdmin}/>}/>
+                    <Route path="/notices/create" element={<NoticeCreate />} />
+                    <Route path="/notices/edit" element={isAdmin ? <NoticeEdit isAdmin={isAdmin}/> : <Navigate to="/" /> }/>
+                    <Route path="/notices/edit/:notice_id" element={isAdmin ? <NoticeEdit isAdmin={isAdmin}/> : <Navigate to="/" /> }/>
+                    <Route path="/qna" element={<QnaList isAdmin={isAdmin}/>}/>
+                    <Route path="/qna/qnaCreate" element={<QnaWrite />}/>
+                    <Route path="/qna/:qna_id" element={<QnaDetails isAdmin={isAdmin}/>}/>
+
+                    <Route path="*" element={<Navigate to="/" />} />
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>

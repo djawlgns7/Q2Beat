@@ -1,59 +1,53 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
-import { Link } from 'react-router-dom';
-import '../../css/Qna/Qna.css';
+import {Link, useNavigate} from 'react-router-dom';
+import '../../css/Qna/QnaList.css';
+import { getQnaList } from "../../controller/qnaController.js";
 
-/*
-* currentPage 현재 페이지
-* totalPages 전체 페이지 수
-* pageSize 한 페이지에 표시할 항목 수
-* startPage 시작페이지
-* endPage 끝페이지
-*
-* */
-const Qna = () => {
-    // qna : 질문 답변
-    // pagination : 페이지네이션
-    const [qna, setQna] = useState([]);
+const QnaList = ({ isAdmin }) => {
+    const [qnaList, setQnaList] = useState([
+        {qna_id: 60, qna_title: '테스트 질문 1', status: 'UNANSWERED', qna_date: '2024-07-03 11:11:00', member_username:'testman1'},
+        {qna_id: 70, qna_title: '테스트 질문 2', status: 'ANSWERED', qna_date: '2024-07-03 13:15:00', member_username:'testman2'},
+        {qna_id: 80, qna_title: '테스트 질문 3', status: 'UNANSWERED', qna_date: '2024-07-03 17:15:00', member_username:'testman3'}
+    ]);
     const [pagination, setPagination] = useState({
         currentPage: 1, //현재 페이지
         totalPages: 1,  //전체 페이지 수
         pageSize: 5,    //한 페이지에 표시할 항목 수
         startPage: 1,   //현재 페이지 블록에서 시작 페이지
-        endPage:1       //현재 페이지 블록에서 끝 페이지
-    });
-    const [addQna, setAddQna ] = useState({
-        member_id: '', //로그인한 회원의 ID를 설정
-        qna_title: '',
-        qna_content: ''
+        endPage:1,      //현재 페이지 블록에서 끝 페이지
+        totalCount:0,   //전체 항목 수
     });
 
+    const navigate = useNavigate();
+
     //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchQna 호출
-    const [editQna, setEditQna] = useState(null); //수정할 QnA를 관리하는 상태
     useEffect(() => {
         fetchQna(pagination.currentPage, pagination.pageSize);
     }, [pagination.currentPage, pagination.pageSize]);
 
-    //공지사항 목록을 서버에서 가져오는 비동기 함수
+    //목록을 서버에서 가져오는 비동기 함수
     const fetchQna = async (page, size) => {
         try {
-            const response = await axios.get(`api/qna?page=${page}&size=${size}`);
-            console.log('응답 데이터:', response.data);
+            const response = await getQnaList(page, size);
+            console.log('응답 데이터:', response);
             //서버로 부터 받은 데이터를 상태에 설정
-            setQna(response.data.qna);
+            setQnaList(response.qna);
             setPagination(prev => ({
                 ...prev,
-                totalPages: response.data.pagination.totalPages,
-                startPage: response.data.pagination.startPage,
-                endPage: response.data.pagination.endPage
+                currentPage: page,
+                totalPages: response.pagination.totalPages,
+                startPage: response.pagination.startPage,
+                endPage: response.pagination.endPage,
+                totalCount: response.pagination.totalCount,
             }));
         } catch (error) {
-            console.error('공지사항 목록 에러:', error);
+            console.error('QnA 목록 에러:', error);
         }
     };
+
     //페이지 변경 함수(현재 페이지)
     const handlePageChange = (page) => {
-        setPagination(prev =>({
+        setPagination(prev => ({
             ...prev,
             currentPage: page
         }));
@@ -84,62 +78,42 @@ const Qna = () => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
 
-    const handleInputChange = (e) => {
-        const [name, value] = e.target;
-        setAddQna(prev => ({
-            ...prev, [name]: value
-        }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-            await axios.post('api/qna', addQna);
-            setAddQna({member_id: '', qna_content: '', qna_title: ''});
-            fetchQna(pagination.currentPage, pagination.pageSize); // 등록 후 리스트 갱신
-        } catch (error) {
-            console.error('QnA 등록 에러', error);
-        }
-    };
-
-    const handleEdit = (qna) => {
-        setEditQna(qna);
-    };
-
-    const handleUpdate = async (e) => {
-        e.preventDefault();
-        try{
-            await axios.put(`api/qna/${editQna.qna_id}`, editQna);
-            setEditQna(null);
-            fetchQna(pagination.currentPage, pagination.pageSize); // 수정 후 리스트 갱신
-        } catch(error) {
-            console.error('QnA 수정 에러', error);
-        }
-    }
-
-    const handleDelete = async (qna_id) => {
+    const handleHideQna = async (qna_id) => {
         try {
-            await axios.delete(`api/qna/${qna_id}`);
-            fetchQna(pagination.currentPage, pagination.pageSize);
-        } catch (error){
-            console.error('QnA 삭제 에러', error);
+            await hideQna(qna_id);
+            setQnaList(qnaList.map(qna => qna.qna_id === qna_id ? { ...qna, qna_title: '숨김 처리 된 질문입니다.' } : qna));
+        } catch (error) {
+            console.error('QnA 가림 에러:', error);
         }
-    }
+    };
+
+    const handleUnHideQna = async (qna_id) => {
+        try {
+            await unHideQna(qna_id);
+            setQnaList(qnaList.map(qna => qna.qna_id === qna_id ? { ...qna, status: 'UNANSWERED' } : qna)); // 상태를 적절히 설정
+        } catch (error) {
+            console.error('QnA 가림 해제 에러:', error);
+        }
+    };
+    //관리자 상태체크
+    console.log("isAdmin", isAdmin);
 
     return (
         <div className="qna-container">
-            <h1>QnA</h1>
+            <h1>QnA 목록</h1>
             <table className="qna-table">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                    <th>작성자</th>
+                    <th className="th-qna-id">순번</th>
+                    <th className="th-qna-title" style={{cursor: "pointer"}}>질문 제목</th>
+                    <th className="th-qna-status">상태</th>
+                    <th className="th-qna-date">날짜</th>
+                    <th className="th-qna-writer">작성자</th>
+                    {isAdmin && <th>관리자</th>}
                 </tr>
                 </thead>
                 <tbody>
-                {qna.map((qna, index) => (
+                {qnaList.map((qna, index) => (
                     <tr key={qna.qna_id}>
                         <td>{getDisplayNumber(index)}</td>
                         <td>
@@ -147,8 +121,19 @@ const Qna = () => {
                                 {qna.qna_title}
                             </Link>
                         </td>
+                        <td>{qna.status === 'UNANSWERED' ? '답변 중' : '답변완료'}</td>
                         <td>{qna.qna_date}</td>
-                        <td>{qna.member_id}</td>
+                        <td>{qna.member_username}</td>
+                        {isAdmin && (
+                            <td>
+                                <button className="hide-btn"
+                                        onClick={() => handleHideQna(qna.qna_id)}>숨김
+                                </button>
+                                <button className="unhide-btn"
+                                        onClick={() => handleUnHideQna(qna.qna_id)}>숨김해제
+                                </button>
+                            </td>
+                        )}
                     </tr>
                 ))}
                 </tbody>
@@ -169,9 +154,10 @@ const Qna = () => {
                         disabled={pagination.endPage === pagination.totalPages}>&gt;</button>
                 <button onClick={() => handlePageChange(pagination.totalPages)}
                         disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
+                <button className="write-btn" onClick={() => navigate(`/qna/qnaCreate`)}>글 작성</button>
             </div>
         </div>
     );
 };
 
-export default Qna;
+export default QnaList;

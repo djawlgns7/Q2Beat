@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/Notice/Notice.css';
+import { getNotices } from "../../controller/noticeController.js";
 
-/*
-* currentPage 현재 페이지
-* totalPages 전체 페이지 수
-* pageSize 한 페이지에 표시할 항목 수
-* startPage 시작페이지
-* endPage 끝페이지
-*
-* */
-const Notice = () => {
-    // notices : 공지사항
-    // pagination : 페이지네이션
+//공지사항 목록
+const NoticeList = ({ isAdmin }) => {
     const [notices, setNotices] = useState([]);
     const [pagination, setPagination] = useState({
         currentPage: 1, //현재 페이지
         totalPages: 1,  //전체 페이지 수
         pageSize: 5,    //한 페이지에 표시할 항목 수
         startPage: 1,   //현재 페이지 블록에서 시작 페이지
-        endPage:1       //현재 페이지 블록에서 끝 페이지
+        endPage:1,      //현재 페이지 블록에서 끝 페이지
+        totalCount:0,   //전체 항목 수
     });
+
+    const navigate = useNavigate();
 
     //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchNotices 호출
     useEffect(() => {
@@ -31,15 +25,17 @@ const Notice = () => {
     //공지사항 목록을 서버에서 가져오는 비동기 함수
     const fetchNotices = async (page, size) => {
         try {
-            const response = await axios.get(`/api/notices?page=${page}&size=${size}`);
-            console.log('응답 데이터:', response.data);
+            const response = await getNotices(page, size);
+            console.log('응답 데이터:', response);
             //서버로 부터 받은 데이터를 상태에 설정
-            setNotices(response.data.notices);
+            setNotices(response.notices);
             setPagination(prev => ({
                 ...prev,
-                totalPages: response.data.pagination.totalPages,
-                startPage: response.data.pagination.startPage,
-                endPage: response.data.pagination.endPage
+                currentPage: page,
+                totalPages: response.pagination.totalPages,
+                startPage: response.pagination.startPage,
+                endPage: response.pagination.endPage,
+                totalCount: response.pagination.totalPages,
             }));
         } catch (error) {
             console.error('공지사항 목록 에러:', error);
@@ -47,7 +43,7 @@ const Notice = () => {
     };
     //페이지 변경 함수
     const handlePageChange = (page) => {
-        setPagination(prev =>({
+        setPagination(prev => ({
             ...prev,
             currentPage: page
         }));
@@ -56,7 +52,7 @@ const Notice = () => {
     //다음 페이지 블록으로 이동하는 함수
     const handleNextBlock = () => {
         if (pagination.endPage < pagination.totalPages) {
-            setPagination(prev =>({
+            setPagination(prev => ({
                 ...prev,
                 currentPage: pagination.endPage + 1
             }));
@@ -78,16 +74,28 @@ const Notice = () => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
 
+    //날짜 변환
+    // const formatDate = (dateString) => {
+    //     const date = new Date(dateString);
+    //     const year = date.getFullYear();
+    //     const month = String(date.getMonth() + 1).padStart(2, '0');
+    //     const day = String(date.getDate()).padStart(2, '0');
+    //     return `${year}-${month}-${day}`;
+    // };
+
+    //관리자 상태체크
+    console.log("isAdmin", isAdmin);
+
     return (
         <div className="notice-container">
             <h1>공지사항</h1>
             <table className="notice-table">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                    <th>작성자</th>
+                    <th className="th-nt-id">{/*번호*/}</th>
+                    <th className="th-nt-title" style={{cursor:"pointer"}}>제목</th>
+                    <th className="th-nt-date">날짜</th>
+                    <th className="th-nt-author">작성자</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -100,7 +108,7 @@ const Notice = () => {
                             </Link>
                         </td>
                         <td>{notice.create_date}</td>
-                        <td>{notice.member_id}</td>
+                        <td>{notice.admin_username}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -122,8 +130,9 @@ const Notice = () => {
                 <button onClick={() => handlePageChange(pagination.totalPages)}
                         disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
             </div>
+            {isAdmin && <button className="write-btn" onClick={() => navigate(`/notices/create`)}>글 작성</button>}
         </div>
     );
 };
 
-export default Notice;
+export default NoticeList;
