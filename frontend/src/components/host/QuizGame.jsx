@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSocket} from '../context/SocketContext.jsx';
 import Timer from "../quiz/Timer.jsx";
-import NormalOptions from "../quiz/NormalOptions.jsx";;
+import NormalOptions from "../quiz/NormalOptions.jsx";
 import { useNavigate } from "react-router-dom";
 import ListeningQuiz from "../quiz/listening/ListeningQuiz.jsx";
 import '../../css/PC.css';
@@ -59,7 +59,7 @@ const QuizGame = () => {
     }, [isTimeout])
 
     useEffect(() => {
-        if (hostMessage.startsWith("ROUNDEND") || hostMessage.startsWith("ALL_SKIPPED") && setting.gameMode === "LISTENING") {
+        if ((hostMessage.startsWith("ROUNDEND") || hostMessage.startsWith("ALL_SKIPPED")) && setting.gameMode === "LISTENING") {
             console.log("Received ROUNDEND message");
             setHostMessage("");
             navigate("/host/game/round/result");
