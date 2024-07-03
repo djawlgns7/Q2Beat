@@ -5,12 +5,13 @@
 }
 
 .normal-button {
-    --background: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
-    background: var(--background);
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
     z-index: 1;
     position: relative;
     padding: 10px 10px;
-    border-radius: .7rem;
+    border-radius: 8px;
     width: 150px;
     height: 100px;
     margin: 15px;
@@ -30,10 +31,21 @@
     padding: 10px;
 }
 
-.normal-button-info:hover button {
+.normal-button-info:active,
+.normal-button-info:hover {
+    outline: 0;
+}
+
+.normal-button-info:hover span {
     background: none;
 }
 
 .normal-button-info:active {
     transform: scale(0.9);
+}
+
+.normal-button-info:active,
+.normal-button-info:focus {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: none;
 }

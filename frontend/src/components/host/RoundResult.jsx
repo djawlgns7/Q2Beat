@@ -90,6 +90,7 @@ const RoundResult = () => {
                                 <h2 className="roundResult-title">문제{Number(setting.round) - 1}</h2>
                                 <h4 className="round-timer">{currentTime}</h4>
                             </div>
+                            {/*normal-round-result 클래스 비어있음*/}
                             <div className="normal-round-result">
                                 <NormalRoundResult choices={choices.current} answer={quizAnswer.current}/>
                             </div>
@@ -97,15 +98,14 @@ const RoundResult = () => {
                         <img src={backImage} alt="backImage" className="backImage-p"/>
                     </div>
 
-                ) : setting.gameMode === "TWISTER" ? (
-                    <TwisterRoundResult roomId={roomId}/>
                 ) : setting.gameMode === "LISTENING" ? (
-                    // 노래 맞추기
-                    <>
-                        <ListeningRoundResult correctAnswer={quizAnswer.current}/>
-                    </>
+                    // 주크박스
+                    <ListeningRoundResult correctAnswer={quizAnswer.current}/>
+                ) : setting.gameMode === "TWISTER" ? (
+                    // 잰말놀이
+                    <TwisterRoundResult roomId={roomId}/>
                 ) : setting.gameMode === "POSE" ? (
-                    // 포즈 따라하기
+                    // 포토제닉
                     <PoseRoundResult roomId={roomId}/>
                 ) : (
                     <h1>오류 발생</h1>

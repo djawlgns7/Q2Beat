@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useSocket} from "../../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
+import mic_icon from "../../../image/free-icon-mic.png";
+import '../../../css/Quiz/Twister/TwisterRecordAndGrade.css'
 
 const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording, setIsRecording, roundNumber}) => {
     const {hostMessage, sendMessage, setClientMessage} = useSocket();
@@ -131,9 +133,10 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     }
 
     return (
-        <div>
-            <button onClick={isRecording ? handleStopRecording : (isRecorded ? null : handleStartRecording)}>
-                {recordState ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}
+        <div className="mic-container">
+            <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
+            <button className="record-btn" onClick={isRecording ? handleStopRecording : (isRecorded ? null : handleStartRecording)}>
+                <span>{recordState ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}</span>
             </button>
         </div>
     );

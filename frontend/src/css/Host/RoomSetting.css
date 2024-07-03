@@ -52,7 +52,7 @@
 
 
 .roomSetting-select {
-    width: 100%;
+    
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -72,93 +72,68 @@
     font-weight: bold;
     text-align: center;
     border-radius: 8px;
+    background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+    color: white;
+    border: 5px solid rgba(191, 123, 255, 0.781);
+}
+
+.roomSetting-select:focus {
+    border-color: none;
 }
 
 .roomSetting-buttons {
     display: flex;
     justify-content: center;
-    margin: 30px;
     padding: 50px;
-    gap: 50px;
-    translate: -5px;
+    translate: -50px;
 }
 
 .roomSetting-btn {
-    --glow-color: rgb(217, 176, 255);
-    --glow-spread-color: rgba(191, 123, 255, 0.781);
-    --enhanced-glow-color: rgb(231, 206, 255);
-    --btn-color: rgb(100, 61, 136);
-    border: .25em solid var(--glow-color);
-    padding: 1em 3em;
-    color: var(--glow-color);
-    font-size: 17px;
-    background-color: var(--btn-color);
-    border-radius: 1em;
-    outline: none;
-    box-shadow: 0 0 1em .25em var(--glow-color),
-    0 0 4em 1em var(--glow-spread-color),
-    inset 0 0 .75em .25em var(--glow-color);
-    text-shadow: 0 0 .5em var(--glow-color);
-    position: relative;
-    transition: all 0.3s;
+    background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1em;
+    width: 150px;
+    height: 60px;
+    padding: 5px;
+    margin-left: 90px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+
 }
 
-.roomSetting-btn::after {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    top: 120%;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: var(--glow-spread-color);
-    filter: blur(2em);
-    opacity: .7;
-    transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
-}
-
+.roomSetting-btn:active,
 .roomSetting-btn:hover {
-    color: var(--btn-color);
-    background-color: var(--glow-color);
-    box-shadow: 0 0 1em .25em var(--glow-color),
-    0 0 4em 2em var(--glow-spread-color),
-    inset 0 0 .75em .25em var(--glow-color);
-}
-
-.roomSetting-btn:active {
-    box-shadow: 0 0 0.6em .25em var(--glow-color),
-    0 0 2.5em 2em var(--glow-spread-color),
-    inset 0 0 .5em .25em var(--glow-color);
+    outline: 0;
 }
 
 .roomSetting-btn span {
-    text-align: center;
-    text-decoration: none;
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
     width: 100%;
-    color: #fff;
-    font-weight: 700;
-    letter-spacing: 0.3em;
-    z-index: 20;
-    transition: all 0.3s ease-in-out;
+    height: 100%;
+    transition: 300ms;
 }
 
 .roomSetting-btn:hover span {
-    color: #183153;
-    animation: scaleUp 0.3s ease-in-out;
+    background: none;
 }
 
-@keyframes scaleUp {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(0.95);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+.roomSetting-btn:active {
+    transform: scale(0.9);
 }
 
 .roomSetting-label .level {

@@ -9,14 +9,14 @@
     font-size: 30px;
     color: rgb(231, 206, 255);
     font-weight: bold;
-    translate: -30px 12px;
+    translate: -44px 12px;
 }
 
 .room-number {
     color: rgb(231, 206, 255);
     font-size: 28px;
     font-weight: bold;
-    translate: 40px 14px;
+    translate: 25px 14px;
 }
 
 /* QRcode 버튼 */
@@ -33,7 +33,7 @@
     position: relative;
     cursor: pointer;
     transition: all 0.3s;
-    translate: 8px 10px;
+    translate: -10px 10px;
 }
 
 .BG {
@@ -151,26 +151,17 @@
 
 
 .player-box {
-    /*--background: linear-gradient(to left, #fc00ff 0%, #00dbde 100%);*/
-    /*background: #fc00ff;*/
-    /*background: var(--background);*/
-    /*z-index: 1;*/
-    /*position: relative;*/
-    /*overflow: visible;*/
-    /*padding: 10px 10px;*/
-    /*border-radius: 1rem;*/
     height: 350px;
     width: 280px;
     translate: 10px 40px;
     background: #100720;
     display: flex;
     place-content: center;
-    place-items: center;
+    place-items: flex-start;
     position: relative;
-    overflow: scroll;
+    overflow: hidden;
     border-radius: 20px;
     z-index: 1;
-
 }
 
 .player-box::before {
@@ -181,6 +172,8 @@
     height: 130%;
     animation: rotBGimg 3s linear infinite;
     transition: all 0.2s linear;
+    translate: 0 -50px;
+    z-index: -1;
 }
 
 @keyframes rotBGimg {
@@ -194,19 +187,6 @@
 }
 
 .player-box::after {
-    /*position: absolute;*/
-    /*content: "";*/
-    /*top: 30px;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*z-index: -1;*/
-    /*height: 100%;*/
-    /*width: 100%;*/
-    /*transform: scale(0.8);*/
-    /*filter: blur(25px);*/
-    /*background: #fc00ff;*/
-    /*background: var(--background);*/
-    /*transition: opacity .5s;*/
     content: '';
     position: absolute;
     background: #100720;
@@ -214,32 +194,32 @@
     border-radius: 15px;
 }
 
-
-/*.player-box-info {*/
-/*    --color: #181818;*/
-/*    background: var(--color);*/
-/*    color: var(--color);*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    overflow: auto;*/
-/*    border-radius: .7rem;*/
-/*}*/
-
 .players {
     padding: 10px;
     z-index: 1;
+    height: 100%; /* 변경: 부모 요소의 높이를 채우도록 설정 */
+    width: 100%; /* 변경: 부모 요소의 너비를 채우도록 설정 */
+    overflow-y: auto; /* 변경: 세로 스크롤이 가능하도록 설정 */
+    box-sizing: border-box; /* padding 포함 */
+    translate: 5px;
+}
+
+/*스크롤 바 숨기기 (overflow:scroll)*/
+.players::-webkit-scrollbar {
+    display: none;
 }
 
 .player {
     text-align: center;
-    border: 8px solid white;
-    background-color: rgb(231, 206, 255);
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
     border-radius: 15px;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
-    color: black;
-    padding: 0 60px;
+    color: #FFF;
+    padding: 0 50px;
     margin: 10px;
+    width: 230px;
+    height: 40px;
 }
 
 .right-section {

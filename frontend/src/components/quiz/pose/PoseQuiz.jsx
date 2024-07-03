@@ -7,17 +7,25 @@ import Q2B_back from "../../../image/Q2Beat_background.png";
 const PoseQuiz = ({quiz, nextPlayer}) => {
 
     const [stage, setStage] = useState(false);
+    const [setting, setSetting] = useState('');
 
     useEffect(() => {
         setTimeout(() => setStage(true), 3000);
     }, [])
+
+    useEffect(() => {
+        // 마운트 시 세션에서 값을 가져옴
+        const settingString = sessionStorage.getItem('setting');
+        const setting = JSON.parse(settingString);
+        setSetting(setting);
+    }, []);
 
     return (
         <>
             <div className="container-p">
                 <div className="twister-box">
                     <div className="twister-header">
-                        <h2 className="twister-round">Round 1</h2>
+                        <h2 className="quiz-title">Round {setting.round}</h2>
                     </div>
                     <div className="twister-main">
                         {stage === false ? (
