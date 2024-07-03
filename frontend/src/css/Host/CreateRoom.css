@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     gap: 50px;
+    translate: -10px;
 }
 
 .createRoom-input-border {
