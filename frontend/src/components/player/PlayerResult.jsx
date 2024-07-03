@@ -6,6 +6,7 @@ import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/background-image.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerRoundResult.css'
+import '../../css/Participant/PlayerResult.css'
 
 const PlayerResult = () => {
     const {roomId, hostMessage} = useSocket();
@@ -60,13 +61,13 @@ const PlayerResult = () => {
                                 <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
                                 <PlayerTop playerName={playerName.current}/>
                             </div>
-                            <div className="round-result">
+                            <div className="result-container">
                                 <h1 className="result-text">최종 결과</h1>
                                 <div className="rank-box">
                                     <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
                                 </div>
                                 {gameMode.current === "TWISTER" || gameMode.current === "POSE" ?
-                                    <h4 className="result-text">{playerScore.current}%</h4>
+                                    <h4 className="result-text">{Math.floor(playerScore.current * 100) / 100}%</h4>
                                     :
                                     <h4 className="result-text">{playerScore.current}점</h4>
                                 }

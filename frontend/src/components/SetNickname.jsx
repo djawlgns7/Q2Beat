@@ -5,6 +5,7 @@ import '../css/PC.css'
 import '../css/Host/SetNickname.css'
 import Q2B from "../image/Q2BEAT_2.png";
 import {useModal} from "./context/ModalContext.jsx";
+import BackgroundVideo from "./BackgroundVideo.jsx";
 
 const SetNickname = () => {
     const [nickname, setNickname] = useState('');
@@ -85,17 +86,28 @@ const SetNickname = () => {
 
     return (
         <div className="container-p">
-            <div className="loginBox-p">
+            <BackgroundVideo/>
+            <div className="Box-p">
                 <div className="loginTitle-p">
                     <img src={Q2B} alt="Q2B" className="logoImage-p"/>
                     <h1 className="title-p">Q2BEAT</h1>
                 </div>
-                <div className="nickname-input">
-                    <span className="nickname-text">닉네임 :</span>
-                    <input value={nickname} onChange={(e) => setNickname(e.target.value)}/>
-                    <button onClick={handleCheckNickname} className="check-nickname-btn">닉네임 확인</button>
+                <div className="setName-main">
+                    <div className="setName-input-border">
+                        <div className="setName-input-box">
+                            <input
+                                type="text"
+                                maxLength="14"
+                                value={nickname}
+                                onChange={(e) => setNickname(e.target.value)}
+                                placeholder="nickname"
+                                className="setName-input"
+                            />
+                            <button onClick={handleCheckNickname} className="check-nickname-btn">Name Check!</button>
+                        </div>
+                    </div>
+                    <button onClick={handleSubmit} className="nickname-btn"><span>확인</span></button>
                 </div>
-                <button onClick={handleSubmit} className="nickname-btn">확인</button>
             </div>
         </div>
     );

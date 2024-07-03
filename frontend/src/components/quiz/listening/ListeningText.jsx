@@ -9,7 +9,7 @@ import PlayerTop from "../PlayerTop.jsx";
 const ListeningText = ({ prepareAnswer, onSkip }) => {
     const [answer, setAnswer] = useState('');
     const [feedback, setFeedback] = useState(null);
-    const playerName = useRef("");
+    const playerName = useRef(sessionStorage.getItem("playerName"));
     const [skipped, setSkipped] = useState(false);
     const [showModal, setShowModal] = useState(false);
 

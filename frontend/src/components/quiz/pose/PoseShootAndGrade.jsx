@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useSocket} from "../../context/SocketContext.jsx";
 import Webcam from "react-webcam";
+import '../../../css/Quiz/Pose/PoseShootAndGrade.css'
 
 const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     const {sendMessage} = useSocket();
@@ -124,8 +125,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     }
 
     return (
-        <div>
-            <h1>Pose Prediction</h1>
+        <div className="player-pose-shoot">
             {isModelLoaded ? (
                 <>
                     {imageSrc === null ?
@@ -133,13 +133,14 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
                             audio={false}
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
-                            width={400}
+                            width={350}
                             height={300}
                         /> :
-                        <img src={imageSrc} alt="Captured" style={{width: '300px', height: 'auto'}}/>
+                        <img src={imageSrc} alt="Captured" style={{width: '350px', height: 'auto'}}/>
                     }
-                    <div>타이머: {timer}초</div>
-                    {predictionResult && <p>{predictionResult}</p>}
+                    <div className="pose-timer-container">
+                        <div className="player-pose-timer"><span>타이머: {timer}초</span></div>
+                    </div>
                 </>
             ) : (
                 <p>Loading model...</p>

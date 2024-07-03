@@ -1,11 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
+import Q2B_back from "../../../image/background-image.png";
+import '../../../css/Moblie.css'
+import '../../../css/Quiz/Pose/PosePlayerRoundResult.css'
+import Q2B from "../../../image/Q2BEAT_2.png";
+import PlayerTop from "../PlayerTop.jsx";
+import likeIcon from "../../../image/free-icon-thumb-up.png";
+import dislikeIcon from "../../../image/free-icon-dislike.png";
 
 const PosePlayerRoundResult = ({roomId}) => {
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [playerScore, setPlayerScore] = useState("0");
+    const playerName = useRef("");
 
     useEffect(() => {
         setCurrentPlayer(sessionStorage.getItem("currentPlayer"));
+        playerName.current = sessionStorage.getItem("playerName");
     }, []);
 
     useEffect(() => {
@@ -30,7 +39,35 @@ const PosePlayerRoundResult = ({roomId}) => {
     }
 
     return (
-        <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 <br/><br/>{playerScore / 100}% 입니다!</h1>
+        <div className="container-m">
+            <div className="Box-m">
+                <div className="player-header">
+                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                    <PlayerTop playerName={playerName.current}/>
+                </div>
+                <div className="pose-container">
+                    {playerScore / 100 >= 50 ? (
+                        <div className="player-pose-result-image">
+                            <img src={likeIcon} alt="likeIcon" className="like-ico2n" />
+                            <h1 className="like-text">잘하셨어요!</h1>
+                        </div>
+                    ): (
+                        <div className="player-pose-result-image">
+                            <img src={dislikeIcon} alt="dislikeIcon" className="dislike-icon2"/>
+                            <h1 className="dislike-text">아쉽습니다..</h1>
+                        </div>
+                    )}
+                    <div className="pose-score-box">
+                        <span>
+                            <h2>{currentPlayer}님 유사도<br/>
+                                <div className="pose-player-score">{playerScore / 100}%</div>
+                            </h2>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
+        </div>
     )
 }
 

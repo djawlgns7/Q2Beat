@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import '../../../css/Moblie.css';
-import '../../../css/Participant/PlayerRoundResult.css';
+import '../../../css/Quiz/Listening/ListeningPlayerRoundResult.css'
 import Q2B from "../../../image/Q2BEAT_2.png";
 import Q2B_back from "../../../image/background-image.png";
 import successIcon from '../../../image/icon-checked.png'
@@ -58,21 +58,21 @@ const ListeningPlayerRoundResult = () => {
                     <img src={Q2B} alt="Q2B" className="smallLogoImage-m" />
                     <PlayerTop playerName={playerName.current} />
                 </div>
-                <div className="round-result">
+                <div className="listening-round-result-container">
                     {roundResult ? (
-                        <div className="round-result-container">
+                        <div className="listening-round-result-box">
                             <img src={successIcon} alt="successIcon" className="success-icon"/>
                             <h1 className="correct-text">정답입니다!</h1>
                         </div>
                     ) : (
-                        <div className="round-result-container">
+                        <div className="listening-round-result-box">
                             <img src={failIcon} alt="failIcon" className="fail-icon"/>
-                            <h1>틀렸습니다..</h1>
+                            <h1 className="fail-text">틀렸습니다..</h1>
                         </div>
                     )}
-                    <div className="score-box">
+                    <div className="listening-score-box">
                         <span>
-                            <h2>현재 {playerName.current}님의 점수<br/><br/>
+                            <h2>현재 점수<br/>
                                 <div className="listening-playerScore">{playerScore}점</div>
                             </h2>
                         </span>
