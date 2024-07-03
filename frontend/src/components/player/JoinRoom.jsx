@@ -100,7 +100,7 @@ const JoinRoom = () => {
                                 <input
                                     className="join-input"
                                     placeholder="roomNum"
-                                    type="text"
+                                    type="number"
                                     maxLength="5"
                                     value={roomInput}
                                     onChange={(e) => setRoomInput(e.target.value)}
