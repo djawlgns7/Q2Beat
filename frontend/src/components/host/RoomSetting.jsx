@@ -1,10 +1,9 @@
+import React from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {useSocket} from "../context/SocketContext.jsx";
 import '../../css/PC.css'
 import '../../css/Host/RoomSetting.css'
-import Q2B_back from "../../image/background-image.png";
-import React from "react";
 import BackgroundVideo from "../BackgroundVideo.jsx";
 
 const RoomSetting = () => {
@@ -110,8 +109,8 @@ const RoomSetting = () => {
                                         </label>
                                     </div>
                                     <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn">시작</button>
-                                        <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
+                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +130,7 @@ const RoomSetting = () => {
                                                 <option value="category 20">2020년대</option>
                                             </select>
                                         </label>
-                                        <label className="roomSetting-label">라운드 수
+                                        <label className="roomSetting-label">라운드수
                                             <select onChange={selectChange} className="roomSetting-select"
                                                     defaultValue={"maxRound 5"}>
                                                 <option value="maxRound 1">1라운드</option>
@@ -141,8 +140,8 @@ const RoomSetting = () => {
                                         </label>
                                     </div>
                                     <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn">시작</button>
-                                        <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
+                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -169,8 +168,8 @@ const RoomSetting = () => {
                                         </label>
                                     </div>
                                     <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn">시작</button>
-                                        <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
+                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -196,8 +195,8 @@ const RoomSetting = () => {
                                         </label>
                                     </div>
                                     <div className="roomSetting-buttons">
-                                        <button onClick={gameStart} className="roomSetting-btn">시작</button>
-                                        <button onClick={exitButton} className="roomSetting-btn">나가기</button>
+                                        <button onClick={gameStart} className="roomSetting-btn"><span>시작</span></button>
+                                        <button onClick={exitButton} className="roomSetting-btn"><span>나가기</span></button>
                                     </div>
                                 </div>
                             </div>

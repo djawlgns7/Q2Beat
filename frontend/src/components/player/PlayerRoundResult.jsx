@@ -9,6 +9,8 @@ import Q2B_back from "../../image/background-image.png";
 import ListeningPlayerRoundResult from "../quiz/listening/ListeningPlayerRoundResult.jsx";
 import TwisterPlayerRoundResult from "../quiz/twister/TwisterPlayerRoundResult.jsx";
 import PosePlayerRoundResult from "../quiz/pose/PosePlayerRoundResult.jsx";
+import successIcon from "../../image/icon-checked.png";
+import failIcon from "../../image/icon-cancel.png";
 
 const PlayerRoundResult = () => {
     const {hostMessage, setHostMessage, roomId} = useSocket();
@@ -58,12 +60,12 @@ const PlayerRoundResult = () => {
                             <div className="round-result">
                                 {roundResult === "true" ? (
                                     <div className="round-result-container">
-                                        <div className="green-circle">O</div>
+                                        <img src={successIcon} alt="successIcon" className="success-icon"/>
                                         <h1>정답입니다!</h1>
                                     </div>
                                 ) : (
                                     <div className="round-result-container">
-                                        <div className="red-x">X</div>
+                                        <img src={failIcon} alt="failIcon" className="fail-icon"/>
                                         <h1>오답입니다...</h1>
                                     </div>
                                 )
