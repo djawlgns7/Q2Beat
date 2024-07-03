@@ -67,7 +67,7 @@ const ListeningPlayerRoundResult = () => {
                     ) : (
                         <div className="listening-round-result-box">
                             <img src={failIcon} alt="failIcon" className="fail-icon"/>
-                            <h1 className="fail-text">틀렸습니다..</h1>
+                            <h1 className="fail-text">다음기회에...</h1>
                         </div>
                     )}
                     <div className="listening-score-box">
