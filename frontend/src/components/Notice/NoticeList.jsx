@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../../css/Notice/Notice.css';
 import { getNotices } from "../../controller/noticeController.js";
-import { Link } from 'react-router-dom';
-import '../../css/Notice/Notice.css';
 
 //공지사항 목록
 const NoticeList = ({ isAdmin }) => {
@@ -73,15 +71,6 @@ const NoticeList = ({ isAdmin }) => {
     const getDisplayNumber = (index) => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
-
-    //날짜 변환
-    // const formatDate = (dateString) => {
-    //     const date = new Date(dateString);
-    //     const year = date.getFullYear();
-    //     const month = String(date.getMonth() + 1).padStart(2, '0');
-    //     const day = String(date.getDate()).padStart(2, '0');
-    //     return `${year}-${month}-${day}`;
-    // };
 
     //관리자 상태체크
     console.log("isAdmin", isAdmin);
