@@ -77,7 +77,7 @@
 .plate-LP .white-LP {
     width: 70px;
     height: 70px;
-    background-color: #6a52fa;
+    background-color: #8873ff;
 }
 
 .plate-LP .center-LP {
@@ -112,7 +112,7 @@
 .player-LP .circ-LP {
     width: 25px;
     height: 25px;
-    background-color: #5B42F3;
+    background-color: #8873ff;
     border-radius: 100%;
     z-index: 1;
 }
@@ -120,7 +120,7 @@
 .player-LP .rect-LP {
     width: 10px;
     height: 55px;
-    background-color: #5B42F3;
+    background-color: #8873ff;
     position: absolute;
     bottom: 0;
     margin-bottom: 5px;
