@@ -15,10 +15,10 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (answerString !== '') {
+        if (isRecorded === true) {
             handleCompare();
         }
-    }, [answerString]);
+    }, [isRecorded]);
 
     useEffect(() => {
         if (similarity !== '' && similarity !== "Error calculating similarity") {
@@ -84,6 +84,14 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     const handleCompare = async () => {
 
         sendMessage(`MESSAGE:${roomId}:PLAYER:ANSWER-${answerString}`);
+
+        if (answerString === '') {
+            setSimilarity("0");
+            sessionStorage.setItem('playerScore', "0");
+            console.log('similarity: ', "0");
+
+            return;
+        }
 
         const response = await fetch('http://bit-two.com:8080/api/text/compare', {
             method: 'POST',
