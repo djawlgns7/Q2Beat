@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 import axios from "axios";
 
 const PoseRoundResult = ({roomId}) => {
@@ -25,7 +25,7 @@ const PoseRoundResult = ({roomId}) => {
 
     const getPoseScore = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/score?room_id=R${roomId}&player_name=${nextPlayer}`);
+            const response = await fetch(`https://bit-two.com/quiz/player/score?room_id=R${roomId}&player_name=${nextPlayer}`);
 
             if (!response.ok) {
                 throw new Error('Failed to get player score');
@@ -43,7 +43,7 @@ const PoseRoundResult = ({roomId}) => {
 
     const fetchImage = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`);
+            const response = await fetch(`https://bit-two.com/quiz/pose/image/get?roomId=R${roomId}&playerName=${nextPlayer}`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch image');

@@ -28,6 +28,8 @@ import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
+import AudioRecorder2 from "./components/test/AudioRecorder2.jsx";
+import AudioRecorder3 from "./components/test/AudioRecorder3.jsx";
 import ListeningRoundResult from "./components/quiz/listening/ListeningRoundResult.jsx";
 import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPlayerRoundResult.jsx";
 import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
@@ -44,7 +46,6 @@ function App() {
                     <Route path="/" element={<Login/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
-                    <Route path="/main" element={<MainPage/>}/>
                     <Route path="/callback" element={<NaverCallback/>}/>
                     <Route path="/reset" element={<Reset/>}/>
                     <Route path="/chat-room" element={<ChatRoom/>}/>
@@ -62,8 +63,17 @@ function App() {
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
+                    <Route path="/test/record" element={<AudioRecorder/>}/>
+                    <Route path="/test/record2" element={<AudioRecorder2/>}/>
+                    <Route path="/test/record3" element={<AudioRecorder3/>}/>
 
                     {/* 소켓 통신 부분 */}
+
+                    <Route path="/main" element={
+                        <SocketProvider>
+                            <MainPage/>
+                        </SocketProvider>
+                    }/>
 
                     {/* 호스트 */}
                     <Route path="/host/game/create" element={
@@ -103,7 +113,7 @@ function App() {
                     }/>
                     <Route path="/host/game/round/result/listening" element={
                         <SocketProvider>
-                            <ListeningRoundResult />
+                            <ListeningRoundResult/>
                         </SocketProvider>
                     }/>
                     <Route path="/host/game/setting/:id" element={

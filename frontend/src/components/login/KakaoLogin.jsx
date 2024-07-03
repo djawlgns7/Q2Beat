@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import axios from '../../utils/axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import kakaoLogin from "../../image/kakao_login.png";
 import '../../css/KakaoLogin.css';
-import { useModal } from '../context/ModalContext.jsx';
+import {useModal} from '../context/ModalContext.jsx';
 
 const KakaoLoginButton = () => {
     const navigate = useNavigate();
-    const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
+    const {showModal, setModalType, setModalTitle, setModalBody} = useModal();
 
     useEffect(() => {
         if (!window.Kakao.isInitialized()) {
@@ -20,10 +20,10 @@ const KakaoLoginButton = () => {
             success: async (authObj) => {
                 try {
                     const userInfo = await window.Kakao.API.request({
-                        url: 'http://bit-two.com:8080/v2/user/me',
+                        url: '/v2/user/me',
                     });
-                    const { id: socialId, kakao_account: { profile: { nickname: name }, email } } = userInfo;
-                    handleLoginSuccess({ socialId, name, email }, 'kakao');
+                    const {id: socialId, kakao_account: {profile: {nickname: name}, email}} = userInfo;
+                    handleLoginSuccess({socialId, name, email}, 'kakao');
                 } catch (error) {
                     console.error('Kakao API request error:', error);
                     setModalType("error");
@@ -43,14 +43,16 @@ const KakaoLoginButton = () => {
     };
 
     const handleLoginSuccess = async (userInfo, platform) => {
-        const { socialId, name, email } = userInfo;
+        const {socialId, name, email} = userInfo;
 
         try {
-            const result = await axios.post('/members/social-login', {
+            const result = await axios.post('https://bit-two.com/api/members/social-login', {
                 socialId,
                 platform,
                 name,
                 email,
+            }, {
+                withCredentials: true
             });
 
             const response = result.data;
@@ -68,11 +70,7 @@ const KakaoLoginButton = () => {
             }
 
             sessionStorage.setItem('member', JSON.stringify(member));
-            if (!member.memberUsername) {
-                navigate('/set-nickname');
-            } else {
-                navigate('/main');
-            }
+            navigate('/main');
         } catch (error) {
             console.error('Social login error:', error);
             setModalType("error");

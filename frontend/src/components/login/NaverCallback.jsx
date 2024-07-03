@@ -24,7 +24,7 @@ const NaverCallback = () => {
 
     const getUserInfo = async (accessToken) => {
         try {
-            const response = await axios.get(`http://bit-two.com:8080/naver/user-info?accessToken=${accessToken}`);
+            const response = await axios.get(`https://bit-two.com/api/naver/user-info?accessToken=${accessToken}`);
             if (response.data) {
                 const { id: socialId, name, email } = response.data.response;
                 handleLoginSuccess({ socialId, name, email }, 'naver');

@@ -62,7 +62,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
             formData.append("roomId", "R" + roomId);
             formData.append("playerName", playerName);
 
-            const response = await fetch('http://bit-two.com:8080/quiz/pose/image/upload', {
+            const response = await fetch('https://bit-two.com/quiz/pose/image/upload', {
                 method: 'POST',
                 body: formData
             });
@@ -109,7 +109,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
         const fixedSimilarity = Math.round(predictionResult * 100);
 
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
+            const response = await fetch(`https://bit-two.com/quiz/player/score/update?room_id=R${roomId}&player_name=${playerName}&player_score=${fixedSimilarity}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');

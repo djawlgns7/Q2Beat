@@ -35,7 +35,7 @@ const Lobby = () => {
 
     const getPlayersList = async () => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/player/list?roomId=${roomId}`)
+            const response = await fetch(`https://bit-two.com/quiz/player/list?roomId=${roomId}`)
             if (!response.ok) {
                 throw new Error('Failed to get player list');
             }
@@ -57,7 +57,7 @@ const Lobby = () => {
     const showQR = () => {
         setModalType("QR");
         setModalTitle("QR코드 표시");
-        setModalBody(`http://localhost:5173/player/game/join?roomNumber=${roomId}`);
+        setModalBody(`https://q2beat.vercel.app/player/game/join?roomNumber=${roomId}`);
         showModal();
     }
 
@@ -71,7 +71,7 @@ const Lobby = () => {
             setRoomId(null);
             socketRef.current.close();
 
-            navigate("/host/game/create");
+            navigate("/main");
         }
     }
 

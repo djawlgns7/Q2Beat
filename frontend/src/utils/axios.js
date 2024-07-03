@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: '/api',
+    baseURL: 'https://bit-two.com/api',
     withCredentials: true
 });
 

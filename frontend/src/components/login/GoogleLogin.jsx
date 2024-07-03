@@ -1,7 +1,7 @@
 import React from 'react';
-import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import {useGoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 import axios from '../../utils/axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import googleLogo from '../../image/google_logo.png';
 import '../../css/GoogleLogin.css';
 
@@ -10,9 +10,9 @@ const GoogleLoginButton = () => {
 
     const handleLoginSuccess = async (tokenResponse) => {
         try {
-            const { access_token } = tokenResponse;
-            const { data } = await axios.get(`/members/google/userinfo?access_token=${access_token}`);
-            const { sub: socialId, name, email } = data;
+            const {access_token} = tokenResponse;
+            const {data} = await axios.get(`/members/google/userinfo?access_token=${access_token}`);
+            const {sub: socialId, name, email} = data;
 
             const result = await axios.post('/members/social-login', {
                 socialId,
@@ -33,11 +33,7 @@ const GoogleLoginButton = () => {
             }
 
             sessionStorage.setItem('member', JSON.stringify(member));
-            if (!member.memberUsername) {
-                navigate('/set-nickname');
-            } else {
-                navigate('/main');
-            }
+            navigate('/main');
         } catch (error) {
             console.error('Google login error:', error);
             if (error.response) {
@@ -70,7 +66,7 @@ const GoogleLoginPage = () => {
 
     return (
         <GoogleOAuthProvider clientId={clientId}>
-            <GoogleLoginButton />
+            <GoogleLoginButton/>
         </GoogleOAuthProvider>
     );
 };

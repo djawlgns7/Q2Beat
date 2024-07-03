@@ -111,7 +111,7 @@ const PlayerQuizPage = () => {
 
         console.log("Sending answer:", answer.current); // 로그 추가
 
-        const response = await fetch(`http://bit-two.com:8080/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`https://bit-two.com/quiz/send/answer/${gameMode}?quizId=${quizId}&answer=${answer.current}&roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -131,7 +131,7 @@ const PlayerQuizPage = () => {
     };
 
     const handleSkip = async () => {
-        const response = await fetch(`http://bit-two.com:8080/quiz/send/skip?roomId=R${roomId.current}&playerName=${playerName.current}`, {
+        const response = await fetch(`https://bit-two.com/quiz/send/skip?roomId=R${roomId.current}&playerName=${playerName.current}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

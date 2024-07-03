@@ -3,7 +3,7 @@ import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import '../../../css/PC.css';
 import '../../../css/Quiz/RoundResult.css';
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 
 const ListeningQuizResult = () => {
     const { roomId } = useSocket();
@@ -13,7 +13,7 @@ const ListeningQuizResult = () => {
     useEffect(() => {
         const fetchPlayerResults = async () => {
             try {
-                const response = await fetch(`http://bit-two.com:8080/quiz/get/players/rank/list?roomId=${roomId}`);
+                const response = await fetch(`https://bit-two.com/quiz/get/players/rank/list?roomId=${roomId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch player results');
                 }
