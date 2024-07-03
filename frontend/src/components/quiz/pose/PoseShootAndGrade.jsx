@@ -10,7 +10,7 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
     const [imageSrc, setImageSrc] = useState(null);
     const [predictionResult, setPredictionResult] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
-    const [timer, setTimer] = useState(15); // 타이머 설정
+    const [timer, setTimer] = useState(10); // 타이머 설정
     const webcamRef = useRef(null);
 
     const targetPose = poseQuiz.pose_name;
