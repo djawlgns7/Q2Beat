@@ -28,10 +28,10 @@ const Q2Modal = (props) => {
                     <Modal.Body>{props.modalBody}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
-                            Close
+                            닫기
                         </Button>
                         <Button variant="primary" onClick={handleClose}>
-                            Save Changes
+                            확인
                         </Button>
                     </Modal.Footer>
                 </Modal>
@@ -42,11 +42,8 @@ const Q2Modal = (props) => {
                     </Modal.Header>
                     <Modal.Body>{props.modalBody}</Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
                         <Button variant="primary" onClick={handleClose}>
-                            Save Changes
+                            확인
                         </Button>
                     </Modal.Footer>
                 </Modal>

@@ -46,7 +46,6 @@ function App() {
                     <Route path="/" element={<Login/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
-                    <Route path="/main" element={<MainPage/>}/>
                     <Route path="/callback" element={<NaverCallback/>}/>
                     <Route path="/reset" element={<Reset/>}/>
                     <Route path="/chat-room" element={<ChatRoom/>}/>
@@ -69,6 +68,12 @@ function App() {
                     <Route path="/test/record3" element={<AudioRecorder3/>}/>
 
                     {/* 소켓 통신 부분 */}
+
+                    <Route path="/main" element={
+                        <SocketProvider>
+                            <MainPage/>
+                        </SocketProvider>
+                    }/>
 
                     {/* 호스트 */}
                     <Route path="/host/game/create" element={
@@ -108,7 +113,7 @@ function App() {
                     }/>
                     <Route path="/host/game/round/result/listening" element={
                         <SocketProvider>
-                            <ListeningRoundResult />
+                            <ListeningRoundResult/>
                         </SocketProvider>
                     }/>
                     <Route path="/host/game/setting/:id" element={

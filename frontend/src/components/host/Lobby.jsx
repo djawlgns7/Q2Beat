@@ -71,7 +71,7 @@ const Lobby = () => {
             setRoomId(null);
             socketRef.current.close();
 
-            navigate("/host/game/create");
+            navigate("/main");
         }
     }
 

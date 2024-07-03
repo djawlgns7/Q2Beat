@@ -17,17 +17,30 @@ export const SocketProvider = ({ children }) => {
     const [hostMessage, setHostMessage] = useState('');
     const [clientMessage, setClientMessage] = useState('');
     const [quiz, setQuiz] = useState(null);  // 추가된 부분
+    const [reconnectAttempts, setReconnectAttempts] = useState(0);
     const isConnected = useRef(false);
     const location = useLocation(); // 현재 경로를 가져오기 위한 훅
+    const maxReconnectAttempts = 10;
 
-    const { showModal, setModalType, setModalTitle, setModalBody } = useModal();
+    const { showErrorModal, setModalType, setModalTitle, setModalBody } = useModal();
 
     const connectWebSocket = () => {
+
+        if (reconnectAttempts >= maxReconnectAttempts) {
+            console.log('Maximum reconnect attempts reached');
+            clearPlayInformation();
+            sessionStorage.removeItem('playerName')
+            setRoomId(null);
+
+            return;
+        }
+
         const socket = new SockJS('https://bit-two.com/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');
             isConnected.current = true;
+            setReconnectAttempts(0);
 
             const savedRoomId = sessionStorage.getItem('roomId');
             if (savedRoomId) {
@@ -56,7 +69,7 @@ export const SocketProvider = ({ children }) => {
                 setModalType('error');
                 setModalTitle('오류');
                 setModalBody(msgData.split(":")[1]);
-                showModal();
+                showErrorModal();
             } else if (msgData.startsWith("NEWMEMBER:")) {
                 setClientMessage(msgData);
             } else if (msgData.startsWith("USERLEFT:")) {
@@ -78,7 +91,7 @@ export const SocketProvider = ({ children }) => {
         };
 
         socket.onclose = () => {
-            console.log('Disconnected from WebSocket server. Trying to reconnect');
+            console.log(`WebSocket disconnected, attempt ${reconnectAttempts + 1}`);
             isConnected.current = false;
         };
 
@@ -91,20 +104,21 @@ export const SocketProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
             if (!isConnected.current) {
                 connectWebSocket();
             }
         }, 500);
 
         return () => {
+            clearInterval(interval);
             socketRef.current.close();
         };
-    }, []);
+    }, [reconnectAttempts]);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
-            if (location.pathname !== '/host/game/create' && location.pathname !== '/host/game/join') {  // 특정 페이지를 확인
+            if (location.pathname !== '/host/game/create' && location.pathname !== '/host/game/join' && location.pathname !== '/main') {  // 특정 페이지를 확인
                 event.preventDefault();
                 event.returnValue = '';  // Chrome requires returnValue to be set.
             }

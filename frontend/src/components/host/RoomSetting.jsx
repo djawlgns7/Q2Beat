@@ -35,7 +35,7 @@ const RoomSetting = () => {
                 gameMode: "TWISTER",
                 round: 1,
                 maxRound: playerNumber,
-                timeLimit: 15,
+                timeLimit: 10,
                 level: "NORMAL"
             }
         } else if (gameType === "3") {
@@ -43,7 +43,7 @@ const RoomSetting = () => {
                 gameMode: "POSE",
                 round: 1,
                 maxRound: playerNumber,
-                timeLimit: 15,
+                timeLimit: 10,
                 level: "NORMAL"
             }
         }
@@ -62,6 +62,11 @@ const RoomSetting = () => {
             alert("방에 들어와 있는 사람이 없습니다.");
             return;
         }
+
+        if (setting.current.gameMode === "TWISTER" && setting.current.level === "HARD") {
+            setting.current.timeLimit = 15;
+        }
+
         sessionStorage.setItem('setting', JSON.stringify(setting.current));
         sendMessage(`START:${roomId}:${setting.current.gameMode}`);
         navigate("/host/game/count");

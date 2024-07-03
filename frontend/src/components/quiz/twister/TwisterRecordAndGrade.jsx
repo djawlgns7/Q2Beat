@@ -8,7 +8,7 @@ import '../../../css/Quiz/Twister/TwisterRecordAndGrade.css'
 const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording, setIsRecording, roundNumber}) => {
     const {hostMessage, sendMessage, setClientMessage} = useSocket();
     const [isRecorded, setIsRecorded] = useState(false);
-    const [answerString, setAnswerString] = useState('');
+    const [answerString, setAnswerString] = useState('-1');
     const [similarity, setSimilarity] = useState('');
     const [recordState, setRecordState] = useState(false);
     const mediaRecorderRef = useRef(null);
@@ -17,10 +17,10 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isRecorded === true) {
+        if (answerString !== '-1') {
             handleCompare();
         }
-    }, [isRecorded]);
+    }, [answerString]);
 
     useEffect(() => {
         if (similarity !== '' && similarity !== "Error calculating similarity") {

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../css/Moblie.css';
 import Q2B_back from "../../../image/background-image.png";
@@ -9,9 +9,13 @@ import PlayerTop from "../PlayerTop.jsx";
 const ListeningText = ({ prepareAnswer, onSkip }) => {
     const [answer, setAnswer] = useState('');
     const [feedback, setFeedback] = useState(null);
-    const playerName = useRef("");
+    const [playerName, setPlayerName] = useState('');
     const [skipped, setSkipped] = useState(false);
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        setPlayerName(sessionStorage.getItem("playerName"));
+    }, []);
 
     const onChange = (e) => {
         if (!skipped) {
@@ -53,7 +57,7 @@ const ListeningText = ({ prepareAnswer, onSkip }) => {
             <div className="Box-m">
                 <div className="player-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
-                    <PlayerTop playerName={playerName.current} />
+                    <PlayerTop playerName={playerName} />
                 </div>
                 <div className="listening-main">
                     <h3 className="listening-round-m">Round 1</h3>

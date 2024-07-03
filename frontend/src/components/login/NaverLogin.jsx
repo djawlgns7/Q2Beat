@@ -10,7 +10,7 @@ const NaverLoginButton = () => {
     useEffect(() => {
         const naverLogin = new window.naver.LoginWithNaverId({
             clientId: 'vAltMUfRJyDI_bd1mcHY',
-            callbackUrl: 'https://q2beat.vercel.app/callback',
+            callbackUrl: 'https://q2eat.vercel.app/callback',
             isPopup: false,
             loginButton: { color: 'green', type: 3, height: 52 }
         });
@@ -41,7 +41,7 @@ const NaverLoginButton = () => {
         const { socialId, name, email } = userInfo;
 
         try {
-            const result = await axios.post('https://bit-two.com/api/members/social-login', {
+            const result = await axios.post('/api/members/social-login', {
                 socialId,
                 platform,
                 name,

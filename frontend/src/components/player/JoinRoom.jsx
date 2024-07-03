@@ -5,9 +5,11 @@ import '../../css/Participant/JoinRoom.css'
 import '../../css/Moblie.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import Q2B_back from "../../image/background-image.png";
+import {useModal} from "../context/ModalContext.jsx";
 
 const JoinRoom = () => {
     const {sendMessage, roomId, clearPlayInformation, isConnected} = useSocket();
+    const {showErrorModal, setModalType, setModalTitle, setModalBody} = useModal();
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const [roomInput, setRoomInput] = useState('');
@@ -17,12 +19,9 @@ const JoinRoom = () => {
     useEffect(() => {
         // 컴포넌트가 마운트될 때 세션 스토리지에서 이름을 가져와 초기화
         clearPlayInformation();
-        const storedName = sessionStorage.getItem('playerName');
         const roomNumber = params.get("roomNumber");
 
-        if (roomId && storedName !== null) {
-            navigate("/player/game/waiting");
-        } else if (roomNumber) {
+        if (roomNumber) {
             setRoomInput(roomNumber);
         }
 
@@ -38,32 +37,51 @@ const JoinRoom = () => {
     const joinRoom = () => {
         if (roomInput.trim()) {
             if (!isConnected.current) {
-                alert("현재 서버와 연결 중입니다. 다시 시도해 주세요.");
+                setModalType("error");
+                setModalTitle("오류");
+                setModalBody("현재 서버와 연결 중입니다. 다시 시도해 주세요.");
+                showErrorModal();
+
                 window.location.reload();
                 return;
             }
 
             if (name === "") {
-                alert("이름을 입력해 주세요.");
+                setModalType("error");
+                setModalTitle("오류");
+                setModalBody("이름을 입력해 주세요.");
+                showErrorModal();
+
                 return;
             }
 
             if (name.includes("(HOST)")) {
-                alert("'(HOST)' 가 포함된 단어는 이름으로 사용할 수 없습니다.");
+                setModalType("error");
+                setModalTitle("오류");
+                setModalBody("'(HOST)' 가 포함된 단어는 이름으로 사용할 수 없습니다.");
+                showErrorModal();
+
                 return;
             }
 
             if (name.includes(":") || name.includes("-")) {
-                alert("':', '-' 가 포함된 단어는 이름으로 사용할 수 없습니다.");
+                setModalType("error");
+                setModalTitle("오류");
+                setModalBody("':', '-' 가 포함된 단어는 이름으로 사용할 수 없습니다.");
+                showErrorModal();
+
                 return;
             }
 
             isAvailableName().then(() => {
                 if (isAvailable.current) {
-                    sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
                     sessionStorage.setItem('playerName', name);
+                    sendMessage("JOIN:PLAYER:" + roomInput + ":" + name);
                 } else {
-                    alert("중복된 닉네임입니다. 다른 닉네임을 사용해 주세요.");
+                    setModalType("error");
+                    setModalTitle("오류");
+                    setModalBody("중복된 닉네임입니다. 다른 닉네임을 사용해 주세요.");
+                    showErrorModal();
                 }
             })
         }
@@ -100,7 +118,7 @@ const JoinRoom = () => {
                                 <input
                                     className="join-input"
                                     placeholder="roomNum"
-                                    type="text"
+                                    type="number"
                                     maxLength="5"
                                     value={roomInput}
                                     onChange={(e) => setRoomInput(e.target.value)}
