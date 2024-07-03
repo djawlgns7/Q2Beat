@@ -10,7 +10,7 @@ instance.interceptors.request.use((config) => {
     try {
         const member = JSON.parse(sessionStorage.getItem('member'));
         const admin = JSON.parse(sessionStorage.getItem('admin'));
-        const sessionId = sessionStorage.getItem('sessionId'); //세션 ID를 로컬 스토리지에서 가져옴
+        const sessionId = sessionStorage.getItem('sessionId'); //세션 ID를 세션 스토리지로
 
         if (admin && admin.token) {  // Assuming 'token' is stored in 'member'
             config.headers.Authorization = `Bearer ${admin.token}`;

@@ -20,7 +20,7 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
             if (response.status === 200) {
                 //관리자 정보(JSON데이터)를 세션 스토리지에 저장
                 sessionStorage.setItem('admin', JSON.stringify(response.data));
-                console.log('Login Success');
+                console.log('Login Admin');
                 onLoginSuccess(); //로그인 성공 콜백
                 onRequestClose(); //모달 닫기
                 navigate('/'); //관리자 접속 후 페이지 이동
@@ -41,6 +41,7 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
             if (response.status === 200) {
                 sessionStorage.removeItem('sessionId'); //세션 ID를 세션 스토리지에서 제거
                 sessionStorage.removeItem('admin'); //admin 정보를 세션에서 제거
+                console.log('Logout Admin')
                 onRequestClose();
                 navigate('/'); //페이지 리다이렉트
             }
@@ -71,7 +72,7 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
                     />
                 </div>
                 <div className="admlogin-form-group">
-                    <label htmlFor="admin_password" method="GET">Password:</label>
+                    <label htmlFor="admin_password">Password:</label>
                     <input
                         type="password"
                         id="admin_password"
