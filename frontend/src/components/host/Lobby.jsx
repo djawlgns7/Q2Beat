@@ -81,8 +81,8 @@ const Lobby = () => {
             <div className="contents-box-p">
                 <div className="lobby-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage"/>
-                    <h3 className="player-count">플레이어 : {participants.length}</h3>
-                    <h2 className="room-number">방 번호 : {roomId}</h2>
+                    <h3 className="player-count">PLAYER : {participants.length}</h3>
+                    <h2 className="room-number">No : {roomId}</h2>
                     <button className="qrCode-btn" onClick={showQR}>
                         <span className="svgContainer">QR</span>
                         <span className="BG"></span>

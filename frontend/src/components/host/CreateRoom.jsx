@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import '../../css/PC.css';
 import '../../css/Host/CreateRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
-import Q2B_back from "../../image/Q2Beat_background.png";
+import BackgroundVideo from "../BackgroundVideo.jsx";
 
 const CreateRoom = () => {
     const {sendMessage, roomId, clearPlayInformation} = useSocket();
@@ -32,24 +32,27 @@ const CreateRoom = () => {
 
     return (
         <div className="container-p">
-            <div className="loginBox-p">
-                <div className="loginTitle-p">
+            <BackgroundVideo/>
+            <div className="Box-p">
+                <div className="logoTitle-p">
                     <img src={Q2B} alt="Q2B" className="logoImage-p"/>
                     <h1 className="title-p">Q2BEAT</h1>
                 </div>
-                <div>
-                    <h2 className="createRoom-title">방 이름 : </h2>
-                    <input
-                        type="text"
-                        maxLength="14"
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter your name"
-                    />
+                <div className="createRoom-main">
+                    <div className="createRoom-input-border">
+                        <div className="createRoom-input-box">
+                            <input
+                                type="text"
+                                maxLength="14"
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Room Number"
+                                className="createRoom-input"
+                            />
+                        </div>
+                    </div>
+                    <button onClick={createRoom} className="createRoom-btn"><span>Create</span></button>
                 </div>
-                <br/>
-                <button onClick={createRoom} className="createRoom">생성</button>
             </div>
-            <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>
         </div>
     );
 };

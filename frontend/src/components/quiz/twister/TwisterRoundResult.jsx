@@ -44,14 +44,16 @@ const TwisterRoundResult = ({roomId}) => {
         <>
             {isFetched === true ? (
                 <div className="container-p">
-                    <div className="twister-box">
-                        <div className="twister-header">
-                            <h2 className="twister-round">Round 1</h2>
-                        </div>
+                    <div className="contents-box-p">
                         <div className="twister-main">
-                            <h1>{nextPlayer}님의 결과</h1><br/>
-                            <h4>{answerString}</h4>
-                            <h3>유사도: {score}%</h3>
+                            <h2 className="twister-round">Round 1</h2>
+                            <h3 className="twister-player-result">{nextPlayer}님의 결과</h3>
+                            <div className="twister-text-result-box">
+                                <div className="twister-text-result">
+                                    {answerString}
+                                </div>
+                            </div>
+                            <h3 className="samePercent">유사도: {score}%</h3>
                         </div>
                     </div>
                     <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>

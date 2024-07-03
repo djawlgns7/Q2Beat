@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useSocket} from "../../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
+import mic_icon from "../../../image/free-icon-mic-2.png";
+import '../../../css/Quiz/Twister/TwisterRecordAndGrade.css'
 
 const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording, setIsRecording, roundNumber}) => {
     const {hostMessage, sendMessage, setClientMessage} = useSocket();
@@ -15,10 +17,10 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (answerString !== '') {
+        if (isRecorded === true) {
             handleCompare();
         }
-    }, [answerString]);
+    }, [isRecorded]);
 
     useEffect(() => {
         if (similarity !== '' && similarity !== "Error calculating similarity") {
@@ -85,6 +87,14 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
 
         sendMessage(`MESSAGE:${roomId}:PLAYER:ANSWER-${answerString}`);
 
+        if (answerString === '') {
+            setSimilarity("0");
+            sessionStorage.setItem('playerScore', "0");
+            console.log('similarity: ', "0");
+
+            return;
+        }
+
         const response = await fetch('http://bit-two.com:8080/api/text/compare', {
             method: 'POST',
             headers: {
@@ -131,9 +141,10 @@ const TwisterRecordAndGrade = ({questionString, roomId, playerName, isRecording,
     }
 
     return (
-        <div>
-            <button onClick={isRecording ? handleStopRecording : (isRecorded ? null : handleStartRecording)}>
-                {recordState ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}
+        <div className="mic-container">
+            <img src={mic_icon} alt="mic_icon-2" className="mic-icon-2"/>
+            <button className="record-btn" onClick={isRecording ? handleStopRecording : (isRecorded ? null : handleStartRecording)}>
+                <span>{recordState ? '녹음 중지' : (isRecorded ? '녹음 완료' : '녹음 시작')}</span>
             </button>
         </div>
     );

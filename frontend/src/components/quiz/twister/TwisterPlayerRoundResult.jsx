@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import '../../../css/Quiz/Twister/TwisterPlayerRoundResult.css'
 import backImage from '../../../image/background-image.png'
-import Q2B_back from "../../../image/background-image.png";
+import '../../../css/Moblie.css'
+import PlayerTop from "../PlayerTop.jsx";
+import Q2B from '../../../image/Q2BEAT_2.png'
 
 const TwisterPlayerRoundResult = ({roomId}) => {
     const [currentPlayer, setCurrentPlayer] = useState("");
@@ -35,7 +37,15 @@ const TwisterPlayerRoundResult = ({roomId}) => {
     return (
         <div className="container-m">
             <div className="Box-m">
-                <h1 className="twister-player-roundResult">{currentPlayer}님의 유사도는 {playerScore / 100}% 입니다!</h1>
+                <div className="player-header">
+                    <img src={Q2B} alt="Q2B" className="smallLogoImage-m"/>
+                    <PlayerTop playerName={currentPlayer}/>
+                </div>
+                <h1 className="twister-player-roundResult">
+                    {currentPlayer}님 <br/>
+                    유사도: <br/><br/>
+                    {playerScore / 100}%
+                </h1>
             </div>
             <img src={backImage} alt="backImage" className="backImage-m"/>
         </div>

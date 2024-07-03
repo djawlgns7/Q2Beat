@@ -3,7 +3,7 @@ import {useState} from "react";
 
 const NormalButton = ({prepareAnswer}) => {
 
-    const [backColor, setBackColor] = useState('white');
+    const [backColor, setBackColor] = useState('#FFFFFF');
 
     const handleClick = () => {
         setBackColor(prevColor => (prevColor === '#FFFFFF' ? '#000000' : '#FFFFFF'));
@@ -19,28 +19,28 @@ const NormalButton = ({prepareAnswer}) => {
             <div className="normal-btns">
                 <div className="normal-button">
                     <button className="normal-button-info" onClick={() => {
-                        handleButtonClick(1);
-                    }}>1번
+                        handleButtonClick(1);}}>
+                        <span>1번</span>
                     </button>
                 </div>
                 <div className="normal-button">
                     <button className="normal-button-info" onClick={() => {
-                        handleButtonClick(2);
-                    }}>2번
+                        handleButtonClick(2);}}>
+                        <span>2번</span>
                     </button>
                 </div>
             </div>
             <div className="normal-btns">
                 <div className="normal-button">
                     <button className="normal-button-info" onClick={() => {
-                        handleButtonClick(3);
-                    }}>3번
+                        handleButtonClick(3);}}>
+                        <span>3번</span>
                     </button>
                 </div>
                 <div className="normal-button">
                     <button className="normal-button-info" onClick={() => {
-                        handleButtonClick(4);
-                    }}>4번
+                        handleButtonClick(4);}}>
+                        <span>4번</span>
                     </button>
                 </div>
             </div>
