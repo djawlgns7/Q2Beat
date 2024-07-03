@@ -95,7 +95,6 @@ const JoinRoom = () => {
                 </div>
                 <div className="inputForm">
                     <div className="join-form">
-                        {/*<h2 className="join-label-text">Room No:</h2>*/}
                         <div className="box-input">
                             <div className="border-input">
                                 <input

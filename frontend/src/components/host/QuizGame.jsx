@@ -224,6 +224,7 @@ const QuizGame = () => {
                     <div className="container-p">
                         <div className="contents-box-p">
                             <div className="quiz-main">
+                                {/* quiz-title 클래스 비어있음*/}
                                 <h2 className="quiz-title">문제 {setting.round}</h2>
                                 <h3 className="quiz-text">{quiz.normal_quiz}</h3>
                                 <Timer time={currentTime} onTimeout={handleTimeout}/>
@@ -246,7 +247,6 @@ const QuizGame = () => {
                     </>
                 ) : setting.gameMode === "POSE" ? (
                     <>
-                        <h2 className="quiz-title">문제 {setting.round}</h2>
                         <PoseQuiz quiz={quiz} nextPlayer={nextPlayer}/>
                     </>
                 ) : (

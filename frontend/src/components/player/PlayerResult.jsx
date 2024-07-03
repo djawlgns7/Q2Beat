@@ -62,13 +62,14 @@ const PlayerResult = () => {
                             </div>
                             <div className="round-result">
                                 <h1 className="result-text">최종 결과</h1>
-                                <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
+                                <div className="rank-box">
+                                    <h3 className="result-text result-rank">{Number(rank) + 1}등</h3>
+                                </div>
                                 {gameMode.current === "TWISTER" || gameMode.current === "POSE" ?
                                     <h4 className="result-text">{playerScore.current}%</h4>
                                     :
                                     <h4 className="result-text">{playerScore.current}점</h4>
                                 }
-
                             </div>
                         </div>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>

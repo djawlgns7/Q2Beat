@@ -1,7 +1,7 @@
 import {useSocket} from "../../context/SocketContext.jsx";
 import React, {useEffect, useRef, useState} from "react";
-import mic_icon from '../../../image/free-icon-mic.png'
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import mic_icon from '../../../image/free-icon-mic-2.png'
+import '../../../css/Quiz/Twister/TwisterAnswer.css'
 import TwisterRecordAndGrade from "./TwisterRecordAndGrade.jsx";
 
 const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber, currentPlayer}) => {
@@ -46,18 +46,18 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber, cu
                         <TwisterRecordAndGrade questionString={questionString} roomId={roomId} playerName={playerName}
                                                isRecording={isRecording} setIsRecording={setIsRecording}
                                                roundNumber={roundNumber}/>
-                        <h3>당신 차례입니다!</h3>
+                        <h3 className="turn-text">당신 차례입니다!</h3>
                     </>
                 ) : (
                     <>
                         <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
-                        <h3>{currentPlayer}님 차례입니다.</h3>
+                        <h3 className="turn-text">{currentPlayer}님 차례입니다.</h3>
                     </>
                 )
             ) : (
                 <>
                     <img src={mic_icon} alt="mic_icon" className="mic-icon"/>
-                    <h3>{currentPlayer}님 차례입니다.</h3>
+                    <h3 className="turn-text">{currentPlayer}님 차례입니다.</h3>
                 </>
             )}
         </>

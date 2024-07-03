@@ -4,7 +4,6 @@ import PlayerTop from "../quiz/PlayerTop.jsx";
 import Q2B_back from "../../image/background-image.png";
 import '../../css/Moblie.css'
 import '../../css/Participant/PlayerCount.css'
-import '../../css/Host/QuizCount.css'
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 const PlayerCount = () => {
