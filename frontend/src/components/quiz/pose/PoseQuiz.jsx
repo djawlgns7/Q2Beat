@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
 import '../../../css/PC.css'
 import '../../../css/Quiz/Twister/TwisterQuiz.css'
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 
 const PoseQuiz = ({quiz, nextPlayer}) => {
 
