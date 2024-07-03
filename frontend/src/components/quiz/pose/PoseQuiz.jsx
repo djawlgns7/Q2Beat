@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Timer from "../Timer.jsx";
 import '../../../css/PC.css'
-import '../../../css/Quiz/Twister/TwisterQuiz.css'
+import '../../../css/Quiz/Pose/PoseQuiz.css'
 import Q2B_back from "../../../image/background-image.png";
 
-const PoseQuiz = ({quiz, nextPlayer}) => {
+const PoseQuiz = ({quiz, nextPlayer, time, onTimeout}) => {
 
     const [stage, setStage] = useState(false);
     const [setting, setSetting] = useState('');
@@ -23,20 +23,21 @@ const PoseQuiz = ({quiz, nextPlayer}) => {
     return (
         <>
             <div className="container-p">
-                <div className="twister-box">
-                    <div className="twister-header">
-                        <h2 className="quiz-title">Round {setting.round}</h2>
-                    </div>
-                    <div className="twister-main">
+                <div className="contents-box-p">
+                    <h2 className="pose-title">Round {setting.round}</h2>
+                    <div className="pose-main">
                         {stage === false ? (
-                            <h1 className="twister-quiz-player">
+                            <h1 className="pose-quiz-player">
                                 {nextPlayer}님 차례입니다
                             </h1>
                         ) : (
-                            <div className="twister-quiz-content">
-                                <div className="twister-quiz-text">
-                                    <img src={quiz.pose_image} alt="" />
+                            <div className="pose-quiz-content">
+                                <div className="pose-quiz-text">
+                                    <div className="pose-quiz-image">
+                                        <img src={quiz.pose_image} alt="" className="pose-image"/>
+                                    </div>
                                 </div>
+                                <h3 className="pose-quiz-text">포즈를 따라해주세요!</h3>
                             </div>
                         )
                         }

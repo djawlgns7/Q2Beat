@@ -50,35 +50,20 @@
     color: rgb(231, 206, 255);
 }
 
-
-.roomSetting-select {
-    
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: rgb(231, 206, 255);
-    font-size: 30px;
-    color: #333;
-    cursor: pointer;
-    margin-left: 100px;
-}
-
 .round-count {
     translate: -18px;
 }
 
 .roomSetting-select {
     width: 180px;
+    font-size: 30px;
     font-weight: bold;
     text-align: center;
     border-radius: 8px;
     background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
     color: white;
     border: 5px solid rgba(191, 123, 255, 0.781);
-}
-
-.roomSetting-select:focus {
-    border-color: none;
+    margin-left: 100px;
 }
 
 .roomSetting-buttons {

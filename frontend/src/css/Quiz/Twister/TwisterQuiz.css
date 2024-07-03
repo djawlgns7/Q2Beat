@@ -1,15 +1,3 @@
-.twister-box {
-    width: 1000px;
-    height: 500px;
-    background-color: #1A1F44;
-    border: 3px solid #5169A2;
-    padding: 30px;
-    border-radius: 100px;
-    text-align: center;
-    color: white;
-    margin-top: 25px;
-}
-
 .twister-title {
     text-align: center;
     padding: 10px;

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Q2B_back from "../../../image/background-image.png";
+import '../../../css/PC.css'
 import '../../../css/Quiz/Twister/TwisterRoundResult.css'
 
 const TwisterRoundResult = ({roomId}) => {
@@ -53,7 +54,7 @@ const TwisterRoundResult = ({roomId}) => {
                                     {answerString}
                                 </div>
                             </div>
-                            <h3 className="samePercent">유사도: {score}%</h3>
+                            <h3 className="twister-percent">유사도: {score}%</h3>
                         </div>
                     </div>
                     <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>

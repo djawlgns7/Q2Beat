@@ -1,18 +1,127 @@
-.nickname-input {
-    margin-left: 20px;
-    margin-bottom: 20px;
-    translate: 0px -20px;
+.setName-main {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    translate: -10px;
 }
 
-.nickname-text {
-    font-size: 25px;
+.setName-input-border {
+    position: relative;
+}
+
+.setName-input-box {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    box-shadow: -25px -10px 30px -5px rgba(225, 0, 255, 0.5),
+    25px -10px 30px -5px rgba(255, 0, 212, 0.5),
+    25px 10px 30px -5px rgba(0, 102, 255, 0.5),
+    -25px 10px 30px -5px rgba(0, 136, 121, 0.5);
+    padding: 4px;
+    margin: 70px;
+    width: 230px;
+    translate: 10px -20px;
+    border-radius: 8px;
+}
+
+.setName-input {
+    background-color: #212121;
+    max-width: 222px;
+    height: 50px;
+    padding: 0 19px 0 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    position: relative;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    outline: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.setName-input-border::after,
+.setName-input-border::before {
+    content: "";
+    width: 130px;
+    height: 30px;
+    position: absolute;
+    z-index: -1;
+}
+
+.setName-input-border::after {
+    bottom: 0;
+    right: 0;
+}
+
+.setName-input-border::before {
+    top: 0;
+    left: 0;
+}
+
+.setName-input::placeholder {
+    transition: all 0.5s ease-in, transform 0.2s ease-in 0.6s;
+    text-align: center;
+}
+
+.setName-input:focus::placeholder {
+    padding-left: 165px;
+    transform: translateY(-50px);
+}
+
+.check-nickname-btn {
+    border: none;
+    background: none;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .nickname-btn {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 10px;
-    width: 100px;
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
     border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1em;
+    width: 150px;
+    height: 60px;
+    padding: 5px;
+    margin-left: 20px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
     cursor: pointer;
+    transition: all .3s;
+    translate: 0 -50px;
+}
+
+.nickname-btn:active,
+.nickname-btn:hover {
+    outline: 0;
+}
+
+.nickname-btn span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.nickname-btn:hover span {
+    background: none;
+}
+
+.nickname-btn:active {
+    transform: scale(0.9);
 }
