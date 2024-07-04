@@ -70,7 +70,13 @@ const PlayerRoundResult = () => {
                                     </div>
                                 )
                                 }
-                                <h2>내 점수: {playerScore}</h2>
+                                <div className="score-box">
+                                    <span>
+                                        <h2>현재 점수<br/>
+                                            <div className="playerScore">{playerScore}점</div>
+                                        </h2>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <img src={Q2B_back} alt="Q2B_back" className="backImage-m"/>
@@ -79,7 +85,7 @@ const PlayerRoundResult = () => {
 
                 ) : gameMode.current === "TWISTER" ? (
                     // 잰말놀이
-                    <TwisterPlayerRoundResult roomId={roomId} />
+                    <TwisterPlayerRoundResult roomId={roomId}/>
                 ) : gameMode.current === "LISTENING" ? (
                     // 노래 맞추기
                     <>

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Timer from "../Timer.jsx";
 import Q2B_back from "../../../image/background-image.png";
 import axios from "axios";
+import '../../../css/PC.css'
+import '../../../css/Quiz/Pose/PoseRoundResult.css'
 
 const PoseRoundResult = ({roomId}) => {
 
@@ -61,15 +62,18 @@ const PoseRoundResult = ({roomId}) => {
         <>
             {isFetched === true ? (
                 <div className="container-p">
-                    <div className="twister-box">
-                        <div className="twister-header">
-                            <h2 className="twister-round">Round 1</h2>
-                        </div>
-                        <div className="twister-main">
-                            <h1>{nextPlayer}님의 결과</h1><br/>
-                            {error ? <p>{error}</p> : (image ? <img src={image} alt="Fetched from DB"/> :
-                                <p>Loading...</p>)}
-                            <h3>유사도: {score}%</h3>
+                    <div className="contents-box-p">
+                        <div className="pose-main">
+                            <h2 className="pose-round">Round 1</h2>
+                            <div className="pose-image-result-box">
+                                <div className="pose-image-result">
+                                    <h2 className="pose-player-result">{nextPlayer}님의 결과</h2>
+                                    {error ? <p>{error}</p> : (image ?
+                                        <img className="pose-result-image" src={image} alt="Fetched from DB"/> :
+                                        <p>Loading...</p>)}
+                                </div>
+                            </div>
+                            <h3 className="pose-percent">유사도: {score}%</h3>
                         </div>
                     </div>
                     <img src={Q2B_back} alt="Q2B_back" className="backImage-p"/>

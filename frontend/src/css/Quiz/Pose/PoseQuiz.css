@@ -1,0 +1,24 @@
+.pose-title {
+    text-align: center;
+    padding: 10px;
+}
+
+.pose-quiz-player {
+    text-align: center;
+    padding: 100px;
+    translate: 0 40px;
+}
+
+.pose-quiz-image {
+    display: flex;
+    justify-content: center;
+}
+
+.pose-image {
+    width: 30%;
+}
+
+.pose-quiz-text {
+    text-align: center;
+    padding: 5px;
+}

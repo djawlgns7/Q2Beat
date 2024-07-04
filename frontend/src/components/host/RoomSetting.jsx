@@ -5,9 +5,11 @@ import {useSocket} from "../context/SocketContext.jsx";
 import '../../css/PC.css'
 import '../../css/Host/RoomSetting.css'
 import BackgroundVideo from "../BackgroundVideo.jsx";
+import {useModal} from "../context/ModalContext.jsx";
 
 const RoomSetting = () => {
     const {sendMessage, roomId} = useSocket();
+    const {showErrorModal, setModalType, setModalTitle, setModalBody} = useModal();
     const gameType = String(useParams().id);
     const navigate = useNavigate();
     const setting = useRef(null);
@@ -59,7 +61,11 @@ const RoomSetting = () => {
 
     const gameStart = () => {
         if (playerNumber === "0") {
-            alert("방에 들어와 있는 사람이 없습니다.");
+            setModalType("error");
+            setModalTitle("방에 들어와 있는 사람이 없습니다.");
+            setModalBody("");
+            showErrorModal();
+
             return;
         }
 
