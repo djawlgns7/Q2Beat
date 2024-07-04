@@ -35,7 +35,7 @@ export const SocketProvider = ({ children }) => {
             return;
         }
 
-        const socket = new SockJS('https://bit-two.com/ws');
+        const socket = new SockJS('http://bit-two.com:8080/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');

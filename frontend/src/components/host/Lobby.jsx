@@ -6,6 +6,7 @@ import '../../css/Host/Lobby.css'
 import '../../css/PC.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import BackgroundVideo from "../BackgroundVideo.jsx";
+import BackMusic from "../BackMusic.jsx";
 
 const Lobby = () => {
     const {socketRef, sendMessage, roomId, setRoomId, isConnected, clientMessage, setClientMessage, clearPlayInformation} = useSocket();
@@ -78,6 +79,7 @@ const Lobby = () => {
     return (
         <div className="container-p">
             <BackgroundVideo/>
+            <BackMusic src="/클럽 댄스 배경음악.mp3" initialVolume={0.5}/>
             <div className="contents-box-p">
                 <div className="lobby-header">
                     <img src={Q2B} alt="Q2B" className="smallLogoImage"/>
@@ -142,7 +144,6 @@ const Lobby = () => {
                     </div>
                 </div>
             </div>
-            {/*<img src={backImage} alt="backImage" className="backImage-p"/>*/}
         </div>
     );
 };
