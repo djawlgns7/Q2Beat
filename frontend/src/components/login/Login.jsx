@@ -28,6 +28,13 @@ const Login = () => {
                     <span><a href={"/notices"} className="notice-link">공지사항</a> | </span>
                     <span><a href={"/notices-board"} className="notice-link">QnA</a></span>
                 </div>
+                <div className="team-member">
+                    <span>엄지훈</span>
+                    <span>김태웅</span>
+                    <span>동재완</span>
+                    <span>이학준</span>
+                    <span>오민택</span>
+                </div>
             </div>
         </div>
     );
