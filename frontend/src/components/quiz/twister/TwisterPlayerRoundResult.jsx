@@ -23,7 +23,7 @@ const TwisterPlayerRoundResult = ({roomId}) => {
 
     const getTwisterScore = async () => {
         try {
-            const response = await fetch(`https://bit-two.com/quiz/player/score?room_id=R${roomId}&player_name=${currentPlayer}`);
+            const response = await fetch(`http://localhost:8080/quiz/player/score?room_id=R${roomId}&player_name=${currentPlayer}`);
 
             if (!response.ok) {
                 throw new Error('Failed to get player score');

@@ -8,8 +8,8 @@ const ChatRoom = () => {
     const name = useRef(null);
     const roomInput = useRef(null);
 
-    useEffect(() => {
-        const socket = new WebSocket('wss://bit-two.com/ws');
+    useEffect(() => { //http://localhost:8080 , wss://bit-two.com/ws
+        const socket = new WebSocket('http://localhost:8080/ws');
 
         socket.onopen = () => {
             console.log('Connected to WebSocket server');

@@ -23,7 +23,7 @@ const TwisterAnswer = ({playerName, isRecording, setIsRecording, roundNumber, cu
 
     const getQuestionString = async () => {
         try {
-            const response = await fetch(`https://bit-two.com/quiz/twister/get/quiz?quizId=${quizId}`, {});
+            const response = await fetch(`http://localhost:8080/quiz/twister/get/quiz?quizId=${quizId}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to update player score');

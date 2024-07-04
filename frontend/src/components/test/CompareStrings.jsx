@@ -6,7 +6,7 @@ const CompareStrings = () => {
     const [similarity, setSimilarity] = useState(null);
 
     const handleCompare = async () => {
-        const response = await fetch('http://bit-two.com:8080/api/text/compare', {
+        const response = await fetch('http://localhost:8080/api/text/compare', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

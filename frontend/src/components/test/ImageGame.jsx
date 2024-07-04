@@ -10,7 +10,7 @@ function ImageGame() {
     useEffect(() => {
         const fetchImage = async () => {
             try {
-                const response = await axios.get(`http://bit-two.com:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${player}`);
+                const response = await axios.get(`http://localhost:8080/quiz/pose/image/get?roomId=R${roomId}&playerName=${player}`);
                 setImageSrc(`data:image/jpeg;base64,${response.data}`);
             } catch (error) {
                 console.error("Error fetching image:", error);

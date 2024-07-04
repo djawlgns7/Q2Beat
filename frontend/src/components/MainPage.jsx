@@ -25,7 +25,7 @@ const MainPage = () => {
         setShowLogoutModal(false);
 
         try {
-            await axios.post('https://bit-two.com/api/members/logout');
+            await axios.post('http://localhost:8080/api/members/logout');
             sessionStorage.clear();
             navigate('/login');
         } catch (error) {

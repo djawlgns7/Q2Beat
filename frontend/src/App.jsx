@@ -64,7 +64,6 @@ function App() {
                     <Route path="/" element={<Login setIsAdmin={setIsAdmin}/>}/>
                     <Route path="/login" element={<Login />}/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
-                    <Route path="/main" element={<MainPage/>}/>
                     <Route path="/callback" element={<NaverCallback/>}/>
                     <Route path="/reset" element={<Reset/>}/>
                     <Route path="/chat-room" element={<ChatRoom/>}/>

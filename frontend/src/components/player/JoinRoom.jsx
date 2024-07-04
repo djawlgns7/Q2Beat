@@ -89,7 +89,7 @@ const JoinRoom = () => {
 
     const isAvailableName = async () => {
         try {
-            const response = await fetch(`https://bit-two.com/quiz/player/name/available?roomId=R${roomInput}&playerName=${name}`, {});
+            const response = await fetch(`http://localhost:8080/quiz/player/name/available?roomId=R${roomInput}&playerName=${name}`, {});
 
             if (!response.ok) {
                 throw new Error('Failed to check name');
