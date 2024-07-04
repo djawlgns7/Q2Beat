@@ -1,21 +1,51 @@
 .normal-btns {
     display: flex;
-    gap: 10px;
+    justify-content: center;
+    translate: 0 80px;
 }
 
 .normal-button {
-    background-color: #1A1F44;
-    border: 5px solid #5169A2;
-    border-radius: 10px;
-    color: white;
-    font-size: 25px;
-    padding: 5px 10px;
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    z-index: 1;
+    position: relative;
+    padding: 10px 10px;
+    border-radius: 8px;
     width: 150px;
     height: 100px;
-    margin: 15px 10px;
+    margin: 15px;
 }
 
-.normal-button:hover {
-    border-color: #FFD800;
-    text-decoration: underline;
+.normal-button-info {
+    --color: #181818;
+    background: var(--color);
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    width: 140px;
+    height: 90px;
+    border-radius: .7rem;
+    position: absolute;
+    margin: -5px;
+    padding: 10px;
+}
+
+.normal-button-info:active,
+.normal-button-info:hover {
+    outline: 0;
+}
+
+.normal-button-info:hover span {
+    background: none;
+}
+
+.normal-button-info:active {
+    transform: scale(0.9);
+}
+
+.normal-button-info:active,
+.normal-button-info:focus {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: none;
 }

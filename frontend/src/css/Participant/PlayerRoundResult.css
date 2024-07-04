@@ -2,33 +2,100 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
-    margin-top: 30px;
+    gap: 60px;
+    margin-top: 50px;
     color: white;
+}
+
+.round-result-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
 }
 
 
 .result-text {
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .result-rank {
-    font-size: 40px;
+    font-size: 45px;
     font-weight: bold;
 }
 
-/* Green Circle */
-.green-circle {
-    color: green;
-    font-size: 200px;
+.correct-text {
     font-weight: bold;
-    display: inline-block;
 }
 
-/* Red X */
-.red-x {
-    color: red;
-    font-size: 200px;
+.twister-player-roundResult {
+    text-align: center;
+    padding: 100px;
+    color: white;
+}
+
+.score-box {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border-radius: 30px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 20px;
     font-weight: bold;
-    display: inline-block;
+    line-height: 1em;
+    width: fit-content;
+    padding: 15px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all .3s;
+}
+
+.score-box span {
+    background-color: rgb(5, 6, 45);
+    padding: 20px 30px;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listening-playerScore {
+    text-align: center;
+    font-weight: bold;
+    translate: 0 10px;
+}
+
+.rank-box {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border-radius: 30px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1em;
+    width: fit-content;
+    padding: 5px 10px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all .3s;
+}
+
+.rank-box .result-text {
+    background-color: rgb(5, 6, 45);
+    padding: 20px 30px;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    translate: 0 3px;
 }

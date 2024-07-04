@@ -1,10 +1,7 @@
 package org.bit.controller;
 
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -16,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/audio")
+@CrossOrigin(origins = "https://q2beat.vercel.app")
 public class AudioComparisonController {
 
     @PostMapping("/compare")
@@ -82,6 +80,32 @@ public class AudioComparisonController {
         Map<String, Object> response = new HashMap<>();
         response.put("distance", distance);
         response.put("similarity", similarity);
+        return response;
+    }
+
+    @PostMapping("/recognize")
+    public Map<String, Object> recognizeAudio(@RequestParam("file") MultipartFile file) throws IOException, InterruptedException {
+        File scriptFile = new ClassPathResource("python/speech_recognition.py").getFile();
+        File uploadedFile = convertMultiPartToFile(file);
+
+        ProcessBuilder processBuilder = new ProcessBuilder("python", scriptFile.getAbsolutePath(), uploadedFile.getAbsolutePath());
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String result;
+        StringBuilder output = new StringBuilder();
+        while ((result = in.readLine()) != null) {
+            output.append(result);
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new IOException("Python script execution failed");
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("text", output.toString().trim());
         return response;
     }
 

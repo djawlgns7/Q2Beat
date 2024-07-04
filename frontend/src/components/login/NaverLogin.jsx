@@ -10,7 +10,7 @@ const NaverLoginButton = () => {
     useEffect(() => {
         const naverLogin = new window.naver.LoginWithNaverId({
             clientId: 'vAltMUfRJyDI_bd1mcHY',
-            callbackUrl: 'http://localhost:5173/callback',
+            callbackUrl: 'https://q2eat.vercel.app/callback',
             isPopup: false,
             loginButton: { color: 'green', type: 3, height: 52 }
         });

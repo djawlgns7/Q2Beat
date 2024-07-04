@@ -33,4 +33,8 @@ public class MemberService {
     public boolean nicknameExist(String nickname) {
         return memberMapper.findByUsername(nickname)!= null;
     }
+
+    public Member findById(int memberId) {
+        return memberMapper.findById(memberId);
+    }
 }

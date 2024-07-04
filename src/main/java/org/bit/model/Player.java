@@ -10,6 +10,8 @@ public class Player {
     private String player_recent_answer;
     private int player_score;
     private boolean isCorrect;
+    private boolean isSkipped;
+    private byte[] player_image;
 
     public Player() {
 

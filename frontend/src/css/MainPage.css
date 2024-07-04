@@ -1,26 +1,110 @@
 .main-btns {
     display: flex;
-    align-items: center;
-    gap: 30px;
-    margin: 50px;
+    justify-content: center;
+    gap: 60px;
+    margin-bottom: 55px;
 }
 
 .main-button {
-    width: 300px;
-    height: 70px;
-    font-size: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    translate: 15px;
-    background-color: #1A1F44;
+    background-image: linear-gradient(144deg, #ec40ff, #4062ff 50%,#00DDEB);
+    border: none;
+    font-size: 1.5em;
+    border-radius: 1.5em;
+    padding: 5px;
+    transition: border-top-left-radius 0.2s ease-in,
+    border-top-right-radius 0.2s ease-in 0.15s,
+    border-bottom-right-radius 0.2s ease-in 0.3s,
+    border-bottom-left-radius 0.2s ease-in 0.45s,
+    padding 0.2s ease-in;
+    position: relative;
+}
+
+.btn-int {
+    background-color: #212121;
     color: white;
-    border: 3px solid #5169A2;
-    border-radius: 30px;
+    border-radius: 1.3em;
+    padding: 10px 40px;
+    transition: all 0.2s ease-in,
+    border-top-left-radius 0.2s ease-in,
+    border-top-right-radius 0.2s ease-in 0.15s,
+    border-bottom-right-radius 0.2s ease-in 0.3s,
+    border-bottom-left-radius 0.2s ease-in 0.45s,
+    padding 0.2s ease-in;
+    font-weight: 600;
+    z-index: -1;
+    box-shadow: -25px -10px 30px -5px rgba(225, 0, 255, 0.5),
+    25px -10px 30px -5px rgba(255, 0, 212, 0.5),
+    25px 10px 30px -5px rgba(0, 102, 255, 0.5),
+    -25px 10px 30px -5px rgba(0, 136, 121, 0.5);
+}
+
+.main-button:active .btn-int {
+    padding: 10px 30px;
 }
 
 .main-button:hover {
-    cursor: pointer;
-    background-color: #5169A2;
-    border-color: #ffd800;
-    color: white;
+    border-radius: 0;
+}
+
+.main-button:hover .btn-int {
+    border-radius: 0;
+}
+
+.main-button:hover .btn-int {
+    box-shadow: -25px -10px 30px -5px rgba(225, 0, 255, 0.5),
+    25px -10px 30px -5px rgba(255, 0, 212, 0.5),
+    25px 10px 30px -5px rgba(0, 102, 255, 0.5),
+    -25px 10px 30px -5px rgba(0, 136, 121, 0.5);
+}
+/*.main-button {*/
+/*    --glow-color: rgb(217, 176, 255);*/
+/*    --glow-spread-color: rgba(191, 123, 255, 0.781);*/
+/*    --enhanced-glow-color: rgb(231, 206, 255);*/
+/*    --btn-color: rgb(100, 61, 136);*/
+/*    border: .25em solid var(--glow-color);*/
+/*    padding: 1em 2.5em;*/
+/*    color: var(--glow-color);*/
+/*    font-size: 18px;*/
+/*    font-weight: bold;*/
+/*    background-color: var(--btn-color);*/
+/*    border-radius: 1em;*/
+/*    outline: none;*/
+/*    box-shadow: 0 0 1em .25em var(--glow-color),*/
+/*    0 0 4em 1em var(--glow-spread-color),*/
+/*    inset 0 0 .75em .25em var(--glow-color);*/
+/*    text-shadow: 0 0 .5em var(--glow-color);*/
+/*    position: relative;*/
+/*    transition: all 0.3s;*/
+/*}*/
+
+/*.main-button::after {*/
+/*    pointer-events: none;*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: 120%;*/
+/*    left: 0;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    background-color: var(--glow-spread-color);*/
+/*    filter: blur(2em);*/
+/*    opacity: .7;*/
+/*    transform: perspective(1.5em) rotateX(35deg) scale(1, .6);*/
+/*}*/
+
+/*.main-button:hover {*/
+/*    color: var(--btn-color);*/
+/*    background-color: var(--glow-color);*/
+/*    box-shadow: 0 0 1em .25em var(--glow-color),*/
+/*    0 0 4em 2em var(--glow-spread-color),*/
+/*    inset 0 0 .75em .25em var(--glow-color);*/
+/*}*/
+
+/*.main-button:active {*/
+/*    box-shadow: 0 0 0.6em .25em var(--glow-color),*/
+/*    0 0 2.5em 2em var(--glow-spread-color),*/
+/*    inset 0 0 .5em .25em var(--glow-color);*/
+/*}*/
+
+.logout-button {
+    translate: 0 -20px;
 }

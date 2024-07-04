@@ -1,13 +1,14 @@
 import React from 'react';
-import './ErrorModal.css'; // 스타일을 정의하는 CSS 파일
+import '../../css/Modal/ErrorModal.css';
 
-const ErrorModal = ({ state, modalTitle, modalBody, hideModal }) => {
+const ErrorModal = ({ errorState, modalTitle, modalBody, hideErrorModal }) => {
+
     return (
-        <div className={`modal ${state}`}>
+        <div className={`modal ${errorState}`}>
             <div className="modal-content">
                 <span className="modal-title">{modalTitle}</span>
                 <p className="modal-body">{modalBody}</p>
-                <button className="close-button" onClick={hideModal}>확인</button>
+                <button className="close-button" onClick={hideErrorModal}>확인</button>
             </div>
         </div>
     );

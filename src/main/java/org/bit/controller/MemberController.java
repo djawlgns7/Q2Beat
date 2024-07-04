@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bit.model.Member;
 import org.bit.model.MemberPlatform;
 import org.bit.service.MemberService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.Optional;  // Add this import
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = "https://q2beat.vercel.app", allowCredentials = "true")
 public class MemberController {
 
     private final MemberService memberService;
@@ -49,6 +50,13 @@ public class MemberController {
                 return ResponseEntity.status(400).body(response);
             }
             session.setAttribute("member", existingMember);
+
+            Member member = (Member) session.getAttribute("member");
+
+            System.out.println("%%%%%%%%%%%%%%%" + member);
+
+            System.out.println("social login success===========================================");
+
             response.put("status", "success");
             response.put("member", existingMember);
             return ResponseEntity.ok(response);
@@ -63,7 +71,12 @@ public class MemberController {
         memberService.registerMember(newMember);
 
         Optional<Member> savedMember = Optional.ofNullable(memberService.findByEmail(email));
-        if (!savedMember.isPresent()) {
+
+        System.out.println("is member empty?" + savedMember.isEmpty());
+
+        if (savedMember.isEmpty()) {
+            System.out.println("member exists");
+
             response.put("status", "error");
             response.put("message", "회원 등록에 실패했습니다.");
             return ResponseEntity.status(500).body(response);
@@ -95,6 +108,9 @@ public class MemberController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> setNickname(@RequestBody Map<String, String> payload, HttpSession session) {
         Member member = (Member) session.getAttribute("member");
+
+        System.out.println("%%%%%%%%%%%%%%%" + member);
+
         if (member == null) {
             return ResponseEntity.status(401).body(Map.of("message", "세션이 만료되었습니다."));
         }

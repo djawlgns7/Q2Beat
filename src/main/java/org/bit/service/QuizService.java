@@ -26,13 +26,13 @@ public class QuizService {
         return quizMapper.getNormalQuizNumberList(category);
     }
 
-    public int gradingNormal(int normal_id, int normal_answer) {
+    public int gradingNormal(int normal_id, String normal_answer) {
         return quizMapper.gradingNormal(normal_id, normal_answer);
     }
 
     public QuizListening getQuizListening(int listeningId) {return quizMapper.getQuizListening(listeningId);}
 
-    public List<Integer> getListeningQuizNumberList() {return quizMapper.getListeningQuizNumberList();}
+    public List<Integer> getListeningQuizNumberListByCategory(int category) {return quizMapper.getListeningQuizNumberListByCategory(category);}
 
     public List<Integer> getAllQuizListeningIds() {
         return quizMapper.getAllQuizListeningIds();
@@ -41,10 +41,4 @@ public class QuizService {
     public int gradingListening(int listening_id, String listening_answer) {
         return quizMapper.gradingListening(listening_id, listening_answer);
     }
-
-    public List<Integer> getUsedQuizIds(String roomId) {
-        return quizMapper.getUsedQuizIds(roomId);
-    }
-
-
 }

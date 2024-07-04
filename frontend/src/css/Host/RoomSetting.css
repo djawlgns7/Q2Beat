@@ -6,67 +6,153 @@
     height: 90vh;
 }
 
-.roomSetting-box {
-    width: 1000px;
-    background-color: #1A1F44;
-    border: 3px solid #5169A2;
-    padding: 30px;
-    border-radius: 100px;
-    text-align: center;
-    color: white;
-    margin-top: 45px;
-}
+/*.roomSetting-box {*/
+/*    z-index: 0;*/
+/*    width: 1000px;*/
+/*    background-color: #1A1F44;*/
+/*    border: 3px solid #5169A2;*/
+/*    padding: 50px;*/
+/*    border-radius: 100px;*/
+/*    text-align: center;*/
+/*    color: white;*/
+/*    margin-top: 45px;*/
+/*}*/
 
-.roomSetting-circle-header {
+/*.roomSetting-label {*/
+/*    display: flex;*/
+/*    justify-content: space-evenly;*/
+/*    color: rgb(231, 206, 255);*/
+/*    font-size: 30px;*/
+/*    font-weight: bold;*/
+/*    padding: 30px;*/
+/*}*/
+
+.label-section {
+    margin: 50px;
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    translate: 55px -20px;
-    padding-bottom: 30px;
+    flex-direction: column;
+    align-items: center;
+    gap: 90px;
 }
 
-.circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+.label-section-three {
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
 }
 
 .roomSetting-label {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 25px;
-    padding: 20px;
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(231, 206, 255);
+}
+
+
+.roomSetting-select {
+    
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgb(231, 206, 255);
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+    margin-left: 100px;
+}
+
+.round-count {
+    translate: -18px;
 }
 
 .roomSetting-select {
-    width: 150px;
+    width: 180px;
+    font-weight: bold;
     text-align: center;
-    border: 5px solid #83B4FF;
     border-radius: 8px;
+    background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+    color: white;
+    border: 5px solid rgba(191, 123, 255, 0.781);
 }
 
 .roomSetting-select:focus {
-    outline-color: #83B4FF;
+    border-color: none;
 }
 
 .roomSetting-buttons {
-    margin-top: 20px;
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    translate: -50px;
 }
 
 .roomSetting-btn {
-    padding: 10px;
-    margin: 30px;
+    background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
     font-size: 25px;
     font-weight: bold;
-    border: 5px solid #5169A2;
-    border-radius: 30px;
-    background-color: #1A1F44;
-    color: white;
+    line-height: 1em;
     width: 150px;
+    height: 60px;
+    padding: 5px;
+    margin-left: 90px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+
 }
 
+.roomSetting-btn:active,
 .roomSetting-btn:hover {
-    border-color: #FFD800;
+    outline: 0;
 }
+
+.roomSetting-btn span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.roomSetting-btn:hover span {
+    background: none;
+}
+
+.roomSetting-btn:active {
+    transform: scale(0.9);
+}
+
+.roomSetting-label .level {
+    translate: 17px;
+}
+
+/*.roomSetting-btn-exit {*/
+/*    padding: 10px;*/
+/*    margin: 30px;*/
+/*    font-size: 25px;*/
+/*    font-weight: bold;*/
+/*    border: 5px solid #5169A2;*/
+/*    border-radius: 30px;*/
+/*    background-color: #1A1F44;*/
+/*    color: white;*/
+/*    width: 150px;*/
+/*}*/
+
+/*.roomSetting-btn-exit:hover {*/
+/*    border-color: #FFD800;*/
+/*}*/
 

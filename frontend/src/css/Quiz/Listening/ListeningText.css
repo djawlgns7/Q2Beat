@@ -1,0 +1,302 @@
+.sound-icon {
+    width: 45%;
+}
+
+.mt-2 {
+    color: red;
+    font-size: 20px;
+    translate: 0 -50px;
+}
+
+.listening-text-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+}
+
+.listening-input {
+    text-align: center;
+    height: 50px;
+    width: 250px;
+    border-radius: 10px;
+    position: fixed;
+    top: 420px;
+    right: 70px;
+}
+
+.listening-buttons {
+    display: flex;
+    gap: 25px;
+    position: fixed;
+    top: 500px;
+    right: 72px;
+}
+
+.listening-btn {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1em;
+    width: 110px;
+    height: 50px;
+    padding: 5px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.listening-btn:active,
+.listening-btn:hover {
+    outline: 0;
+}
+
+.listening-btn span {
+    background-color: rgb(5, 6, 45);
+    padding: 7px 30px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listening-btn:hover span {
+    background: none;
+}
+
+.listening-btn:active {
+    transform: scale(0.9);
+}
+
+.listening-round-m {
+    translate: -5px -20px;
+    color: white;
+    font-size: 30px;
+}
+
+/*music animation*/
+.wave-menu {
+    border: 4px solid #fff;
+    border-radius: 30px;
+    width: 200px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: ease 0.2s;
+    position: relative;
+    background: #545FE5;
+    translate: 0 -30px;
+}
+
+.wave-menu li {
+    list-style: none;
+    height: 40px;
+    width: 5px;
+    border-radius: 10px;
+    background: #fff;
+    margin: 0 6px;
+    padding: 0;
+    animation-name: wave1;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    transition: ease 0.2s;
+}
+
+.wave-menu:hover > li {
+    background: #fff;
+}
+
+.wave-menu:hover {
+    background: #545FE5;
+}
+
+.wave-menu li:nth-child(2) {
+    animation-name: wave2;
+    animation-delay: 0.2s;
+}
+
+.wave-menu li:nth-child(3) {
+    animation-name: wave3;
+    animation-delay: 0.23s;
+    animation-duration: 0.4s;
+}
+
+.wave-menu li:nth-child(4) {
+    animation-name: wave4;
+    animation-delay: 0.1s;
+    animation-duration: 0.3s;
+}
+
+.wave-menu li:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.wave-menu li:nth-child(6) {
+    animation-name: wave2;
+    animation-duration: 0.5s;
+}
+
+.wave-menu li:nth-child(8) {
+    animation-name: wave4;
+    animation-delay: 0.4s;
+    animation-duration: 0.25s;
+}
+
+.wave-menu li:nth-child(9) {
+    animation-name: wave3;
+    animation-delay: 0.15s;
+}
+
+@keyframes wave1 {
+    from {
+        transform: scaleY(1);
+    }
+
+    to {
+        transform: scaleY(0.5);
+    }
+}
+
+@keyframes wave2 {
+    from {
+        transform: scaleY(0.3);
+    }
+
+    to {
+        transform: scaleY(0.6);
+    }
+}
+
+@keyframes wave3 {
+    from {
+        transform: scaleY(0.6);
+    }
+
+    to {
+        transform: scaleY(0.8);
+    }
+}
+
+@keyframes wave4 {
+    from {
+        transform: scaleY(0.2);
+    }
+
+    to {
+        transform: scaleY(0.5);
+    }
+}
+
+/* 기본 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달이 표시될 때 적용될 스타일 */
+.modal.show {
+    display: flex;
+}
+
+/* 모달 컨텐츠 스타일 */
+.modal-content {
+    background-color: rgb(231, 206, 255);
+    color: #212121;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+}
+
+/* 모달 제목 스타일 */
+.modal-content h5 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 버튼 컨테이너 스타일 */
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.modal-content button {
+    flex: 1;
+    padding: 10px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 확인 버튼 스타일 */
+.modal-content .confirm-button {
+    background-color: #8a2be2;
+    color: white;
+    font-weight: bold;
+}
+
+.modal-content .confirm-button:hover {
+    background-color: #7a1bbd;
+}
+
+/* 취소 버튼 스타일 */
+.modal-content .cancel-button {
+    background-color: #6c757d;
+    color: white;
+    font-weight: bold;
+}
+
+.modal-content .cancel-button:hover {
+    background-color: #5a6268;
+}
+
+/* 키프레임 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

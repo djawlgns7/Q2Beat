@@ -31,7 +31,16 @@ import NoticeEdit from "./components/notice/NoticeEdit.jsx";
 import QnaList from "./components/qna/QnaList.jsx";
 import QnaDetails from "./components/qna/QnaDetails.jsx";
 import QnaWrite from "./components/qna/QnaWrite.jsx";
-
+import AudioRecorder from "./components/test/AudioRecorder.jsx";
+import AudioRecorder2 from "./components/test/AudioRecorder2.jsx";
+import AudioRecorder3 from "./components/test/AudioRecorder3.jsx";
+import ListeningRoundResult from "./components/quiz/listening/ListeningRoundResult.jsx";
+import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPlayerRoundResult.jsx";
+import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
+import CompareStrings from "./components/test/CompareStrings.jsx";
+import ImageGame from "./components/test/ImageGame.jsx";
+import MotionGame from "./components/test/MotionGame.jsx";
+import PosePrediction from "./components/test/PosePrediction.jsx";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -69,13 +78,24 @@ function App() {
                     <Route path="/qna" element={<QnaList isAdmin={isAdmin}/>}/>
                     <Route path="/qna/qnaCreate" element={<QnaWrite />}/>
                     <Route path="/qna/:qna_id" element={<QnaDetails isAdmin={isAdmin}/>}/>
-
                     <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="/compare" element={<CompareStrings/>}/>
+                    <Route path="/image/game" element={<ImageGame/>}/>
+                    <Route path="/pose/game" element={<PosePrediction/>}/>
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
+                    <Route path="/test/record" element={<AudioRecorder/>}/>
+                    <Route path="/test/record2" element={<AudioRecorder2/>}/>
+                    <Route path="/test/record3" element={<AudioRecorder3/>}/>
 
                     {/* 소켓 통신 부분 */}
+
+                    <Route path="/main" element={
+                        <SocketProvider>
+                            <MainPage/>
+                        </SocketProvider>
+                    }/>
 
                     {/* 호스트 */}
                     <Route path="/host/game/create" element={
@@ -103,9 +123,19 @@ function App() {
                             <QuizResult/>
                         </SocketProvider>
                     }/>
+                    <Route path="/host/game/result/listening" element={
+                        <SocketProvider>
+                            <ListeningQuizResult/>
+                        </SocketProvider>
+                    }/>
                     <Route path="/host/game/round/result" element={
                         <SocketProvider>
                             <RoundResult/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/host/game/round/result/listening" element={
+                        <SocketProvider>
+                            <ListeningRoundResult/>
                         </SocketProvider>
                     }/>
                     <Route path="/host/game/setting/:id" element={
@@ -139,9 +169,19 @@ function App() {
                             <PlayerRoundResult/>
                         </SocketProvider>
                     }/>
+                    <Route path="/player/game/round/result/listening" element={
+                        <SocketProvider>
+                            <ListeningPlayerRoundResult/>
+                        </SocketProvider>
+                    }/>
                     <Route path="/player/game/result" element={
                         <SocketProvider>
                             <PlayerResult/>
+                        </SocketProvider>
+                    }/>
+                    <Route path="/player/game/result/listening" element={
+                        <SocketProvider>
+                            <ListeningPlayerRoundResult/>
                         </SocketProvider>
                     }/>
                 </Routes>

@@ -1,12 +1,14 @@
-.quiz-main {
+.quiz-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 30px;
-    margin-top: 30px;
+    align-content: center;
 }
 
 .quiz-round {
+    padding: 50px;
     font-size: 30px;
     color: white;
+    translate: 0 30px;
 }

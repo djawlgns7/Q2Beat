@@ -36,7 +36,14 @@ public class RoomService {
     }
 
     public boolean insertQuizHistory(QuizHistory quizHistory) {
-        return roomMapper.insertQuizHistory(quizHistory);
+        try {
+            int result = roomMapper.insertQuizHistory(quizHistory);
+            return result > 0;
+        } catch (Exception e) {
+            // 예외 로깅
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public int clearQuizHistory(String id) {
@@ -48,6 +55,8 @@ public class RoomService {
         playerMapper.clearPlayer(id);
         roomMapper.deleteRoom(id);
     }
+
+    public boolean insertQuizHistoryForListening(QuizHistory quizHistory) {return roomMapper.insertQuizHistoryForListening(quizHistory);}
 
     public Set<Integer> getUsedQuizIds(String roomId) {
         return roomMapper.getUsedQuizIds(roomId);

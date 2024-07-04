@@ -1,17 +1,30 @@
-.notice-container {
-    width: 80%;
-    margin: 0 auto;
+.notice-board {
+    display: flex;
+    flex-direction: column;
+    translate: 150px 40px;
+    background-color: #1A1F44;
+    border: 3px solid #5169A2;
+    border-radius: 100px;
+    color: white;
+    padding: 30px;
+}
+
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notice-title {
+    padding-top: 10px;
+    padding-bottom: 20px;
     text-align: center;
-    background-color: #f9f9f9; /* 배경색을 더 밝게 변경 */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
 }
 
 .notice-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 .notice-table th, .notice-table td {
@@ -21,20 +34,18 @@
 }
 
 .notice-table th {
-    background-color: #f2f2f2;
     font-weight: bold;
+    font-size: 15px;
 }
 
-.notice-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
+/*.notice-table tr:nth-child(even) {}*/
 
-.notice-table tr:hover {
-    background-color: #f1f1f1;
-}
+/*.notice-table tr:hover {*/
+/*    background-color: #f1f1f1;*/
+/*}*/
 
 .notice-table tr td a {
-    color: #1a0dab;
+    color: #83B4FF;
     text-decoration: none;
 }
 
@@ -45,7 +56,7 @@
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .pagination button {
@@ -62,9 +73,9 @@
 }
 
 .pagination .active {
-    background-color: #4CAF50;
+    background-color: #83B4FF;
     color: white;
-    border: 1px solid #4CAF50;
+    border: 1px solid #83B4FF;
 }
 
 .pagination button:disabled {
@@ -73,7 +84,14 @@
 }
 
 .pagination button[disabled]:hover {
-    background-color: white;
+    text-decoration: underline;
+}
+
+.backImage-notice {
+    margin-top: 100px;
+    width: 130%;
+    height: 200px;
+    translate: 0px 50px;
 }
 
 /* 글 작성 버튼 스타일 추가 */
