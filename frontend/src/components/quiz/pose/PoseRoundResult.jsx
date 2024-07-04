@@ -65,14 +65,9 @@ const PoseRoundResult = ({roomId}) => {
                     <div className="contents-box-p">
                         <div className="pose-main">
                             <h2 className="pose-round">Round 1</h2>
-                            <div className="pose-image-result-box">
-                                <div className="pose-image-result">
-                                    <h2 className="pose-player-result">{nextPlayer}님의 결과</h2>
-                                    {error ? <p>{error}</p> : (image ?
-                                        <img className="pose-result-image" src={image} alt="Fetched from DB"/> :
-                                        <p>Loading...</p>)}
-                                </div>
-                            </div>
+                            {error ? <p>{error}</p> : (image ?
+                                <img className="pose-result-image" src={image} alt="Fetched from DB"/> :
+                                <p>Loading...</p>)}
                             <h3 className="pose-percent">유사도: {score}%</h3>
                         </div>
                     </div>
