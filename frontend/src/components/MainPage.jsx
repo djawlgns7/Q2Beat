@@ -82,6 +82,7 @@ const MainPage = () => {
                     </div>
                 </button>
             </div>
+
             {showCreateQuizModal && (
                 <div className="modal show">
                     <div className="modal-content">
