@@ -3,7 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-direction: column;
+    height: 95vh;
 }
 
 /*투명박스 없는 버전*/

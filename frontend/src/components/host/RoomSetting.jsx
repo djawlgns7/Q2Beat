@@ -5,6 +5,7 @@ import {useSocket} from "../context/SocketContext.jsx";
 import '../../css/PC.css'
 import '../../css/Host/RoomSetting.css'
 import BackgroundVideo from "../BackgroundVideo.jsx";
+import BackMusic from "../BackMusic.jsx";
 
 const RoomSetting = () => {
     const {sendMessage, roomId} = useSocket();
@@ -83,6 +84,7 @@ const RoomSetting = () => {
                     case '0':
                         return (
                             <div className="container-p">
+                                <BackMusic src="/클럽 댄스 배경음악.mp3" initialVolume={0.5}/>
                                 <BackgroundVideo/>
                                 <div className="contents-box-p">
                                     <div className="label-section-three">

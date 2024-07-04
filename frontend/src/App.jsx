@@ -37,14 +37,23 @@ import CompareStrings from "./components/test/CompareStrings.jsx";
 import ImageGame from "./components/test/ImageGame.jsx";
 import MotionGame from "./components/test/MotionGame.jsx";
 import PosePrediction from "./components/test/PosePrediction.jsx";
+import {MusicProvider} from "./components/context/MusicContext.jsx";
 
 function App() {
     return (
         <ModalProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Login/>}/>
-                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/" element={
+                        <MusicProvider>
+                            <Login/>
+                        </MusicProvider>
+                    }/>
+                    <Route path="/login" element={
+                        <MusicProvider>
+                            <Login/>
+                        </MusicProvider>
+                    }/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
                     <Route path="/callback" element={<NaverCallback/>}/>
                     <Route path="/reset" element={<Reset/>}/>
@@ -70,21 +79,27 @@ function App() {
                     {/* 소켓 통신 부분 */}
 
                     <Route path="/main" element={
-                        <SocketProvider>
-                            <MainPage/>
-                        </SocketProvider>
+                        <MusicProvider>
+                            <SocketProvider>
+                                <MainPage/>
+                            </SocketProvider>
+                        </MusicProvider>
                     }/>
 
                     {/* 호스트 */}
                     <Route path="/host/game/create" element={
-                        <SocketProvider>
-                            <CreateRoom/>
-                        </SocketProvider>
+                        <MusicProvider>
+                            <SocketProvider>
+                                <CreateRoom/>
+                            </SocketProvider>
+                        </MusicProvider>
                     }/>
                     <Route path="/host/game/lobby" element={
-                        <SocketProvider>
-                            <Lobby/>
-                        </SocketProvider>
+                        <MusicProvider>
+                            <SocketProvider>
+                                <Lobby/>
+                            </SocketProvider>
+                        </MusicProvider>
                     }/>
                     <Route path="/host/game/question" element={
                         <SocketProvider>
@@ -117,9 +132,11 @@ function App() {
                         </SocketProvider>
                     }/>
                     <Route path="/host/game/setting/:id" element={
-                        <SocketProvider>
-                            <RoomSetting/>
-                        </SocketProvider>
+                        <MusicProvider>
+                            <SocketProvider>
+                                <RoomSetting/>
+                            </SocketProvider>
+                        </MusicProvider>
                     }/>
                     {/* 플레이어 */}
                     <Route path="/player/game/join" element={

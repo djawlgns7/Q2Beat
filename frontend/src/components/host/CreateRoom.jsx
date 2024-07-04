@@ -5,6 +5,8 @@ import '../../css/PC.css';
 import '../../css/Host/CreateRoom.css'
 import Q2B from "../../image/Q2BEAT_2.png";
 import BackgroundVideo from "../BackgroundVideo.jsx";
+import BackMusic from "../BackMusic.jsx";
+import AutoPlayAudio from "../AutoPlayAudio.jsx";
 
 const CreateRoom = () => {
     const {sendMessage, clearPlayInformation, isConnected} = useSocket();
@@ -34,6 +36,7 @@ const CreateRoom = () => {
     return (
         <div className="container-p">
             <BackgroundVideo/>
+            <AutoPlayAudio />
             <div className="Box-p">
                 <div className="logoTitle-p">
                     <img src={Q2B} alt="Q2B" className="logoImage-p"/>

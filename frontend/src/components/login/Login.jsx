@@ -6,11 +6,14 @@ import '../../css/PC.css';
 import '../../css/Login.css';
 import Q2B from '../../image/Q2BEAT_2.png';
 import BackgroundVideo from "../BackgroundVideo.jsx";
+import AutoPlayAudio from "../AutoPlayAudio.jsx";
+
 
 const Login = () => {
     return (
         <div className="container-p">
             <BackgroundVideo />
+            <AutoPlayAudio />
             <div className="Box-p">
                 <div className="logoTitle-p">
                     <img src={Q2B} alt="Q2B" className="logoImage-p"/>
