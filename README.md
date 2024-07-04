@@ -6,7 +6,6 @@
 ![JSON](https://img.shields.io/badge/json-b4c8bb.svg?&style=for-the-badge&logo=json&logoColor=000000)
 ![AJAX](https://img.shields.io/badge/AJAX-ffffff.svg?&style=for-the-badge&logo=AJAX&logoColor=000000)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6.svg?&style=for-the-badge&logo=CSS3&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwind-f5f5dc.svg?&style=for-the-badge&logo=tailwindcss&logoColor=#06B6D4)
 ![BootStrap](https://img.shields.io/badge/BootStrap-f4b3c8.svg?&style=for-the-badge&logo=bootstrap&logoColor=#7952B3)
 
 
