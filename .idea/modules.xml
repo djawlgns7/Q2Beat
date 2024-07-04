@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Q2Beat.iml" filepath="$PROJECT_DIR$/.idea/modules/Q2Beat.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.bit.Q2Beat.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.bit.Q2Beat.main.iml" />
     </modules>
   </component>
 </project>

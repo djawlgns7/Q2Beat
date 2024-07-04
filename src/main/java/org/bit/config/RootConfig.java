@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = "org.bit")
-@Import(MyBatisConfig.class)
+@Import({MyBatisConfig.class, SecurityConfig.class})
 public class RootConfig {
+
 }

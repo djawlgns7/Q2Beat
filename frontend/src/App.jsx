@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {Route, BrowserRouter as Router, Routes, Navigate} from "react-router-dom";
 import ChatRoom from "./components/ChatRoom.jsx";
 import AudioComparison from "./components/test/AudioComparison.jsx";
 import {SocketProvider} from "./components/context/SocketContext.jsx";
@@ -22,11 +22,15 @@ import PlayerResult from "./components/player/PlayerResult.jsx";
 import RoundResult from "./components/host/RoundResult.jsx";
 import PlayerRoundResult from "./components/player/PlayerRoundResult.jsx";
 import {ModalProvider} from "./components/context/ModalContext.jsx";
-import Notice from "./components/Notice/Notice.jsx";
-import Qna from "./components/Notice/Qna.jsx";
-import NoticeDetails from "./components/Notice/NoticeDetails.jsx";
 import TimerTest from "./components/test/TimerTest.jsx";
 import RoomSetting from "./components/host/RoomSetting.jsx";
+import NoticeList from "./components/notice/NoticeList.jsx";
+import NoticeDetails from "./components/notice/NoticeDetails.jsx";
+import NoticeCreate from "./components/notice/NoticeCreate.jsx";
+import NoticeEdit from "./components/notice/NoticeEdit.jsx";
+import QnaList from "./components/qna/QnaList.jsx";
+import QnaDetails from "./components/qna/QnaDetails.jsx";
+import QnaWrite from "./components/qna/QnaWrite.jsx";
 import AudioRecorder from "./components/test/AudioRecorder.jsx";
 import AudioRecorder2 from "./components/test/AudioRecorder2.jsx";
 import AudioRecorder3 from "./components/test/AudioRecorder3.jsx";
@@ -35,40 +39,48 @@ import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPla
 import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
 import CompareStrings from "./components/test/CompareStrings.jsx";
 import ImageGame from "./components/test/ImageGame.jsx";
-import MotionGame from "./components/test/MotionGame.jsx";
 import PosePrediction from "./components/test/PosePrediction.jsx";
-import {MusicProvider} from "./components/context/MusicContext.jsx";
 
 function App() {
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const adminStatus = sessionStorage.getItem('admin');
+        if(adminStatus) {
+            setIsAdmin(true);
+            console.log("admin data session", JSON.parse(adminStatus));
+        }
+    }, []);
+
+    const handleLoginSuccess = () => {
+        console.log('Login Success: isAdmin true');
+        setIsAdmin(true);
+    }
+
     return (
         <ModalProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={
-                        <MusicProvider>
-                            <Login/>
-                        </MusicProvider>
-                    }/>
-                    <Route path="/login" element={
-                        <MusicProvider>
-                            <Login/>
-                        </MusicProvider>
-                    }/>
+                    <Route path="/" element={<Login setIsAdmin={setIsAdmin}/>}/>
+                    <Route path="/login" element={<Login />}/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
+                    <Route path="/main" element={<MainPage/>}/>
                     <Route path="/callback" element={<NaverCallback/>}/>
                     <Route path="/reset" element={<Reset/>}/>
                     <Route path="/chat-room" element={<ChatRoom/>}/>
-
-                    {/* 테스트 */}
-                    <Route path="/test/timer" element={<TimerTest/>}/>
-                    <Route path="/test/record" element={<AudioRecorder/>}/>
                     <Route path="/audio" element={<AudioComparison/>}/>
-                    <Route path="/notices" element={<Notice/>}/>
-                    <Route path="/qna" element={<Qna/>}/>
-                    <Route path="/notices/:noticeId" element={<NoticeDetails/>}/>
+                    <Route path="/notices" element={<NoticeList isAdmin={isAdmin}/>}/>
+                    <Route path="/notices/:notice_id" element={<NoticeDetails isAdmin={isAdmin}/>}/>
+                    <Route path="/notices/create" element={<NoticeCreate />} />
+                    <Route path="/notices/edit" element={isAdmin ? <NoticeEdit isAdmin={isAdmin}/> : <Navigate to="/" /> }/>
+                    <Route path="/notices/edit/:notice_id" element={isAdmin ? <NoticeEdit isAdmin={isAdmin}/> : <Navigate to="/" /> }/>
+                    <Route path="/qna" element={<QnaList isAdmin={isAdmin}/>}/>
+                    <Route path="/qna/qnaCreate" element={<QnaWrite />}/>
+                    <Route path="/qna/:qna_id" element={<QnaDetails isAdmin={isAdmin}/>}/>
                     <Route path="/compare" element={<CompareStrings/>}/>
                     <Route path="/image/game" element={<ImageGame/>}/>
                     <Route path="/pose/game" element={<PosePrediction/>}/>
+                    <Route path="*" element={<Navigate to="/" />} />
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
@@ -79,27 +91,21 @@ function App() {
                     {/* 소켓 통신 부분 */}
 
                     <Route path="/main" element={
-                        <MusicProvider>
-                            <SocketProvider>
-                                <MainPage/>
-                            </SocketProvider>
-                        </MusicProvider>
+                        <SocketProvider>
+                            <MainPage/>
+                        </SocketProvider>
                     }/>
 
                     {/* 호스트 */}
                     <Route path="/host/game/create" element={
-                        <MusicProvider>
-                            <SocketProvider>
-                                <CreateRoom/>
-                            </SocketProvider>
-                        </MusicProvider>
+                        <SocketProvider>
+                            <CreateRoom/>
+                        </SocketProvider>
                     }/>
                     <Route path="/host/game/lobby" element={
-                        <MusicProvider>
-                            <SocketProvider>
-                                <Lobby/>
-                            </SocketProvider>
-                        </MusicProvider>
+                        <SocketProvider>
+                            <Lobby/>
+                        </SocketProvider>
                     }/>
                     <Route path="/host/game/question" element={
                         <SocketProvider>
@@ -132,11 +138,9 @@ function App() {
                         </SocketProvider>
                     }/>
                     <Route path="/host/game/setting/:id" element={
-                        <MusicProvider>
-                            <SocketProvider>
-                                <RoomSetting/>
-                            </SocketProvider>
-                        </MusicProvider>
+                        <SocketProvider>
+                            <RoomSetting/>
+                        </SocketProvider>
                     }/>
                     {/* 플레이어 */}
                     <Route path="/player/game/join" element={
