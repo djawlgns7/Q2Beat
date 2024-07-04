@@ -4,7 +4,6 @@ import axios from '../../utils/axios.js';
 import {useNavigate} from "react-router-dom";
 import './AdminLoginModal.css';
 
-
 const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

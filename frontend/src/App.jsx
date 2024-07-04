@@ -39,7 +39,6 @@ import ListeningPlayerRoundResult from "./components/quiz/listening/ListeningPla
 import ListeningQuizResult from "./components/quiz/listening/ListeningQuizResult.jsx";
 import CompareStrings from "./components/test/CompareStrings.jsx";
 import ImageGame from "./components/test/ImageGame.jsx";
-import MotionGame from "./components/test/MotionGame.jsx";
 import PosePrediction from "./components/test/PosePrediction.jsx";
 
 function App() {
@@ -63,7 +62,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/" element={<Login setIsAdmin={setIsAdmin}/>}/>
-                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/login" element={<Login />}/>
                     <Route path="/set-nickname" element={<SetNickname/>}/>
                     <Route path="/main" element={<MainPage/>}/>
                     <Route path="/callback" element={<NaverCallback/>}/>
@@ -78,10 +77,10 @@ function App() {
                     <Route path="/qna" element={<QnaList isAdmin={isAdmin}/>}/>
                     <Route path="/qna/qnaCreate" element={<QnaWrite />}/>
                     <Route path="/qna/:qna_id" element={<QnaDetails isAdmin={isAdmin}/>}/>
-                    <Route path="*" element={<Navigate to="/" />} />
                     <Route path="/compare" element={<CompareStrings/>}/>
                     <Route path="/image/game" element={<ImageGame/>}/>
                     <Route path="/pose/game" element={<PosePrediction/>}/>
+                    <Route path="*" element={<Navigate to="/" />} />
 
                     {/* 테스트 */}
                     <Route path="/timer/test" element={<TimerTest/>}/>
