@@ -6,14 +6,15 @@ import org.bit.model.Q2Notice.Notice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
 
-//    //작성날짜 문자열 -> 날짜 변환
-//    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //작성날짜 문자열 -> 날짜 변환
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final NoticeMapper noticeMapper;
 
     //공지사항 게시글 ID조회
@@ -35,14 +36,12 @@ public class NoticeService {
     //공지사항 추가
     public void createNotice(Notice notice, String admin_username) {
         notice.setAdmin_username(admin_username);
-        notice.setCreate_date(LocalDate.now());
-        System.out.println("Creating notice" + notice.getCreate_date());
+        notice.setCreate_date(LocalDate.now().format(formatter));
         noticeMapper.insertNotice(notice);
     }
 
     //공지사항 수정
-    public void updateNotice(Notice notice, String admin_username) {
-        notice.setAdmin_username(admin_username);
+    public void updateNotice(Notice notice) {
         noticeMapper.updateNotice(notice);
     }
 

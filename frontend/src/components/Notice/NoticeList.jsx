@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import '../../css/Notice/Notice.css';
-import { getNotices } from "../../controller/noticeController.js";
+import '../../css/Notice/NoticeList.css';
+import { getNotices } from '../../controller/noticeController.js';
 
 //공지사항 목록
 const NoticeList = ({ isAdmin }) => {
@@ -14,6 +14,8 @@ const NoticeList = ({ isAdmin }) => {
         endPage:1,      //현재 페이지 블록에서 끝 페이지
         totalCount:0,   //전체 항목 수
     });
+    //관리자 상태체크
+    console.log("isAdmin", isAdmin);
 
     const navigate = useNavigate();
 
@@ -29,11 +31,13 @@ const NoticeList = ({ isAdmin }) => {
             console.log('응답 데이터:', response);
             //서버로 부터 받은 데이터를 상태에 설정
 
+            setNotices(response.notices);
             setPagination(prev => ({
                 ...prev,
-                totalPages: response.data.pagination.totalPages,
-                startPage: response.data.pagination.startPage,
-                endPage: response.data.pagination.endPage
+                totalPages: response.pagination.totalPages,
+                startPage: response.pagination.startPage,
+                endPage: response.pagination.endPage,
+                totalCount: response.pagination.totalPages,
             }));
         } catch (error) {
             console.error('공지사항 목록 에러:', error);
@@ -72,17 +76,21 @@ const NoticeList = ({ isAdmin }) => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
 
-    //관리자 상태체크
-    console.log("isAdmin", isAdmin);
+    const goToPreviousPage = () => {
+        navigate('/'); // 이전 페이지로 이동
+    };
 
     return (
         <div className="notice-container">
-            <h1>공지사항</h1>
+            <div className="notice-header">
+                <h1>공지사항</h1>
+                <button className="back-btn" onClick={goToPreviousPage}>이전</button>
+            </div>
             <table className="notice-table">
                 <thead>
                 <tr>
-                    <th className="th-nt-id">{/*번호*/}</th>
-                    <th className="th-nt-title" style={{cursor:"pointer"}}>제목</th>
+                    <th className="th-nt-id">순번</th>
+                    <th className="th-nt-title" style={{cursor: "pointer"}}>제목</th>
                     <th className="th-nt-date">날짜</th>
                     <th className="th-nt-author">작성자</th>
                 </tr>

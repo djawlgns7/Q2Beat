@@ -26,7 +26,7 @@ public class AdminController {
     @PostMapping("/admLogin")
     public ResponseEntity<?> adminLogin(@RequestBody Admin admin, HttpSession session) {
         Admin foundAdmin = adminService.findByUsername(admin.getAdmin_username());
-        if(foundAdmin != null && passwordEncoder.matches(admin.getAdmin_password(),(foundAdmin.getAdmin_password()))) {
+        if(foundAdmin != null && passwordEncoder.matches(admin.getAdmin_password(), foundAdmin.getAdmin_password())) {
             session.setAttribute("admin", foundAdmin); // 세션에 관리자 정보를 저장!
             logger.info("Admin logged in: {}" + foundAdmin.getAdmin_username());
             return ResponseEntity.ok(foundAdmin);

@@ -1,7 +1,6 @@
 package org.bit.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bit.model.Q2Notice.Admin;
 import org.bit.model.Q2Notice.Notice;
 import org.bit.model.Q2Notice.Pagination;
 import org.bit.service.NoticeService;
@@ -9,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +29,6 @@ public class NoticeController {
             int totalCount = noticeService.getTotalCount();
             Pagination pagination = new Pagination(page, pageSize, totalCount);
 
-            // 페이지 블록 계산
-            int blockSize = 5;
-            int startPage = ((page - 1) / blockSize) * blockSize + 1;
-            int endPage = Math.min(startPage + blockSize - 1, pagination.getTotalPages());
-            pagination.setStartPage(startPage);
-            pagination.setEndPage(endPage);
-
             Map<String, Object> response = new HashMap<>();
             response.put("notices", notices);
             response.put("pagination", pagination);
@@ -55,7 +45,6 @@ public class NoticeController {
     //공지사항 추가
     @PostMapping("/create")
     public void createNotice(@RequestBody Notice notice) {
-        notice.setCreate_date(LocalDate.now());
         noticeService.createNotice(notice, notice.getAdmin_username());
     }
 
@@ -71,11 +60,20 @@ public class NoticeController {
 
     //공지사항 수정
     @PutMapping("/{notice_id}")
-    public void updateNotice(@PathVariable("notice_id") int notice_id, @RequestBody Notice notice,
-                             HttpSession session) {
-        notice.setNotice_id(notice_id);
-        String admin_username = (String) session.getAttribute("admin_username");
-        noticeService.updateNotice(notice, admin_username);
+    public ResponseEntity<Void> updateNotice(@PathVariable("notice_id") int notice_id, @RequestBody Notice notice) {
+        //데이터베이스에서 기존 게시글 조회
+        Notice existingNotice = noticeService.getNoticeById(notice_id);
+        if (existingNotice == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        // 수정된 내용 반영
+        existingNotice.setTitle(notice.getTitle());
+        existingNotice.setContent(notice.getContent());
+        existingNotice.setAdmin_username(notice.getAdmin_username());
+
+        // 데이터베이스에 업데이트
+        noticeService.updateNotice(existingNotice);
+        return ResponseEntity.ok().build();
     }
 
     //공지사항 삭제

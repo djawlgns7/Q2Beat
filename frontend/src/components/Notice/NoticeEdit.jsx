@@ -40,7 +40,7 @@ const NoticeEdit = () => {
 
     return (
         <div>
-            <h1>{notice_id ? '공지사항 작성' : '공지사항 수정'}</h1>
+            <h1>{notice_id ? '공지사항 수정' : '공지사항 삭제'}</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>제목:</label>
@@ -50,7 +50,7 @@ const NoticeEdit = () => {
                     <label>내용:</label>
                     <textarea name="content" value={notice.content} onChange={handleChange} />
                 </div>
-                <button type="submit">{notice_id ? '작성' : '수정'}</button>
+                <button type="submit">수정</button>
             </form>
         </div>
     )

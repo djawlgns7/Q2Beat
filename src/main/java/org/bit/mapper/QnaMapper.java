@@ -38,7 +38,7 @@ public interface QnaMapper {
 
     //관리자 QnA 답글 등록
     @Update("UPDATE qna SET admin_username =#{admin_username}, answer_content =#{answer_content}," +
-            "answer_date =#{answer_date}, status =#{status} WHERE qna_id =#{qna_id}")
+            "answer_date =#{answer_date}, status = 'ANSWERED' WHERE qna_id =#{qna_id}")
     void insertAnswer(Qna answer);
 
     //게시글 비밀글 처리(일반 사용자 관리자 모두 사용가능)

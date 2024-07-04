@@ -38,8 +38,12 @@ export const createNotice = async (notice) => {
 //공지사항 수정
 export const updateNotice = async (notice, notice_id) => {
     try{
-        const response = await axios.put(`http://localhost:8080/api/notices/${notice_id}`, notice);
-        return response.data;
+        const response = await axios.put(`http://localhost:8080/api/notices/${notice_id}`, notice, {
+            withCredentials: true, //세션쿠키를 포함하여 요청을 보냄
+        });
+        if(response.status !== 200) {
+            throw new Error('공지사항 수정 실패');
+        }
     } catch (error){
         console.error('공지사항 수정 에러',error);
         throw error;

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class QnaService {
     }
     //QnA 게시글 등록
     public void addQna(Qna qna) {
-        if(qna.getStatus() == null) {
+        if(qna.getStatus() == null || qna.getStatus() == Qna.QnaStatus.HIDDEN) {
             qna.setStatus(Qna.QnaStatus.UNANSWERED); //기본 상태 설정값
         }
         qna.setQna_date(LocalDateTime.now().format(formatter));
@@ -49,7 +48,12 @@ public class QnaService {
 
     //관리자 QnA 답글 등록
     public void insertAnswer(Qna answer) {
+        Qna qna = qnaMapper.findQnaById(answer.getQna_id());
         answer.setAnswer_date(LocalDateTime.now().format(formatter));
+        answer.setStatus(Qna.QnaStatus.ANSWERED);
+        if(qna.getStatus() == Qna.QnaStatus.SECRET) {
+            qna.setQna_title("비밀 질문입니다.");
+        }
         qnaMapper.insertAnswer(answer);
     }
 

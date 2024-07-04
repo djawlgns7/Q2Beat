@@ -9,7 +9,6 @@ public class Qna {
     private String admin_username;  //관리자 아이디
     private String qna_title;       //QnA 제목
     private String qna_content;     //QnA 내용
-
     private String qna_date; //QnA 게시글 등록 날짜
     private String answer_content;  //QnA 관리자 답글
 

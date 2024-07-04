@@ -2,11 +2,12 @@ import { useState } from 'react';
 import Modal from 'react-modal';
 import axios from '../../utils/axios.js';
 import {useNavigate} from "react-router-dom";
+import './AdminLoginModal.css';
 
 
 const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
-    const [username, setUsername] = useState('ADMIN');
-    const [password, setPassword] = useState('q2beat5');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
 
@@ -21,6 +22,7 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
                 //관리자 정보(JSON데이터)를 세션 스토리지에 저장
                 sessionStorage.setItem('admin', JSON.stringify(response.data));
                 console.log('Login Admin');
+                alert('관리자 로그인 성공');
                 onLoginSuccess(); //로그인 성공 콜백
                 onRequestClose(); //모달 닫기
                 navigate('/'); //관리자 접속 후 페이지 이동
@@ -41,6 +43,7 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
             if (response.status === 200) {
                 sessionStorage.removeItem('sessionId'); //세션 ID를 세션 스토리지에서 제거
                 sessionStorage.removeItem('admin'); //admin 정보를 세션에서 제거
+                window.confirm('관리자 로그아웃을 하시겠습니까?');
                 console.log('Logout Admin')
                 onRequestClose();
                 navigate('/'); //페이지 리다이렉트

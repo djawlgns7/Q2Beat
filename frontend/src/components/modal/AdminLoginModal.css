@@ -1,51 +1,85 @@
-.admin-login-form {
+.admin-login-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.admin-login-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.admin-login-title {
     margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.admlogin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.form-control {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
+.admlogin-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.admlogin-form-control {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .btn {
-    padding: 10px 15px;
-    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
 .btn-primary {
     background-color: #007bff;
     color: white;
-    border: none;
 }
 
 .btn-secondary {
     background-color: #6c757d;
     color: white;
-    border: none;
 }
 
 .btn-close {
     background-color: #dc3545;
     color: white;
-    border: none;
 }
 
 .error-message {
     color: red;
     margin-top: 10px;
+    text-align: center;
 }
 
-.logout-section {
+.admLogout-section {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
 
 .close-section {
+    display: flex;
+    justify-content: center;
     margin-top: 10px;
 }

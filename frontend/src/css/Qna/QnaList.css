@@ -2,10 +2,31 @@
     width: 80%;
     margin: 0 auto;
     text-align: center;
-    background-color: #f9f9f9; /* 배경색을 더 밝게 변경 */
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qna-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background-color: #0056b3;
 }
 
 .qna-table {
@@ -17,7 +38,7 @@
 .qna-table th, .qna-table td {
     border: 1px solid #ddd;
     padding: 12px;
-    text-align: center; /* 중앙 정렬 */
+    text-align: center;
 }
 
 .qna-table th {
@@ -38,54 +59,4 @@
     text-decoration: none;
 }
 
-.qna-table tr td a:hover {
-    text-decoration: underline;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.pagination button {
-    border: 1px solid #ddd;
-    padding: 8px 16px;
-    margin: 0 4px;
-    cursor: pointer;
-    background-color: white;
-    color: black;
-}
-
-.pagination button:hover {
-    background-color: #f2f2f2;
-}
-
-.pagination .active {
-    background-color: #4CAF50;
-    color: white;
-    border: 1px solid #4CAF50;
-}
-
-.pagination button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-}
-
-.pagination button[disabled]:hover {
-    background-color: white;
-}
-
-.write-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.write-btn:hover {
-    background-color: #45a049;
-}
+.qna-table

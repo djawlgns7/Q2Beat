@@ -1,14 +1,10 @@
 import {useEffect, useState} from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import '../../css/Qna/QnaList.css';
-import { getQnaList } from "../../controller/qnaController.js";
+import {deleteQna, getQnaList} from '../../controller/qnaController.js';
 
 const QnaList = ({ isAdmin }) => {
-    const [qnaList, setQnaList] = useState([
-        {qna_id: 60, qna_title: '테스트 질문 1', status: 'UNANSWERED', qna_date: '2024-07-03 11:11:00', member_username:'testman1'},
-        {qna_id: 70, qna_title: '테스트 질문 2', status: 'ANSWERED', qna_date: '2024-07-03 13:15:00', member_username:'testman2'},
-        {qna_id: 80, qna_title: '테스트 질문 3', status: 'UNANSWERED', qna_date: '2024-07-03 17:15:00', member_username:'testman3'}
-    ]);
+    const [qnaList, setQnaList] = useState([]);
     const [pagination, setPagination] = useState({
         currentPage: 1, //현재 페이지
         totalPages: 1,  //전체 페이지 수
@@ -17,8 +13,21 @@ const QnaList = ({ isAdmin }) => {
         endPage:1,      //현재 페이지 블록에서 끝 페이지
         totalCount:0,   //전체 항목 수
     });
-
+    const [userName, setUserName] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isAdmin) {
+            setUserName("admin");
+        } else {
+            const member = JSON.parse(sessionStorage.getItem('member'));
+            if(member && member.memberUsername) {
+                setUserName(member.memberUsername);
+            }else {
+                setUserName("");
+            }
+        }
+    }, [isAdmin]);
 
     //컴포넌트가 처음 랜더링되고 현재페이지가 변경될 때 fetchQna 호출
     useEffect(() => {
@@ -45,6 +54,14 @@ const QnaList = ({ isAdmin }) => {
         }
     };
 
+    //관리자 상태체크
+    console.log("isAdmin", isAdmin);
+
+    //이전 페이지로 이동하는 함수
+    const goToPreviousPage = () => {
+        navigate('/'); // 이전 페이지로 이동
+    };
+
     //페이지 변경 함수(현재 페이지)
     const handlePageChange = (page) => {
         setPagination(prev => ({
@@ -56,7 +73,7 @@ const QnaList = ({ isAdmin }) => {
     //다음 페이지 블록으로 이동하는 함수
     const handleNextBlock = () => {
         if (pagination.endPage < pagination.totalPages) {
-            setPagination(prev =>({
+            setPagination(prev => ({
                 ...prev,
                 currentPage: pagination.endPage + 1
             }));
@@ -78,37 +95,45 @@ const QnaList = ({ isAdmin }) => {
         return (pagination.currentPage - 1) * pagination.pageSize + index + 1;
     };
 
-    const handleHideQna = async (qna_id) => {
+    const handleDeleteQna = async (qna_id) => {
         try {
-            await hideQna(qna_id);
-            setQnaList(qnaList.map(qna => qna.qna_id === qna_id ? { ...qna, qna_title: '숨김 처리 된 질문입니다.' } : qna));
+            await deleteQna(qna_id);
+            navigate('/qna');
+            fetchQna(pagination.currentPage, pagination.pageSize);
         } catch (error) {
-            console.error('QnA 가림 에러:', error);
+            console.error('에러: QnA삭제', error);
         }
-    };
+    }
 
-    const handleUnHideQna = async (qna_id) => {
-        try {
-            await unHideQna(qna_id);
-            setQnaList(qnaList.map(qna => qna.qna_id === qna_id ? { ...qna, status: 'UNANSWERED' } : qna)); // 상태를 적절히 설정
-        } catch (error) {
-            console.error('QnA 가림 해제 에러:', error);
+    const moveToQnaDetail = (member_userName, id) => {
+        if (isAdmin || userName === member_userName) {
+            navigate("/qna/" + id);
+        } else {
+            alert("다른 사용자는 접근할 수 없습니다.");
         }
-    };
-    //관리자 상태체크
-    console.log("isAdmin", isAdmin);
+    }
+
+    const handlePopupSubmit = (qna_id) => {
+        const confirmed = window.confirm("정말 게시글을 삭제겠습니까?");
+        if (confirmed) {
+            handleDeleteQna(qna_id);
+        }
+    }
 
     return (
         <div className="qna-container">
-            <h1>QnA 목록</h1>
+            <div className="qna-header">
+                <h1>QnA 목록</h1>
+                <button className="back-btn" onClick={goToPreviousPage}>이전</button>
+            </div>
             <table className="qna-table">
                 <thead>
                 <tr>
                     <th className="th-qna-id">순번</th>
                     <th className="th-qna-title" style={{cursor: "pointer"}}>질문 제목</th>
                     <th className="th-qna-status">상태</th>
-                    <th className="th-qna-date">날짜</th>
                     <th className="th-qna-writer">작성자</th>
+                    <th className="th-qna-date">작성일자</th>
                     {isAdmin && <th>관리자</th>}
                 </tr>
                 </thead>
@@ -117,20 +142,21 @@ const QnaList = ({ isAdmin }) => {
                     <tr key={qna.qna_id}>
                         <td>{getDisplayNumber(index)}</td>
                         <td>
-                            <Link to={`/qna/${qna.qna_id}`}>
+                            <span onClick={() => {
+                                moveToQnaDetail(qna.member_username, qna.qna_id);
+                            }}>
                                 {qna.qna_title}
-                            </Link>
+                            </span>
                         </td>
-                        <td>{qna.status === 'UNANSWERED' ? '답변 중' : '답변완료'}</td>
-                        <td>{qna.qna_date}</td>
+                        <td>{qna.status === 'SECRET' ? (qna.answer_content ? '답변완료' : '답변 중') :
+                            (qna.status === 'UNANSWERED' ? '답변 중' : '답변완료')}
+                        </td>
                         <td>{qna.member_username}</td>
+                        <td>{qna.qna_date}</td>
                         {isAdmin && (
                             <td>
-                                <button className="hide-btn"
-                                        onClick={() => handleHideQna(qna.qna_id)}>숨김
-                                </button>
-                                <button className="unhide-btn"
-                                        onClick={() => handleUnHideQna(qna.qna_id)}>숨김해제
+                                <button className="delQna-btn"
+                                        onClick={() => handlePopupSubmit(qna.qna_id)}>삭제
                                 </button>
                             </td>
                         )}

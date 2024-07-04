@@ -1,20 +1,20 @@
 package org.bit.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.bit.model.Q2Notice.Pagination;
 import org.bit.model.Q2Notice.Qna;
 import org.bit.service.QnaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/qna")
 public class QnaController {
 
-    @Autowired
-    private QnaService qnaService;
+    private final QnaService qnaService;
 
     @GetMapping("/{qna_id}")
     public Qna getQnaId(@PathVariable("qna_id") int qna_id) {
@@ -36,9 +36,6 @@ public class QnaController {
 
     @PostMapping("/qnaCreate")
     public void createQna(@RequestBody Qna qna) {
-        if(qna.getStatus() == null) {
-            qna.setStatus(Qna.QnaStatus.UNANSWERED); //기본 상태 설정값
-        }
         qnaService.addQna(qna);
     }
 
@@ -56,6 +53,7 @@ public class QnaController {
     // 관리자 QnA 답글 등록
     @PostMapping("/answer")
     public void insertAnswer(@RequestBody Qna answer) {
+        answer.setAdmin_username("ADMIN");
         qnaService.insertAnswer(answer);
     }
 

@@ -39,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/admLogin", "/api/admLogout").permitAll()
                     .antMatchers("/api/notices/**").hasRole("ADMIN")
                     .antMatchers("/api/qna/answer/**", "/api/qna/hide/**", "/api/qna/unhide/**").hasRole("ADMIN")
-                .antMatchers("/api/**").permitAll()
                     .anyRequest().permitAll()
                 .and()
                 .formLogin()
