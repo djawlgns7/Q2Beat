@@ -47,17 +47,4 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping("/current_admin")
-//    public ResponseEntity<Map<String, Object>> getCurrentAdmin() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String username = authentication.getName();
-//        boolean isAdmin = authentication.getAuthorities().stream()
-//                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("username", username);
-//        response.put("isAdmin", isAdmin);
-//
-//        return ResponseEntity.ok(response);
-//    }
 }
