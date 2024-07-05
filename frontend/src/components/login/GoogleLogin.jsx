@@ -31,9 +31,12 @@ const GoogleLoginButton = () => {
             if (!member) {
                 throw new Error('Member data is not defined in the response.');
             }
-
             sessionStorage.setItem('member', JSON.stringify(member));
-            navigate('/main');
+            if (!member.memberUsername) {
+                navigate('/set-nickname');
+            } else {
+                navigate('/main');
+            }
         } catch (error) {
             console.error('Google login error:', error);
             if (error.response) {

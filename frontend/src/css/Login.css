@@ -8,8 +8,8 @@
 
 .login-footer {
     color: white;
-    margin-top: 20px;
-    translate: 0px 50px;
+    margin: 20px auto;
+    translate: 0px 10px;
 }
 
 .notice-link {
@@ -19,4 +19,28 @@
 
 .notice-link:hover {
     text-decoration: underline;
+}
+
+.team-member {
+    position: relative;
+    translate: 0 100px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.adminBtn-modal {
+    position: relative;
+}
+
+.admin-button {
+    background: none;
+    border: none;
+    width: 50px;
+    translate: 5px;
+}
+
+.setting-icon {
+    width: 80%;
 }

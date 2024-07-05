@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Modal from 'react-modal';
 import axios from '../../utils/axios.js';
 import {useNavigate} from "react-router-dom";
-import './AdminLoginModal.css';
+import '../../css/Modal/AdminLoginModal.css';
 
 const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
     const [username, setUsername] = useState('');
@@ -24,7 +24,7 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
                 alert('관리자 로그인 성공');
                 onLoginSuccess(); //로그인 성공 콜백
                 onRequestClose(); //모달 닫기
-                navigate('/'); //관리자 접속 후 페이지 이동
+                navigate('/notices'); //관리자 접속 후 페이지 이동
             }
             else {
                 sessionStorage.removeItem('admin');
@@ -60,38 +60,43 @@ const AdminLoginModal = ({ isOpen, onRequestClose, onLoginSuccess }) => {
             contentLabel="Admin Login"
             ariaHideApp={false}
         >
-            <h2>Admin Login</h2>
-            <form onSubmit={handleSubmit} method="POST" className="admlogin-form">
-                <div className="admlogin-form-group">
-                    <label htmlFor="admin_username">Username:</label>
-                    <input
-                        type="text"
-                        id="admin_username"
-                        name="admin_username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="admlogin-form-control"
-                    />
+
+            <div className="admin-login-modal">
+                <div className="admin-login-header">
+                    <h2>Admin Login</h2>
+                    <button type="button" className="btn-close" onClick={onRequestClose}></button>
                 </div>
-                <div className="admlogin-form-group">
-                    <label htmlFor="admin_password">Password:</label>
-                    <input
-                        type="password"
-                        id="admin_password"
-                        name="admin_password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="admlogin-form-control"
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-                {error && <p className="error-message">{error}</p>}
-            </form>
-            <div className="admLogout-section">
-                <button type="button" className="btn btn-secondary" onClick={handleLogout}>Logout</button>
-            </div>
-            <div className="close-section">
-                <button type="button" className="btn btn-close" onClick={onRequestClose}>Close</button>
+
+                <form onSubmit={handleSubmit} method="POST" className="admlogin-form">
+                    <div className="admlogin-form-group">
+                        <label htmlFor="admin_username">ID:</label>
+                        <input
+                            type="text"
+                            id="admin_username"
+                            name="admin_username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="admlogin-form-control"
+                        />
+                    </div>
+                    <div className="admlogin-form-group">
+                        <label htmlFor="admin_password">Password:</label>
+                        <input
+                            type="password"
+                            id="admin_password"
+                            name="admin_password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="admlogin-form-control"
+                        />
+                    </div>
+
+                    <div className="admLogout-section">
+                        <button type="submit" className="btn btn-primary">Login</button>
+                        <button type="button" className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+                    </div>
+                    {error && <p className="error-message">{error}</p>}
+                </form>
             </div>
         </Modal>
     );

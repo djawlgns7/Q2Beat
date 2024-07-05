@@ -46,7 +46,7 @@ const KakaoLoginButton = () => {
         const {socialId, name, email} = userInfo;
 
         try {
-            const result = await axios.post('https://bit-two.com/api/members/social-login', {
+            const result = await axios.post('/members/social-login', {
                 socialId,
                 platform,
                 name,
@@ -70,7 +70,11 @@ const KakaoLoginButton = () => {
             }
 
             sessionStorage.setItem('member', JSON.stringify(member));
-            navigate('/main');
+            if (!member.memberUsername) {
+                navigate('/set-nickname');
+            } else {
+                navigate('/main');
+            }
         } catch (error) {
             console.error('Social login error:', error);
             setModalType("error");

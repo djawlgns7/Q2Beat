@@ -4,14 +4,14 @@ import NaverLoginButton from './NaverLogin';
 import KakaoLoginButton from './KakaoLogin';
 import '../../css/PC.css';
 import '../../css/Login.css';
-import '../modal/AdminLoginModal.css'
 import Q2B from '../../image/Q2BEAT_2.png';
 import AdminLoginModal from "../modal/AdminLoginModal.jsx";
-// import BackgroundVideo from "../BackgroundVideo.jsx";
+import BackgroundVideo from "../BackgroundVideo.jsx";
+import settingIcon from '../../image/free-icon-settings.png'
 
 const Login = ({setIsAdmin}) => {
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const openLoginModal = () => {
         console.log('modal open');
@@ -39,20 +39,11 @@ const Login = ({setIsAdmin}) => {
     return (
         <>
             <div className="container-p">
-                {/*<BackgroundVideo/>*/}
+                <BackgroundVideo/>
                 <div className="Box-p">
                     <div className="logoTitle-p">
                         <img src={Q2B} alt="Q2B" className="logoImage-p"/>
                         <h1 className="title-p">Q2BEAT</h1>
-                    </div>
-                    <div>
-                        <button onClick={openLoginModal}>관리자</button>
-
-                        <AdminLoginModal
-                            isOpen={isLoginModalOpen}
-                            onRequestClose={closeLoginModal}
-                            onLoginSuccess={handleAdminLoginSuccess}
-                        />
                     </div>
 
                     <div className="login-btns">
@@ -65,10 +56,30 @@ const Login = ({setIsAdmin}) => {
                         <span>개인정보 처리방침 | </span>
                         <span>이용약관 | </span>
                         <span><a href={"/notices"} className="notice-link">공지사항</a> | </span>
-                        <span><a href={"/qna"} className="qna-link">QnA</a></span>
+                        <span><a href={"/qna"} className="notice-link">QnA</a></span>
+                    </div>
+
+                    <div className="adminBtn-modal">
+                        <button onClick={openLoginModal} className="admin-button">
+                            <img src={settingIcon} alt="settingIcon" className="setting-icon"/>
+                        </button>
+                        <AdminLoginModal
+                            isOpen={isLoginModalOpen}
+                            onRequestClose={closeLoginModal}
+                            onLoginSuccess={handleAdminLoginSuccess}
+                        />
+                    </div>
+
+                    <div className="team-member">
+                        <span>엄지훈</span>
+                        <span>김태웅</span>
+                        <span>동재완</span>
+                        <span>이학준</span>
+                        <span>오민택</span>
                     </div>
                 </div>
             </div>
+
             {showModal && (
                 <div className="modal show">
                     <div className="modal-content">

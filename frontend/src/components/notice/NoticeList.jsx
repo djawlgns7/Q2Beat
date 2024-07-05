@@ -83,51 +83,55 @@ const NoticeList = ({ isAdmin }) => {
     return (
         <div className="notice-container">
             <div className="notice-header">
-                <h1>공지사항</h1>
-                <button className="back-btn" onClick={goToPreviousPage}>이전</button>
+                <h1 className="notice-title">공지사항</h1>
+                <button className="notice-back-btn" onClick={goToPreviousPage}>나가기</button>
             </div>
             <table className="notice-table">
                 <thead>
                 <tr>
-                    <th className="th-nt-id">순번</th>
-                    <th className="th-nt-title" style={{cursor: "pointer"}}>제목</th>
+                    <th className="th-nt-id">No</th>
+                    <th className="th-nt-title">제목</th>
                     <th className="th-nt-date">날짜</th>
-                    <th className="th-nt-author">작성자</th>
+                    <th className="th-nt-author">글쓴이</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 {notices.map((notice, index) => (
                     <tr key={notice.notice_id}>
-                        <td>{getDisplayNumber(index)}</td>
-                        <td>
+                        <td className="td-nt-id">{getDisplayNumber(index)}</td>
+                        <td className="td-nt-title">
                             <Link to={`/notices/${notice.notice_id}`}>
                                 {notice.title}
                             </Link>
                         </td>
-                        <td>{notice.create_date}</td>
-                        <td>{notice.admin_username}</td>
+                        <td className="td-nt-date">{notice.create_date}</td>
+                        <td className="td-nt-author">관리자</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
-            <div className="pagination">
-                <button onClick={() => handlePageChange(1)}
-                        disabled={pagination.currentPage === 1}>&laquo;</button>
-                <button onClick={handlePrevBlock}
-                        disabled={pagination.startPage === 1}>&lt;</button>
-                {Array.from({length: pagination.endPage - pagination.startPage + 1}, (_, i) => (
-                    <button key={pagination.startPage + i}
-                            className={pagination.currentPage === pagination.startPage + i ? 'active' : ''}
-                            onClick={() => handlePageChange(pagination.startPage + i)}>
-                        {pagination.startPage + i}
-                    </button>
-                ))}
-                <button onClick={handleNextBlock}
-                        disabled={pagination.endPage === pagination.totalPages}>&gt;</button>
-                <button onClick={() => handlePageChange(pagination.totalPages)}
-                        disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
+
+            <div className="notice-footer">
+                <div className="pagination">
+                    <button onClick={() => handlePageChange(1)}
+                            disabled={pagination.currentPage === 1}>&laquo;</button>
+                    <button onClick={handlePrevBlock}
+                            disabled={pagination.startPage === 1}>&lt;</button>
+                    {Array.from({length: pagination.endPage - pagination.startPage + 1}, (_, i) => (
+                        <button key={pagination.startPage + i}
+                                className={pagination.currentPage === pagination.startPage + i ? 'active' : ''}
+                                onClick={() => handlePageChange(pagination.startPage + i)}>
+                            {pagination.startPage + i}
+                        </button>
+                    ))}
+                    <button onClick={handleNextBlock}
+                            disabled={pagination.endPage === pagination.totalPages}>&gt;</button>
+                    <button onClick={() => handlePageChange(pagination.totalPages)}
+                            disabled={pagination.currentPage === pagination.totalPages}>&raquo;</button>
+                </div>
+                {isAdmin && <button className="write-btn" onClick={() => navigate(`/notices/create`)}>글쓰기</button>}
             </div>
-            {isAdmin && <button className="write-btn" onClick={() => navigate(`/notices/create`)}>글 작성</button>}
         </div>
     );
 };

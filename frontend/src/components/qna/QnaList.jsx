@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom';
+import '../../css/Notice/NoticeList.css';
 import '../../css/Qna/QnaList.css';
 import {deleteQna, getQnaList} from '../../controller/qnaController.js';
 
@@ -121,10 +122,10 @@ const QnaList = ({ isAdmin }) => {
     }
 
     return (
-        <div className="qna-container">
-            <div className="qna-header">
-                <h1>QnA 목록</h1>
-                <button className="back-btn" onClick={goToPreviousPage}>이전</button>
+        <div className="notice-container">
+            <div className="notice-header">
+                <h1 className="notice-title">QnA</h1>
+                <button className="notice-back-btn" onClick={goToPreviousPage}>나가기</button>
             </div>
             <table className="qna-table">
                 <thead>

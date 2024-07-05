@@ -6,6 +6,7 @@ import '../css/PC.css'
 import '../css/MainPage.css';
 import BackgroundVideo from "./BackgroundVideo.jsx";
 import {useSocket} from "./context/SocketContext.jsx";
+import BackMusic from "./BackMusic.jsx";
 
 const MainPage = () => {
     const {sendMessage, clearPlayInformation, isConnected} = useSocket();
@@ -56,6 +57,7 @@ const MainPage = () => {
     return (
         <div className="container-p">
             <BackgroundVideo/>
+            <BackMusic src="/클럽 댄스 배경음악.mp3" initialVolume={0.5}/>
             <div className="Box-p">
                 <div className="logoTitle-p">
                     <img src={Q2B} alt="Q2B" className="logoImage-p"/>
@@ -79,7 +81,16 @@ const MainPage = () => {
                         <span className="btn-span">Logout</span>
                     </div>
                 </button>
+
+                <div className="login-footer">
+                    <span>서비스 약관 | </span>
+                    <span>개인정보 처리방침 | </span>
+                    <span>이용약관 | </span>
+                    <span><a href={"/notices"} className="notice-link">공지사항</a> | </span>
+                    <span><a href={"/qna"} className="notice-link">QnA</a></span>
+                </div>
             </div>
+
             {showCreateQuizModal && (
                 <div className="modal show">
                     <div className="modal-content">

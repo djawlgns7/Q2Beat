@@ -185,6 +185,7 @@ function App() {
                 </Routes>
             </Router>
         </ModalProvider>
+
     );
 }
 
