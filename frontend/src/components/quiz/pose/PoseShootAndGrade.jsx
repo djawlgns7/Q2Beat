@@ -133,10 +133,10 @@ const PoseShootAndGrade = ({poseQuiz, roomId, playerName, roundNumber}) => {
                             audio={false}
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
-                            width={350}
+                            width={300}
                             height={300}
                         /> :
-                        <img src={imageSrc} alt="Captured" style={{width: '350px', height: 'auto'}}/>
+                        <img src={imageSrc} alt="Captured" style={{width: '300px', height: 'auto'}}/>
                     }
                     <div className="pose-timer-container">
                         <div className="player-pose-timer"><span>타이머: {timer}초</span></div>
