@@ -42,7 +42,7 @@ const NaverCallback = () => {
         const { socialId, name, email } = userInfo;
 
         try {
-            const result = await axios.post('/members/social-login', {
+            const result = await axios.post('https://bit-two.com/api/members/social-login', {
                 socialId,
                 platform,
                 name,
