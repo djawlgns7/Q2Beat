@@ -4,10 +4,10 @@ import NaverLoginButton from './NaverLogin';
 import KakaoLoginButton from './KakaoLogin';
 import '../../css/PC.css';
 import '../../css/Login.css';
-import '../modal/AdminLoginModal.css'
 import Q2B from '../../image/Q2BEAT_2.png';
 import AdminLoginModal from "../modal/AdminLoginModal.jsx";
 import BackgroundVideo from "../BackgroundVideo.jsx";
+import settingIcon from '../../image/free-icon-settings.png'
 
 const Login = ({setIsAdmin}) => {
     const [showModal, setShowModal] = useState(false);
@@ -60,7 +60,9 @@ const Login = ({setIsAdmin}) => {
                     </div>
 
                     <div className="adminBtn-modal">
-                        <button onClick={openLoginModal} className="admin-button">관리자</button>
+                        <button onClick={openLoginModal} className="admin-button">
+                            <img src={settingIcon} alt="settingIcon" className="setting-icon"/>
+                        </button>
                         <AdminLoginModal
                             isOpen={isLoginModalOpen}
                             onRequestClose={closeLoginModal}
@@ -77,6 +79,7 @@ const Login = ({setIsAdmin}) => {
                     </div>
                 </div>
             </div>
+
             {showModal && (
                 <div className="modal show">
                     <div className="modal-content">

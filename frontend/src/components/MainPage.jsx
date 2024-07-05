@@ -26,7 +26,7 @@ const MainPage = () => {
         setShowLogoutModal(false);
 
         try {
-            await axios.post('http://bit-two.com:8080/api/members/logout');
+            await axios.post('http://localhost:8080/api/members/logout');
             sessionStorage.clear();
             navigate('/login');
         } catch (error) {
@@ -81,6 +81,14 @@ const MainPage = () => {
                         <span className="btn-span">Logout</span>
                     </div>
                 </button>
+
+                <div className="login-footer">
+                    <span>서비스 약관 | </span>
+                    <span>개인정보 처리방침 | </span>
+                    <span>이용약관 | </span>
+                    <span><a href={"/notices"} className="notice-link">공지사항</a> | </span>
+                    <span><a href={"/qna"} className="notice-link">QnA</a></span>
+                </div>
             </div>
 
             {showCreateQuizModal && (

@@ -31,10 +31,11 @@ const SetNickname = () => {
 
     const handleCheckNickname = async () => {
         if (!validateNickname(nickname)) {
-            setModalType('error');
-            setModalTitle('닉네임 오류');
-            setModalBody('닉네임은 한글, 영문 또는 숫자로 구성하여 2~8자로 입력해주세요.');
-            showErrorModal();
+            // setModalType('error');
+            // setModalTitle('닉네임 오류');
+            // setModalBody('닉네임은 한글, 영문 또는 숫자로 구성하여 2~8자로 입력해주세요.');
+            // showErrorModal();
+            alert('닉네임은 한글, 영문 또는 숫자로 구성하여 2~8자로 입력해주세요.');
             return;
         }
         try {
@@ -43,24 +44,27 @@ const SetNickname = () => {
             });
 
             if (checkresponse.data.exists) {
-                setModalType('error');
-                setModalTitle('닉네임 중복');
-                setModalBody('이미 존재하는 닉네임입니다.');
-                showErrorModal();
+                // setModalType('error');
+                // setModalTitle('닉네임 중복');
+                // setModalBody('이미 존재하는 닉네임입니다.');
+                // showErrorModal();
+                alert('이미 존재하는 닉네임입니다.')
                 setIsNicknameValid(false); // 중복 시 false로 설정
             } else {
-                setModalType('success');
-                setModalTitle('닉네임 확인');
-                setModalBody('사용 가능한 닉네임입니다!');
-                showErrorModal();
+                // setModalType('success');
+                // setModalTitle('닉네임 확인');
+                // setModalBody('사용 가능한 닉네임입니다!');
+                // showErrorModal();
+                alert('사용 가능한 닉네임입니다!');
                 setIsNicknameValid(true); // 유효성 검증 통과 시 true로 설정
                 console.log("모달 직후: " + isNicknameValid);
             }
         } catch (error) {
             console.error('Error checking nickname:', error);
-            setModalType('error');
-            setModalTitle('닉네임 오류');
-            setModalBody('닉네임 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            // setModalType('error');
+            // setModalTitle('닉네임 오류');
+            // setModalBody('닉네임 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            alert('닉네임 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
             showErrorModal();
         }
 
@@ -70,10 +74,11 @@ const SetNickname = () => {
 
     const handleSubmit = async () => {
         if (!isNicknameValid) {
-            setModalType('error');
-            setModalTitle('닉네임 오류');
-            setModalBody('닉네임을 먼저 확인해주세요.');
-            showErrorModal();
+            // setModalType('error');
+            // setModalTitle('닉네임 오류');
+            // setModalBody('닉네임을 먼저 확인해주세요.');
+            // showErrorModal();
+            alert('닉네임을 먼저 확인해주세요.');
             return;
         }
 

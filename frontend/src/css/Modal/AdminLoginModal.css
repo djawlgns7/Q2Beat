@@ -1,3 +1,9 @@
+.ReactModal__Content {
+    background: none !important;
+    border: none !important;
+}
+
+/*모달 사이즈*/
 .admin-login-modal {
     position: absolute;
     top: 50%;
@@ -13,17 +19,21 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+.admin-login-header {
+    display: flex;
+    margin: 5px;
+}
+
 .admin-login-modal-overlay {
     background-color: rgba(0, 0, 0, 0.75);
 }
 
-.admin-login-title {
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+.btn-close {
+    width: 10px;
+    translate: 145px 9px;
 }
 
+/*로그인버튼*/
 .admlogin-form {
     display: flex;
     flex-direction: column;
@@ -51,20 +61,18 @@
     margin-top: 10px;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    color: white;
-}
-
+.btn-primary,
 .btn-secondary {
-    background-color: #6c757d;
     color: white;
+    font-weight: bold;
+    width: 100px;
 }
 
-.btn-close {
-    background-color: #dc3545;
-    color: white;
-}
+/*.btn-secondary {*/
+/*    background-color: #6c757d;*/
+/*    color: white;*/
+/*}*/
+
 
 .error-message {
     color: red;
@@ -75,11 +83,6 @@
 .admLogout-section {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-}
-
-.close-section {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+    gap: 20px;
+    margin: 10px;
 }

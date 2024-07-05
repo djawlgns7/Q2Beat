@@ -33,3 +33,14 @@
 .adminBtn-modal {
     position: relative;
 }
+
+.admin-button {
+    background: none;
+    border: none;
+    width: 50px;
+    translate: 5px;
+}
+
+.setting-icon {
+    width: 80%;
+}
