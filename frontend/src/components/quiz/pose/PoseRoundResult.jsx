@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import Timer from "../Timer.jsx";
 import Q2B_back from "../../../image/background-image.png";
 import axios from "axios";
 import '../../../css/PC.css'
