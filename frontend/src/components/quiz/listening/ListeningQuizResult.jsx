@@ -3,7 +3,7 @@ import { useSocket } from '../../context/SocketContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import '../../../css/PC.css';
 import '../../../css/Quiz/RoundResult.css';
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 
 const ListeningQuizResult = () => {
     const { roomId } = useSocket();

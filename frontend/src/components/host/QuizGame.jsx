@@ -125,7 +125,7 @@ const QuizGame = () => {
 
     const getQuizListening = async (category) => {
         try {
-            const response = await fetch(`http://bit-two.com:8080/quiz/get/listening?roomId=${roomId}&category=${category}`, {
+            const response = await fetch(`https://bit-two.com:8080/quiz/get/listening?roomId=${roomId}&category=${category}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

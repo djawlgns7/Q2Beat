@@ -1,6 +1,6 @@
 import {useSocket} from "../../context/SocketContext.jsx";
 import React, {useEffect, useRef, useState} from "react";
-import Q2B_back from "../../../image/Q2Beat_background.png";
+import Q2B_back from "../../../image/background-image.png";
 import PoseShootAndGrade from "./PoseShootAndGrade.jsx";
 
 const PoseAnswer = ({playerName, roundNumber, currentPlayer}) => {
